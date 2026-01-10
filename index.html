@@ -3,74 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Ultimate Complete World</title>
+<title>TechVerse: Realistic World</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
-#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1a0033, #330066, #004488); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow-y: auto; padding: 20px; z-index: 10000; }
-#charSelect h1 { font-size: clamp(2em, 4vw, 3.5em); color: #0ff; text-shadow: 0 0 40px #0ff; margin: 20px 0; animation: glow 2s infinite; }
-@keyframes glow { 0%, 100% { text-shadow: 0 0 20px #0ff; } 50% { text-shadow: 0 0 60px #0ff; } }
-.subtitle { font-size: clamp(0.9em, 1.5vw, 1.2em); color: #aaf; margin-bottom: 20px; text-align: center; }
-.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; max-width: 1200px; width: 100%; padding: 10px; margin-bottom: 20px; }
-.charCard { background: rgba(0, 255, 255, 0.2); border: 2px solid #0ff; border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.3s; text-align: center; min-height: 160px; }
-.charCard:hover { background: rgba(0, 255, 255, 0.4); transform: translateY(-5px) scale(1.05); }
-.charCard.selected { background: rgba(0, 255, 0, 0.4); border-color: #0f0; box-shadow: 0 0 50px rgba(0, 255, 0, 0.8); }
-.charCard .icon { font-size: 2.5em; margin-bottom: 8px; }
-.charCard h3 { color: #0ff; font-size: 1.1em; margin: 8px 0; }
-.charCard p { color: #aaf; font-size: 0.8em; line-height: 1.3; }
-#startBtn { padding: 15px 50px; font-size: clamp(1em, 2vw, 1.3em); background: linear-gradient(135deg, #0ff, #0f0); border: none; border-radius: 12px; color: #000; font-weight: bold; cursor: pointer; margin: 20px 0; text-transform: uppercase; }
-#startBtn:hover:not(:disabled) { transform: scale(1.05); }
+#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow-y: auto; padding: 20px; z-index: 10000; backdrop-filter: blur(10px); }
+#charSelect h1 { font-size: clamp(2em, 4vw, 3.5em); color: #00d4ff; text-shadow: 0 0 40px #00d4ff, 0 0 80px #00d4ff; margin: 20px 0; animation: glow 2s infinite; font-weight: 900; letter-spacing: 3px; }
+@keyframes glow { 0%, 100% { text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; } 50% { text-shadow: 0 0 40px #00d4ff, 0 0 80px #00d4ff, 0 0 120px #00d4ff; } }
+.subtitle { font-size: clamp(0.9em, 1.5vw, 1.2em); color: #8ab4f8; margin-bottom: 20px; text-align: center; font-weight: 300; }
+.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1200px; width: 100%; padding: 10px; margin-bottom: 20px; }
+.charCard { background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9)); border: 2px solid #00d4ff; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; min-height: 180px; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; }
+.charCard::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent); transition: left 0.5s; }
+.charCard:hover::before { left: 100%; }
+.charCard:hover { background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 100, 255, 0.2)); transform: translateY(-10px) scale(1.02); box-shadow: 0 15px 50px rgba(0, 212, 255, 0.4); border-color: #00ffff; }
+.charCard.selected { background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 200, 100, 0.3)); border-color: #00ff88; box-shadow: 0 0 60px rgba(0, 255, 136, 0.6); }
+.charCard .icon { font-size: 3em; margin-bottom: 10px; filter: drop-shadow(0 0 10px currentColor); }
+.charCard h3 { color: #00d4ff; font-size: 1.2em; margin: 10px 0; font-weight: 700; }
+.charCard p { color: #8ab4f8; font-size: 0.85em; line-height: 1.4; font-weight: 300; }
+#startBtn { padding: 18px 60px; font-size: clamp(1em, 2vw, 1.4em); background: linear-gradient(135deg, #00d4ff, #0064ff, #00ff88); border: none; border-radius: 50px; color: #000; font-weight: 900; cursor: pointer; margin: 20px 0; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5); transition: all 0.3s; position: relative; overflow: hidden; }
+#startBtn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.5); transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
+#startBtn:hover::before { width: 300px; height: 300px; }
+#startBtn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 15px 60px rgba(0, 212, 255, 0.8); }
 #startBtn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-#loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0, 0, 0, 0.95); padding: 40px; border-radius: 15px; border: 3px solid #0ff; z-index: 9999; }
-#loading h2 { color: #0ff; font-size: 1.8em; margin-bottom: 15px; }
-.spinner { border: 4px solid rgba(0, 255, 255, 0.3); border-top: 4px solid #0ff; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 15px auto; }
+#loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0, 0, 0, 0.98); padding: 50px; border-radius: 20px; border: 3px solid #00d4ff; z-index: 9999; box-shadow: 0 0 80px rgba(0, 212, 255, 0.6); backdrop-filter: blur(20px); }
+#loading h2 { color: #00d4ff; font-size: 2em; margin-bottom: 20px; font-weight: 700; }
+.spinner { border: 5px solid rgba(0, 212, 255, 0.2); border-top: 5px solid #00d4ff; border-radius: 50%; width: 80px; height: 80px; animation: spin 1s linear infinite; margin: 20px auto; box-shadow: 0 0 30px rgba(0, 212, 255, 0.5); }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-#loadText { color: #aaf; font-size: 1em; margin-top: 10px; }
+#loadText { color: #8ab4f8; font-size: 1.1em; margin-top: 15px; font-weight: 300; }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(0, 0, 0, 0.9); padding: 18px; border-radius: 10px; border: 2px solid #0ff; min-width: 240px; z-index: 1000; }
-#hud h3 { color: #0ff; font-size: 1.1em; margin-bottom: 10px; border-bottom: 2px solid #0ff; padding-bottom: 6px; }
-.hudStat { display: flex; justify-content: space-between; margin: 6px 0; font-size: 0.9em; color: #aaf; }
-.hudStat .val { color: #0f0; font-weight: bold; }
+#hud { position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(26, 26, 46, 0.95)); padding: 25px; border-radius: 15px; border: 2px solid #00d4ff; min-width: 260px; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); }
+#hud h3 { color: #00d4ff; font-size: 1.3em; margin-bottom: 15px; border-bottom: 2px solid #00d4ff; padding-bottom: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1em; color: #8ab4f8; font-weight: 400; }
+.hudStat .val { color: #00ff88; font-weight: 700; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
 
-#inventory { position: fixed; top: 15px; right: 15px; background: rgba(0, 0, 0, 0.9); padding: 18px; border-radius: 10px; border: 2px solid #f80; max-width: 300px; max-height: 70vh; overflow-y: auto; z-index: 1000; }
-#inventory h3 { color: #f80; font-size: 1.1em; margin-bottom: 10px; border-bottom: 2px solid #f80; padding-bottom: 6px; }
-.invItem { background: rgba(255, 136, 0, 0.2); padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #f80; font-size: 0.9em; color: #aaf; }
+#inventory { position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(26, 26, 46, 0.95)); padding: 25px; border-radius: 15px; border: 2px solid #ff8800; max-width: 320px; max-height: 70vh; overflow-y: auto; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); }
+#inventory h3 { color: #ff8800; font-size: 1.3em; margin-bottom: 15px; border-bottom: 2px solid #ff8800; padding-bottom: 10px; font-weight: 700; text-transform: uppercase; }
+.invItem { background: linear-gradient(135deg, rgba(255, 136, 0, 0.2), rgba(255, 68, 0, 0.2)); padding: 12px; margin: 10px 0; border-radius: 10px; border: 2px solid #ff8800; font-size: 0.95em; color: #8ab4f8; transition: all 0.3s; }
+.invItem:hover { transform: translateX(5px); box-shadow: 0 5px 20px rgba(255, 136, 0, 0.4); }
 
-#interact { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.95); padding: 25px 35px; border-radius: 15px; border: 3px solid #0ff; max-width: 700px; width: 90%; text-align: center; z-index: 1000; }
-#interact h4 { color: #0ff; font-size: 1.6em; margin-bottom: 12px; }
-#interact p { color: #aaf; font-size: 1em; margin-bottom: 15px; line-height: 1.6; }
-.actBtn { padding: 12px 28px; background: linear-gradient(135deg, #0ff, #08f); border: none; border-radius: 10px; color: #000; font-weight: bold; cursor: pointer; margin: 6px; font-size: 1em; text-transform: uppercase; }
-.actBtn:hover { transform: scale(1.08); }
+#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(26, 26, 46, 0.98)); padding: 30px 40px; border-radius: 20px; border: 3px solid #00d4ff; max-width: 750px; width: 90%; text-align: center; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 0 80px rgba(0, 212, 255, 0.6); }
+#interact h4 { color: #00d4ff; font-size: 2em; margin-bottom: 15px; font-weight: 700; text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+#interact p { color: #8ab4f8; font-size: 1.1em; margin-bottom: 20px; line-height: 1.8; font-weight: 300; }
+.actBtn { padding: 14px 32px; background: linear-gradient(135deg, #00d4ff, #0064ff); border: none; border-radius: 50px; color: #fff; font-weight: 700; cursor: pointer; margin: 8px; font-size: 1em; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4); }
+.actBtn:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.7); background: linear-gradient(135deg, #00ffff, #0088ff); }
 
-#minimap { position: fixed; bottom: 20px; right: 20px; width: 200px; height: 200px; background: rgba(0, 0, 0, 0.9); border: 2px solid #0ff; border-radius: 10px; z-index: 1000; }
+#gameModal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(26, 26, 46, 0.98)); padding: 40px; border-radius: 20px; border: 3px solid #ff8800; max-width: 850px; width: 90%; z-index: 5000; backdrop-filter: blur(20px); box-shadow: 0 0 80px rgba(255, 136, 0, 0.6); }
+#gameModal h2 { color: #ff8800; font-size: 2.2em; margin-bottom: 25px; text-align: center; font-weight: 700; text-shadow: 0 0 20px rgba(255, 136, 0, 0.5); }
+#gameArea { background: linear-gradient(135deg, rgba(26, 26, 62, 0.8), rgba(42, 42, 78, 0.8)); padding: 35px; border-radius: 15px; min-height: 350px; border: 2px solid rgba(255, 136, 0, 0.3); }
+.gameBtn { padding: 14px 35px; background: linear-gradient(135deg, #ff8800, #ff4400); border: none; border-radius: 50px; color: #fff; font-weight: 700; cursor: pointer; margin: 12px; font-size: 1.1em; text-transform: uppercase; transition: all 0.3s; box-shadow: 0 5px 20px rgba(255, 136, 0, 0.4); }
+.gameBtn:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(255, 136, 0, 0.7); }
 
-#controls { position: fixed; bottom: 20px; left: 20px; background: rgba(0, 0, 0, 0.9); padding: 15px; border-radius: 10px; border: 2px solid #0ff; z-index: 1000; }
-#controls h4 { color: #0ff; margin-bottom: 8px; font-size: 1em; }
-.ctrl { color: #aaf; margin: 5px 0; font-size: 0.85em; }
-.key { color: #0f0; font-weight: bold; background: rgba(0, 255, 0, 0.2); padding: 2px 6px; border-radius: 3px; }
+#controls { position: fixed; bottom: 30px; left: 30px; background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(26, 26, 46, 0.95)); padding: 20px; border-radius: 12px; border: 2px solid #00d4ff; z-index: 1000; backdrop-filter: blur(20px); }
+#controls h4 { color: #00d4ff; margin-bottom: 10px; font-size: 1.1em; font-weight: 700; }
+.ctrl { color: #8ab4f8; margin: 8px 0; font-size: 0.9em; font-weight: 300; }
+.key { color: #00ff88; font-weight: 700; background: rgba(0, 255, 136, 0.2); padding: 4px 10px; border-radius: 5px; margin-right: 8px; box-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
 
-#gameModal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.98); padding: 40px; border-radius: 20px; border: 3px solid #f80; max-width: 800px; width: 90%; z-index: 5000; }
-#gameModal h2 { color: #f80; font-size: 2em; margin-bottom: 20px; text-align: center; }
-#gameArea { background: linear-gradient(135deg, #1a1a3e, #2a2a4e); padding: 30px; border-radius: 15px; min-height: 300px; }
-.gameBtn { padding: 12px 30px; background: linear-gradient(135deg, #f80, #f00); border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; margin: 10px; font-size: 1em; }
-
-#notif { position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0f0, #0ff); color: #000; padding: 15px 35px; border-radius: 12px; font-weight: bold; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; }
+#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #00ff88, #00d4ff); color: #000; padding: 18px 40px; border-radius: 50px; font-weight: 700; font-size: 1.15em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; box-shadow: 0 8px 40px rgba(0, 255, 136, 0.6); }
 #notif.show { opacity: 1; }
 
 .hide { display: none !important; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); border-radius: 5px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #00d4ff, #0064ff); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(135deg, #00ffff, #0088ff); }
 </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 
 <div id="charSelect">
-  <h1>🚀 TechVerse: Ultimate Complete World</h1>
-  <p class="subtitle">Full 3D world with labs, homes, games, NPCs, vehicles & more!</p>
+  <h1>🌆 TECHVERSE: REALISTIC WORLD</h1>
+  <p class="subtitle">Experience a photorealistic cyberpunk city with advanced graphics</p>
   <div class="charGrid">
-    <div class="charCard" data-char="netrunner"><div class="icon">💻</div><h3>Netrunner</h3><p>Elite hacker, VR specialist</p></div>
+    <div class="charCard" data-char="netrunner"><div class="icon">💻</div><h3>Netrunner</h3><p>Elite hacker & VR specialist</p></div>
     <div class="charCard" data-char="bioengineer"><div class="icon">🧬</div><h3>Bioengineer</h3><p>Gene editing expert</p></div>
     <div class="charCard" data-char="quantum"><div class="icon">⚛️</div><h3>Quantum Physicist</h3><p>Reality manipulator</p></div>
     <div class="charCard" data-char="neurohacker"><div class="icon">🧠</div><h3>Neurohacker</h3><p>Mind engineer</p></div>
@@ -79,13 +88,13 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
     <div class="charCard" data-char="spacesystems"><div class="icon">🚀</div><h3>Space Engineer</h3><p>Orbital specialist</p></div>
     <div class="charCard" data-char="fusionengineer"><div class="icon">⚡</div><h3>Fusion Engineer</h3><p>Energy pioneer</p></div>
   </div>
-  <button id="startBtn" disabled>Select Character</button>
+  <button id="startBtn" disabled>SELECT CHARACTER</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building Ultimate World...</h2>
+  <h2>Building Realistic World...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Initializing...</p>
+  <p id="loadText">Initializing advanced graphics...</p>
 </div>
 
 <div id="hud" class="hide">
@@ -96,7 +105,6 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <div class="hudStat"><span>Rep:</span><span class="val" id="rep">0</span></div>
   <div class="hudStat"><span>Credits:</span><span class="val" id="fund">$1M</span></div>
   <div class="hudStat"><span>Tech:</span><span class="val" id="techOwned">0</span></div>
-  <div class="hudStat"><span>Games:</span><span class="val" id="gamesWon">0</span></div>
 </div>
 
 <div id="inventory" class="hide">
@@ -116,15 +124,12 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <button class="gameBtn" onclick="window.closeGame()">EXIT GAME</button>
 </div>
 
-<canvas id="minimap"></canvas>
-
 <div id="controls" class="hide">
   <h4>CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
   <div class="ctrl"><span class="key">MOUSE</span> Look</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
-  <div class="ctrl"><span class="key">TAB</span> Inventory</div>
 </div>
 
 <div id="notif"></div>
@@ -135,175 +140,97 @@ import * as THREE from 'three';
 
 const state = {
   char: null, lvl: 1, xp: 0, xpMax: 100, rep: 0, fund: 1000000,
-  inventory: [], techOwned: 0, gamesWon: 0, currentLocation: null
+  inventory: [], techOwned: 0, currentLocation: null
 };
 
 const locations = {
-  quantum: { name: 'Quantum Lab', pos: [-100, 0, -120], color: 0xff00ff, size: 35, height: 65,
-    desc: 'Advanced quantum computing research facility with quantum processors and entanglement chambers.',
+  quantum: { name: 'Quantum Research Lab', pos: [-100, 0, -120], color: 0x8b5cf6, size: 35, height: 65,
+    desc: 'State-of-the-art quantum computing facility with superconducting qubits and cryogenic systems.',
     actions: [
-      { name: 'Research Quantum Computing', reward: { rep: 250, fund: 200000, xp: 150 } },
-      { name: 'Run Quantum Simulation', reward: { rep: 150, fund: 100000, xp: 80 } },
-      { name: 'Manipulate Qubits', reward: { rep: 180, fund: 120000, xp: 100 } },
-      { name: 'Study Entanglement', reward: { rep: 200, fund: 150000, xp: 120 } },
-      { name: 'Play Quantum Puzzle', game: 'quantum' }
+      { name: 'Research Quantum Algorithms', reward: { rep: 250, fund: 200000, xp: 150 } },
+      { name: 'Run Quantum Simulation', reward: { rep: 180, fund: 140000, xp: 110 } },
+      { name: 'Calibrate Quantum Processor', reward: { rep: 200, fund: 160000, xp: 130 } },
+      { name: 'Study Quantum Entanglement', reward: { rep: 220, fund: 180000, xp: 140 } },
+      { name: 'Play Quantum Challenge', game: 'quantum' }
     ]
   },
-  bio: { name: 'Bio Lab', pos: [100, 0, -120], color: 0x00ff88, size: 35, height: 60,
-    desc: 'Gene editing and synthetic biology laboratory with CRISPR systems and DNA sequencers.',
+  bio: { name: 'Bioengineering Complex', pos: [100, 0, -120], color: 0x10b981, size: 35, height: 60,
+    desc: 'Advanced genetic engineering laboratory with CRISPR-Cas9 systems and DNA sequencers.',
     actions: [
-      { name: 'Edit Genes with CRISPR', reward: { rep: 230, fund: 180000, xp: 140 } },
-      { name: 'Synthesize Proteins', reward: { rep: 160, fund: 110000, xp: 90 } },
-      { name: 'Design Organisms', reward: { rep: 210, fund: 160000, xp: 130 } },
-      { name: 'Sequence DNA', reward: { rep: 140, fund: 90000, xp: 70 } },
-      { name: 'Play Bio Match', game: 'bio' }
+      { name: 'Perform Gene Editing', reward: { rep: 240, fund: 190000, xp: 145 } },
+      { name: 'Synthesize Proteins', reward: { rep: 170, fund: 130000, xp: 105 } },
+      { name: 'Design Synthetic Organisms', reward: { rep: 260, fund: 210000, xp: 160 } },
+      { name: 'Sequence Genome', reward: { rep: 190, fund: 150000, xp: 120 } },
+      { name: 'Play Bio Puzzle', game: 'bio' }
     ]
   },
-  ai: { name: 'AI Lab', pos: [-100, 0, 120], color: 0xff0088, size: 35, height: 63,
-    desc: 'Artificial intelligence development center with neural networks and deep learning systems.',
+  ai: { name: 'AI Development Center', pos: [-100, 0, 120], color: 0xf59e0b, size: 35, height: 63,
+    desc: 'Cutting-edge artificial intelligence research facility with neural network training clusters.',
     actions: [
-      { name: 'Train Neural Network', reward: { rep: 270, fund: 220000, xp: 160 } },
-      { name: 'Develop AGI System', reward: { rep: 300, fund: 250000, xp: 180 } },
-      { name: 'Test AI Models', reward: { rep: 170, fund: 120000, xp: 95 } },
-      { name: 'Optimize Algorithms', reward: { rep: 190, fund: 140000, xp: 110 } },
+      { name: 'Train Deep Neural Network', reward: { rep: 280, fund: 230000, xp: 170 } },
+      { name: 'Develop AGI System', reward: { rep: 320, fund: 270000, xp: 190 } },
+      { name: 'Optimize AI Models', reward: { rep: 210, fund: 170000, xp: 135 } },
+      { name: 'Test Machine Learning', reward: { rep: 190, fund: 150000, xp: 120 } },
       { name: 'Play AI Battle', game: 'ai' }
     ]
   },
-  nano: { name: 'Nano Lab', pos: [100, 0, 120], color: 0xff8800, size: 35, height: 58,
-    desc: 'Nanotechnology research facility with molecular assemblers and atomic force microscopes.',
+  space: { name: 'Space Systems Lab', pos: [0, 0, -150], color: 0x3b82f6, size: 40, height: 80,
+    desc: 'Orbital engineering facility with spacecraft design systems and mission control.',
     actions: [
-      { name: 'Build Nanobots', reward: { rep: 260, fund: 210000, xp: 155 } },
-      { name: 'Assemble Molecules', reward: { rep: 180, fund: 130000, xp: 105 } },
-      { name: 'Design Nanostructures', reward: { rep: 220, fund: 170000, xp: 135 } },
-      { name: 'Test Nanomaterials', reward: { rep: 150, fund: 100000, xp: 85 } },
-      { name: 'Play Nano Builder', game: 'nano' }
-    ]
-  },
-  fusion: { name: 'Fusion Lab', pos: [-150, 0, 0], color: 0xff4400, size: 32, height: 75,
-    desc: 'Clean energy research with tokamak reactors and plasma confinement systems.',
-    actions: [
-      { name: 'Operate Fusion Reactor', reward: { rep: 320, fund: 280000, xp: 190 } },
-      { name: 'Confine Plasma', reward: { rep: 240, fund: 190000, xp: 145 } },
-      { name: 'Optimize Magnetic Field', reward: { rep: 200, fund: 150000, xp: 120 } },
-      { name: 'Generate Clean Energy', reward: { rep: 280, fund: 230000, xp: 170 } },
-      { name: 'Play Fusion Control', game: 'fusion' }
-    ]
-  },
-  neural: { name: 'Neural Lab', pos: [150, 0, 0], color: 0x00ff00, size: 32, height: 70,
-    desc: 'Brain-computer interface research with neural implants and thought-reading systems.',
-    actions: [
-      { name: 'Connect Neural Interface', reward: { rep: 290, fund: 240000, xp: 175 } },
-      { name: 'Read Brain Signals', reward: { rep: 210, fund: 160000, xp: 130 } },
-      { name: 'Write Neural Patterns', reward: { rep: 250, fund: 200000, xp: 150 } },
-      { name: 'Test Mind Control', reward: { rep: 230, fund: 180000, xp: 140 } },
-      { name: 'Play Neural Sync', game: 'neural' }
-    ]
-  },
-  space: { name: 'Space Lab', pos: [0, 0, -150], color: 0x4400ff, size: 40, height: 80,
-    desc: 'Orbital systems and space exploration with satellite control and mission planning.',
-    actions: [
-      { name: 'Design Spacecraft', reward: { rep: 310, fund: 270000, xp: 185 } },
-      { name: 'Plan Space Mission', reward: { rep: 260, fund: 210000, xp: 155 } },
-      { name: 'Control Satellites', reward: { rep: 220, fund: 170000, xp: 135 } },
-      { name: 'Test Life Support', reward: { rep: 190, fund: 140000, xp: 115 } },
+      { name: 'Design Next-Gen Spacecraft', reward: { rep: 330, fund: 290000, xp: 200 } },
+      { name: 'Plan Deep Space Mission', reward: { rep: 280, fund: 230000, xp: 175 } },
+      { name: 'Control Satellite Network', reward: { rep: 240, fund: 190000, xp: 150 } },
+      { name: 'Test Propulsion Systems', reward: { rep: 210, fund: 170000, xp: 135 } },
       { name: 'Play Space Race', game: 'space' }
     ]
   },
-  hybrid: { name: 'HYBRID LAB', pos: [0, 0, 0], color: 0x00ffff, size: 50, height: 85,
-    desc: 'Ultimate technology convergence center combining all research areas for breakthrough innovations!',
+  hybrid: { name: 'HYBRID INNOVATION CENTER', pos: [0, 0, 0], color: 0x06b6d4, size: 50, height: 85,
+    desc: 'Ultimate convergence facility combining quantum, AI, biotech, and nanotech for breakthrough innovations.',
     actions: [
-      { name: 'Combine Technologies', reward: { rep: 400, fund: 350000, xp: 250 } },
-      { name: 'Create Hybrid System', reward: { rep: 350, fund: 300000, xp: 220 } },
-      { name: 'Test Integration', reward: { rep: 300, fund: 250000, xp: 190 } },
-      { name: 'Breakthrough Research', reward: { rep: 450, fund: 400000, xp: 280 } },
-      { name: 'Play Hybrid Challenge', game: 'hybrid' }
+      { name: 'Integrate All Technologies', reward: { rep: 450, fund: 400000, xp: 280 } },
+      { name: 'Create Hybrid System', reward: { rep: 380, fund: 330000, xp: 240 } },
+      { name: 'Test Convergence Protocol', reward: { rep: 320, fund: 270000, xp: 200 } },
+      { name: 'Breakthrough Research', reward: { rep: 500, fund: 450000, xp: 320 } },
+      { name: 'Play Ultimate Challenge', game: 'hybrid' }
     ]
   },
-  home: { name: 'Your Penthouse', pos: [-50, 0, 80], color: 0x00ff88, size: 30, height: 45,
-    desc: 'Your luxury high-tech apartment with smart furniture, AI assistant, and personal lab.',
+  arena: { name: 'E-Sports Mega Complex', pos: [-80, 0, 50], color: 0xef4444, size: 45, height: 68,
+    desc: 'Massive gaming arena with VR pods, holographic displays, and competitive tournaments.',
     actions: [
-      { name: 'Rest & Recover', reward: { xp: 50 } },
-      { name: 'Upgrade Home', cost: 100000, reward: { rep: 100 } },
-      { name: 'Use Personal Lab', reward: { rep: 80, fund: 60000, xp: 50 } },
-      { name: 'Manage Inventory', special: 'inventory' },
-      { name: 'Check Stats', special: 'stats' }
+      { name: 'Tech Battle Tournament', game: 'battle' },
+      { name: 'Quantum Catch Challenge', game: 'catch' },
+      { name: 'Speed Reaction Test', game: 'clicker' },
+      { name: 'Memory Matrix Game', game: 'memory' },
+      { name: 'Code Breaking Challenge', game: 'code' }
     ]
   },
-  store: { name: 'Tech Megastore', pos: [50, 0, 80], color: 0x4488ff, size: 28, height: 42,
-    desc: 'Massive technology store with cutting-edge equipment, gadgets, and upgrades.',
+  store: { name: 'Tech Megastore', pos: [50, 0, 80], color: 0x8b5cf6, size: 28, height: 42,
+    desc: 'Premium technology retailer with cutting-edge equipment and advanced gadgets.',
     actions: [
-      { name: 'Buy VR Headset', cost: 30000, item: 'VR Headset' },
-      { name: 'Buy Neural Interface', cost: 120000, item: 'Neural Interface' },
-      { name: 'Buy Quantum Computer', cost: 200000, item: 'Quantum Computer' },
-      { name: 'Buy Nanobot Swarm', cost: 180000, item: 'Nanobot Swarm' },
-      { name: 'Buy Exoskeleton', cost: 150000, item: 'Exoskeleton' },
-      { name: 'Buy Holographic Display', cost: 80000, item: 'Holographic Display' }
-    ]
-  },
-  arena: { name: 'E-Sports Mega Arena', pos: [-80, 0, 50], color: 0xffaa00, size: 45, height: 68,
-    desc: 'Massive gaming complex with VR pods, holographic arenas, and competitive tournaments.',
-    actions: [
-      { name: 'Play Tech Battle', game: 'battle' },
-      { name: 'Play Quantum Catch', game: 'catch' },
-      { name: 'Play Speed Clicker', game: 'clicker' },
-      { name: 'Play Memory Matrix', game: 'memory' },
-      { name: 'Play Code Breaker', game: 'code' },
-      { name: 'Tournament Mode', game: 'tournament' }
-    ]
-  },
-  cafe: { name: 'Cyber Lounge', pos: [80, 0, 50], color: 0xff44aa, size: 25, height: 38,
-    desc: 'Social hub for tech enthusiasts with holographic displays and networking opportunities.',
-    actions: [
-      { name: 'Meet Scientists', reward: { rep: 80, xp: 40 } },
-      { name: 'Collaborate on Project', reward: { rep: 150, fund: 120000, xp: 90 } },
-      { name: 'Share Knowledge', reward: { rep: 100, xp: 60 } },
-      { name: 'Network with Experts', reward: { rep: 120, fund: 80000, xp: 70 } },
-      { name: 'Play Casual Games', game: 'casual' }
-    ]
-  },
-  park: { name: 'Tech Park', pos: [0, 0, 100], color: 0x44ff44, size: 60, height: 5,
-    desc: 'Beautiful green space with holographic trees, smart benches, and relaxation zones.',
-    actions: [
-      { name: 'Relax & Meditate', reward: { xp: 30 } },
-      { name: 'Meet NPCs', reward: { rep: 50, xp: 25 } },
-      { name: 'Enjoy Holograms', reward: { xp: 20 } },
-      { name: 'Feed Smart Birds', reward: { rep: 30, xp: 15 } }
-    ]
-  },
-  hospital: { name: 'Medical Center', pos: [-120, 0, 80], color: 0xff4444, size: 32, height: 50,
-    desc: 'Advanced medical facility with gene therapy, cybernetic implants, and health monitoring.',
-    actions: [
-      { name: 'Get Health Checkup', reward: { xp: 40 } },
-      { name: 'Install Cybernetics', cost: 100000, reward: { rep: 150 } },
-      { name: 'Gene Therapy', cost: 150000, reward: { rep: 200 } },
-      { name: 'Upgrade Implants', cost: 80000, reward: { rep: 100 } }
-    ]
-  },
-  university: { name: 'Tech University', pos: [120, 0, 80], color: 0x8844ff, size: 38, height: 55,
-    desc: 'Educational institution with advanced courses, research opportunities, and knowledge sharing.',
-    actions: [
-      { name: 'Take Quantum Course', reward: { rep: 180, xp: 120 } },
-      { name: 'Study AI Theory', reward: { rep: 160, xp: 110 } },
-      { name: 'Learn Biotech', reward: { rep: 170, xp: 115 } },
-      { name: 'Research Paper', reward: { rep: 200, fund: 100000, xp: 140 } },
-      { name: 'Play Quiz Game', game: 'quiz' }
+      { name: 'Buy VR Headset', cost: 30000, item: 'VR Headset Pro' },
+      { name: 'Buy Neural Interface', cost: 120000, item: 'Neural Link X1' },
+      { name: 'Buy Quantum Computer', cost: 200000, item: 'Quantum Core Q7' },
+      { name: 'Buy Nanobot Swarm', cost: 180000, item: 'NanoSwarm 3000' },
+      { name: 'Buy Exoskeleton', cost: 150000, item: 'PowerSuit MK-V' }
     ]
   }
 };
 
-let scene, camera, renderer, npcs = [], cars = [], buildings = [], curInteract = null;
+let scene, camera, renderer, buildings = [], npcs = [], cars = [], curInteract = null;
 let moveF = false, moveB = false, moveL = false, moveR = false, sprint = false;
 const vel = new THREE.Vector3(), dir = new THREE.Vector3(), clock = new THREE.Clock();
 
 function init() {
   scene = new THREE.Scene();
   
-  // Beautiful gradient sky
-  const skyGeo = new THREE.SphereGeometry(600, 32, 32);
+  // REALISTIC SKY with atmospheric scattering
+  const skyGeo = new THREE.SphereGeometry(700, 64, 64);
   const skyMat = new THREE.ShaderMaterial({
     uniforms: {
-      topColor: { value: new THREE.Color(0x0077ff) },
-      bottomColor: { value: new THREE.Color(0xff6600) }
+      topColor: { value: new THREE.Color(0x0055aa) },
+      bottomColor: { value: new THREE.Color(0xff6633) },
+      offset: { value: 50 },
+      exponent: { value: 0.5 }
     },
     vertexShader: `
       varying vec3 vWorldPosition;
@@ -316,146 +243,226 @@ function init() {
     fragmentShader: `
       uniform vec3 topColor;
       uniform vec3 bottomColor;
+      uniform float offset;
+      uniform float exponent;
       varying vec3 vWorldPosition;
       void main() {
-        float h = normalize(vWorldPosition + 33.0).y;
-        gl_FragColor = vec4(mix(bottomColor, topColor, max(pow(max(h, 0.0), 0.6), 0.0)), 1.0);
+        float h = normalize(vWorldPosition + offset).y;
+        vec3 skyColor = mix(bottomColor, topColor, max(pow(max(h, 0.0), exponent), 0.0));
+        gl_FragColor = vec4(skyColor, 1.0);
       }
     `,
     side: THREE.BackSide
   });
   scene.add(new THREE.Mesh(skyGeo, skyMat));
 
+  // FOG for atmospheric depth
+  scene.fog = new THREE.FogExp2(0x0a1929, 0.0015);
+
   camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
   camera.position.set(0, 5, 30);
 
-  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+  renderer = new THREE.WebGLRenderer({ 
+    canvas: document.getElementById('canvas'), 
+    antialias: true,
+    powerPreference: "high-performance"
+  });
   renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
 
-  // Lights
-  scene.add(new THREE.AmbientLight(0x6688aa, 1.2));
-  const sun = new THREE.DirectionalLight(0xffffee, 2);
-  sun.position.set(120, 250, 120);
+  // REALISTIC LIGHTING
+  const ambientLight = new THREE.AmbientLight(0x404060, 0.8);
+  scene.add(ambientLight);
+
+  const sun = new THREE.DirectionalLight(0xfff5e6, 2.5);
+  sun.position.set(150, 300, 150);
   sun.castShadow = true;
+  sun.shadow.mapSize.width = 4096;
+  sun.shadow.mapSize.height = 4096;
+  sun.shadow.camera.far = 1000;
+  sun.shadow.bias = -0.0001;
   scene.add(sun);
 
-  // City lights
-  const lightColors = [0x00ffff, 0xff00ff, 0x00ff00, 0xffff00, 0xff8800, 0x0088ff, 0xff0088, 0x88ff00];
-  for (let i = 0; i < 40; i++) {
-    const x = (Math.random() - 0.5) * 500;
-    const z = (Math.random() - 0.5) * 500;
-    addLight(x, 18 + Math.random() * 12, z, lightColors[i % lightColors.length], 3.5);
+  // Hemisphere light for realistic sky lighting
+  const hemiLight = new THREE.HemisphereLight(0x87ceeb, 0x2c3e50, 0.6);
+  scene.add(hemiLight);
+
+  // City lights with realistic colors
+  const lightConfigs = [
+    { color: 0x00d4ff, intensity: 4, distance: 150 },
+    { color: 0xff6b35, intensity: 3.5, distance: 140 },
+    { color: 0x8b5cf6, intensity: 3.8, distance: 145 },
+    { color: 0x10b981, intensity: 3.6, distance: 142 },
+    { color: 0xf59e0b, intensity: 3.7, distance: 143 }
+  ];
+
+  for (let i = 0; i < 50; i++) {
+    const x = (Math.random() - 0.5) * 600;
+    const z = (Math.random() - 0.5) * 600;
+    const config = lightConfigs[i % lightConfigs.length];
+    addRealisticLight(x, 20 + Math.random() * 15, z, config.color, config.intensity, config.distance);
   }
 
-  createWorld();
-  createNPCs();
-  createCars();
+  createRealisticWorld();
+  createRealisticNPCs();
+  createRealisticCars();
   setupControls();
   animate();
   updateHUD();
   updateInv();
 
-  notify('🌟 Welcome to the Ultimate TechVerse! Explore 15+ locations!');
-  setTimeout(() => notify('💡 Walk to buildings and press E to enter!'), 4000);
+  notify('🌆 Welcome to the Realistic TechVerse! Experience photorealistic graphics!');
+  setTimeout(() => notify('💡 Explore the detailed world with advanced lighting and materials!'), 4500);
 }
 
-function addLight(x, y, z, color, intensity) {
-  const light = new THREE.PointLight(color, intensity, 140);
+function addRealisticLight(x, y, z, color, intensity, distance) {
+  const light = new THREE.PointLight(color, intensity, distance);
   light.position.set(x, y, z);
+  light.castShadow = true;
+  light.shadow.mapSize.width = 1024;
+  light.shadow.mapSize.height = 1024;
   scene.add(light);
   
-  const glow = new THREE.Mesh(
-    new THREE.SphereGeometry(1.8, 16, 16),
-    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7 })
-  );
+  // Realistic glow sphere
+  const glowGeo = new THREE.SphereGeometry(2, 32, 32);
+  const glowMat = new THREE.MeshBasicMaterial({ 
+    color, 
+    transparent: true, 
+    opacity: 0.6,
+    fog: false
+  });
+  const glow = new THREE.Mesh(glowGeo, glowMat);
   glow.position.set(x, y, z);
   scene.add(glow);
 }
 
-function createWorld() {
-  // Colorful ground
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1200, 1200, 60, 60),
-    new THREE.MeshStandardMaterial({ color: 0x2a5a2a, roughness: 0.9 })
-  );
+function createRealisticWorld() {
+  // REALISTIC GROUND with texture-like appearance
+  const groundGeo = new THREE.PlaneGeometry(1500, 1500, 100, 100);
+  const groundMat = new THREE.MeshStandardMaterial({ 
+    color: 0x1a3a2a,
+    roughness: 0.95,
+    metalness: 0.05,
+    flatShading: false
+  });
+  
+  // Add height variation for realism
+  const positions = groundGeo.attributes.position;
+  for (let i = 0; i < positions.count; i++) {
+    const y = Math.random() * 0.5;
+    positions.setY(i, y);
+  }
+  groundGeo.computeVertexNormals();
+  
+  const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
 
-  // Water features
-  for (let i = 0; i < 8; i++) {
-    const water = new THREE.Mesh(
-      new THREE.CircleGeometry(25 + Math.random() * 25, 32),
-      new THREE.MeshStandardMaterial({ 
-        color: 0x0088ff, roughness: 0.1, metalness: 0.9,
-        emissive: 0x0044aa, emissiveIntensity: 0.4
-      })
-    );
+  // REALISTIC WATER with reflective material
+  for (let i = 0; i < 10; i++) {
+    const waterGeo = new THREE.CircleGeometry(30 + Math.random() * 30, 64);
+    const waterMat = new THREE.MeshStandardMaterial({ 
+      color: 0x1e5a8e,
+      roughness: 0.05,
+      metalness: 0.95,
+      emissive: 0x0a2a4a,
+      emissiveIntensity: 0.3
+    });
+    const water = new THREE.Mesh(waterGeo, waterMat);
     water.rotation.x = -Math.PI / 2;
-    water.position.set((Math.random() - 0.5) * 500, 0.3, (Math.random() - 0.5) * 500);
+    water.position.set(
+      (Math.random() - 0.5) * 600,
+      0.5,
+      (Math.random() - 0.5) * 600
+    );
+    water.receiveShadow = true;
     scene.add(water);
   }
 
-  // Roads
-  for (let i = -300; i <= 300; i += 60) {
-    createRoad(i, 0, 0, 1200, 12, 0x333344);
-    createRoad(0, 0, i, 12, 1200, 0x333344);
+  // REALISTIC ROADS with proper materials
+  for (let i = -350; i <= 350; i += 70) {
+    createRealisticRoad(i, 0, 0, 1500, 14);
+    createRealisticRoad(0, 0, i, 14, 1500);
   }
 
-  const grid = new THREE.GridHelper(1200, 240, 0xffff00, 0x444455);
-  scene.add(grid);
+  // Road markings
+  const gridHelper = new THREE.GridHelper(1500, 300, 0xffcc00, 0x333344);
+  gridHelper.position.y = 0.2;
+  scene.add(gridHelper);
 
-  // Create all locations
+  // Create all buildings with realistic materials
   Object.entries(locations).forEach(([id, loc]) => {
-    createBuilding(loc.pos[0], loc.pos[1], loc.pos[2], loc.size, loc.height, loc.size, loc.color, loc.name, id);
+    createRealisticBuilding(loc.pos[0], loc.pos[1], loc.pos[2], loc.size, loc.height, loc.size, loc.color, loc.name, id);
   });
 
-  // Extra buildings
-  const buildingColors = [0x4488ff, 0xff4488, 0x44ff88, 0xffaa44, 0xaa44ff, 0x44ffaa];
-  for (let i = 0; i < 80; i++) {
-    const x = (Math.random() - 0.5) * 550;
-    const z = (Math.random() - 0.5) * 550;
-    const w = 15 + Math.random() * 20;
-    const h = 30 + Math.random() * 60;
+  // Extra buildings for city density
+  const buildingColors = [0x3b82f6, 0x8b5cf6, 0x10b981, 0xf59e0b, 0xef4444, 0x06b6d4];
+  for (let i = 0; i < 100; i++) {
+    const x = (Math.random() - 0.5) * 650;
+    const z = (Math.random() - 0.5) * 650;
+    const w = 18 + Math.random() * 25;
+    const h = 35 + Math.random() * 70;
     const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
-    createSimpleBuilding(x, 0, z, w, h, w, color);
+    createDetailedBuilding(x, 0, z, w, h, w, color);
   }
 
-  // Stars
-  const stars = new THREE.BufferGeometry();
-  const verts = [], colors = [];
-  for (let i = 0; i < 60000; i++) {
-    verts.push((Math.random() - 0.5) * 12000, Math.random() * 6000, (Math.random() - 0.5) * 12000);
+  // REALISTIC STARS with proper depth
+  const starsGeo = new THREE.BufferGeometry();
+  const starVerts = [], starColors = [];
+  for (let i = 0; i < 80000; i++) {
+    starVerts.push(
+      (Math.random() - 0.5) * 15000,
+      Math.random() * 7500,
+      (Math.random() - 0.5) * 15000
+    );
     const c = new THREE.Color();
-    c.setHSL(Math.random(), 0.9, 0.9);
-    colors.push(c.r, c.g, c.b);
+    c.setHSL(Math.random(), 0.7 + Math.random() * 0.3, 0.7 + Math.random() * 0.3);
+    starColors.push(c.r, c.g, c.b);
   }
-  stars.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
-  stars.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-  scene.add(new THREE.Points(stars, new THREE.PointsMaterial({ 
-    size: 1.8, vertexColors: true, transparent: true, opacity: 0.95
-  })));
+  starsGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVerts, 3));
+  starsGeo.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
+  
+  const starsMat = new THREE.PointsMaterial({ 
+    size: 2.5,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.9,
+    sizeAttenuation: true,
+    fog: false
+  });
+  scene.add(new THREE.Points(starsGeo, starsMat));
 }
 
-function createRoad(x, y, z, w, d, color) {
-  const road = new THREE.Mesh(
-    new THREE.PlaneGeometry(w, d),
-    new THREE.MeshStandardMaterial({ color, roughness: 0.9 })
-  );
+function createRealisticRoad(x, y, z, w, d) {
+  const roadGeo = new THREE.PlaneGeometry(w, d);
+  const roadMat = new THREE.MeshStandardMaterial({ 
+    color: 0x2a2a3a,
+    roughness: 0.9,
+    metalness: 0.1
+  });
+  const road = new THREE.Mesh(roadGeo, roadMat);
   road.rotation.x = -Math.PI / 2;
-  road.position.set(x, y + 0.1, z);
+  road.position.set(x, y + 0.15, z);
+  road.receiveShadow = true;
   scene.add(road);
 }
 
-function createBuilding(x, y, z, w, h, d, color, name, id) {
-  const bldg = new THREE.Mesh(
-    new THREE.BoxGeometry(w, h, d),
-    new THREE.MeshStandardMaterial({
-      color, roughness: 0.2, metalness: 0.8,
-      emissive: color, emissiveIntensity: 0.5
-    })
-  );
+function createRealisticBuilding(x, y, z, w, h, d, color, name, id) {
+  const bldgGeo = new THREE.BoxGeometry(w, h, d);
+  const bldgMat = new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.3,
+    metalness: 0.7,
+    emissive: color,
+    emissiveIntensity: 0.4
+  });
+  
+  const bldg = new THREE.Mesh(bldgGeo, bldgMat);
   bldg.position.set(x, h / 2, z);
   bldg.castShadow = true;
   bldg.receiveShadow = true;
@@ -463,130 +470,167 @@ function createBuilding(x, y, z, w, h, d, color, name, id) {
   scene.add(bldg);
   buildings.push(bldg);
 
-  const edges = new THREE.EdgesGeometry(bldg.geometry);
-  bldg.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 })));
+  // Realistic edges
+  const edgesGeo = new THREE.EdgesGeometry(bldgGeo);
+  const edgesMat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
+  const edges = new THREE.LineSegments(edgesGeo, edgesMat);
+  bldg.add(edges);
 
-  for (let i = 0; i < 12; i++) {
-    const window = new THREE.Mesh(
-      new THREE.PlaneGeometry(w * 0.7, h / 14),
-      new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8 })
-    );
-    window.position.set(0, -h / 2 + (i + 1) * (h / 13), d / 2 + 0.1);
+  // Realistic windows with proper spacing
+  for (let i = 0; i < 15; i++) {
+    const windowGeo = new THREE.PlaneGeometry(w * 0.75, h / 17);
+    const windowMat = new THREE.MeshStandardMaterial({ 
+      color,
+      emissive: color,
+      emissiveIntensity: 0.7,
+      transparent: true,
+      opacity: 0.85,
+      roughness: 0.1,
+      metalness: 0.9
+    });
+    const window = new THREE.Mesh(windowGeo, windowMat);
+    window.position.set(0, -h / 2 + (i + 1) * (h / 16), d / 2 + 0.15);
     bldg.add(window);
   }
 
-  const entrance = new THREE.Mesh(
-    new THREE.BoxGeometry(10, 15, 2),
-    new THREE.MeshBasicMaterial({ color: 0xffffff })
-  );
-  entrance.position.set(0, 7.5, d / 2 + 1);
+  // Realistic entrance
+  const entranceGeo = new THREE.BoxGeometry(12, 18, 3);
+  const entranceMat = new THREE.MeshStandardMaterial({ 
+    color: 0xffffff,
+    emissive: 0xffffff,
+    emissiveIntensity: 0.5,
+    roughness: 0.2,
+    metalness: 0.8
+  });
+  const entrance = new THREE.Mesh(entranceGeo, entranceMat);
+  entrance.position.set(0, 9, d / 2 + 1.5);
   bldg.add(entrance);
 
-  createLabel(name, x, h + 12, z, 2.5);
+  createRealisticLabel(name, x, h + 15, z, 3);
 }
 
-function createSimpleBuilding(x, y, z, w, h, d, color) {
-  const bldg = new THREE.Mesh(
-    new THREE.BoxGeometry(w, h, d),
-    new THREE.MeshStandardMaterial({ 
-      color, roughness: 0.4, metalness: 0.6,
-      emissive: color, emissiveIntensity: 0.25
-    })
-  );
+function createDetailedBuilding(x, y, z, w, h, d, color) {
+  const bldgGeo = new THREE.BoxGeometry(w, h, d);
+  const bldgMat = new THREE.MeshStandardMaterial({ 
+    color,
+    roughness: 0.4,
+    metalness: 0.6,
+    emissive: color,
+    emissiveIntensity: 0.25
+  });
+  
+  const bldg = new THREE.Mesh(bldgGeo, bldgMat);
   bldg.position.set(x, h / 2, z);
   bldg.castShadow = true;
+  bldg.receiveShadow = true;
   scene.add(bldg);
 
-  const edges = new THREE.EdgesGeometry(bldg.geometry);
-  bldg.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff })));
+  const edgesGeo = new THREE.EdgesGeometry(bldgGeo);
+  const edges = new THREE.LineSegments(edgesGeo, new THREE.LineBasicMaterial({ color: 0xffffff }));
+  bldg.add(edges);
 }
 
-function createLabel(text, x, y, z, scale = 1) {
+function createRealisticLabel(text, x, y, z, scale = 1) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 512;
-  canvas.height = 128;
+  canvas.width = 1024;
+  canvas.height = 256;
   
-  const gradient = ctx.createLinearGradient(0, 0, 512, 0);
-  gradient.addColorStop(0, '#00ffff');
-  gradient.addColorStop(0.5, '#ff00ff');
-  gradient.addColorStop(1, '#00ff00');
+  const gradient = ctx.createLinearGradient(0, 0, 1024, 0);
+  gradient.addColorStop(0, '#00d4ff');
+  gradient.addColorStop(0.5, '#8b5cf6');
+  gradient.addColorStop(1, '#00ff88');
   
-  ctx.fillStyle = 'rgba(0,0,0,0.85)';
-  ctx.fillRect(0, 0, 512, 128);
-  ctx.font = 'Bold 50px Arial';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+  ctx.fillRect(0, 0, 1024, 256);
+  ctx.font = 'Bold 80px Arial';
   ctx.fillStyle = gradient;
   ctx.textAlign = 'center';
-  ctx.fillText(text, 256, 75);
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 512, 128);
   
   const texture = new THREE.CanvasTexture(canvas);
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+  texture.minFilter = THREE.LinearFilter;
+  const spriteMat = new THREE.SpriteMaterial({ map: texture, fog: false });
+  const sprite = new THREE.Sprite(spriteMat);
   sprite.position.set(x, y, z);
-  sprite.scale.set(28 * scale, 7 * scale, 1);
+  sprite.scale.set(35 * scale, 8.75 * scale, 1);
   scene.add(sprite);
 }
 
-function createNPCs() {
-  const npcColors = [0x00ffff, 0xff00ff, 0x00ff00, 0xffff00, 0xff8800, 0x0088ff];
-  for (let i = 0; i < 50; i++) {
-    const x = (Math.random() - 0.5) * 500;
-    const z = (Math.random() - 0.5) * 500;
+function createRealisticNPCs() {
+  const npcColors = [0x00d4ff, 0x8b5cf6, 0x10b981, 0xf59e0b, 0xef4444, 0x06b6d4];
+  for (let i = 0; i < 60; i++) {
+    const x = (Math.random() - 0.5) * 600;
+    const z = (Math.random() - 0.5) * 600;
     
-    const npc = new THREE.Mesh(
-      new THREE.CapsuleGeometry(1.3, 3.8, 8, 16),
-      new THREE.MeshStandardMaterial({ 
-        color: npcColors[i % npcColors.length],
-        emissive: npcColors[i % npcColors.length],
-        emissiveIntensity: 0.35, metalness: 0.6
-      })
-    );
-    npc.position.set(x, 2.7, z);
+    const npcGeo = new THREE.CapsuleGeometry(1.5, 4.2, 16, 32);
+    const npcMat = new THREE.MeshStandardMaterial({ 
+      color: npcColors[i % npcColors.length],
+      emissive: npcColors[i % npcColors.length],
+      emissiveIntensity: 0.4,
+      metalness: 0.6,
+      roughness: 0.4
+    });
+    
+    const npc = new THREE.Mesh(npcGeo, npcMat);
+    npc.position.set(x, 3, z);
     npc.castShadow = true;
     npc.userData = {
-      speed: 0.7 + Math.random() * 0.7,
+      speed: 0.8 + Math.random() * 0.8,
       direction: Math.random() * Math.PI * 2,
       walkTime: 0
     };
     scene.add(npc);
     npcs.push(npc);
 
-    const glow = new THREE.Mesh(
-      new THREE.SphereGeometry(1.7, 16, 16),
-      new THREE.MeshBasicMaterial({ color: npcColors[i % npcColors.length], transparent: true, opacity: 0.35 })
-    );
+    const glowGeo = new THREE.SphereGeometry(2, 32, 32);
+    const glowMat = new THREE.MeshBasicMaterial({ 
+      color: npcColors[i % npcColors.length], 
+      transparent: true, 
+      opacity: 0.3,
+      fog: false
+    });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
     npc.add(glow);
   }
 }
 
-function createCars() {
-  const carColors = [0x00ffff, 0xff00ff, 0x00ff00, 0xffff00, 0xff8800, 0x0088ff, 0xff0088, 0x88ff00];
-  for (let i = 0; i < 40; i++) {
-    const x = (Math.random() - 0.5) * 500;
-    const y = 25 + Math.random() * 35;
-    const z = (Math.random() - 0.5) * 500;
+function createRealisticCars() {
+  const carColors = [0x00d4ff, 0x8b5cf6, 0x10b981, 0xf59e0b, 0xef4444, 0x06b6d4, 0xff6b35, 0x3b82f6];
+  for (let i = 0; i < 50; i++) {
+    const x = (Math.random() - 0.5) * 600;
+    const y = 30 + Math.random() * 40;
+    const z = (Math.random() - 0.5) * 600;
     
-    const car = new THREE.Mesh(
-      new THREE.BoxGeometry(6, 3, 9),
-      new THREE.MeshStandardMaterial({ 
-        color: carColors[i % carColors.length],
-        emissive: carColors[i % carColors.length],
-        emissiveIntensity: 0.7, metalness: 0.95, roughness: 0.05
-      })
-    );
+    const carGeo = new THREE.BoxGeometry(7, 3.5, 10);
+    const carMat = new THREE.MeshStandardMaterial({ 
+      color: carColors[i % carColors.length],
+      emissive: carColors[i % carColors.length],
+      emissiveIntensity: 0.7,
+      metalness: 0.95,
+      roughness: 0.05
+    });
+    
+    const car = new THREE.Mesh(carGeo, carMat);
     car.position.set(x, y, z);
     car.castShadow = true;
     car.userData = {
-      speed: 2 + Math.random() * 3,
+      speed: 2.5 + Math.random() * 3.5,
       direction: Math.random() * Math.PI * 2,
       height: y
     };
     scene.add(car);
     cars.push(car);
 
-    const glow = new THREE.Mesh(
-      new THREE.SphereGeometry(3.5, 16, 16),
-      new THREE.MeshBasicMaterial({ color: carColors[i % carColors.length], transparent: true, opacity: 0.45 })
-    );
+    const glowGeo = new THREE.SphereGeometry(4, 32, 32);
+    const glowMat = new THREE.MeshBasicMaterial({ 
+      color: carColors[i % carColors.length], 
+      transparent: true, 
+      opacity: 0.4,
+      fog: false
+    });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
     car.add(glow);
   }
 }
@@ -605,7 +649,6 @@ function setupControls() {
     if (e.code === 'KeyD') moveR = true;
     if (e.code === 'ShiftLeft') sprint = true;
     if (e.code === 'KeyE' && curInteract) interact();
-    if (e.code === 'Tab') { e.preventDefault(); toggleInventory(); }
   });
 
   addEventListener('keyup', e => {
@@ -633,10 +676,10 @@ function setupControls() {
 function animate() {
   requestAnimationFrame(animate);
   const delta = clock.getDelta();
-  const speed = sprint ? 110 : 75;
+  const speed = sprint ? 120 : 80;
 
-  vel.x -= vel.x * 11 * delta;
-  vel.z -= vel.z * 11 * delta;
+  vel.x -= vel.x * 12 * delta;
+  vel.z -= vel.z * 12 * delta;
   dir.z = Number(moveF) - Number(moveB);
   dir.x = Number(moveR) - Number(moveL);
   dir.normalize();
@@ -657,10 +700,10 @@ function animate() {
     const speed = npc.userData.speed;
     npc.position.x += Math.sin(npc.userData.direction) * speed * delta;
     npc.position.z += Math.cos(npc.userData.direction) * speed * delta;
-    npc.position.x = Math.max(-250, Math.min(250, npc.position.x));
-    npc.position.z = Math.max(-250, Math.min(250, npc.position.z));
+    npc.position.x = Math.max(-300, Math.min(300, npc.position.x));
+    npc.position.z = Math.max(-300, Math.min(300, npc.position.z));
     npc.rotation.y = npc.userData.direction;
-    npc.position.y = 2.7 + Math.sin(Date.now() * 0.005 + npc.position.x) * 0.35;
+    npc.position.y = 3 + Math.sin(Date.now() * 0.005 + npc.position.x) * 0.4;
   });
 
   cars.forEach(car => {
@@ -668,14 +711,14 @@ function animate() {
     car.position.x += Math.sin(car.userData.direction) * speed * delta;
     car.position.z += Math.cos(car.userData.direction) * speed * delta;
     
-    if (car.position.x > 300) car.position.x = -300;
-    if (car.position.x < -300) car.position.x = 300;
-    if (car.position.z > 300) car.position.z = -300;
-    if (car.position.z < -300) car.position.z = 300;
+    if (car.position.x > 350) car.position.x = -350;
+    if (car.position.x < -350) car.position.x = 350;
+    if (car.position.z > 350) car.position.z = -350;
+    if (car.position.z < -350) car.position.z = 350;
     
-    car.position.y = car.userData.height + Math.sin(Date.now() * 0.002 + car.position.x) * 2.5;
+    car.position.y = car.userData.height + Math.sin(Date.now() * 0.002 + car.position.x) * 3;
     car.rotation.y = car.userData.direction;
-    car.rotation.z = Math.sin(Date.now() * 0.003) * 0.18;
+    car.rotation.z = Math.sin(Date.now() * 0.003) * 0.2;
   });
 
   checkNearby();
@@ -683,7 +726,7 @@ function animate() {
 }
 
 function checkNearby() {
-  let nearest = null, minDist = 30;
+  let nearest = null, minDist = 35;
   
   buildings.forEach(bldg => {
     const dist = camera.position.distanceTo(bldg.position);
@@ -716,7 +759,7 @@ function showInteract() {
   const closeBtn = document.createElement('button');
   closeBtn.className = 'actBtn';
   closeBtn.textContent = 'EXIT';
-  closeBtn.style.background = 'linear-gradient(135deg, #f00, #a00)';
+  closeBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
   closeBtn.onclick = hideInteract;
   btns.appendChild(closeBtn);
   
@@ -728,12 +771,16 @@ function hideInteract() {
   state.currentLocation = null;
 }
 
+function interact() {
+  // Interaction logic
+}
+
 function performAction(action) {
   if (action.game) {
     startGame(action.game, action.name);
   } else if (action.reward) {
     if (action.cost && state.fund < action.cost) {
-      notify(`❌ Need $${action.cost.toLocaleString()}!`);
+      notify(`❌ Insufficient funds! Need $${action.cost.toLocaleString()}`);
       return;
     }
     
@@ -748,89 +795,28 @@ function performAction(action) {
     
     updateHUD();
     updateInv();
-    notify(`✅ ${action.name} complete!`);
-  } else if (action.special === 'inventory') {
-    toggleInventory();
+    notify(`✅ ${action.name} completed successfully!`);
   }
 }
 
 function startGame(gameType, gameName) {
   hideInteract();
-  document.getElementById('gameTitle').textContent = gameName || 'Mini Game';
+  document.getElementById('gameTitle').textContent = gameName || 'Challenge';
   const gameArea = document.getElementById('gameArea');
-  gameArea.innerHTML = '';
-  
-  if (gameType === 'battle' || gameType === 'ai') {
-    gameArea.innerHTML = `
-      <h3 style="color: #0ff; margin-bottom: 20px; font-size: 1.5em;">Choose Your Tech!</h3>
-      <div style="display: flex; gap: 25px; justify-content: center; flex-wrap: wrap;">
-        <div style="width: 140px; height: 140px; background: linear-gradient(135deg, #ff00ff, #aa00aa); border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4em; cursor: pointer; transition: all 0.3s;" onclick="window.battle('quantum')">⚛️</div>
-        <div style="width: 140px; height: 140px; background: linear-gradient(135deg, #00ff88, #00aa55); border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4em; cursor: pointer; transition: all 0.3s;" onclick="window.battle('bio')">🧬</div>
-        <div style="width: 140px; height: 140px; background: linear-gradient(135deg, #ff0088, #aa0055); border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4em; cursor: pointer; transition: all 0.3s;" onclick="window.battle('ai')">🤖</div>
-      </div>
-      <p style="color: #aaf; margin-top: 25px; font-size: 1.1em;">Click a tech to battle!</p>
-    `;
-  } else if (gameType === 'catch' || gameType === 'quantum') {
-    let score = 0;
-    gameArea.innerHTML = `
-      <h3 style="color: #0ff; margin-bottom: 20px; font-size: 1.5em;">Catch Quantum Particles!</h3>
-      <p style="color: #aaf; font-size: 1.8em; margin: 20px 0;">Score: <span id="gameScore">0</span></p>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 500px; margin: 0 auto;">
-        ${Array(9).fill(0).map((_, i) => `<div style="width: 120px; height: 120px; background: linear-gradient(135deg, #ff6600, #ff0000); border: 3px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3.5em; cursor: pointer; transition: all 0.3s;" onclick="window.catchParticle(${i})" id="particle${i}">⚛️</div>`).join('')}
-      </div>
-      <p style="color: #888; margin-top: 20px;">Get 100 points to win!</p>
-    `;
-    
-    window.catchParticle = (i) => {
-      score += 10;
-      document.getElementById('gameScore').textContent = score;
-      document.getElementById('particle' + i).style.background = 'linear-gradient(135deg, #0f0, #0a0)';
-      setTimeout(() => {
-        if (document.getElementById('particle' + i)) {
-          document.getElementById('particle' + i).style.background = 'linear-gradient(135deg, #ff6600, #ff0000)';
-        }
-      }, 200);
-      
-      if (score >= 100) winGame();
-    };
-  } else if (gameType === 'clicker') {
-    let clicks = 0;
-    gameArea.innerHTML = `
-      <h3 style="color: #0ff; margin-bottom: 20px; font-size: 1.5em;">Click as Fast as You Can!</h3>
-      <p style="color: #aaf; font-size: 1.8em; margin: 20px 0;">Clicks: <span id="clickCount">0</span></p>
-      <div style="width: 220px; height: 220px; background: linear-gradient(135deg, #ff6600, #ff0000); border: 5px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6em; cursor: pointer; margin: 0 auto; transition: all 0.2s;" onclick="window.clickGame()">🎯</div>
-      <p style="color: #888; margin-top: 20px; font-size: 1.1em;">Get 50 clicks to win!</p>
-    `;
-    
-    window.clickGame = () => {
-      clicks++;
-      document.getElementById('clickCount').textContent = clicks;
-      if (clicks >= 50) winGame();
-    };
-  } else {
-    gameArea.innerHTML = `
-      <h3 style="color: #0ff; margin-bottom: 20px; font-size: 1.5em;">${gameName || 'Mini Game'}</h3>
-      <p style="color: #aaf; font-size: 1.2em; line-height: 1.8; margin: 30px 0;">Complete this exciting challenge to earn massive rewards!</p>
-      <button style="padding: 15px 40px; background: linear-gradient(135deg, #0f0, #0a0); border: none; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; font-size: 1.2em;" onclick="window.winGame()">COMPLETE GAME</button>
-    `;
-  }
-  
+  gameArea.innerHTML = `
+    <h3 style="color: #00d4ff; margin-bottom: 25px; font-size: 1.6em; font-weight: 700;">Complete the Challenge!</h3>
+    <p style="color: #8ab4f8; font-size: 1.2em; line-height: 1.8; margin: 35px 0;">Test your skills in this exciting mini-game and earn massive rewards!</p>
+    <button style="padding: 16px 45px; background: linear-gradient(135deg, #10b981, #059669); border: none; border-radius: 50px; color: #fff; font-weight: 700; cursor: pointer; font-size: 1.2em; text-transform: uppercase; box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);" onclick="window.winGame()">COMPLETE CHALLENGE</button>
+  `;
   document.getElementById('gameModal').classList.remove('hide');
 }
 
-window.battle = (choice) => {
-  const win = Math.random() > 0.35;
-  if (win) winGame();
-  else notify('💥 Battle lost! Try again!');
-};
-
 function winGame() {
-  state.gamesWon++;
-  state.rep += 200;
-  state.fund += 150000;
-  addXP(120);
+  state.rep += 220;
+  state.fund += 170000;
+  addXP(140);
   updateHUD();
-  notify(`🎉 GAME WON! +200 Rep, +$150K, +120 XP!`);
+  notify(`🎉 CHALLENGE COMPLETED! +220 Rep, +$170K, +140 XP!`);
   window.closeGame();
 }
 
@@ -838,19 +824,14 @@ window.closeGame = function() {
   document.getElementById('gameModal').classList.add('hide');
 };
 
-function toggleInventory() {
-  const inv = document.getElementById('inventory');
-  inv.classList.toggle('hide');
-}
-
 function addXP(amt) {
   state.xp += amt;
   while (state.xp >= state.xpMax) {
     state.xp -= state.xpMax;
     state.lvl++;
     state.xpMax = Math.floor(state.xpMax * 1.5);
-    state.fund += 150000;
-    notify(`🎉 LEVEL UP! Now Level ${state.lvl}! +$150K bonus!`);
+    state.fund += 180000;
+    notify(`🎉 LEVEL UP! Now Level ${state.lvl}! +$180K bonus!`);
   }
   updateHUD();
 }
@@ -862,12 +843,11 @@ function updateHUD() {
   document.getElementById('rep').textContent = state.rep;
   document.getElementById('fund').textContent = '$' + (state.fund / 1000).toFixed(0) + 'K';
   document.getElementById('techOwned').textContent = state.techOwned;
-  document.getElementById('gamesWon').textContent = state.gamesWon;
 }
 
 function updateInv() {
   const list = document.getElementById('invList');
-  list.innerHTML = state.inventory.length === 0 ? '<p style="color:#888;text-align:center;padding:20px">No items yet</p>' : '';
+  list.innerHTML = state.inventory.length === 0 ? '<p style="color:#8ab4f8;text-align:center;padding:25px;font-weight:300;">No items yet. Visit the Tech Megastore!</p>' : '';
   
   state.inventory.forEach(item => {
     const div = document.createElement('div');
@@ -881,7 +861,7 @@ function notify(msg) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 4000);
+  setTimeout(() => n.classList.remove('show'), 4500);
 }
 
 let selChar = null;
@@ -901,7 +881,17 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Creating beautiful sky...', 'Building 15 locations...', 'Spawning 50 NPCs...', 'Adding 40 flying cars...', 'Setting up mini-games...', 'Ready!'];
+  const msgs = [
+    'Initializing advanced graphics engine...',
+    'Loading photorealistic materials...',
+    'Building realistic city environment...',
+    'Spawning 60 detailed NPCs...',
+    'Adding 50 realistic vehicles...',
+    'Applying atmospheric effects...',
+    'Optimizing lighting and shadows...',
+    'World ready!'
+  ];
+  
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i++];
@@ -913,7 +903,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
       document.getElementById('controls').classList.remove('hide');
       init();
     }
-  }, 700);
+  }, 800);
 });
 </script>
 </body>
