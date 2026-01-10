@@ -5,154 +5,233 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TechVerse: Innovation Odyssey</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { overflow: hidden; background: #000; color: #fff; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; background: #000; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 .ui { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
-#intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #000428 0%, #004e92 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: all; }
-#intro h1 { font-size: 4em; color: #0ff; text-shadow: 0 0 40px #0ff; margin-bottom: 20px; animation: pulse 2s infinite; }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-#intro p { font-size: 1.5em; color: #aaa; margin-bottom: 40px; }
-.char-select { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1200px; padding: 20px; }
-.char { background: rgba(0, 255, 255, 0.1); border: 2px solid #0ff; border-radius: 15px; padding: 25px; cursor: pointer; transition: all 0.3s; text-align: center; }
-.char:hover { background: rgba(0, 255, 255, 0.3); transform: translateY(-10px); box-shadow: 0 10px 40px rgba(0, 255, 255, 0.5); }
-.char.sel { background: rgba(0, 255, 0, 0.3); border-color: #0f0; box-shadow: 0 0 40px rgba(0, 255, 0, 0.8); }
-.char h3 { color: #0ff; font-size: 1.5em; margin: 15px 0; }
-.char p { color: #aaa; font-size: 0.95em; line-height: 1.6; }
-.icon { font-size: 4em; margin-bottom: 10px; }
+
+/* Character Selection */
+#charSelect { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #000428 0%, #004e92 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: all; overflow-y: auto; padding: 20px; }
+#charSelect h1 { font-size: clamp(2em, 5vw, 4em); color: #0ff; text-shadow: 0 0 40px #0ff; margin-bottom: 20px; animation: glow 2s infinite; text-align: center; }
+@keyframes glow { 0%, 100% { text-shadow: 0 0 20px #0ff; } 50% { text-shadow: 0 0 60px #0ff; } }
+#charSelect .subtitle { font-size: clamp(1em, 2vw, 1.5em); color: #aaa; margin-bottom: 30px; text-align: center; }
+.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1400px; width: 100%; padding: 20px; }
+.charCard { background: rgba(0, 255, 255, 0.1); border: 3px solid #0ff; border-radius: 15px; padding: 25px; cursor: pointer; transition: all 0.3s; text-align: center; }
+.charCard:hover { background: rgba(0, 255, 255, 0.3); transform: translateY(-10px); box-shadow: 0 10px 40px rgba(0, 255, 255, 0.6); }
+.charCard.selected { background: rgba(0, 255, 0, 0.3); border-color: #0f0; box-shadow: 0 0 50px rgba(0, 255, 0, 0.8); }
+.charCard .icon { font-size: 4em; margin-bottom: 15px; }
+.charCard h3 { color: #0ff; font-size: 1.5em; margin: 15px 0; }
+.charCard p { color: #aaa; font-size: 1em; line-height: 1.6; }
 #startBtn { padding: 20px 60px; font-size: 1.5em; background: linear-gradient(135deg, #0ff, #0f0); border: none; border-radius: 15px; color: #000; font-weight: bold; cursor: pointer; margin-top: 30px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 3px; }
 #startBtn:hover:not(:disabled) { transform: scale(1.1); box-shadow: 0 10px 50px rgba(0, 255, 255, 0.8); }
 #startBtn:disabled { opacity: 0.3; cursor: not-allowed; }
-#loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: all; background: rgba(0, 0, 0, 0.9); padding: 50px; border-radius: 20px; border: 3px solid #0ff; }
+
+/* Loading Screen */
+#loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: all; background: rgba(0, 0, 0, 0.95); padding: 50px; border-radius: 20px; border: 3px solid #0ff; }
 #loading h2 { color: #0ff; font-size: 2em; margin-bottom: 20px; }
 .spinner { border: 5px solid rgba(0, 255, 255, 0.3); border-top: 5px solid #0ff; border-radius: 50%; width: 80px; height: 80px; animation: spin 1s linear infinite; margin: 20px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-#hud { position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.9); padding: 25px; border-radius: 15px; border: 2px solid #0ff; pointer-events: all; min-width: 280px; backdrop-filter: blur(10px); }
-#hud h3 { color: #0ff; font-size: 1.3em; margin-bottom: 15px; border-bottom: 2px solid #0ff; padding-bottom: 10px; }
-.stat { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1em; color: #aaa; }
-.stat span { color: #0f0; font-weight: bold; }
-#inventory { position: fixed; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.9); padding: 25px; border-radius: 15px; border: 2px solid #f80; pointer-events: all; max-width: 350px; max-height: 70vh; overflow-y: auto; backdrop-filter: blur(10px); }
-#inventory h3 { color: #f80; font-size: 1.3em; margin-bottom: 15px; border-bottom: 2px solid #f80; padding-bottom: 10px; }
-.inv-item { background: rgba(255, 136, 0, 0.2); padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #f80; }
-.inv-item.active { border-color: #0f0; background: rgba(0, 255, 0, 0.2); box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
-.inv-name { color: #0ff; font-weight: bold; font-size: 1.1em; margin-bottom: 5px; }
-.inv-desc { color: #888; font-size: 0.9em; margin-bottom: 8px; }
-.inv-btn { padding: 8px 15px; background: #0ff; border: none; border-radius: 8px; color: #000; font-weight: bold; cursor: pointer; margin-right: 5px; font-size: 0.9em; }
-.inv-btn:hover { background: #0f0; transform: scale(1.05); }
-#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.95); padding: 30px 40px; border-radius: 20px; border: 3px solid #0ff; pointer-events: all; max-width: 700px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0, 255, 255, 0.6); }
-#interact h4 { color: #0ff; font-size: 1.8em; margin-bottom: 15px; }
-#interact p { color: #aaa; font-size: 1.1em; margin-bottom: 20px; line-height: 1.8; }
-.act-btn { padding: 15px 30px; background: linear-gradient(135deg, #0ff, #08f); border: none; border-radius: 12px; color: #000; font-weight: bold; cursor: pointer; margin: 8px; font-size: 1.1em; transition: all 0.3s; text-transform: uppercase; }
-.act-btn:hover { transform: scale(1.1); box-shadow: 0 5px 25px rgba(0, 255, 255, 0.7); }
-#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: rgba(0, 255, 0, 0.95); color: #000; padding: 20px 40px; border-radius: 15px; font-weight: bold; font-size: 1.2em; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 80%; text-align: center; box-shadow: 0 5px 30px rgba(0, 255, 0, 0.7); z-index: 2000; }
+#loadText { color: #aaa; font-size: 1.2em; margin-top: 15px; }
+
+/* HUD */
+#hud { position: fixed; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.95); padding: 25px; border-radius: 15px; border: 2px solid #0ff; pointer-events: all; min-width: 280px; backdrop-filter: blur(10px); }
+#hud h3 { color: #0ff; font-size: 1.4em; margin-bottom: 15px; border-bottom: 2px solid #0ff; padding-bottom: 10px; }
+.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1.05em; color: #aaa; }
+.hudStat .val { color: #0f0; font-weight: bold; }
+
+/* Inventory */
+#inventory { position: fixed; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.95); padding: 25px; border-radius: 15px; border: 2px solid #f80; pointer-events: all; max-width: 380px; max-height: 75vh; overflow-y: auto; backdrop-filter: blur(10px); }
+#inventory h3 { color: #f80; font-size: 1.4em; margin-bottom: 15px; border-bottom: 2px solid #f80; padding-bottom: 10px; }
+.invItem { background: rgba(255, 136, 0, 0.2); padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid #f80; }
+.invItem.active { border-color: #0f0; background: rgba(0, 255, 0, 0.2); box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+.invName { color: #0ff; font-weight: bold; font-size: 1.15em; margin-bottom: 8px; }
+.invDesc { color: #888; font-size: 0.95em; margin-bottom: 10px; line-height: 1.5; }
+.invBtn { padding: 10px 20px; background: #0ff; border: none; border-radius: 8px; color: #000; font-weight: bold; cursor: pointer; margin-right: 8px; font-size: 0.95em; transition: all 0.3s; }
+.invBtn:hover { background: #0f0; transform: scale(1.05); }
+
+/* Interaction Panel */
+#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.98); padding: 30px 40px; border-radius: 20px; border: 3px solid #0ff; pointer-events: all; max-width: 750px; width: 90%; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0, 255, 255, 0.6); }
+#interact h4 { color: #0ff; font-size: 2em; margin-bottom: 15px; }
+#interact p { color: #aaa; font-size: 1.15em; margin-bottom: 20px; line-height: 1.8; }
+.actBtn { padding: 15px 35px; background: linear-gradient(135deg, #0ff, #08f); border: none; border-radius: 12px; color: #000; font-weight: bold; cursor: pointer; margin: 8px; font-size: 1.15em; transition: all 0.3s; text-transform: uppercase; }
+.actBtn:hover { transform: scale(1.1); box-shadow: 0 5px 25px rgba(0, 255, 255, 0.7); }
+
+/* Controls */
+#controls { position: fixed; bottom: 30px; right: 30px; background: rgba(0, 0, 0, 0.95); padding: 20px; border-radius: 12px; border: 2px solid #0ff; pointer-events: all; }
+#controls h4 { color: #0ff; margin-bottom: 12px; font-size: 1.2em; }
+.ctrl { color: #aaa; margin: 8px 0; font-size: 1em; }
+.key { color: #0f0; font-weight: bold; background: rgba(0, 255, 0, 0.2); padding: 4px 10px; border-radius: 5px; margin-right: 8px; }
+
+/* Notification */
+#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: rgba(0, 255, 0, 0.98); color: #000; padding: 20px 40px; border-radius: 15px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.3s; pointer-events: none; max-width: 85%; text-align: center; box-shadow: 0 5px 30px rgba(0, 255, 0, 0.7); z-index: 2000; }
 #notif.show { opacity: 1; }
-#controls { position: fixed; bottom: 30px; right: 30px; background: rgba(0, 0, 0, 0.9); padding: 20px; border-radius: 12px; border: 2px solid #0ff; pointer-events: all; }
-#controls h4 { color: #0ff; margin-bottom: 10px; font-size: 1.1em; }
-.ctrl { color: #aaa; margin: 8px 0; font-size: 0.95em; }
-.key { color: #0f0; font-weight: bold; background: rgba(0, 255, 0, 0.2); padding: 3px 8px; border-radius: 5px; margin-right: 5px; }
+
+/* VR Mode */
 #vrMode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #001a33 0%, #003366 100%); pointer-events: all; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 #vrMode h2 { color: #0ff; font-size: 3em; margin-bottom: 20px; text-shadow: 0 0 40px #0ff; animation: pulse 2s infinite; }
-#vrMode p { color: #aaa; font-size: 1.3em; margin: 10px 0; }
-.vr-btn { padding: 15px 40px; background: #0ff; border: none; border-radius: 12px; color: #000; font-weight: bold; cursor: pointer; margin-top: 30px; font-size: 1.2em; }
+#vrMode p { color: #aaa; font-size: 1.4em; margin: 12px 0; }
+.vrBtn { padding: 18px 45px; background: #0ff; border: none; border-radius: 12px; color: #000; font-weight: bold; cursor: pointer; margin-top: 30px; font-size: 1.3em; transition: all 0.3s; }
+.vrBtn:hover { background: #0f0; transform: scale(1.1); }
+
 .hide { display: none !important; }
-@media (max-width: 1024px) { .char-select { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px) { .char-select { grid-template-columns: 1fr; } }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
+::-webkit-scrollbar-thumb { background: #0ff; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #0f0; }
+
+@media (max-width: 768px) {
+  .charGrid { grid-template-columns: 1fr; }
+  #hud, #inventory { position: relative; margin: 10px; max-height: none; }
+  #interact { width: 95%; padding: 20px; }
+  #controls { position: relative; margin: 10px; }
+}
 </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 <div class="ui">
-<div id="intro">
-<h1>🚀 TechVerse: Innovation Odyssey</h1>
-<p>Choose your role and enter the world of cutting-edge technology</p>
-<div class="char-select">
-<div class="char" data-c="netrunner"><div class="icon">💻</div><h3>Netrunner</h3><p>Elite hacker, VR specialist, digital architect</p></div>
-<div class="char" data-c="bioengineer"><div class="icon">🧬</div><h3>Bioengineer</h3><p>Gene editing expert, synthetic biology pioneer</p></div>
-<div class="char" data-c="quantum"><div class="icon">⚛️</div><h3>Quantum Physicist</h3><p>Quantum computing architect, reality manipulator</p></div>
-<div class="char" data-c="neurohacker"><div class="icon">🧠</div><h3>Neurohacker</h3><p>Brain-machine interface specialist, mind engineer</p></div>
-<div class="char" data-c="nanoengineer"><div class="icon">🔬</div><h3>Nanoengineer</h3><p>Molecular fabrication expert, nanotech designer</p></div>
-<div class="char" data-c="aiarchitect"><div class="icon">🤖</div><h3>AI Architect</h3><p>Artificial intelligence designer, AGI developer</p></div>
-<div class="char" data-c="spacesystems"><div class="icon">🚀</div><h3>Space Engineer</h3><p>Orbital systems specialist, space pioneer</p></div>
-<div class="char" data-c="fusionengineer"><div class="icon">⚡</div><h3>Fusion Engineer</h3><p>Clean energy pioneer, reactor designer</p></div>
+  <div id="charSelect">
+    <h1>🚀 TechVerse: Innovation Odyssey</h1>
+    <p class="subtitle">Choose your role and explore cutting-edge technology</p>
+    <div class="charGrid">
+      <div class="charCard" data-char="netrunner">
+        <div class="icon">💻</div>
+        <h3>Netrunner</h3>
+        <p>Elite hacker and VR specialist. Master of digital realms.</p>
+      </div>
+      <div class="charCard" data-char="bioengineer">
+        <div class="icon">🧬</div>
+        <h3>Bioengineer</h3>
+        <p>Gene editing expert. Design life at molecular level.</p>
+      </div>
+      <div class="charCard" data-char="quantum">
+        <div class="icon">⚛️</div>
+        <h3>Quantum Physicist</h3>
+        <p>Quantum computing architect. Manipulate reality.</p>
+      </div>
+      <div class="charCard" data-char="neurohacker">
+        <div class="icon">🧠</div>
+        <h3>Neurohacker</h3>
+        <p>Brain-machine interface specialist. Connect minds.</p>
+      </div>
+      <div class="charCard" data-char="nanoengineer">
+        <div class="icon">🔬</div>
+        <h3>Nanoengineer</h3>
+        <p>Molecular fabrication expert. Build at atomic scale.</p>
+      </div>
+      <div class="charCard" data-char="aiarchitect">
+        <div class="icon">🤖</div>
+        <h3>AI Architect</h3>
+        <p>Artificial intelligence designer. Create synthetic minds.</p>
+      </div>
+      <div class="charCard" data-char="spacesystems">
+        <div class="icon">🚀</div>
+        <h3>Space Engineer</h3>
+        <p>Orbital systems specialist. Build the future in space.</p>
+      </div>
+      <div class="charCard" data-char="fusionengineer">
+        <div class="icon">⚡</div>
+        <h3>Fusion Engineer</h3>
+        <p>Clean energy pioneer. Harness the power of stars.</p>
+      </div>
+    </div>
+    <button id="startBtn" disabled>Select a Character</button>
+  </div>
+
+  <div id="loading" class="hide">
+    <h2>Initializing TechVerse...</h2>
+    <div class="spinner"></div>
+    <p id="loadText">Loading environment...</p>
+  </div>
+
+  <div id="hud" class="hide">
+    <h3>⚡ STATUS</h3>
+    <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
+    <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
+    <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/100</span></div>
+    <div class="hudStat"><span>Reputation:</span><span class="val" id="rep">0</span></div>
+    <div class="hudStat"><span>Funding:</span><span class="val" id="fund">$200,000</span></div>
+    <div class="hudStat"><span>Tech Owned:</span><span class="val" id="techOwned">0</span></div>
+  </div>
+
+  <div id="inventory" class="hide">
+    <h3>🔧 INVENTORY</h3>
+    <div id="invList"></div>
+  </div>
+
+  <div id="interact" class="hide">
+    <h4 id="intTitle">Technology</h4>
+    <p id="intDesc">Description</p>
+    <div id="intBtns"></div>
+  </div>
+
+  <div id="controls" class="hide">
+    <h4>CONTROLS</h4>
+    <div class="ctrl"><span class="key">W A S D</span> Move</div>
+    <div class="ctrl"><span class="key">MOUSE</span> Look</div>
+    <div class="ctrl"><span class="key">E</span> Interact</div>
+    <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
+    <div class="ctrl"><span class="key">SPACE</span> Jump</div>
+  </div>
+
+  <div id="vrMode" class="hide">
+    <h2>🥽 VR IMMERSION ACTIVE</h2>
+    <p>Neural link established</p>
+    <p>Full sensory override engaged</p>
+    <p style="color:#0f0;margin-top:20px">Haptic feedback: ONLINE</p>
+    <button class="vrBtn" onclick="window.exitVR()">DISCONNECT VR</button>
+  </div>
+
+  <div id="notif"></div>
 </div>
-<button id="startBtn" disabled>Select Your Character</button>
-</div>
-<div id="loading" class="hide">
-<h2>Initializing TechVerse...</h2>
-<div class="spinner"></div>
-<p id="loadText">Loading environment...</p>
-</div>
-<div id="hud" class="hide">
-<h3>⚡ STATUS</h3>
-<div class="stat"><span>Role:</span><span id="role">-</span></div>
-<div class="stat"><span>Level:</span><span id="lvl">1</span></div>
-<div class="stat"><span>XP:</span><span id="xp">0/100</span></div>
-<div class="stat"><span>Reputation:</span><span id="rep">0</span></div>
-<div class="stat"><span>Funding:</span><span id="fund">$150,000</span></div>
-<div class="stat"><span>Tech Owned:</span><span id="techOwned">0</span></div>
-</div>
-<div id="inventory" class="hide">
-<h3>🔧 INVENTORY</h3>
-<div id="invList"></div>
-</div>
-<div id="interact" class="hide">
-<h4 id="intTitle">Technology</h4>
-<p id="intDesc">Description</p>
-<div id="intBtns"></div>
-</div>
-<div id="controls" class="hide">
-<h4>CONTROLS</h4>
-<div class="ctrl"><span class="key">W A S D</span> Move</div>
-<div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
-<div class="ctrl"><span class="key">E</span> Interact</div>
-<div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
-<div class="ctrl"><span class="key">SPACE</span> Jump</div>
-</div>
-<div id="vrMode" class="hide">
-<h2>🥽 VR IMMERSION ACTIVE</h2>
-<p>Neural link established</p>
-<p>Full sensory override engaged</p>
-<p style="color:#0f0;margin-top:20px">Haptic feedback: ONLINE</p>
-<button class="vr-btn" onclick="exitVR()">DISCONNECT VR</button>
-</div>
-<div id="notif"></div>
-</div>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+
 <script type="module">
 import * as THREE from 'three';
 
+// Game State
 const state = {
   char: null,
   lvl: 1,
   xp: 0,
   xpMax: 100,
   rep: 0,
-  fund: 150000,
+  fund: 200000,
   inventory: [],
   inVR: false,
-  sprint: false,
-  canJump: true
+  sprint: false
 };
 
+// Technologies
 const techs = {
-  vr: { name: 'VR Headset', cost: 10000, desc: 'Full immersion virtual reality system with haptic feedback', cat: 'Hardware', effect: 'Enter VR mode', color: 0x00ffff },
-  quantum: { name: 'Quantum Computer', cost: 80000, desc: 'Google Willow-class QPU with error correction - solve impossible problems', cat: 'Computing', effect: '+100 Rep, Unlock quantum missions', color: 0xff00ff },
-  neural: { name: 'Neural Interface', cost: 130000, desc: 'Bidirectional BCI - direct brain-computer connection', cat: 'Biotech', effect: '+50% learning speed, unlock neural missions', color: 0x00ff00 },
-  ar: { name: 'AR Glasses', cost: 15000, desc: 'Mixed reality holographic display - see data overlays', cat: 'Hardware', effect: 'Enhanced vision, see hidden info', color: 0xffff00 },
-  nanobot: { name: 'Nanobots', cost: 160000, desc: 'Programmable molecular machines - build at atomic scale', cat: 'Nanotech', effect: '+200 Rep, unlock nanotech missions', color: 0xff8800 },
-  fusion: { name: 'Fusion Reactor', cost: 350000, desc: 'Compact tokamak with HTS magnets - unlimited clean energy', cat: 'Energy', effect: '+$500k, +300 Rep, unlock energy missions', color: 0xff4400 },
-  ai: { name: 'AGI Core', cost: 60000, desc: 'Artificial General Intelligence - superintelligent AI assistant', cat: 'AI', effect: '+2x XP gain, AI helps with all tasks', color: 0xff0088 },
-  crispr: { name: 'CRISPR Lab', cost: 95000, desc: 'Advanced gene editing suite - rewrite DNA with precision', cat: 'Biotech', effect: '+150 Rep, unlock biotech missions', color: 0x00ff88 },
-  hologram: { name: 'Holographic Display', cost: 28000, desc: 'Volumetric 3D projection - create holograms', cat: 'Display', effect: 'Enhanced presentations, +50 Rep', color: 0x00ffff },
-  drone: { name: 'Swarm Drones', cost: 40000, desc: 'Autonomous drone network with AI coordination', cat: 'Robotics', effect: 'Automated tasks, +80 Rep', color: 0x0088ff },
-  satellite: { name: 'CubeSat Network', cost: 220000, desc: 'Personal satellite constellation - global coverage', cat: 'Space', effect: '+250 Rep, unlock space missions', color: 0x4400ff },
-  bioprinter: { name: '3D Bioprinter', cost: 115000, desc: 'Organ and tissue fabrication - print living matter', cat: 'Biotech', effect: '+180 Rep, unlock medical missions', color: 0x88ff00 },
-  exosuit: { name: 'Exoskeleton', cost: 85000, desc: 'Powered mobility enhancement - superhuman strength', cat: 'Hardware', effect: '+50% movement speed, +100 Rep', color: 0xff00aa },
-  darknet: { name: 'Quantum Darknet', cost: 190000, desc: 'Unhackable quantum communication network', cat: 'Security', effect: 'Complete privacy, +200 Rep', color: 0xaa00ff },
-  synth: { name: 'Synthetic Biology Lab', cost: 105000, desc: 'Design custom organisms from scratch', cat: 'Biotech', effect: '+170 Rep, create new lifeforms', color: 0x00ffaa },
-  memchip: { name: 'Memory Chip', cost: 70000, desc: 'Direct knowledge upload - learn instantly', cat: 'Neural', effect: '+3x XP gain, instant skill learning', color: 0xffaa00 }
+  vr: { name: 'VR Headset', cost: 12000, desc: 'Full immersion virtual reality system with haptic feedback. Enter a completely digital world.', cat: 'Hardware', effect: 'Enter VR mode with full sensory immersion', color: 0x00ffff },
+  quantum: { name: 'Quantum Computer', cost: 85000, desc: 'Google Willow-class quantum processor with error correction. Solve impossible computational problems.', cat: 'Computing', effect: '+100 Rep, +$60k, +120 XP', color: 0xff00ff },
+  neural: { name: 'Neural Interface', cost: 140000, desc: 'Bidirectional brain-computer interface. Direct neural connection for instant learning.', cat: 'Biotech', effect: '+90 Rep, +180 XP, Enhanced learning', color: 0x00ff00 },
+  ar: { name: 'AR Glasses', cost: 18000, desc: 'Mixed reality holographic display system. Overlay digital information on the real world.', cat: 'Hardware', effect: '+60 Rep, +80 XP, Enhanced vision', color: 0xffff00 },
+  nanobot: { name: 'Nanobots', cost: 170000, desc: 'Programmable molecular machines. Build and repair at the atomic scale.', cat: 'Nanotech', effect: '+220 Rep, +$80k, +200 XP', color: 0xff8800 },
+  fusion: { name: 'Fusion Reactor', cost: 380000, desc: 'Compact tokamak with high-temperature superconducting magnets. Unlimited clean energy.', cat: 'Energy', effect: '+350 Rep, +$600k, +300 XP', color: 0xff4400 },
+  ai: { name: 'AGI Core', cost: 65000, desc: 'Artificial General Intelligence system. Superintelligent AI assistant for all tasks.', cat: 'AI', effect: '+80 Rep, +150 XP, 2x XP multiplier', color: 0xff0088 },
+  crispr: { name: 'CRISPR Lab', cost: 100000, desc: 'Advanced gene editing suite with base editors. Rewrite DNA with precision.', cat: 'Biotech', effect: '+160 Rep, +$50k, +180 XP', color: 0x00ff88 },
+  hologram: { name: 'Holographic Display', cost: 32000, desc: 'Volumetric 3D light field projection. Create realistic holograms in mid-air.', cat: 'Display', effect: '+70 Rep, +100 XP', color: 0x00ffff },
+  drone: { name: 'Swarm Drones', cost: 45000, desc: 'Autonomous drone network with AI coordination. Automated surveillance and delivery.', cat: 'Robotics', effect: '+90 Rep, +$30k, +110 XP', color: 0x0088ff },
+  satellite: { name: 'CubeSat Network', cost: 240000, desc: 'Personal satellite constellation. Global coverage for communication and observation.', cat: 'Space', effect: '+280 Rep, +$100k, +250 XP', color: 0x4400ff },
+  bioprinter: { name: '3D Bioprinter', cost: 125000, desc: 'Organ and tissue fabrication system. Print living biological matter layer by layer.', cat: 'Biotech', effect: '+200 Rep, +$70k, +190 XP', color: 0x88ff00 },
+  exosuit: { name: 'Exoskeleton', cost: 90000, desc: 'Powered mobility enhancement suit. Superhuman strength and endurance.', cat: 'Hardware', effect: '+120 Rep, +140 XP, Enhanced movement', color: 0xff00aa },
+  darknet: { name: 'Quantum Darknet', cost: 200000, desc: 'Unhackable quantum communication network. Complete privacy and security.', cat: 'Security', effect: '+230 Rep, +$90k, +220 XP', color: 0xaa00ff },
+  synth: { name: 'Synthetic Biology Lab', cost: 115000, desc: 'Design custom organisms from scratch. Create new forms of life.', cat: 'Biotech', effect: '+180 Rep, +$60k, +170 XP', color: 0x00ffaa },
+  memchip: { name: 'Memory Chip', cost: 75000, desc: 'Direct knowledge upload system. Learn any skill instantly via neural implant.', cat: 'Neural', effect: '+110 Rep, +160 XP, 3x XP multiplier', color: 0xffaa00 }
 };
 
+// Three.js variables
 let scene, camera, renderer, raycaster;
 let techObjs = [], curInteract = null;
 let moveF = false, moveB = false, moveL = false, moveR = false, jump = false;
@@ -161,87 +240,72 @@ const clock = new THREE.Clock();
 let onGround = true;
 
 function init() {
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000510);
-  scene.fog = new THREE.Fog(0x000510, 50, 400);
+  try {
+    // Scene
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000510);
+    scene.fog = new THREE.Fog(0x000510, 50, 450);
 
-  camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-  camera.position.set(0, 2, 15);
+    // Camera
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 15);
 
-  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    // Renderer
+    renderer = new THREE.WebGLRenderer({ 
+      canvas: document.getElementById('canvas'), 
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  raycaster = new THREE.Raycaster();
+    raycaster = new THREE.Raycaster();
 
-  // Lights
-  scene.add(new THREE.AmbientLight(0x404060, 0.6));
-  const sun = new THREE.DirectionalLight(0xffffff, 1.2);
-  sun.position.set(60, 120, 60);
-  sun.castShadow = true;
-  sun.shadow.mapSize.width = 4096;
-  sun.shadow.mapSize.height = 4096;
-  scene.add(sun);
+    // Lighting
+    scene.add(new THREE.AmbientLight(0x404060, 0.7));
+    
+    const sun = new THREE.DirectionalLight(0xffffff, 1.3);
+    sun.position.set(70, 130, 70);
+    sun.castShadow = true;
+    sun.shadow.mapSize.width = 2048;
+    sun.shadow.mapSize.height = 2048;
+    sun.shadow.camera.far = 500;
+    scene.add(sun);
 
-  // Neon city lights
-  addLight(-30, 10, -50, 0x00ffff, 2);
-  addLight(30, 10, -50, 0xff00ff, 2);
-  addLight(-50, 10, 20, 0x00ff00, 2);
-  addLight(50, 10, 20, 0xff8800, 2);
-  addLight(0, 10, 50, 0x0088ff, 2);
-  addLight(-40, 15, 0, 0xff4400, 2.5);
-  addLight(40, 15, 0, 0x4400ff, 2.5);
+    // Neon lights
+    addLight(-35, 12, -65, 0x00ffff, 2.2);
+    addLight(35, 12, -65, 0xff00ff, 2.2);
+    addLight(-55, 12, 30, 0x00ff00, 2.2);
+    addLight(55, 12, 30, 0xff8800, 2.2);
+    addLight(0, 12, 65, 0x0088ff, 2.2);
+    addLight(-65, 18, 0, 0xff4400, 2.8);
+    addLight(65, 18, 0, 0x4400ff, 2.8);
 
-  createWorld();
-  
-  addEventListener('resize', () => {
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  });
+    createWorld();
+    setupControls();
+    animate();
+    updateHUD();
+    updateInv();
 
-  addEventListener('keydown', e => {
-    if (e.code === 'KeyW') moveF = true;
-    if (e.code === 'KeyS') moveB = true;
-    if (e.code === 'KeyA') moveL = true;
-    if (e.code === 'KeyD') moveR = true;
-    if (e.code === 'ShiftLeft') state.sprint = true;
-    if (e.code === 'Space' && onGround) { jump = true; onGround = false; }
-    if (e.code === 'KeyE' && curInteract) interact();
-  });
+    notify('Welcome to TechVerse! Explore and unlock cutting-edge technologies!', 2000);
+    setTimeout(() => notify('Walk up to glowing tech cubes and press E to interact!', 3000), 5000);
 
-  addEventListener('keyup', e => {
-    if (e.code === 'KeyW') moveF = false;
-    if (e.code === 'KeyS') moveB = false;
-    if (e.code === 'KeyA') moveL = false;
-    if (e.code === 'KeyD') moveR = false;
-    if (e.code === 'ShiftLeft') state.sprint = false;
-  });
-
-  addEventListener('mousemove', e => {
-    if (document.pointerLockElement === document.body) {
-      camera.rotation.y -= (e.movementX || 0) * 0.002;
-      camera.rotation.x -= (e.movementY || 0) * 0.002;
-      camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
-    }
-  });
-
-  document.body.addEventListener('click', () => document.body.requestPointerLock());
-
-  animate();
-  updateHUD();
-  updateInv();
+  } catch (error) {
+    console.error('Initialization error:', error);
+    alert('Failed to initialize game. Please refresh the page.');
+  }
 }
 
 function addLight(x, y, z, color, intensity) {
-  const light = new THREE.PointLight(color, intensity, 80);
+  const light = new THREE.PointLight(color, intensity, 90);
   light.position.set(x, y, z);
   light.castShadow = true;
   scene.add(light);
   
   const glow = new THREE.Mesh(
-    new THREE.SphereGeometry(0.8, 16, 16),
+    new THREE.SphereGeometry(0.9, 16, 16),
     new THREE.MeshBasicMaterial({ color })
   );
   glow.position.set(x, y, z);
@@ -251,57 +315,66 @@ function addLight(x, y, z, color, intensity) {
 function createWorld() {
   // Ground
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(400, 400),
-    new THREE.MeshStandardMaterial({ color: 0x0a0a1e, roughness: 0.9 })
+    new THREE.PlaneGeometry(500, 500),
+    new THREE.MeshStandardMaterial({ 
+      color: 0x0a0a1e, 
+      roughness: 0.9,
+      metalness: 0.1
+    })
   );
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
 
-  const grid = new THREE.GridHelper(400, 80, 0x00ffff, 0x003344);
+  const grid = new THREE.GridHelper(500, 100, 0x00ffff, 0x003344);
   scene.add(grid);
 
   // Buildings
-  createBldg(-35, 0, -60, 18, 35, 18, 0x16213e, 'QUANTUM LAB');
-  createBldg(35, 0, -60, 18, 40, 18, 0x1a1a2e, 'AI RESEARCH');
-  createBldg(-50, 0, 25, 25, 25, 25, 0x0f3460, 'BIOTECH HUB');
-  createBldg(50, 0, 25, 22, 30, 22, 0x16213e, 'NANOTECH CENTER');
-  createBldg(0, 0, 60, 30, 20, 30, 0x1a2e1a, 'YOUR TECH HOME');
-  createBldg(-60, 0, 0, 15, 45, 15, 0x2e1a1a, 'FUSION PLANT');
-  createBldg(60, 0, 0, 15, 38, 15, 0x1a1a3e, 'SPACE PORT');
-  createBldg(0, 0, -30, 20, 28, 20, 0x2e1a2e, 'NEURAL INSTITUTE');
+  createBldg(-40, 0, -70, 20, 38, 20, 0x16213e, 'QUANTUM LAB');
+  createBldg(40, 0, -70, 20, 43, 20, 0x1a1a2e, 'AI RESEARCH');
+  createBldg(-60, 0, 30, 28, 28, 28, 0x0f3460, 'BIOTECH HUB');
+  createBldg(60, 0, 30, 25, 33, 25, 0x16213e, 'NANOTECH CENTER');
+  createBldg(0, 0, 70, 35, 23, 35, 0x1a2e1a, 'YOUR TECH HOME');
+  createBldg(-70, 0, 0, 18, 48, 18, 0x2e1a1a, 'FUSION PLANT');
+  createBldg(70, 0, 0, 18, 41, 18, 0x1a1a3e, 'SPACE PORT');
+  createBldg(0, 0, -35, 23, 31, 23, 0x2e1a2e, 'NEURAL INSTITUTE');
 
   // Stars
   const stars = new THREE.BufferGeometry();
   const verts = [];
-  for (let i = 0; i < 25000; i++) {
+  for (let i = 0; i < 30000; i++) {
     verts.push(
-      (Math.random() - 0.5) * 4000,
-      Math.random() * 2000,
-      (Math.random() - 0.5) * 4000
+      (Math.random() - 0.5) * 5000,
+      Math.random() * 2500,
+      (Math.random() - 0.5) * 5000
     );
   }
   stars.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
-  scene.add(new THREE.Points(stars, new THREE.PointsMaterial({ color: 0xffffff, size: 0.8 })));
+  scene.add(new THREE.Points(stars, new THREE.PointsMaterial({ 
+    color: 0xffffff, 
+    size: 0.9,
+    transparent: true,
+    opacity: 0.8
+  })));
 
   // Tech stations
   const positions = [
-    { x: -25, z: -55, tech: 'vr' },
-    { x: 25, z: -55, tech: 'quantum' },
-    { x: -45, z: 20, tech: 'neural' },
-    { x: 45, z: 20, tech: 'ar' },
-    { x: 0, z: 55, tech: 'hologram' },
-    { x: -55, z: 0, tech: 'fusion' },
-    { x: 55, z: 0, tech: 'satellite' },
-    { x: -15, z: -25, tech: 'ai' },
-    { x: 15, z: -25, tech: 'crispr' },
-    { x: -30, z: 10, tech: 'nanobot' },
-    { x: 30, z: 10, tech: 'drone' },
-    { x: 0, z: 35, tech: 'bioprinter' },
-    { x: -20, z: 40, tech: 'exosuit' },
-    { x: 20, z: 40, tech: 'darknet' },
-    { x: -10, z: 15, tech: 'synth' },
-    { x: 10, z: 15, tech: 'memchip' }
+    { x: -28, z: -65, tech: 'vr' },
+    { x: 28, z: -65, tech: 'quantum' },
+    { x: -52, z: 25, tech: 'neural' },
+    { x: 52, z: 25, tech: 'ar' },
+    { x: 0, z: 63, tech: 'hologram' },
+    { x: -63, z: 0, tech: 'fusion' },
+    { x: 63, z: 0, tech: 'satellite' },
+    { x: -18, z: -30, tech: 'ai' },
+    { x: 18, z: -30, tech: 'crispr' },
+    { x: -35, z: 12, tech: 'nanobot' },
+    { x: 35, z: 12, tech: 'drone' },
+    { x: 0, z: 42, tech: 'bioprinter' },
+    { x: -23, z: 48, tech: 'exosuit' },
+    { x: 23, z: 48, tech: 'darknet' },
+    { x: -12, z: 18, tech: 'synth' },
+    { x: 12, z: 18, tech: 'memchip' }
   ];
 
   positions.forEach(p => createTech(p.x, p.z, p.tech));
@@ -315,7 +388,7 @@ function createBldg(x, y, z, w, h, d, color, label) {
       roughness: 0.5,
       metalness: 0.5,
       emissive: 0x00ffff,
-      emissiveIntensity: 0.25
+      emissiveIntensity: 0.28
     })
   );
   bldg.position.set(x, h / 2, z);
@@ -327,7 +400,7 @@ function createBldg(x, y, z, w, h, d, color, label) {
   const lines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x00ffff }));
   bldg.add(lines);
 
-  createLbl(label, x, h + 4, z);
+  createLbl(label, x, h + 5, z);
 }
 
 function createLbl(text, x, y, z) {
@@ -335,9 +408,9 @@ function createLbl(text, x, y, z) {
   const ctx = canvas.getContext('2d');
   canvas.width = 512;
   canvas.height = 128;
-  ctx.fillStyle = 'rgba(0,0,0,0.8)';
+  ctx.fillStyle = 'rgba(0,0,0,0.85)';
   ctx.fillRect(0, 0, 512, 128);
-  ctx.font = 'Bold 40px Arial';
+  ctx.font = 'Bold 42px Arial';
   ctx.fillStyle = '#00ffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -346,36 +419,36 @@ function createLbl(text, x, y, z) {
   const texture = new THREE.CanvasTexture(canvas);
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
   sprite.position.set(x, y, z);
-  sprite.scale.set(15, 3.75, 1);
+  sprite.scale.set(16, 4, 1);
   scene.add(sprite);
 }
 
 function createTech(x, z, id) {
   const tech = techs[id];
-  const y = 2.5;
+  const y = 3;
 
   // Platform
   const platform = new THREE.Mesh(
-    new THREE.CylinderGeometry(4, 4, 0.8, 32),
+    new THREE.CylinderGeometry(4.5, 4.5, 1, 32),
     new THREE.MeshStandardMaterial({
       color: 0x1a1a2e,
       emissive: tech.color,
-      emissiveIntensity: 0.4,
+      emissiveIntensity: 0.45,
       metalness: 0.9,
       roughness: 0.1
     })
   );
-  platform.position.set(x, 0.4, z);
+  platform.position.set(x, 0.5, z);
   platform.receiveShadow = true;
   scene.add(platform);
 
   // Tech object
   const obj = new THREE.Mesh(
-    new THREE.BoxGeometry(4, 4, 4),
+    new THREE.BoxGeometry(4.5, 4.5, 4.5),
     new THREE.MeshStandardMaterial({
       color: tech.color,
       emissive: tech.color,
-      emissiveIntensity: 0.8,
+      emissiveIntensity: 0.85,
       metalness: 0.95,
       roughness: 0.05,
       transparent: true,
@@ -384,43 +457,86 @@ function createTech(x, z, id) {
   );
   obj.position.set(x, y, z);
   obj.castShadow = true;
-  obj.userData = { id, y, speed: Math.random() * 0.6 + 0.4 };
+  obj.userData = { id, y, speed: Math.random() * 0.7 + 0.4 };
   scene.add(obj);
   techObjs.push(obj);
 
   // Glow
   const glow = new THREE.Mesh(
-    new THREE.SphereGeometry(3, 32, 32),
-    new THREE.MeshBasicMaterial({ color: tech.color, transparent: true, opacity: 0.25 })
+    new THREE.SphereGeometry(3.5, 32, 32),
+    new THREE.MeshBasicMaterial({ 
+      color: tech.color, 
+      transparent: true, 
+      opacity: 0.28 
+    })
   );
   obj.add(glow);
 
   // Ring
   const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(3.5, 0.15, 16, 100),
+    new THREE.TorusGeometry(4, 0.18, 16, 100),
     new THREE.MeshBasicMaterial({ color: tech.color })
   );
   ring.rotation.x = Math.PI / 2;
-  ring.position.y = -1.5;
+  ring.position.y = -1.8;
   obj.add(ring);
 
-  createLbl(tech.name.toUpperCase(), x, y + 5, z);
+  createLbl(tech.name.toUpperCase(), x, y + 6, z);
+}
+
+function setupControls() {
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'KeyW') moveF = true;
+    if (e.code === 'KeyS') moveB = true;
+    if (e.code === 'KeyA') moveL = true;
+    if (e.code === 'KeyD') moveR = true;
+    if (e.code === 'ShiftLeft') state.sprint = true;
+    if (e.code === 'Space' && onGround) { jump = true; onGround = false; }
+    if (e.code === 'KeyE' && curInteract) interact();
+  });
+
+  document.addEventListener('keyup', e => {
+    if (e.code === 'KeyW') moveF = false;
+    if (e.code === 'KeyS') moveB = false;
+    if (e.code === 'KeyA') moveL = false;
+    if (e.code === 'KeyD') moveR = false;
+    if (e.code === 'ShiftLeft') state.sprint = false;
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (document.pointerLockElement === document.body) {
+      camera.rotation.y -= (e.movementX || 0) * 0.002;
+      camera.rotation.x -= (e.movementY || 0) * 0.002;
+      camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+    }
+  });
+
+  document.body.addEventListener('click', () => {
+    if (!document.getElementById('charSelect').classList.contains('hide')) return;
+    document.body.requestPointerLock();
+  });
 }
 
 function animate() {
   requestAnimationFrame(animate);
   const delta = clock.getDelta();
-  const speed = state.sprint ? 80 : 50;
+  const speed = state.sprint ? 90 : 55;
 
   // Movement
-  vel.x -= vel.x * 8 * delta;
-  vel.z -= vel.z * 8 * delta;
+  vel.x -= vel.x * 9 * delta;
+  vel.z -= vel.z * 9 * delta;
   
   if (jump) {
-    vel.y = 15;
+    vel.y = 16;
     jump = false;
   }
-  vel.y -= 30 * delta; // Gravity
+  vel.y -= 32 * delta;
 
   dir.z = Number(moveF) - Number(moveB);
   dir.x = Number(moveR) - Number(moveL);
@@ -429,7 +545,6 @@ function animate() {
   if (moveF || moveB) vel.z -= dir.z * speed * delta;
   if (moveL || moveR) vel.x -= dir.x * speed * delta;
 
-  const oldY = camera.position.y;
   camera.position.x += vel.x * delta;
   camera.position.z += vel.z * delta;
   camera.position.y += vel.y * delta;
@@ -442,15 +557,15 @@ function animate() {
 
   // Animate tech
   techObjs.forEach(obj => {
-    obj.rotation.y += delta * 0.6;
-    obj.rotation.x += delta * 0.3;
-    obj.position.y = obj.userData.y + Math.sin(Date.now() * 0.001 * obj.userData.speed) * 0.6;
+    obj.rotation.y += delta * 0.7;
+    obj.rotation.x += delta * 0.35;
+    obj.position.y = obj.userData.y + Math.sin(Date.now() * 0.001 * obj.userData.speed) * 0.7;
     
     if (obj.children[0]) {
-      obj.children[0].material.opacity = 0.25 + Math.sin(Date.now() * 0.002) * 0.15;
+      obj.children[0].material.opacity = 0.28 + Math.sin(Date.now() * 0.0025) * 0.18;
     }
     if (obj.children[1]) {
-      obj.children[1].rotation.z += delta * 1.5;
+      obj.children[1].rotation.z += delta * 1.8;
     }
   });
 
@@ -460,7 +575,7 @@ function animate() {
 
 function checkNearby() {
   let nearest = null;
-  let minDist = 10;
+  let minDist = 12;
 
   techObjs.forEach(obj => {
     const dist = camera.position.distanceTo(obj.position);
@@ -491,13 +606,13 @@ function showInteract() {
   
   if (owned) {
     const useBtn = document.createElement('button');
-    useBtn.className = 'act-btn';
+    useBtn.className = 'actBtn';
     useBtn.textContent = 'USE TECHNOLOGY';
     useBtn.onclick = () => useTech(curInteract.userData.id);
     btns.appendChild(useBtn);
   } else {
     const buyBtn = document.createElement('button');
-    buyBtn.className = 'act-btn';
+    buyBtn.className = 'actBtn';
     buyBtn.textContent = `BUY - $${tech.cost.toLocaleString()}`;
     buyBtn.onclick = () => buyTech(curInteract.userData.id);
     btns.appendChild(buyBtn);
@@ -524,10 +639,10 @@ function buyTech(id) {
   if (state.fund >= tech.cost) {
     state.fund -= tech.cost;
     state.inventory.push(id);
-    addXP(60);
+    addXP(70);
     updateHUD();
     updateInv();
-    notify(`✅ PURCHASED: ${tech.name}! +60 XP`);
+    notify(`✅ PURCHASED: ${tech.name}! +70 XP`);
     hideInteract();
   } else {
     notify(`❌ Insufficient funds! Need $${(tech.cost - state.fund).toLocaleString()} more`);
@@ -542,29 +657,39 @@ function useTech(id) {
     document.getElementById('vrMode').classList.remove('hide');
     scene.background = new THREE.Color(0x001a33);
     scene.fog.color.set(0x001a33);
-    notify('🥽 VR MODE ACTIVATED!');
+    notify('🥽 VR MODE ACTIVATED! Full sensory immersion engaged!');
   } else if (id === 'quantum') {
     state.rep += 100;
-    state.fund += 50000;
-    addXP(100);
-    notify('⚛️ Quantum Computer solving complex problems... +100 Rep, +$50k, +100 XP!');
+    state.fund += 60000;
+    addXP(120);
+    notify('⚛️ Quantum Computer solving impossible problems! +100 Rep, +$60k, +120 XP!');
   } else if (id === 'neural') {
+    state.rep += 90;
+    addXP(180);
+    notify('🧠 Neural Interface connected! Direct brain link established! +90 Rep, +180 XP!');
+  } else if (id === 'fusion') {
+    state.fund += 600000;
+    state.rep += 350;
+    addXP(300);
+    notify('⚡ Fusion Reactor online! Unlimited clean energy! +$600k, +350 Rep, +300 XP!');
+  } else if (id === 'ai') {
     state.rep += 80;
     addXP(150);
-    notify('🧠 Neural Interface connected! Learning speed boosted! +80 Rep, +150 XP');
-  } else if (id === 'fusion') {
-    state.fund += 500000;
-    state.rep += 300;
+    notify('🤖 AGI Core activated! Superintelligent AI assisting! +80 Rep, +150 XP!');
+  } else if (id === 'nanobot') {
+    state.rep += 220;
+    state.fund += 80000;
     addXP(200);
-    notify('⚡ Fusion Reactor online! Unlimited energy! +$500k, +300 Rep, +200 XP!');
-  } else if (id === 'ai') {
-    state.rep += 70;
-    addXP(120);
-    notify('🤖 AGI Core activated! AI assistant helping with all tasks! +70 Rep, +120 XP');
+    notify('🔬 Nanobots deployed! Molecular fabrication active! +220 Rep, +$80k, +200 XP!');
+  } else if (id === 'satellite') {
+    state.rep += 280;
+    state.fund += 100000;
+    addXP(250);
+    notify('🛰️ Satellite network online! Global coverage achieved! +280 Rep, +$100k, +250 XP!');
   } else {
-    state.rep += 50;
-    addXP(80);
-    notify(`⚡ Using ${tech.name}... ${tech.effect} +50 Rep, +80 XP`);
+    state.rep += 60;
+    addXP(90);
+    notify(`⚡ Using ${tech.name}... ${tech.effect.split(',')[0]}!`);
   }
   
   updateHUD();
@@ -576,7 +701,7 @@ window.exitVR = function() {
   document.getElementById('vrMode').classList.add('hide');
   scene.background = new THREE.Color(0x000510);
   scene.fog.color.set(0x000510);
-  notify('Disconnected from VR');
+  notify('Disconnected from VR. Returning to reality...');
 };
 
 function addXP(amt) {
@@ -585,8 +710,8 @@ function addXP(amt) {
     state.xp -= state.xpMax;
     state.lvl++;
     state.xpMax = Math.floor(state.xpMax * 1.5);
-    state.fund += 75000;
-    notify(`🎉 LEVEL UP! Now Level ${state.lvl}! +$75,000 bonus!`);
+    state.fund += 85000;
+    notify(`🎉 LEVEL UP! Now Level ${state.lvl}! +$85,000 bonus!`);
   }
   updateHUD();
 }
@@ -605,18 +730,18 @@ function updateInv() {
   list.innerHTML = '';
   
   if (state.inventory.length === 0) {
-    list.innerHTML = '<p style="color:#888;text-align:center;padding:20px">No technologies owned yet</p>';
+    list.innerHTML = '<p style="color:#888;text-align:center;padding:25px;line-height:1.6">No technologies owned yet.<br>Explore the city and unlock tech!</p>';
     return;
   }
   
   state.inventory.forEach(id => {
     const tech = techs[id];
     const div = document.createElement('div');
-    div.className = 'inv-item';
+    div.className = 'invItem';
     div.innerHTML = `
-      <div class="inv-name">${tech.name}</div>
-      <div class="inv-desc">${tech.desc}</div>
-      <button class="inv-btn" onclick="useTechFromInv('${id}')">USE</button>
+      <div class="invName">${tech.name}</div>
+      <div class="invDesc">${tech.desc}</div>
+      <button class="invBtn" onclick="window.useTechFromInv('${id}')">USE</button>
     `;
     list.appendChild(div);
   });
@@ -626,56 +751,56 @@ window.useTechFromInv = function(id) {
   useTech(id);
 };
 
-function notify(msg) {
+function notify(msg, duration = 4000) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 4000);
+  setTimeout(() => n.classList.remove('show'), duration);
 }
 
 // Character selection
 let selChar = null;
-document.querySelectorAll('.char').forEach(c => {
-  c.addEventListener('click', () => {
-    document.querySelectorAll('.char').forEach(x => x.classList.remove('sel'));
-    c.classList.add('sel');
-    selChar = c.dataset.c;
+
+document.querySelectorAll('.charCard').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selChar = card.dataset.char;
     document.getElementById('startBtn').disabled = false;
     document.getElementById('startBtn').textContent = 'START YOUR JOURNEY';
   });
 });
 
 document.getElementById('startBtn').addEventListener('click', () => {
-  if (selChar) {
-    state.char = selChar;
-    document.getElementById('intro').classList.add('hide');
-    document.getElementById('loading').classList.remove('hide');
-    
-    const msgs = [
-      'Initializing quantum processors...',
-      'Loading neural networks...',
-      'Establishing secure connection...',
-      'Rendering tech city...',
-      'Calibrating sensors...',
-      'Welcome to TechVerse!'
-    ];
-    
-    let i = 0;
-    const interval = setInterval(() => {
-      document.getElementById('loadText').textContent = msgs[i];
-      i++;
-      if (i >= msgs.length) {
-        clearInterval(interval);
-        document.getElementById('loading').classList.add('hide');
-        document.getElementById('hud').classList.remove('hide');
-        document.getElementById('inventory').classList.remove('hide');
-        document.getElementById('controls').classList.remove('hide');
-        init();
-        setTimeout(() => notify(`Welcome, ${selChar}! Explore the tech city and unlock cutting-edge technologies!`), 1000);
-        setTimeout(() => notify('💡 Walk up to glowing tech cubes and press E to interact!'), 5000);
-      }
-    }, 800);
-  }
+  if (!selChar) return;
+  
+  state.char = selChar;
+  document.getElementById('charSelect').classList.add('hide');
+  document.getElementById('loading').classList.remove('hide');
+  
+  const msgs = [
+    'Initializing quantum processors...',
+    'Loading neural networks...',
+    'Establishing secure connection...',
+    'Rendering tech city...',
+    'Calibrating sensors...',
+    'Activating systems...',
+    'Welcome to TechVerse!'
+  ];
+  
+  let i = 0;
+  const interval = setInterval(() => {
+    document.getElementById('loadText').textContent = msgs[i];
+    i++;
+    if (i >= msgs.length) {
+      clearInterval(interval);
+      document.getElementById('loading').classList.add('hide');
+      document.getElementById('hud').classList.remove('hide');
+      document.getElementById('inventory').classList.remove('hide');
+      document.getElementById('controls').classList.remove('hide');
+      init();
+    }
+  }, 700);
 });
 </script>
 </body>
