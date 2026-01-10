@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TechVerse - The Innovation Odyssey</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { overflow: hidden; background: #0a0a1e; }
+    #canvas { display: block; width: 100vw; height: 100vh; }
+    #ui { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
+    #select { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 10, 30, 0.95); padding: 40px; border-radius: 20px; border: 2px solid #00ffff; pointer-events: all; max-width: 700px; width: 90%; }
+    h1 { color: #00ffff; text-align: center; margin-bottom: 20px; font-size: 2em; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+    .card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 2px solid #333; cursor: pointer; text-align: center; }
+    .card:hover { border-color: #00ffff; }
+    .card.sel { border-color: #00ff00; }
+    .card h3 { color: #00ffff; margin: 10px 0; }
+    .card p { color: #aaa; font-size: 0.9em; }
+    .icon { font-size: 2.5em; }
+    #btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #00ffff, #00ff00); border: none; border-radius: 10px; color: #000; font-size: 1.2em; font-weight: bold; cursor: pointer; }
+    #btn:disabled { opacity: 0.5; }
+    #hud { position: fixed; top: 20px; left: 20px; background: rgba(10, 10, 30, 0.8); padding: 20px; border-radius: 10px; border: 1px solid #00ffff; pointer-events: all; }
+    #hud h3 { color: #00ffff; margin-bottom: 10px; }
+    .item { color: #aaa; margin: 5px 0; }
+    .item span { color: #00ff00; font-weight: bold; }
+    #int { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(10, 10, 30, 0.9); padding: 20px; border-radius: 15px; border: 2px solid #00ffff; pointer-events: all; max-width: 500px; text-align: center; }
+    #int h4 { color: #00ffff; margin-bottom: 10px; }
+    #int p { color: #aaa; margin-bottom: 15px; }
+    .b { padding: 10px 20px; background: #00ffff; border: none; border-radius: 8px; color: #000; font-weight: bold; cursor: pointer; margin: 5px; }
+    #vr { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); pointer-events: all; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #00ffff; }
+    #vr h2 { font-size: 2em; margin-bottom: 20px; }
+    #msg { position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: rgba(0, 255, 0, 0.9); color: #000; padding: 15px 30px; border-radius: 10px; font-weight: bold; opacity: 0; transition: opacity 0.3s; }
+    #msg.show { opacity: 1; }
+    .hide { display: none !important; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="ui">
+    <div id="select">
+      <h1>🚀 TechVerse: The Innovation Odyssey</h1>
+      <div class="grid">
+        <div class="card" data-c="scientist"><div class="icon">🔬</div><h3>Scientist</h3><p>Researcher</p></div>
+        <div class="card" data-c="explorer"><div class="icon">🌟</div><h3>Explorer (16)</h3><p>Curious</p></div>
+        <div class="card" data-c="genius"><div class="icon">🧠</div><h3>Genius</h3><p>Intellect</p></div>
+      </div>
+      <button id="btn" disabled>Select Character</button>
+    </div>
+    <div id="hud" class="hide">
+      <h3>Status</h3>
+      <div class="item">Char: <span id="c">-</span></div>
+      <div class="item">Rep: <span id="r">0</span></div>
+      <div class="item">Fund: <span id="f">$50,000</span></div>
+      <div class="item">Tech: <span id="t">1</span></div>
+    </div>
+    <div id="int" class="hide">
+      <h4 id="it">Welcome!</h4>
+      <p id="ip">Explore...</p>
+      <div id="ib"></div>
+    </div>
+    <div id="vr" class="hide">
+      <h2>🥽 VR Active</h2>
+      <p>Virtual Reality mode</p>
+      <button class="b" onclick="exitVR()">Exit VR</button>
+    </div>
+    <div id="msg"></div>
+  </div>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+  <script type="module">
+import*as THREE from'three';const s={c:null,r:0,f:50000,t:['Basic'],v:false};const ts={vr:{n:'VR Headset',c:5000,u:false},quantum:{n:'Quantum Computer',c:50000,u:false},neural:{n:'Neural Interface',c:75000,u:false},ar:{n:'AR Glasses',c:8000,u:false}};let sc,cam,ren,obs=[],cur=null;let fw=false,bk=false,lf=false,rt=false;const vel=new THREE.Vector3(),dir=new THREE.Vector3(),clk=new THREE.Clock();function init(){sc=new THREE.Scene();sc.background=new THREE.Color(0x0a0a1e);sc.fog=new THREE.Fog(0x0a0a1e,50,200);cam=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);cam.position.set(0,1.6,5);ren=new THREE.WebGLRenderer({canvas:document.getElementById('canvas'),antialias:true});ren.setSize(innerWidth,innerHeight);ren.shadowMap.enabled=true;sc.add(new THREE.AmbientLight(0x404040,0.5));const l=new THREE.DirectionalLight(0xffffff,0.8);l.position.set(50,100,50);l.castShadow=true;sc.add(l);const n=new THREE.PointLight(0x00ffff,1,50);n.position.set(-10,5,-10);sc.add(n);const g=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0x1a1a2e}));g.rotation.x=-Math.PI/2;g.receiveShadow=true;sc.add(g);sc.add(new THREE.GridHelper(200,50,0x00ffff,0x003333));bld(-20,0,-30,10,20,10,0x16213e);bld(20,0,-30,10,25,10,0x1a1a2e);bld(0,0,30,15,12,15,0x1a2e1a);const st=new THREE.BufferGeometry();const v=[];for(let i=0;i<10000;i++){v.push((Math.random()-0.5)*2000,Math.random()*1000,(Math.random()-0.5)*2000);}st.setAttribute('position',new THREE.Float32BufferAttribute(v,3));sc.add(new THREE.Points(st,new THREE.PointsMaterial({color:0xffffff,size:0.5})));tech(-15,1,-25,'vr',0x00ffff);tech(15,1,-25,'quantum',0xff00ff);tech(-25,1,15,'neural',0x00ff00);tech(25,1,15,'ar',0xffff00);addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();ren.setSize(innerWidth,innerHeight);});addEventListener('keydown',e=>{if(e.code==='KeyW')fw=true;if(e.code==='KeyS')bk=true;if(e.code==='KeyA')lf=true;if(e.code==='KeyD')rt=true;if(e.code==='KeyE'&&cur){const id=cur.userData.id;ts[id].u?use(id):unlock(id);}});addEventListener('keyup',e=>{if(e.code==='KeyW')fw=false;if(e.code==='KeyS')bk=false;if(e.code==='KeyA')lf=false;if(e.code==='KeyD')rt=false;});addEventListener('mousemove',e=>{if(document.pointerLockElement===document.body){cam.rotation.y-=(e.movementX||0)*0.002;cam.rotation.x-=(e.movementY||0)*0.002;cam.rotation.x=Math.max(-Math.PI/2,Math.min(Math.PI/2,cam.rotation.x));}});document.body.addEventListener('click',()=>document.body.requestPointerLock());anim();}function bld(x,y,z,w,h,d,c){const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color:c,emissive:0x00ffff,emissiveIntensity:0.1}));b.position.set(x,h/2,z);b.castShadow=true;sc.add(b);}function tech(x,y,z,id,c){const cb=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:0.5}));cb.position.set(x,y,z);cb.userData={id,y,sp:Math.random()*0.5+0.5};sc.add(cb);obs.push(cb);}function anim(){requestAnimationFrame(anim);const d=clk.getDelta();vel.x-=vel.x*10*d;vel.z-=vel.z*10*d;dir.z=Number(fw)-Number(bk);dir.x=Number(rt)-Number(lf);dir.normalize();if(fw||bk)vel.z-=dir.z*40*d;if(lf||rt)vel.x-=dir.x*40*d;cam.position.x+=vel.x*d;cam.position.z+=vel.z*d;obs.forEach(o=>{o.rotation.y+=d;o.position.y=o.userData.y+Math.sin(Date.now()*0.001*o.userData.sp)*0.3;});chk();ren.render(sc,cam);}function chk(){const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(0,0),cam);const h=ray.intersectObjects(obs);if(h.length>0&&h[0].distance<5){cur=h[0].object;shw(cur);}else{cur=null;document.getElementById('int').classList.add('hide');}}function shw(o){const t=ts[o.userData.id];document.getElementById('it').textContent=t.n;document.getElementById('ip').textContent=`Cost: $${t.c}`;const b=document.getElementById('ib');b.innerHTML='';const bt=document.createElement('button');bt.className='b';bt.textContent=t.u?'Use Tech':`Unlock ($${t.c})`;bt.onclick=()=>t.u?use(o.userData.id):unlock(o.userData.id);b.appendChild(bt);document.getElementById('int').classList.remove('hide');}function unlock(id){const t=ts[id];if(s.f>=t.c){s.f-=t.c;t.u=true;s.t.push(t.n);upd();msg(`✅ Unlocked: ${t.n}!`);}else{msg('❌ Insufficient funding!');}}function use(id){if(id==='vr'){s.v=true;document.getElementById('vr').classList.remove('hide');sc.background=new THREE.Color(0x000033);msg('🥽 Entered VR!');}else{msg(`Using ${ts[id].n}...`);s.r+=10;upd();}}window.exitVR=function(){s.v=false;document.getElementById('vr').classList.add('hide');sc.background=new THREE.Color(0x0a0a1e);msg('Exited VR');};function msg(m){const n=document.getElementById('msg');n.textContent=m;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000);}function upd(){document.getElementById('c').textContent=s.c;document.getElementById('r').textContent=s.r;document.getElementById('f').textContent='$'+s.f.toLocaleString();document.getElementById('t').textContent=s.t.length;}let sel=null;document.querySelectorAll('.card').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.card').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');sel=c.dataset.c;document.getElementById('btn').disabled=false;document.getElementById('btn').textContent='Start Journey';});});document.getElementById('btn').addEventListener('click',()=>{if(sel){s.c=sel;document.getElementById('select').classList.add('hide');document.getElementById('hud').classList.remove('hide');init();upd();setTimeout(()=>msg('Welcome! WASD to move, E to interact'),1000);}});
+  </script>
+</body>
+</html>
