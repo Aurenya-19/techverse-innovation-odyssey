@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Realistic City Simulator</title>
+<title>TechVerse: Complete Realistic City</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #1a1a1a; color: #e0e0e0; }
@@ -28,47 +28,59 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 .spinner { border: 4px solid rgba(127, 140, 141, 0.3); border-top: 4px solid #7f8c8d; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 15px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(44, 62, 80, 0.9); padding: 18px; border-radius: 6px; border: 1px solid #7f8c8d; min-width: 220px; z-index: 1000; }
-#hud h3 { color: #ecf0f1; font-size: 1.1em; margin-bottom: 10px; border-bottom: 1px solid #7f8c8d; padding-bottom: 6px; }
-.hudStat { display: flex; justify-content: space-between; margin: 6px 0; font-size: 0.9em; color: #bdc3c7; }
-.hudStat .val { color: #27ae60; font-weight: 600; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(44, 62, 80, 0.95); padding: 20px; border-radius: 8px; border: 2px solid #7f8c8d; min-width: 240px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+#hud h3 { color: #ecf0f1; font-size: 1.2em; margin-bottom: 12px; border-bottom: 2px solid #7f8c8d; padding-bottom: 8px; font-weight: 600; }
+.hudStat { display: flex; justify-content: space-between; margin: 8px 0; font-size: 0.95em; color: #bdc3c7; }
+.hudStat .val { color: #27ae60; font-weight: 700; }
 
-#inventory { position: fixed; top: 15px; right: 15px; background: rgba(44, 62, 80, 0.9); padding: 18px; border-radius: 6px; border: 1px solid #7f8c8d; max-width: 280px; max-height: 70vh; overflow-y: auto; z-index: 1000; }
-#inventory h3 { color: #ecf0f1; font-size: 1.1em; margin-bottom: 10px; border-bottom: 1px solid #7f8c8d; padding-bottom: 6px; }
-.invItem { background: rgba(52, 73, 94, 0.6); padding: 10px; margin: 8px 0; border-radius: 4px; border: 1px solid #7f8c8d; font-size: 0.9em; color: #bdc3c7; }
+#inventory { position: fixed; top: 15px; right: 15px; background: rgba(44, 62, 80, 0.95); padding: 20px; border-radius: 8px; border: 2px solid #e67e22; max-width: 300px; max-height: 70vh; overflow-y: auto; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+#inventory h3 { color: #e67e22; font-size: 1.2em; margin-bottom: 12px; border-bottom: 2px solid #e67e22; padding-bottom: 8px; font-weight: 600; }
+.invItem { background: rgba(230, 126, 34, 0.2); padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #e67e22; font-size: 0.9em; color: #ecf0f1; transition: all 0.3s; }
+.invItem:hover { background: rgba(230, 126, 34, 0.3); transform: translateX(3px); }
 
-#interact { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.95); padding: 25px 35px; border-radius: 8px; border: 2px solid #7f8c8d; max-width: 700px; width: 90%; text-align: center; z-index: 1000; }
-#interact h4 { color: #ecf0f1; font-size: 1.6em; margin-bottom: 12px; }
-#interact p { color: #bdc3c7; font-size: 1em; margin-bottom: 15px; line-height: 1.6; }
-.actBtn { padding: 12px 28px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 6px; font-size: 1em; }
-.actBtn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.98); padding: 30px 40px; border-radius: 10px; border: 2px solid #3498db; max-width: 750px; width: 90%; text-align: center; z-index: 1000; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+#interact h4 { color: #3498db; font-size: 1.8em; margin-bottom: 15px; font-weight: 600; }
+#interact p { color: #bdc3c7; font-size: 1.05em; margin-bottom: 20px; line-height: 1.7; }
+.actBtn { padding: 14px 30px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 8px; font-size: 1em; transition: all 0.3s; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+.actBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.3); background: linear-gradient(135deg, #5dade2, #3498db); }
 
-#controls { position: fixed; bottom: 20px; left: 20px; background: rgba(44, 62, 80, 0.9); padding: 15px; border-radius: 6px; border: 1px solid #7f8c8d; z-index: 1000; }
-#controls h4 { color: #ecf0f1; margin-bottom: 8px; font-size: 1em; }
-.ctrl { color: #bdc3c7; margin: 5px 0; font-size: 0.85em; }
-.key { color: #27ae60; font-weight: 600; background: rgba(39, 174, 96, 0.2); padding: 2px 6px; border-radius: 3px; }
+#gameModal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(44, 62, 80, 0.98); padding: 40px; border-radius: 10px; border: 2px solid #e74c3c; max-width: 800px; width: 90%; z-index: 5000; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
+#gameModal h2 { color: #e74c3c; font-size: 2em; margin-bottom: 20px; text-align: center; font-weight: 600; }
+#gameArea { background: rgba(52, 73, 94, 0.6); padding: 30px; border-radius: 8px; min-height: 300px; border: 1px solid #7f8c8d; }
+.gameBtn { padding: 14px 35px; background: linear-gradient(135deg, #e74c3c, #c0392b); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px; font-size: 1.05em; transition: all 0.3s; }
+.gameBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
 
-#notif { position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: rgba(39, 174, 96, 0.95); color: #fff; padding: 15px 35px; border-radius: 6px; font-weight: 600; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; }
+#controls { position: fixed; bottom: 30px; left: 30px; background: rgba(44, 62, 80, 0.95); padding: 18px; border-radius: 8px; border: 2px solid #7f8c8d; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+#controls h4 { color: #ecf0f1; margin-bottom: 10px; font-size: 1.05em; font-weight: 600; }
+.ctrl { color: #bdc3c7; margin: 6px 0; font-size: 0.9em; }
+.key { color: #27ae60; font-weight: 700; background: rgba(39, 174, 96, 0.2); padding: 3px 8px; border-radius: 4px; margin-right: 6px; }
+
+#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: rgba(39, 174, 96, 0.95); color: #fff; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
 #notif.show { opacity: 1; }
 
 .hide { display: none !important; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 5px; }
+::-webkit-scrollbar-thumb { background: #7f8c8d; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #95a5a6; }
 </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 
 <div id="charSelect">
-  <h1>TechVerse: Realistic City Simulator</h1>
-  <p class="subtitle">Experience a grounded, realistic tech city</p>
+  <h1>TechVerse: Complete Realistic City</h1>
+  <p class="subtitle">Explore, collaborate, research, and play in a realistic tech city</p>
   <div class="charGrid">
-    <div class="charCard" data-char="netrunner"><div class="icon">💻</div><h3>Netrunner</h3><p>Cybersecurity specialist</p></div>
-    <div class="charCard" data-char="bioengineer"><div class="icon">🧬</div><h3>Bioengineer</h3><p>Genetic researcher</p></div>
-    <div class="charCard" data-char="quantum"><div class="icon">⚛️</div><h3>Quantum Physicist</h3><p>Quantum computing expert</p></div>
-    <div class="charCard" data-char="neurohacker"><div class="icon">🧠</div><h3>Neurohacker</h3><p>Neuroscience researcher</p></div>
-    <div class="charCard" data-char="nanoengineer"><div class="icon">🔬</div><h3>Nanoengineer</h3><p>Nanotechnology specialist</p></div>
-    <div class="charCard" data-char="aiarchitect"><div class="icon">🤖</div><h3>AI Architect</h3><p>Machine learning expert</p></div>
-    <div class="charCard" data-char="spacesystems"><div class="icon">🚀</div><h3>Space Engineer</h3><p>Aerospace specialist</p></div>
-    <div class="charCard" data-char="fusionengineer"><div class="icon">⚡</div><h3>Fusion Engineer</h3><p>Energy researcher</p></div>
+    <div class="charCard" data-char="Netrunner"><div class="icon">💻</div><h3>Netrunner</h3><p>Cybersecurity specialist</p></div>
+    <div class="charCard" data-char="Bioengineer"><div class="icon">🧬</div><h3>Bioengineer</h3><p>Genetic researcher</p></div>
+    <div class="charCard" data-char="Quantum Physicist"><div class="icon">⚛️</div><h3>Quantum Physicist</h3><p>Quantum computing expert</p></div>
+    <div class="charCard" data-char="Neurohacker"><div class="icon">🧠</div><h3>Neurohacker</h3><p>Neuroscience researcher</p></div>
+    <div class="charCard" data-char="Nanoengineer"><div class="icon">🔬</div><h3>Nanoengineer</h3><p>Nanotechnology specialist</p></div>
+    <div class="charCard" data-char="AI Architect"><div class="icon">🤖</div><h3>AI Architect</h3><p>Machine learning expert</p></div>
+    <div class="charCard" data-char="Space Engineer"><div class="icon">🚀</div><h3>Space Engineer</h3><p>Aerospace specialist</p></div>
+    <div class="charCard" data-char="Fusion Engineer"><div class="icon">⚡</div><h3>Fusion Engineer</h3><p>Energy researcher</p></div>
   </div>
   <button id="startBtn" disabled>Select Character</button>
 </div>
@@ -86,6 +98,7 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/100</span></div>
   <div class="hudStat"><span>Rep:</span><span class="val" id="rep">0</span></div>
   <div class="hudStat"><span>Credits:</span><span class="val" id="fund">$1M</span></div>
+  <div class="hudStat"><span>Collabs:</span><span class="val" id="collabs">0</span></div>
 </div>
 
 <div id="inventory" class="hide">
@@ -97,6 +110,12 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <h4 id="intTitle">Location</h4>
   <p id="intDesc">Description</p>
   <div id="intBtns"></div>
+</div>
+
+<div id="gameModal" class="hide">
+  <h2 id="gameTitle">Mini Game</h2>
+  <div id="gameArea"></div>
+  <button class="gameBtn" onclick="window.closeGame()">EXIT GAME</button>
 </div>
 
 <div id="controls" class="hide">
@@ -115,29 +134,132 @@ import * as THREE from 'three';
 
 const state = {
   char: null, lvl: 1, xp: 0, xpMax: 100, rep: 0, fund: 1000000,
-  inventory: [], currentLocation: null
+  inventory: [], collabs: 0, currentLocation: null
 };
 
 const locations = {
-  quantum: { name: 'Quantum Research Lab', pos: [-100, 0, -120], color: 0x5a6c7d, size: 35, height: 65 },
-  bio: { name: 'Biotech Center', pos: [100, 0, -120], color: 0x6b8e7f, size: 35, height: 60 },
-  ai: { name: 'AI Research Institute', pos: [-100, 0, 120], color: 0x7d6b5a, size: 35, height: 63 },
-  space: { name: 'Space Systems Lab', pos: [0, 0, -150], color: 0x5a7d8e, size: 40, height: 80 },
-  hybrid: { name: 'Innovation Center', pos: [0, 0, 0], color: 0x6d7d8e, size: 50, height: 85 },
-  arena: { name: 'Tech Arena', pos: [-80, 0, 50], color: 0x8e6d5a, size: 45, height: 68 },
-  store: { name: 'Tech Store', pos: [50, 0, 80], color: 0x7d7d8e, size: 28, height: 42 }
+  quantum: { 
+    name: 'Quantum Research Lab', 
+    pos: [-100, 0, -120], 
+    color: 0x5a6c7d, 
+    size: 35, 
+    height: 65,
+    desc: 'Advanced quantum computing research facility with superconducting qubits.',
+    actions: [
+      { name: 'Research Quantum Algorithms', reward: { rep: 250, fund: 200000, xp: 150 } },
+      { name: 'Run Quantum Simulation', reward: { rep: 180, fund: 140000, xp: 110 } },
+      { name: 'Collaborate with Scientists', type: 'collab', reward: { rep: 150, fund: 120000, xp: 90 } },
+      { name: 'Play Quantum Puzzle', game: 'quantum' }
+    ]
+  },
+  bio: { 
+    name: 'Biotech Research Center', 
+    pos: [100, 0, -120], 
+    color: 0x6b8e7f, 
+    size: 35, 
+    height: 60,
+    desc: 'Genetic engineering laboratory with CRISPR systems and DNA sequencers.',
+    actions: [
+      { name: 'Perform Gene Editing', reward: { rep: 240, fund: 190000, xp: 145 } },
+      { name: 'Synthesize Proteins', reward: { rep: 170, fund: 130000, xp: 105 } },
+      { name: 'Collaborate with Biologists', type: 'collab', reward: { rep: 160, fund: 130000, xp: 95 } },
+      { name: 'Play Bio Match Game', game: 'bio' }
+    ]
+  },
+  ai: { 
+    name: 'AI Research Institute', 
+    pos: [-100, 0, 120], 
+    color: 0x7d6b5a, 
+    size: 35, 
+    height: 63,
+    desc: 'Artificial intelligence development center with neural network training systems.',
+    actions: [
+      { name: 'Train Neural Network', reward: { rep: 280, fund: 230000, xp: 170 } },
+      { name: 'Develop AI Models', reward: { rep: 210, fund: 170000, xp: 135 } },
+      { name: 'Collaborate with AI Experts', type: 'collab', reward: { rep: 180, fund: 150000, xp: 110 } },
+      { name: 'Play AI Battle', game: 'ai' }
+    ]
+  },
+  space: { 
+    name: 'Space Systems Laboratory', 
+    pos: [0, 0, -150], 
+    color: 0x5a7d8e, 
+    size: 40, 
+    height: 80,
+    desc: 'Orbital engineering facility with spacecraft design and mission control.',
+    actions: [
+      { name: 'Design Spacecraft', reward: { rep: 330, fund: 290000, xp: 200 } },
+      { name: 'Plan Space Mission', reward: { rep: 280, fund: 230000, xp: 175 } },
+      { name: 'Collaborate with Engineers', type: 'collab', reward: { rep: 200, fund: 170000, xp: 130 } },
+      { name: 'Play Space Race', game: 'space' }
+    ]
+  },
+  hybrid: { 
+    name: 'Innovation Center', 
+    pos: [0, 0, 0], 
+    color: 0x6d7d8e, 
+    size: 50, 
+    height: 85,
+    desc: 'Central hub combining all research areas for breakthrough innovations.',
+    actions: [
+      { name: 'Integrate Technologies', reward: { rep: 450, fund: 400000, xp: 280 } },
+      { name: 'Create Hybrid System', reward: { rep: 380, fund: 330000, xp: 240 } },
+      { name: 'Collaborate with All Teams', type: 'collab', reward: { rep: 300, fund: 250000, xp: 180 } },
+      { name: 'Play Ultimate Challenge', game: 'hybrid' }
+    ]
+  },
+  arena: { 
+    name: 'Tech Gaming Arena', 
+    pos: [-80, 0, 50], 
+    color: 0x8e6d5a, 
+    size: 45, 
+    height: 68,
+    desc: 'Gaming complex with VR pods and competitive tournaments.',
+    actions: [
+      { name: 'Tech Battle Tournament', game: 'battle' },
+      { name: 'Quantum Catch Challenge', game: 'catch' },
+      { name: 'Speed Reaction Test', game: 'clicker' },
+      { name: 'Memory Matrix Game', game: 'memory' }
+    ]
+  },
+  store: { 
+    name: 'Tech Equipment Store', 
+    pos: [50, 0, 80], 
+    color: 0x7d7d8e, 
+    size: 28, 
+    height: 42,
+    desc: 'Technology retailer with cutting-edge equipment and gadgets.',
+    actions: [
+      { name: 'Buy VR Headset', cost: 30000, item: 'VR Headset Pro' },
+      { name: 'Buy Neural Interface', cost: 120000, item: 'Neural Link X1' },
+      { name: 'Buy Quantum Computer', cost: 200000, item: 'Quantum Core Q7' },
+      { name: 'Buy Nanobot Swarm', cost: 180000, item: 'NanoSwarm 3000' }
+    ]
+  },
+  cafe: {
+    name: 'Tech Cafe & Lounge',
+    pos: [80, 0, -50],
+    color: 0x8e7d6d,
+    size: 30,
+    height: 35,
+    desc: 'Social hub for tech professionals to network and collaborate.',
+    actions: [
+      { name: 'Meet Scientists', reward: { rep: 80, xp: 50 } },
+      { name: 'Network with Experts', type: 'collab', reward: { rep: 120, fund: 100000, xp: 75 } },
+      { name: 'Share Knowledge', reward: { rep: 100, fund: 80000, xp: 60 } },
+      { name: 'Play Casual Games', game: 'casual' }
+    ]
+  }
 };
 
-let scene, camera, renderer, buildings = [], npcs = [], cars = [], curInteract = null;
+let scene, camera, renderer, buildings = [], npcs = [], cars = [], curInteract = null, curNPC = null;
 let moveF = false, moveB = false, moveL = false, moveR = false, sprint = false;
 const vel = new THREE.Vector3(), dir = new THREE.Vector3(), clock = new THREE.Clock();
 
 function init() {
   scene = new THREE.Scene();
-  
-  // REALISTIC SKY - Natural blue, not cartoon
-  scene.background = new THREE.Color(0x87CEEB); // Sky blue
-  scene.fog = new THREE.Fog(0x87CEEB, 100, 800); // Atmospheric fog
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 100, 800);
 
   camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
   camera.position.set(0, 5, 30);
@@ -151,7 +273,6 @@ function init() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // NATURAL LIGHTING - Like real sunlight
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
 
@@ -163,38 +284,31 @@ function init() {
   sun.shadow.camera.far = 1000;
   scene.add(sun);
 
-  // Subtle hemisphere light for natural sky lighting
   const hemiLight = new THREE.HemisphereLight(0x87CEEB, 0x545454, 0.4);
   scene.add(hemiLight);
 
-  // Subtle city lights - not bright neon
-  const lightPositions = [
-    [-100, 20, -120], [100, 20, -120], [-100, 20, 120],
-    [0, 25, -150], [0, 30, 0], [-80, 22, 50], [50, 18, 80]
-  ];
-  
-  lightPositions.forEach(pos => {
+  Object.values(locations).forEach(loc => {
     const light = new THREE.PointLight(0xffd699, 0.8, 100);
-    light.position.set(...pos);
+    light.position.set(loc.pos[0], loc.height + 5, loc.pos[2]);
     scene.add(light);
   });
 
-  createRealisticWorld();
-  createRealisticNPCs();
-  createRealisticCars();
+  createWorld();
+  createNPCs();
+  createCars();
   setupControls();
   animate();
   updateHUD();
   updateInv();
 
-  notify('Welcome to TechVerse! Explore the realistic city.');
+  notify('Welcome to TechVerse! Walk to buildings (press E) or NPCs to interact.');
+  setTimeout(() => notify('Collaborate with NPCs to earn bonuses!'), 4000);
 }
 
-function createRealisticWorld() {
-  // REALISTIC GROUND - Natural grass color
+function createWorld() {
   const groundGeo = new THREE.PlaneGeometry(1500, 1500);
   const groundMat = new THREE.MeshStandardMaterial({ 
-    color: 0x3d5a3d, // Natural grass green
+    color: 0x3d5a3d,
     roughness: 0.9,
     metalness: 0
   });
@@ -204,23 +318,19 @@ function createRealisticWorld() {
   ground.receiveShadow = true;
   scene.add(ground);
 
-  // REALISTIC ROADS - Asphalt gray
   for (let i = -350; i <= 350; i += 70) {
     createRoad(i, 0, 0, 1500, 14);
     createRoad(0, 0, i, 14, 1500);
   }
 
-  // Road markings - subtle yellow
   const gridHelper = new THREE.GridHelper(1500, 300, 0xcccc99, 0x444444);
   gridHelper.position.y = 0.1;
   scene.add(gridHelper);
 
-  // Create buildings with REALISTIC colors
   Object.entries(locations).forEach(([id, loc]) => {
     createBuilding(loc.pos[0], loc.pos[1], loc.pos[2], loc.size, loc.height, loc.size, loc.color, loc.name, id);
   });
 
-  // Extra buildings - muted realistic colors
   const buildingColors = [0x6d7d8e, 0x7d6d5a, 0x5a6c7d, 0x6b8e7f, 0x8e7d6d, 0x7d8e8e];
   for (let i = 0; i < 80; i++) {
     const x = (Math.random() - 0.5) * 650;
@@ -235,7 +345,7 @@ function createRealisticWorld() {
 function createRoad(x, y, z, w, d) {
   const roadGeo = new THREE.PlaneGeometry(w, d);
   const roadMat = new THREE.MeshStandardMaterial({ 
-    color: 0x3a3a3a, // Asphalt gray
+    color: 0x3a3a3a,
     roughness: 0.95,
     metalness: 0
   });
@@ -262,7 +372,6 @@ function createBuilding(x, y, z, w, h, d, color, name, id) {
   scene.add(bldg);
   buildings.push(bldg);
 
-  // Windows - subtle glow
   for (let i = 0; i < 12; i++) {
     const windowGeo = new THREE.PlaneGeometry(w * 0.7, h / 14);
     const windowMat = new THREE.MeshStandardMaterial({ 
@@ -277,7 +386,6 @@ function createBuilding(x, y, z, w, h, d, color, name, id) {
     bldg.add(window);
   }
 
-  // Entrance
   const entranceGeo = new THREE.BoxGeometry(10, 15, 2);
   const entranceMat = new THREE.MeshStandardMaterial({ 
     color: 0x8e8e8e,
@@ -288,7 +396,7 @@ function createBuilding(x, y, z, w, h, d, color, name, id) {
   entrance.position.set(0, 7.5, d / 2 + 1);
   bldg.add(entrance);
 
-  createLabel(name, x, h + 12, z);
+  createLabel(name, x, h + 12, z, 2.5);
 }
 
 function createSimpleBuilding(x, y, z, w, h, d, color) {
@@ -306,34 +414,44 @@ function createSimpleBuilding(x, y, z, w, h, d, color) {
   scene.add(bldg);
 }
 
-function createLabel(text, x, y, z) {
+function createLabel(text, x, y, z, scale = 1) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 512;
-  canvas.height = 128;
+  canvas.width = 1024;
+  canvas.height = 256;
   
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(0, 0, 512, 128);
-  ctx.font = 'Bold 48px Arial';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+  ctx.fillRect(0, 0, 1024, 256);
+  
+  ctx.strokeStyle = '#7f8c8d';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(10, 10, 1004, 236);
+  
+  ctx.font = 'Bold 70px Arial';
   ctx.fillStyle = '#ecf0f1';
   ctx.textAlign = 'center';
-  ctx.fillText(text, 256, 70);
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 512, 128);
   
   const texture = new THREE.CanvasTexture(canvas);
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+  texture.minFilter = THREE.LinearFilter;
+  const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
+  const sprite = new THREE.Sprite(spriteMat);
   sprite.position.set(x, y, z);
-  sprite.scale.set(25, 6.25, 1);
+  sprite.scale.set(30 * scale, 7.5 * scale, 1);
   scene.add(sprite);
 }
 
-function createRealisticNPCs() {
+function createNPCs() {
+  const npcNames = ['Dr. Chen', 'Prof. Smith', 'Dr. Rodriguez', 'Dr. Kim', 'Prof. Patel', 'Dr. Johnson'];
+  
   for (let i = 0; i < 40; i++) {
     const x = (Math.random() - 0.5) * 600;
     const z = (Math.random() - 0.5) * 600;
     
     const npcGeo = new THREE.CapsuleGeometry(1.2, 3.5, 8, 16);
     const npcMat = new THREE.MeshStandardMaterial({ 
-      color: 0x4a5568, // Muted gray-blue
+      color: 0x4a5568,
       roughness: 0.8,
       metalness: 0.2
     });
@@ -342,16 +460,20 @@ function createRealisticNPCs() {
     npc.position.set(x, 2.5, z);
     npc.castShadow = true;
     npc.userData = {
+      type: 'npc',
+      name: npcNames[i % npcNames.length],
       speed: 0.7 + Math.random() * 0.6,
       direction: Math.random() * Math.PI * 2,
       walkTime: 0
     };
     scene.add(npc);
     npcs.push(npc);
+    
+    createLabel(npc.userData.name, x, 7, z, 0.6);
   }
 }
 
-function createRealisticCars() {
+function createCars() {
   const carColors = [0x1a1a1a, 0x2c3e50, 0x34495e, 0x7f8c8d, 0x95a5a6, 0xecf0f1];
   for (let i = 0; i < 30; i++) {
     const x = (Math.random() - 0.5) * 600;
@@ -391,7 +513,7 @@ function setupControls() {
     if (e.code === 'KeyA') moveL = true;
     if (e.code === 'KeyD') moveR = true;
     if (e.code === 'ShiftLeft') sprint = true;
-    if (e.code === 'KeyE' && curInteract) interact();
+    if (e.code === 'KeyE') interact();
   });
 
   addEventListener('keyup', e => {
@@ -475,31 +597,200 @@ function checkNearby() {
     if (dist < minDist) { minDist = dist; nearest = bldg; }
   });
 
-  if (nearest && nearest !== curInteract) { curInteract = nearest; showInteract(); }
+  npcs.forEach(npc => {
+    const dist = camera.position.distanceTo(npc.position);
+    if (dist < 10 && dist < minDist) { minDist = dist; nearest = npc; }
+  });
+
+  if (nearest && nearest !== curInteract) { 
+    curInteract = nearest; 
+    if (nearest.userData.type === 'building') showBuildingInteract();
+    else if (nearest.userData.type === 'npc') showNPCInteract();
+  }
   else if (!nearest && curInteract) { curInteract = null; hideInteract(); }
 }
 
-function showInteract() {
-  document.getElementById('intTitle').textContent = curInteract.userData.name;
-  document.getElementById('intDesc').textContent = 'Press E to enter this facility.';
+function showBuildingInteract() {
+  const loc = locations[curInteract.userData.id];
+  if (!loc) return;
+  
+  document.getElementById('intTitle').textContent = loc.name;
+  document.getElementById('intDesc').textContent = loc.desc;
   
   const btns = document.getElementById('intBtns');
-  btns.innerHTML = '<button class="actBtn" onclick="window.enterBuilding()">ENTER</button><button class="actBtn" onclick="window.hideInteract()">CANCEL</button>';
+  btns.innerHTML = '';
+  
+  loc.actions.forEach(action => {
+    const btn = document.createElement('button');
+    btn.className = 'actBtn';
+    btn.textContent = action.name;
+    btn.onclick = () => performAction(action);
+    btns.appendChild(btn);
+  });
+  
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'actBtn';
+  closeBtn.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+  closeBtn.textContent = 'EXIT';
+  closeBtn.onclick = hideInteract;
+  btns.appendChild(closeBtn);
+  
+  document.getElementById('interact').classList.remove('hide');
+}
+
+function showNPCInteract() {
+  curNPC = curInteract.userData;
+  document.getElementById('intTitle').textContent = curNPC.name;
+  document.getElementById('intDesc').textContent = `${curNPC.name} is a researcher. Collaborate to earn bonuses!`;
+  
+  const btns = document.getElementById('intBtns');
+  btns.innerHTML = '';
+  
+  const collabBtn = document.createElement('button');
+  collabBtn.className = 'actBtn';
+  collabBtn.textContent = 'COLLABORATE';
+  collabBtn.onclick = () => collaborateWithNPC();
+  btns.appendChild(collabBtn);
+  
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'actBtn';
+  closeBtn.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
+  closeBtn.textContent = 'LEAVE';
+  closeBtn.onclick = hideInteract;
+  btns.appendChild(closeBtn);
   
   document.getElementById('interact').classList.remove('hide');
 }
 
 function hideInteract() {
   document.getElementById('interact').classList.add('hide');
+  curNPC = null;
 }
 
 function interact() {
-  notify('Entered ' + curInteract.userData.name);
+  if (!curInteract) return;
+  // Interaction handled by buttons
+}
+
+function collaborateWithNPC() {
+  state.collabs++;
+  state.rep += 150;
+  state.fund += 120000;
+  addXP(100);
+  updateHUD();
+  notify(`🤝 Collaborated with ${curNPC.name}! +150 Rep, +$120K, +100 XP`);
   hideInteract();
 }
 
-window.enterBuilding = interact;
-window.hideInteract = hideInteract;
+function performAction(action) {
+  if (action.game) {
+    startGame(action.game, action.name);
+  } else if (action.type === 'collab') {
+    state.collabs++;
+    if (action.reward.rep) state.rep += action.reward.rep;
+    if (action.reward.fund) state.fund += action.reward.fund;
+    if (action.reward.xp) addXP(action.reward.xp);
+    updateHUD();
+    notify(`🤝 ${action.name} successful!`);
+  } else if (action.reward) {
+    if (action.cost && state.fund < action.cost) {
+      notify(`❌ Need $${action.cost.toLocaleString()}!`);
+      return;
+    }
+    
+    if (action.cost) state.fund -= action.cost;
+    if (action.reward.rep) state.rep += action.reward.rep;
+    if (action.reward.fund) state.fund += action.reward.fund;
+    if (action.reward.xp) addXP(action.reward.xp);
+    if (action.item) {
+      state.inventory.push(action.item);
+    }
+    
+    updateHUD();
+    updateInv();
+    notify(`✅ ${action.name} completed!`);
+  }
+}
+
+function startGame(gameType, gameName) {
+  hideInteract();
+  document.getElementById('gameTitle').textContent = gameName || 'Challenge';
+  const gameArea = document.getElementById('gameArea');
+  
+  if (gameType === 'catch' || gameType === 'quantum') {
+    let score = 0;
+    gameArea.innerHTML = `
+      <h3 style="color: #ecf0f1; margin-bottom: 20px; font-size: 1.5em;">Catch the Particles!</h3>
+      <p style="color: #bdc3c7; font-size: 1.5em; margin: 20px 0;">Score: <span id="gameScore">0</span></p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 450px; margin: 0 auto;">
+        ${Array(9).fill(0).map((_, i) => `<div style="width: 100px; height: 100px; background: linear-gradient(135deg, #3498db, #2980b9); border: 3px solid #ecf0f1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3em; cursor: pointer; transition: all 0.3s;" onclick="window.catchParticle(${i})" id="particle${i}">⚛️</div>`).join('')}
+      </div>
+      <p style="color: #95a5a6; margin-top: 20px;">Get 100 points to win!</p>
+    `;
+    
+    window.catchParticle = (i) => {
+      score += 10;
+      document.getElementById('gameScore').textContent = score;
+      const p = document.getElementById('particle' + i);
+      if (p) {
+        p.style.background = 'linear-gradient(135deg, #27ae60, #229954)';
+        setTimeout(() => {
+          if (p) p.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+        }, 200);
+      }
+      
+      if (score >= 100) winGame();
+    };
+  } else if (gameType === 'clicker') {
+    let clicks = 0;
+    gameArea.innerHTML = `
+      <h3 style="color: #ecf0f1; margin-bottom: 20px; font-size: 1.5em;">Click as Fast as You Can!</h3>
+      <p style="color: #bdc3c7; font-size: 1.5em; margin: 20px 0;">Clicks: <span id="clickCount">0</span></p>
+      <div style="width: 180px; height: 180px; background: linear-gradient(135deg, #e74c3c, #c0392b); border: 5px solid #ecf0f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5em; cursor: pointer; margin: 0 auto; transition: all 0.2s;" onclick="window.clickGame()">🎯</div>
+      <p style="color: #95a5a6; margin-top: 20px;">Get 50 clicks to win!</p>
+    `;
+    
+    window.clickGame = () => {
+      clicks++;
+      document.getElementById('clickCount').textContent = clicks;
+      if (clicks >= 50) winGame();
+    };
+  } else {
+    gameArea.innerHTML = `
+      <h3 style="color: #ecf0f1; margin-bottom: 20px; font-size: 1.5em;">${gameName || 'Challenge'}</h3>
+      <p style="color: #bdc3c7; font-size: 1.1em; line-height: 1.7; margin: 30px 0;">Complete this challenge to earn rewards!</p>
+      <button style="padding: 14px 40px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; font-size: 1.1em;" onclick="window.winGame()">COMPLETE</button>
+    `;
+  }
+  
+  document.getElementById('gameModal').classList.remove('hide');
+}
+
+function winGame() {
+  state.rep += 200;
+  state.fund += 150000;
+  addXP(120);
+  updateHUD();
+  notify(`🎉 GAME WON! +200 Rep, +$150K, +120 XP!`);
+  window.closeGame();
+}
+
+window.winGame = winGame;
+window.closeGame = function() {
+  document.getElementById('gameModal').classList.add('hide');
+};
+
+function addXP(amt) {
+  state.xp += amt;
+  while (state.xp >= state.xpMax) {
+    state.xp -= state.xpMax;
+    state.lvl++;
+    state.xpMax = Math.floor(state.xpMax * 1.5);
+    state.fund += 150000;
+    notify(`🎉 LEVEL UP! Now Level ${state.lvl}! +$150K!`);
+  }
+  updateHUD();
+}
 
 function updateHUD() {
   document.getElementById('role').textContent = state.char || '-';
@@ -507,11 +798,12 @@ function updateHUD() {
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('rep').textContent = state.rep;
   document.getElementById('fund').textContent = '$' + (state.fund / 1000).toFixed(0) + 'K';
+  document.getElementById('collabs').textContent = state.collabs;
 }
 
 function updateInv() {
   const list = document.getElementById('invList');
-  list.innerHTML = state.inventory.length === 0 ? '<p style="color:#95a5a6;text-align:center;padding:20px">No items</p>' : '';
+  list.innerHTML = state.inventory.length === 0 ? '<p style="color:#95a5a6;text-align:center;padding:20px">No items yet. Visit the Tech Store!</p>' : '';
   
   state.inventory.forEach(item => {
     const div = document.createElement('div');
@@ -535,7 +827,7 @@ document.querySelectorAll('.charCard').forEach(card => {
     card.classList.add('selected');
     selChar = card.dataset.char;
     document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').textContent = 'START';
+    document.getElementById('startBtn').textContent = 'START JOURNEY';
   });
 });
 
@@ -545,7 +837,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Loading environment...', 'Building city...', 'Spawning NPCs...', 'Adding vehicles...', 'Ready!'];
+  const msgs = ['Loading environment...', 'Building city...', 'Creating labels...', 'Spawning NPCs...', 'Adding vehicles...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i++];
