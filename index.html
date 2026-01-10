@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Complete Realistic City</title>
+<title>TechVerse: Educational Tech Simulator</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #1a1a1a; color: #e0e0e0; }
@@ -20,7 +20,7 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 .charCard h3 { color: #ecf0f1; font-size: 1.1em; margin: 8px 0; }
 .charCard p { color: #95a5a6; font-size: 0.8em; line-height: 1.3; }
 #startBtn { padding: 15px 50px; font-size: clamp(1em, 2vw, 1.3em); background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 20px 0; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-#startBtn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0,0,0,0.4); }
+#startBtn:hover:not(:disabled) { transform: translateY(-2px); }
 #startBtn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(44, 62, 80, 0.95); padding: 40px; border-radius: 10px; border: 2px solid #7f8c8d; z-index: 9999; }
@@ -28,82 +28,94 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 .spinner { border: 4px solid rgba(127, 140, 141, 0.3); border-top: 4px solid #7f8c8d; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 15px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(44, 62, 80, 0.95); padding: 20px; border-radius: 8px; border: 2px solid #7f8c8d; min-width: 240px; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-#hud h3 { color: #ecf0f1; font-size: 1.2em; margin-bottom: 12px; border-bottom: 2px solid #7f8c8d; padding-bottom: 8px; font-weight: 600; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(44, 62, 80, 0.95); padding: 20px; border-radius: 8px; border: 2px solid #7f8c8d; min-width: 240px; z-index: 1000; }
+#hud h3 { color: #ecf0f1; font-size: 1.2em; margin-bottom: 12px; border-bottom: 2px solid #7f8c8d; padding-bottom: 8px; }
 .hudStat { display: flex; justify-content: space-between; margin: 8px 0; font-size: 0.95em; color: #bdc3c7; }
 .hudStat .val { color: #27ae60; font-weight: 700; }
 
-#inventory { position: fixed; top: 15px; right: 15px; background: rgba(44, 62, 80, 0.95); padding: 20px; border-radius: 8px; border: 2px solid #e67e22; max-width: 300px; max-height: 70vh; overflow-y: auto; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-#inventory h3 { color: #e67e22; font-size: 1.2em; margin-bottom: 12px; border-bottom: 2px solid #e67e22; padding-bottom: 8px; font-weight: 600; }
-.invItem { background: rgba(230, 126, 34, 0.2); padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #e67e22; font-size: 0.9em; color: #ecf0f1; transition: all 0.3s; }
-.invItem:hover { background: rgba(230, 126, 34, 0.3); transform: translateX(3px); }
-
-#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.98); padding: 30px 40px; border-radius: 10px; border: 2px solid #3498db; max-width: 750px; width: 90%; text-align: center; z-index: 1000; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
-#interact h4 { color: #3498db; font-size: 1.8em; margin-bottom: 15px; font-weight: 600; }
+#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.98); padding: 30px 40px; border-radius: 10px; border: 2px solid #3498db; max-width: 750px; width: 90%; text-align: center; z-index: 1000; }
+#interact h4 { color: #3498db; font-size: 1.8em; margin-bottom: 15px; }
 #interact p { color: #bdc3c7; font-size: 1.05em; margin-bottom: 20px; line-height: 1.7; }
-.actBtn { padding: 14px 30px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 8px; font-size: 1em; transition: all 0.3s; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
-.actBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.3); background: linear-gradient(135deg, #5dade2, #3498db); }
+.actBtn { padding: 14px 30px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 8px; font-size: 1em; transition: all 0.3s; }
+.actBtn:hover { transform: translateY(-2px); }
 
-#gameModal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(44, 62, 80, 0.98); padding: 40px; border-radius: 10px; border: 2px solid #e74c3c; max-width: 800px; width: 90%; z-index: 5000; box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
-#gameModal h2 { color: #e74c3c; font-size: 2em; margin-bottom: 20px; text-align: center; font-weight: 600; }
-#gameArea { background: rgba(52, 73, 94, 0.6); padding: 30px; border-radius: 8px; min-height: 300px; border: 1px solid #7f8c8d; }
-.gameBtn { padding: 14px 35px; background: linear-gradient(135deg, #e74c3c, #c0392b); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px; font-size: 1.05em; transition: all 0.3s; }
-.gameBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
+#tutorial { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.95); z-index: 5000; overflow-y: auto; padding: 40px 20px; }
+#tutorialContent { max-width: 1000px; margin: 0 auto; background: rgba(44, 62, 80, 0.98); padding: 40px; border-radius: 12px; border: 3px solid #3498db; }
+#tutorialContent h2 { color: #3498db; font-size: 2.2em; margin-bottom: 20px; text-align: center; }
+.tutSection { background: rgba(52, 73, 94, 0.6); padding: 25px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #27ae60; }
+.tutSection h3 { color: #27ae60; font-size: 1.5em; margin-bottom: 15px; }
+.tutSection p { color: #ecf0f1; font-size: 1.05em; line-height: 1.8; margin: 10px 0; }
+.tutSection ul { margin: 15px 0 15px 30px; }
+.tutSection li { color: #bdc3c7; margin: 8px 0; line-height: 1.6; }
+.stepBox { background: rgba(41, 128, 185, 0.2); padding: 20px; margin: 15px 0; border-radius: 8px; border: 2px solid #3498db; }
+.stepBox h4 { color: #3498db; font-size: 1.3em; margin-bottom: 12px; }
+.stepBox p { color: #ecf0f1; line-height: 1.7; }
+.highlight { color: #f39c12; font-weight: 600; }
+.warning { background: rgba(231, 76, 60, 0.2); padding: 15px; border-left: 4px solid #e74c3c; margin: 15px 0; border-radius: 4px; }
+.warning p { color: #e74c3c; font-weight: 600; }
+.tutBtn { padding: 15px 40px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; margin: 20px 10px; font-size: 1.1em; }
+.tutBtn:hover { transform: translateY(-2px); }
+.tutBtn.secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
 
-#controls { position: fixed; bottom: 30px; left: 30px; background: rgba(44, 62, 80, 0.95); padding: 18px; border-radius: 8px; border: 2px solid #7f8c8d; z-index: 1000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-#controls h4 { color: #ecf0f1; margin-bottom: 10px; font-size: 1.05em; font-weight: 600; }
+#experiment { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.95); z-index: 5000; overflow-y: auto; padding: 20px; }
+#expContent { max-width: 1200px; margin: 0 auto; background: rgba(44, 62, 80, 0.98); padding: 30px; border-radius: 12px; border: 3px solid #e74c3c; }
+#expContent h2 { color: #e74c3c; font-size: 2em; margin-bottom: 20px; text-align: center; }
+#expArea { background: rgba(52, 73, 94, 0.8); padding: 30px; border-radius: 10px; min-height: 400px; margin: 20px 0; border: 2px solid #7f8c8d; }
+#expInstructions { background: rgba(41, 128, 185, 0.2); padding: 20px; border-radius: 8px; border-left: 4px solid #3498db; margin-bottom: 20px; }
+#expInstructions h3 { color: #3498db; margin-bottom: 10px; }
+#expInstructions p { color: #ecf0f1; line-height: 1.7; }
+.expBtn { padding: 12px 30px; background: linear-gradient(135deg, #e74c3c, #c0392b); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px 5px; font-size: 1em; }
+.expBtn:hover { transform: translateY(-2px); }
+.expBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
+
+#controls { position: fixed; bottom: 30px; left: 30px; background: rgba(44, 62, 80, 0.95); padding: 18px; border-radius: 8px; border: 2px solid #7f8c8d; z-index: 1000; }
+#controls h4 { color: #ecf0f1; margin-bottom: 10px; font-size: 1.05em; }
 .ctrl { color: #bdc3c7; margin: 6px 0; font-size: 0.9em; }
-.key { color: #27ae60; font-weight: 700; background: rgba(39, 174, 96, 0.2); padding: 3px 8px; border-radius: 4px; margin-right: 6px; }
+.key { color: #27ae60; font-weight: 700; background: rgba(39, 174, 96, 0.2); padding: 3px 8px; border-radius: 4px; }
 
-#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: rgba(39, 174, 96, 0.95); color: #fff; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: rgba(39, 174, 96, 0.95); color: #fff; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; }
 #notif.show { opacity: 1; }
 
 .hide { display: none !important; }
 
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 5px; }
-::-webkit-scrollbar-thumb { background: #7f8c8d; border-radius: 5px; }
-::-webkit-scrollbar-thumb:hover { background: #95a5a6; }
+.component { display: inline-block; padding: 15px 25px; margin: 10px; background: rgba(52, 152, 219, 0.3); border: 2px solid #3498db; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-size: 1.1em; color: #ecf0f1; }
+.component:hover { background: rgba(52, 152, 219, 0.5); transform: scale(1.05); }
+.component.selected { background: rgba(39, 174, 96, 0.5); border-color: #27ae60; }
+.component.placed { opacity: 0.5; cursor: not-allowed; }
+
+#workspace { background: rgba(26, 26, 26, 0.8); border: 3px dashed #7f8c8d; border-radius: 10px; min-height: 300px; padding: 30px; margin: 20px 0; position: relative; }
+.wire { position: absolute; height: 3px; background: #e74c3c; transform-origin: left center; }
+.connection { width: 20px; height: 20px; background: #f39c12; border-radius: 50%; position: absolute; border: 3px solid #ecf0f1; cursor: pointer; }
 </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 
 <div id="charSelect">
-  <h1>TechVerse: Complete Realistic City</h1>
-  <p class="subtitle">Explore, collaborate, research, and play in a realistic tech city</p>
+  <h1>TechVerse: Educational Tech Simulator</h1>
+  <p class="subtitle">Learn real technology through interactive experiments and tutorials</p>
   <div class="charGrid">
-    <div class="charCard" data-char="Netrunner"><div class="icon">💻</div><h3>Netrunner</h3><p>Cybersecurity specialist</p></div>
-    <div class="charCard" data-char="Bioengineer"><div class="icon">🧬</div><h3>Bioengineer</h3><p>Genetic researcher</p></div>
-    <div class="charCard" data-char="Quantum Physicist"><div class="icon">⚛️</div><h3>Quantum Physicist</h3><p>Quantum computing expert</p></div>
-    <div class="charCard" data-char="Neurohacker"><div class="icon">🧠</div><h3>Neurohacker</h3><p>Neuroscience researcher</p></div>
-    <div class="charCard" data-char="Nanoengineer"><div class="icon">🔬</div><h3>Nanoengineer</h3><p>Nanotechnology specialist</p></div>
-    <div class="charCard" data-char="AI Architect"><div class="icon">🤖</div><h3>AI Architect</h3><p>Machine learning expert</p></div>
-    <div class="charCard" data-char="Space Engineer"><div class="icon">🚀</div><h3>Space Engineer</h3><p>Aerospace specialist</p></div>
-    <div class="charCard" data-char="Fusion Engineer"><div class="icon">⚡</div><h3>Fusion Engineer</h3><p>Energy researcher</p></div>
+    <div class="charCard" data-char="Student"><div class="icon">🎓</div><h3>Student</h3><p>Learn from basics</p></div>
+    <div class="charCard" data-char="Researcher"><div class="icon">🔬</div><h3>Researcher</h3><p>Advanced experiments</p></div>
+    <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Build and create</p></div>
+    <div class="charCard" data-char="Scientist"><div class="icon">🧪</div><h3>Scientist</h3><p>Discover new tech</p></div>
   </div>
-  <button id="startBtn" disabled>Select Character</button>
+  <button id="startBtn" disabled>Select Role</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Loading City...</h2>
+  <h2>Loading Labs...</h2>
   <div class="spinner"></div>
   <p id="loadText">Initializing...</p>
 </div>
 
 <div id="hud" class="hide">
-  <h3>STATUS</h3>
+  <h3>PROGRESS</h3>
   <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
-  <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/100</span></div>
-  <div class="hudStat"><span>Rep:</span><span class="val" id="rep">0</span></div>
-  <div class="hudStat"><span>Credits:</span><span class="val" id="fund">$1M</span></div>
-  <div class="hudStat"><span>Collabs:</span><span class="val" id="collabs">0</span></div>
-</div>
-
-<div id="inventory" class="hide">
-  <h3>INVENTORY</h3>
-  <div id="invList"></div>
+  <div class="hudStat"><span>Tutorials:</span><span class="val" id="tutorials">0/10</span></div>
+  <div class="hudStat"><span>Experiments:</span><span class="val" id="experiments">0/15</span></div>
+  <div class="hudStat"><span>Knowledge:</span><span class="val" id="knowledge">0%</span></div>
 </div>
 
 <div id="interact" class="hide">
@@ -112,10 +124,12 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div id="intBtns"></div>
 </div>
 
-<div id="gameModal" class="hide">
-  <h2 id="gameTitle">Mini Game</h2>
-  <div id="gameArea"></div>
-  <button class="gameBtn" onclick="window.closeGame()">EXIT GAME</button>
+<div id="tutorial" class="hide">
+  <div id="tutorialContent"></div>
+</div>
+
+<div id="experiment" class="hide">
+  <div id="expContent"></div>
 </div>
 
 <div id="controls" class="hide">
@@ -123,7 +137,6 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div class="ctrl"><span class="key">WASD</span> Move</div>
   <div class="ctrl"><span class="key">MOUSE</span> Look</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
-  <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
 </div>
 
 <div id="notif"></div>
@@ -133,128 +146,231 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 import * as THREE from 'three';
 
 const state = {
-  char: null, lvl: 1, xp: 0, xpMax: 100, rep: 0, fund: 1000000,
-  inventory: [], collabs: 0, currentLocation: null
+  char: null,
+  lvl: 1,
+  tutorialsCompleted: 0,
+  experimentsCompleted: 0,
+  knowledge: 0,
+  currentExperiment: null
 };
 
-const locations = {
-  quantum: { 
-    name: 'Quantum Research Lab', 
-    pos: [-100, 0, -120], 
-    color: 0x5a6c7d, 
-    size: 35, 
-    height: 65,
-    desc: 'Advanced quantum computing research facility with superconducting qubits.',
-    actions: [
-      { name: 'Research Quantum Algorithms', reward: { rep: 250, fund: 200000, xp: 150 } },
-      { name: 'Run Quantum Simulation', reward: { rep: 180, fund: 140000, xp: 110 } },
-      { name: 'Collaborate with Scientists', type: 'collab', reward: { rep: 150, fund: 120000, xp: 90 } },
-      { name: 'Play Quantum Puzzle', game: 'quantum' }
+const tutorials = {
+  quantum: {
+    title: 'Quantum Computing Basics',
+    sections: [
+      {
+        title: 'What is Quantum Computing?',
+        content: 'Quantum computers use quantum bits (qubits) instead of classical bits. While classical bits can be either 0 or 1, qubits can exist in a superposition of both states simultaneously.',
+        points: [
+          'Classical bit: Either 0 OR 1',
+          'Qubit: Can be 0 AND 1 at the same time (superposition)',
+          'This allows quantum computers to process multiple possibilities simultaneously',
+          'Quantum computers excel at optimization, cryptography, and simulation problems'
+        ]
+      },
+      {
+        title: 'Key Quantum Concepts',
+        content: 'Understanding these fundamental principles is essential:',
+        points: [
+          '<span class="highlight">Superposition:</span> A qubit can be in multiple states at once',
+          '<span class="highlight">Entanglement:</span> Qubits can be correlated - measuring one instantly affects the other',
+          '<span class="highlight">Quantum Gates:</span> Operations that manipulate qubits (like Hadamard, CNOT, Pauli gates)',
+          '<span class="highlight">Measurement:</span> Observing a qubit collapses it to either 0 or 1'
+        ]
+      },
+      {
+        title: 'Building a Quantum Circuit',
+        steps: [
+          'Step 1: Initialize qubits in |0⟩ state',
+          'Step 2: Apply Hadamard gate to create superposition',
+          'Step 3: Apply CNOT gate to create entanglement',
+          'Step 4: Measure the qubits to get results',
+          'Step 5: Repeat many times to see probability distribution'
+        ]
+      }
     ]
   },
-  bio: { 
-    name: 'Biotech Research Center', 
-    pos: [100, 0, -120], 
-    color: 0x6b8e7f, 
-    size: 35, 
-    height: 60,
-    desc: 'Genetic engineering laboratory with CRISPR systems and DNA sequencers.',
-    actions: [
-      { name: 'Perform Gene Editing', reward: { rep: 240, fund: 190000, xp: 145 } },
-      { name: 'Synthesize Proteins', reward: { rep: 170, fund: 130000, xp: 105 } },
-      { name: 'Collaborate with Biologists', type: 'collab', reward: { rep: 160, fund: 130000, xp: 95 } },
-      { name: 'Play Bio Match Game', game: 'bio' }
+  circuit: {
+    title: 'Building Electronic Circuits',
+    sections: [
+      {
+        title: 'Circuit Basics',
+        content: 'An electronic circuit is a closed path that allows electricity to flow. Understanding the components is crucial:',
+        points: [
+          '<span class="highlight">Power Source:</span> Provides voltage (battery, power supply)',
+          '<span class="highlight">Conductors:</span> Wires that carry current',
+          '<span class="highlight">Resistors:</span> Control current flow, measured in Ohms (Ω)',
+          '<span class="highlight">LEDs:</span> Light Emitting Diodes that emit light when current flows'
+        ]
+      },
+      {
+        title: 'Ohm\'s Law',
+        content: 'The fundamental relationship in circuits: V = I × R',
+        points: [
+          'V (Voltage) = Electrical pressure, measured in Volts (V)',
+          'I (Current) = Flow of electrons, measured in Amperes (A)',
+          'R (Resistance) = Opposition to flow, measured in Ohms (Ω)',
+          'Example: 9V battery with 450Ω resistor = 0.02A (20mA) current'
+        ]
+      },
+      {
+        title: 'Building Your First Circuit',
+        steps: [
+          'Step 1: Gather components - battery, resistor, LED, wires',
+          'Step 2: Connect positive (+) terminal of battery to resistor',
+          'Step 3: Connect resistor to long leg of LED (anode/positive)',
+          'Step 4: Connect short leg of LED (cathode/negative) to battery negative (-)',
+          'Step 5: LED should light up! If not, check connections'
+        ],
+        warning: 'Always use a resistor with LEDs to prevent burning them out!'
+      }
     ]
   },
-  ai: { 
-    name: 'AI Research Institute', 
-    pos: [-100, 0, 120], 
-    color: 0x7d6b5a, 
-    size: 35, 
-    height: 63,
-    desc: 'Artificial intelligence development center with neural network training systems.',
-    actions: [
-      { name: 'Train Neural Network', reward: { rep: 280, fund: 230000, xp: 170 } },
-      { name: 'Develop AI Models', reward: { rep: 210, fund: 170000, xp: 135 } },
-      { name: 'Collaborate with AI Experts', type: 'collab', reward: { rep: 180, fund: 150000, xp: 110 } },
-      { name: 'Play AI Battle', game: 'ai' }
+  dna: {
+    title: 'DNA Sequencing & Gene Editing',
+    sections: [
+      {
+        title: 'Understanding DNA',
+        content: 'DNA (Deoxyribonucleic Acid) is the blueprint of life, containing instructions for building proteins.',
+        points: [
+          'DNA is made of 4 bases: A (Adenine), T (Thymine), G (Guanine), C (Cytosine)',
+          'Bases pair specifically: A with T, G with C',
+          'DNA is a double helix - two strands twisted together',
+          'Genes are segments of DNA that code for specific proteins'
+        ]
+      },
+      {
+        title: 'CRISPR-Cas9 Gene Editing',
+        content: 'CRISPR is a revolutionary tool that allows precise editing of DNA:',
+        points: [
+          '<span class="highlight">Guide RNA:</span> Directs Cas9 to specific DNA location',
+          '<span class="highlight">Cas9 Enzyme:</span> Acts as molecular scissors to cut DNA',
+          '<span class="highlight">DNA Repair:</span> Cell repairs cut, allowing insertion/deletion',
+          '<span class="highlight">Applications:</span> Cure genetic diseases, improve crops, research'
+        ]
+      },
+      {
+        title: 'Performing Gene Editing',
+        steps: [
+          'Step 1: Design guide RNA to target specific gene sequence',
+          'Step 2: Synthesize guide RNA and Cas9 enzyme',
+          'Step 3: Deliver CRISPR system into cells (viral vector or electroporation)',
+          'Step 4: Guide RNA finds target DNA sequence',
+          'Step 5: Cas9 cuts DNA at precise location',
+          'Step 6: Cell repairs DNA, incorporating desired changes'
+        ]
+      }
     ]
   },
-  space: { 
-    name: 'Space Systems Laboratory', 
-    pos: [0, 0, -150], 
-    color: 0x5a7d8e, 
-    size: 40, 
-    height: 80,
-    desc: 'Orbital engineering facility with spacecraft design and mission control.',
-    actions: [
-      { name: 'Design Spacecraft', reward: { rep: 330, fund: 290000, xp: 200 } },
-      { name: 'Plan Space Mission', reward: { rep: 280, fund: 230000, xp: 175 } },
-      { name: 'Collaborate with Engineers', type: 'collab', reward: { rep: 200, fund: 170000, xp: 130 } },
-      { name: 'Play Space Race', game: 'space' }
-    ]
-  },
-  hybrid: { 
-    name: 'Innovation Center', 
-    pos: [0, 0, 0], 
-    color: 0x6d7d8e, 
-    size: 50, 
-    height: 85,
-    desc: 'Central hub combining all research areas for breakthrough innovations.',
-    actions: [
-      { name: 'Integrate Technologies', reward: { rep: 450, fund: 400000, xp: 280 } },
-      { name: 'Create Hybrid System', reward: { rep: 380, fund: 330000, xp: 240 } },
-      { name: 'Collaborate with All Teams', type: 'collab', reward: { rep: 300, fund: 250000, xp: 180 } },
-      { name: 'Play Ultimate Challenge', game: 'hybrid' }
-    ]
-  },
-  arena: { 
-    name: 'Tech Gaming Arena', 
-    pos: [-80, 0, 50], 
-    color: 0x8e6d5a, 
-    size: 45, 
-    height: 68,
-    desc: 'Gaming complex with VR pods and competitive tournaments.',
-    actions: [
-      { name: 'Tech Battle Tournament', game: 'battle' },
-      { name: 'Quantum Catch Challenge', game: 'catch' },
-      { name: 'Speed Reaction Test', game: 'clicker' },
-      { name: 'Memory Matrix Game', game: 'memory' }
-    ]
-  },
-  store: { 
-    name: 'Tech Equipment Store', 
-    pos: [50, 0, 80], 
-    color: 0x7d7d8e, 
-    size: 28, 
-    height: 42,
-    desc: 'Technology retailer with cutting-edge equipment and gadgets.',
-    actions: [
-      { name: 'Buy VR Headset', cost: 30000, item: 'VR Headset Pro' },
-      { name: 'Buy Neural Interface', cost: 120000, item: 'Neural Link X1' },
-      { name: 'Buy Quantum Computer', cost: 200000, item: 'Quantum Core Q7' },
-      { name: 'Buy Nanobot Swarm', cost: 180000, item: 'NanoSwarm 3000' }
-    ]
-  },
-  cafe: {
-    name: 'Tech Cafe & Lounge',
-    pos: [80, 0, -50],
-    color: 0x8e7d6d,
-    size: 30,
-    height: 35,
-    desc: 'Social hub for tech professionals to network and collaborate.',
-    actions: [
-      { name: 'Meet Scientists', reward: { rep: 80, xp: 50 } },
-      { name: 'Network with Experts', type: 'collab', reward: { rep: 120, fund: 100000, xp: 75 } },
-      { name: 'Share Knowledge', reward: { rep: 100, fund: 80000, xp: 60 } },
-      { name: 'Play Casual Games', game: 'casual' }
+  neural: {
+    title: 'Neural Networks & AI',
+    sections: [
+      {
+        title: 'How Neural Networks Work',
+        content: 'Artificial neural networks are inspired by the human brain:',
+        points: [
+          '<span class="highlight">Neurons:</span> Basic units that process information',
+          '<span class="highlight">Layers:</span> Input layer, hidden layers, output layer',
+          '<span class="highlight">Weights:</span> Connections between neurons with varying strengths',
+          '<span class="highlight">Activation:</span> Functions that determine neuron output (ReLU, Sigmoid)'
+        ]
+      },
+      {
+        title: 'Training a Neural Network',
+        content: 'Networks learn by adjusting weights based on errors:',
+        points: [
+          'Forward Pass: Input data flows through network to produce output',
+          'Loss Calculation: Compare output to correct answer',
+          'Backpropagation: Calculate how to adjust weights',
+          'Gradient Descent: Update weights to reduce error',
+          'Repeat thousands of times until network is accurate'
+        ]
+      },
+      {
+        title: 'Building Your First AI',
+        steps: [
+          'Step 1: Prepare training data (images, text, numbers)',
+          'Step 2: Design network architecture (number of layers, neurons)',
+          'Step 3: Initialize random weights',
+          'Step 4: Feed training data through network',
+          'Step 5: Calculate loss and backpropagate errors',
+          'Step 6: Update weights using optimizer (Adam, SGD)',
+          'Step 7: Repeat until network achieves desired accuracy'
+        ]
+      }
     ]
   }
 };
 
-let scene, camera, renderer, buildings = [], npcs = [], cars = [], curInteract = null, curNPC = null;
-let moveF = false, moveB = false, moveL = false, moveR = false, sprint = false;
+const experiments = {
+  buildCircuit: {
+    title: 'Build a Simple LED Circuit',
+    description: 'Connect components to light up an LED',
+    components: ['Battery (9V)', 'Resistor (470Ω)', 'LED (Red)', 'Wire 1', 'Wire 2'],
+    steps: [
+      'Drag the Battery to the workspace',
+      'Connect Wire 1 from Battery + to Resistor',
+      'Connect Resistor to LED + (long leg)',
+      'Connect LED - (short leg) to Wire 2',
+      'Connect Wire 2 to Battery -',
+      'Circuit complete! LED should light up'
+    ]
+  },
+  quantumGate: {
+    title: 'Apply Quantum Gates',
+    description: 'Create quantum superposition and entanglement',
+    components: ['Qubit 1', 'Qubit 2', 'Hadamard Gate', 'CNOT Gate', 'Measurement'],
+    steps: [
+      'Initialize Qubit 1 in |0⟩ state',
+      'Apply Hadamard gate to Qubit 1 (creates superposition)',
+      'Initialize Qubit 2 in |0⟩ state',
+      'Apply CNOT gate with Qubit 1 as control, Qubit 2 as target',
+      'Measure both qubits',
+      'You\'ve created an entangled Bell state!'
+    ]
+  },
+  editGene: {
+    title: 'CRISPR Gene Editing Simulation',
+    description: 'Edit a DNA sequence using CRISPR-Cas9',
+    components: ['DNA Strand', 'Guide RNA', 'Cas9 Enzyme', 'Repair Template'],
+    steps: [
+      'Select target gene sequence on DNA',
+      'Design guide RNA to match target',
+      'Attach Cas9 enzyme to guide RNA',
+      'Guide RNA binds to target DNA',
+      'Cas9 cuts both DNA strands',
+      'Insert repair template with desired sequence',
+      'Cell repairs DNA with new sequence'
+    ]
+  },
+  trainAI: {
+    title: 'Train a Simple Neural Network',
+    description: 'Teach AI to recognize patterns',
+    components: ['Input Layer', 'Hidden Layer', 'Output Layer', 'Training Data'],
+    steps: [
+      'Load training dataset (images of cats and dogs)',
+      'Feed image through input layer',
+      'Process through hidden layers',
+      'Get prediction from output layer',
+      'Calculate error (how wrong was prediction)',
+      'Backpropagate error through network',
+      'Adjust weights to improve accuracy',
+      'Repeat with more images until accurate'
+    ]
+  }
+};
+
+let scene, camera, renderer, buildings = [], curInteract = null;
+let moveF = false, moveB = false, moveL = false, moveR = false;
 const vel = new THREE.Vector3(), dir = new THREE.Vector3(), clock = new THREE.Clock();
+
+const locations = {
+  quantum: { name: 'Quantum Computing Lab', pos: [-100, 0, -100], color: 0x5a6c7d, size: 40, height: 70 },
+  electronics: { name: 'Electronics Workshop', pos: [100, 0, -100], color: 0x6b8e7f, size: 40, height: 65 },
+  biotech: { name: 'Biotech Laboratory', pos: [-100, 0, 100], color: 0x7d6b5a, size: 40, height: 68 },
+  ai: { name: 'AI Research Center', pos: [100, 0, 100], color: 0x5a7d8e, size: 40, height: 72 },
+  library: { name: 'Knowledge Library', pos: [0, 0, 0], color: 0x6d7d8e, size: 50, height: 60 }
+};
 
 function init() {
   scene = new THREE.Scene();
@@ -264,14 +380,9 @@ function init() {
   camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
   camera.position.set(0, 5, 30);
 
-  renderer = new THREE.WebGLRenderer({ 
-    canvas: document.getElementById('canvas'), 
-    antialias: true
-  });
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
   renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
@@ -279,139 +390,40 @@ function init() {
   const sun = new THREE.DirectionalLight(0xffffff, 1.2);
   sun.position.set(200, 400, 200);
   sun.castShadow = true;
-  sun.shadow.mapSize.width = 2048;
-  sun.shadow.mapSize.height = 2048;
-  sun.shadow.camera.far = 1000;
   scene.add(sun);
 
-  const hemiLight = new THREE.HemisphereLight(0x87CEEB, 0x545454, 0.4);
-  scene.add(hemiLight);
-
-  Object.values(locations).forEach(loc => {
-    const light = new THREE.PointLight(0xffd699, 0.8, 100);
-    light.position.set(loc.pos[0], loc.height + 5, loc.pos[2]);
-    scene.add(light);
-  });
-
   createWorld();
-  createNPCs();
-  createCars();
   setupControls();
   animate();
   updateHUD();
-  updateInv();
 
-  notify('Welcome to TechVerse! Walk to buildings (press E) or NPCs to interact.');
-  setTimeout(() => notify('Collaborate with NPCs to earn bonuses!'), 4000);
+  notify('Welcome! Visit labs to learn real technology through interactive tutorials.');
 }
 
 function createWorld() {
-  const groundGeo = new THREE.PlaneGeometry(1500, 1500);
-  const groundMat = new THREE.MeshStandardMaterial({ 
-    color: 0x3d5a3d,
-    roughness: 0.9,
-    metalness: 0
-  });
-  
+  const groundGeo = new THREE.PlaneGeometry(1000, 1000);
+  const groundMat = new THREE.MeshStandardMaterial({ color: 0x3d5a3d, roughness: 0.9 });
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
 
-  for (let i = -350; i <= 350; i += 70) {
-    createRoad(i, 0, 0, 1500, 14);
-    createRoad(0, 0, i, 14, 1500);
-  }
-
-  const gridHelper = new THREE.GridHelper(1500, 300, 0xcccc99, 0x444444);
-  gridHelper.position.y = 0.1;
-  scene.add(gridHelper);
-
   Object.entries(locations).forEach(([id, loc]) => {
     createBuilding(loc.pos[0], loc.pos[1], loc.pos[2], loc.size, loc.height, loc.size, loc.color, loc.name, id);
   });
-
-  const buildingColors = [0x6d7d8e, 0x7d6d5a, 0x5a6c7d, 0x6b8e7f, 0x8e7d6d, 0x7d8e8e];
-  for (let i = 0; i < 80; i++) {
-    const x = (Math.random() - 0.5) * 650;
-    const z = (Math.random() - 0.5) * 650;
-    const w = 18 + Math.random() * 25;
-    const h = 35 + Math.random() * 70;
-    const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
-    createSimpleBuilding(x, 0, z, w, h, w, color);
-  }
-}
-
-function createRoad(x, y, z, w, d) {
-  const roadGeo = new THREE.PlaneGeometry(w, d);
-  const roadMat = new THREE.MeshStandardMaterial({ 
-    color: 0x3a3a3a,
-    roughness: 0.95,
-    metalness: 0
-  });
-  const road = new THREE.Mesh(roadGeo, roadMat);
-  road.rotation.x = -Math.PI / 2;
-  road.position.set(x, y + 0.1, z);
-  road.receiveShadow = true;
-  scene.add(road);
 }
 
 function createBuilding(x, y, z, w, h, d, color, name, id) {
   const bldgGeo = new THREE.BoxGeometry(w, h, d);
-  const bldgMat = new THREE.MeshStandardMaterial({
-    color,
-    roughness: 0.7,
-    metalness: 0.3
-  });
-  
+  const bldgMat = new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.3 });
   const bldg = new THREE.Mesh(bldgGeo, bldgMat);
   bldg.position.set(x, h / 2, z);
   bldg.castShadow = true;
-  bldg.receiveShadow = true;
   bldg.userData = { type: 'building', id, name };
   scene.add(bldg);
   buildings.push(bldg);
 
-  for (let i = 0; i < 12; i++) {
-    const windowGeo = new THREE.PlaneGeometry(w * 0.7, h / 14);
-    const windowMat = new THREE.MeshStandardMaterial({ 
-      color: 0xffd699,
-      emissive: 0xffd699,
-      emissiveIntensity: 0.3,
-      transparent: true,
-      opacity: 0.7
-    });
-    const window = new THREE.Mesh(windowGeo, windowMat);
-    window.position.set(0, -h / 2 + (i + 1) * (h / 13), d / 2 + 0.1);
-    bldg.add(window);
-  }
-
-  const entranceGeo = new THREE.BoxGeometry(10, 15, 2);
-  const entranceMat = new THREE.MeshStandardMaterial({ 
-    color: 0x8e8e8e,
-    roughness: 0.5,
-    metalness: 0.5
-  });
-  const entrance = new THREE.Mesh(entranceGeo, entranceMat);
-  entrance.position.set(0, 7.5, d / 2 + 1);
-  bldg.add(entrance);
-
   createLabel(name, x, h + 12, z, 2.5);
-}
-
-function createSimpleBuilding(x, y, z, w, h, d, color) {
-  const bldgGeo = new THREE.BoxGeometry(w, h, d);
-  const bldgMat = new THREE.MeshStandardMaterial({ 
-    color,
-    roughness: 0.7,
-    metalness: 0.3
-  });
-  
-  const bldg = new THREE.Mesh(bldgGeo, bldgMat);
-  bldg.position.set(x, h / 2, z);
-  bldg.castShadow = true;
-  bldg.receiveShadow = true;
-  scene.add(bldg);
 }
 
 function createLabel(text, x, y, z, scale = 1) {
@@ -419,85 +431,21 @@ function createLabel(text, x, y, z, scale = 1) {
   const ctx = canvas.getContext('2d');
   canvas.width = 1024;
   canvas.height = 256;
-  
   ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
   ctx.fillRect(0, 0, 1024, 256);
-  
   ctx.strokeStyle = '#7f8c8d';
   ctx.lineWidth = 4;
   ctx.strokeRect(10, 10, 1004, 236);
-  
   ctx.font = 'Bold 70px Arial';
   ctx.fillStyle = '#ecf0f1';
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
   ctx.fillText(text, 512, 128);
   
   const texture = new THREE.CanvasTexture(canvas);
-  texture.minFilter = THREE.LinearFilter;
-  const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
-  const sprite = new THREE.Sprite(spriteMat);
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
   sprite.position.set(x, y, z);
   sprite.scale.set(30 * scale, 7.5 * scale, 1);
   scene.add(sprite);
-}
-
-function createNPCs() {
-  const npcNames = ['Dr. Chen', 'Prof. Smith', 'Dr. Rodriguez', 'Dr. Kim', 'Prof. Patel', 'Dr. Johnson'];
-  
-  for (let i = 0; i < 40; i++) {
-    const x = (Math.random() - 0.5) * 600;
-    const z = (Math.random() - 0.5) * 600;
-    
-    const npcGeo = new THREE.CapsuleGeometry(1.2, 3.5, 8, 16);
-    const npcMat = new THREE.MeshStandardMaterial({ 
-      color: 0x4a5568,
-      roughness: 0.8,
-      metalness: 0.2
-    });
-    
-    const npc = new THREE.Mesh(npcGeo, npcMat);
-    npc.position.set(x, 2.5, z);
-    npc.castShadow = true;
-    npc.userData = {
-      type: 'npc',
-      name: npcNames[i % npcNames.length],
-      speed: 0.7 + Math.random() * 0.6,
-      direction: Math.random() * Math.PI * 2,
-      walkTime: 0
-    };
-    scene.add(npc);
-    npcs.push(npc);
-    
-    createLabel(npc.userData.name, x, 7, z, 0.6);
-  }
-}
-
-function createCars() {
-  const carColors = [0x1a1a1a, 0x2c3e50, 0x34495e, 0x7f8c8d, 0x95a5a6, 0xecf0f1];
-  for (let i = 0; i < 30; i++) {
-    const x = (Math.random() - 0.5) * 600;
-    const y = 25 + Math.random() * 30;
-    const z = (Math.random() - 0.5) * 600;
-    
-    const carGeo = new THREE.BoxGeometry(6, 3, 9);
-    const carMat = new THREE.MeshStandardMaterial({ 
-      color: carColors[i % carColors.length],
-      roughness: 0.3,
-      metalness: 0.7
-    });
-    
-    const car = new THREE.Mesh(carGeo, carMat);
-    car.position.set(x, y, z);
-    car.castShadow = true;
-    car.userData = {
-      speed: 2 + Math.random() * 2.5,
-      direction: Math.random() * Math.PI * 2,
-      height: y
-    };
-    scene.add(car);
-    cars.push(car);
-  }
 }
 
 function setupControls() {
@@ -512,8 +460,7 @@ function setupControls() {
     if (e.code === 'KeyS') moveB = true;
     if (e.code === 'KeyA') moveL = true;
     if (e.code === 'KeyD') moveR = true;
-    if (e.code === 'ShiftLeft') sprint = true;
-    if (e.code === 'KeyE') interact();
+    if (e.code === 'KeyE' && curInteract) interact();
   });
 
   addEventListener('keyup', e => {
@@ -521,7 +468,6 @@ function setupControls() {
     if (e.code === 'KeyS') moveB = false;
     if (e.code === 'KeyA') moveL = false;
     if (e.code === 'KeyD') moveR = false;
-    if (e.code === 'ShiftLeft') sprint = false;
   });
 
   addEventListener('mousemove', e => {
@@ -541,7 +487,6 @@ function setupControls() {
 function animate() {
   requestAnimationFrame(animate);
   const delta = clock.getDelta();
-  const speed = sprint ? 100 : 70;
 
   vel.x -= vel.x * 10 * delta;
   vel.z -= vel.z * 10 * delta;
@@ -549,84 +494,46 @@ function animate() {
   dir.x = Number(moveR) - Number(moveL);
   dir.normalize();
 
-  if (moveF || moveB) vel.z -= dir.z * speed * delta;
-  if (moveL || moveR) vel.x -= dir.x * speed * delta;
+  if (moveF || moveB) vel.z -= dir.z * 70 * delta;
+  if (moveL || moveR) vel.x -= dir.x * 70 * delta;
 
   camera.position.x += vel.x * delta;
   camera.position.z += vel.z * delta;
-
-  npcs.forEach(npc => {
-    npc.userData.walkTime += delta;
-    if (npc.userData.walkTime > 5) {
-      npc.userData.direction = Math.random() * Math.PI * 2;
-      npc.userData.walkTime = 0;
-    }
-    
-    const speed = npc.userData.speed;
-    npc.position.x += Math.sin(npc.userData.direction) * speed * delta;
-    npc.position.z += Math.cos(npc.userData.direction) * speed * delta;
-    npc.position.x = Math.max(-300, Math.min(300, npc.position.x));
-    npc.position.z = Math.max(-300, Math.min(300, npc.position.z));
-    npc.rotation.y = npc.userData.direction;
-    npc.position.y = 2.5 + Math.sin(Date.now() * 0.005 + npc.position.x) * 0.3;
-  });
-
-  cars.forEach(car => {
-    const speed = car.userData.speed;
-    car.position.x += Math.sin(car.userData.direction) * speed * delta;
-    car.position.z += Math.cos(car.userData.direction) * speed * delta;
-    
-    if (car.position.x > 350) car.position.x = -350;
-    if (car.position.x < -350) car.position.x = 350;
-    if (car.position.z > 350) car.position.z = -350;
-    if (car.position.z < -350) car.position.z = 350;
-    
-    car.position.y = car.userData.height + Math.sin(Date.now() * 0.002 + car.position.x) * 2;
-    car.rotation.y = car.userData.direction;
-  });
 
   checkNearby();
   renderer.render(scene, camera);
 }
 
 function checkNearby() {
-  let nearest = null, minDist = 30;
+  let nearest = null, minDist = 35;
   
   buildings.forEach(bldg => {
     const dist = camera.position.distanceTo(bldg.position);
     if (dist < minDist) { minDist = dist; nearest = bldg; }
   });
 
-  npcs.forEach(npc => {
-    const dist = camera.position.distanceTo(npc.position);
-    if (dist < 10 && dist < minDist) { minDist = dist; nearest = npc; }
-  });
-
-  if (nearest && nearest !== curInteract) { 
-    curInteract = nearest; 
-    if (nearest.userData.type === 'building') showBuildingInteract();
-    else if (nearest.userData.type === 'npc') showNPCInteract();
-  }
+  if (nearest && nearest !== curInteract) { curInteract = nearest; showInteract(); }
   else if (!nearest && curInteract) { curInteract = null; hideInteract(); }
 }
 
-function showBuildingInteract() {
-  const loc = locations[curInteract.userData.id];
-  if (!loc) return;
-  
-  document.getElementById('intTitle').textContent = loc.name;
-  document.getElementById('intDesc').textContent = loc.desc;
+function showInteract() {
+  document.getElementById('intTitle').textContent = curInteract.userData.name;
+  document.getElementById('intDesc').textContent = 'Learn real technology through interactive tutorials and experiments.';
   
   const btns = document.getElementById('intBtns');
   btns.innerHTML = '';
   
-  loc.actions.forEach(action => {
-    const btn = document.createElement('button');
-    btn.className = 'actBtn';
-    btn.textContent = action.name;
-    btn.onclick = () => performAction(action);
-    btns.appendChild(btn);
-  });
+  const tutBtn = document.createElement('button');
+  tutBtn.className = 'actBtn';
+  tutBtn.textContent = 'START TUTORIAL';
+  tutBtn.onclick = () => startTutorial(curInteract.userData.id);
+  btns.appendChild(tutBtn);
+  
+  const expBtn = document.createElement('button');
+  expBtn.className = 'actBtn';
+  expBtn.textContent = 'DO EXPERIMENT';
+  expBtn.onclick = () => startExperiment(curInteract.userData.id);
+  btns.appendChild(expBtn);
   
   const closeBtn = document.createElement('button');
   closeBtn.className = 'actBtn';
@@ -638,179 +545,153 @@ function showBuildingInteract() {
   document.getElementById('interact').classList.remove('hide');
 }
 
-function showNPCInteract() {
-  curNPC = curInteract.userData;
-  document.getElementById('intTitle').textContent = curNPC.name;
-  document.getElementById('intDesc').textContent = `${curNPC.name} is a researcher. Collaborate to earn bonuses!`;
-  
-  const btns = document.getElementById('intBtns');
-  btns.innerHTML = '';
-  
-  const collabBtn = document.createElement('button');
-  collabBtn.className = 'actBtn';
-  collabBtn.textContent = 'COLLABORATE';
-  collabBtn.onclick = () => collaborateWithNPC();
-  btns.appendChild(collabBtn);
-  
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'actBtn';
-  closeBtn.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
-  closeBtn.textContent = 'LEAVE';
-  closeBtn.onclick = hideInteract;
-  btns.appendChild(closeBtn);
-  
-  document.getElementById('interact').classList.remove('hide');
-}
-
 function hideInteract() {
   document.getElementById('interact').classList.add('hide');
-  curNPC = null;
 }
 
-function interact() {
-  if (!curInteract) return;
-  // Interaction handled by buttons
-}
+function interact() {}
 
-function collaborateWithNPC() {
-  state.collabs++;
-  state.rep += 150;
-  state.fund += 120000;
-  addXP(100);
-  updateHUD();
-  notify(`🤝 Collaborated with ${curNPC.name}! +150 Rep, +$120K, +100 XP`);
+function startTutorial(labId) {
   hideInteract();
-}
-
-function performAction(action) {
-  if (action.game) {
-    startGame(action.game, action.name);
-  } else if (action.type === 'collab') {
-    state.collabs++;
-    if (action.reward.rep) state.rep += action.reward.rep;
-    if (action.reward.fund) state.fund += action.reward.fund;
-    if (action.reward.xp) addXP(action.reward.xp);
-    updateHUD();
-    notify(`🤝 ${action.name} successful!`);
-  } else if (action.reward) {
-    if (action.cost && state.fund < action.cost) {
-      notify(`❌ Need $${action.cost.toLocaleString()}!`);
-      return;
+  const tutMap = { quantum: 'quantum', electronics: 'circuit', biotech: 'dna', ai: 'neural' };
+  const tut = tutorials[tutMap[labId]];
+  if (!tut) return;
+  
+  let html = `<h2>${tut.title}</h2>`;
+  
+  tut.sections.forEach(section => {
+    html += `<div class="tutSection">`;
+    html += `<h3>${section.title}</h3>`;
+    html += `<p>${section.content}</p>`;
+    
+    if (section.points) {
+      html += `<ul>`;
+      section.points.forEach(point => {
+        html += `<li>${point}</li>`;
+      });
+      html += `</ul>`;
     }
     
-    if (action.cost) state.fund -= action.cost;
-    if (action.reward.rep) state.rep += action.reward.rep;
-    if (action.reward.fund) state.fund += action.reward.fund;
-    if (action.reward.xp) addXP(action.reward.xp);
-    if (action.item) {
-      state.inventory.push(action.item);
+    if (section.steps) {
+      section.steps.forEach((step, i) => {
+        html += `<div class="stepBox">`;
+        html += `<h4>Step ${i + 1}</h4>`;
+        html += `<p>${step}</p>`;
+        html += `</div>`;
+      });
     }
     
-    updateHUD();
-    updateInv();
-    notify(`✅ ${action.name} completed!`);
-  }
+    if (section.warning) {
+      html += `<div class="warning"><p>⚠️ ${section.warning}</p></div>`;
+    }
+    
+    html += `</div>`;
+  });
+  
+  html += `<div style="text-align: center;">`;
+  html += `<button class="tutBtn" onclick="window.completeTutorial()">COMPLETE TUTORIAL</button>`;
+  html += `<button class="tutBtn secondary" onclick="window.closeTutorial()">CLOSE</button>`;
+  html += `</div>`;
+  
+  document.getElementById('tutorialContent').innerHTML = html;
+  document.getElementById('tutorial').classList.remove('hide');
 }
 
-function startGame(gameType, gameName) {
-  hideInteract();
-  document.getElementById('gameTitle').textContent = gameName || 'Challenge';
-  const gameArea = document.getElementById('gameArea');
-  
-  if (gameType === 'catch' || gameType === 'quantum') {
-    let score = 0;
-    gameArea.innerHTML = `
-      <h3 style="color: #ecf0f1; margin-bottom: 20px; font-size: 1.5em;">Catch the Particles!</h3>
-      <p style="color: #bdc3c7; font-size: 1.5em; margin: 20px 0;">Score: <span id="gameScore">0</span></p>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 450px; margin: 0 auto;">
-        ${Array(9).fill(0).map((_, i) => `<div style="width: 100px; height: 100px; background: linear-gradient(135deg, #3498db, #2980b9); border: 3px solid #ecf0f1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3em; cursor: pointer; transition: all 0.3s;" onclick="window.catchParticle(${i})" id="particle${i}">⚛️</div>`).join('')}
-      </div>
-      <p style="color: #95a5a6; margin-top: 20px;">Get 100 points to win!</p>
-    `;
-    
-    window.catchParticle = (i) => {
-      score += 10;
-      document.getElementById('gameScore').textContent = score;
-      const p = document.getElementById('particle' + i);
-      if (p) {
-        p.style.background = 'linear-gradient(135deg, #27ae60, #229954)';
-        setTimeout(() => {
-          if (p) p.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
-        }, 200);
-      }
-      
-      if (score >= 100) winGame();
-    };
-  } else if (gameType === 'clicker') {
-    let clicks = 0;
-    gameArea.innerHTML = `
-      <h3 style="color: #ecf0f1; margin-bottom: 20px; font-size: 1.5em;">Click as Fast as You Can!</h3>
-      <p style="color: #bdc3c7; font-size: 1.5em; margin: 20px 0;">Clicks: <span id="clickCount">0</span></p>
-      <div style="width: 180px; height: 180px; background: linear-gradient(135deg, #e74c3c, #c0392b); border: 5px solid #ecf0f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5em; cursor: pointer; margin: 0 auto; transition: all 0.2s;" onclick="window.clickGame()">🎯</div>
-      <p style="color: #95a5a6; margin-top: 20px;">Get 50 clicks to win!</p>
-    `;
-    
-    window.clickGame = () => {
-      clicks++;
-      document.getElementById('clickCount').textContent = clicks;
-      if (clicks >= 50) winGame();
-    };
-  } else {
-    gameArea.innerHTML = `
-      <h3 style="color: #ecf0f1; margin-bottom: 20px; font-size: 1.5em;">${gameName || 'Challenge'}</h3>
-      <p style="color: #bdc3c7; font-size: 1.1em; line-height: 1.7; margin: 30px 0;">Complete this challenge to earn rewards!</p>
-      <button style="padding: 14px 40px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; font-size: 1.1em;" onclick="window.winGame()">COMPLETE</button>
-    `;
-  }
-  
-  document.getElementById('gameModal').classList.remove('hide');
-}
-
-function winGame() {
-  state.rep += 200;
-  state.fund += 150000;
-  addXP(120);
+window.completeTutorial = function() {
+  state.tutorialsCompleted++;
+  state.knowledge += 10;
   updateHUD();
-  notify(`🎉 GAME WON! +200 Rep, +$150K, +120 XP!`);
-  window.closeGame();
-}
-
-window.winGame = winGame;
-window.closeGame = function() {
-  document.getElementById('gameModal').classList.add('hide');
+  notify('✅ Tutorial completed! +10% Knowledge');
+  window.closeTutorial();
 };
 
-function addXP(amt) {
-  state.xp += amt;
-  while (state.xp >= state.xpMax) {
-    state.xp -= state.xpMax;
-    state.lvl++;
-    state.xpMax = Math.floor(state.xpMax * 1.5);
-    state.fund += 150000;
-    notify(`🎉 LEVEL UP! Now Level ${state.lvl}! +$150K!`);
-  }
-  updateHUD();
+window.closeTutorial = function() {
+  document.getElementById('tutorial').classList.add('hide');
+};
+
+function startExperiment(labId) {
+  hideInteract();
+  const expMap = { quantum: 'quantumGate', electronics: 'buildCircuit', biotech: 'editGene', ai: 'trainAI' };
+  const exp = experiments[expMap[labId]];
+  if (!exp) return;
+  
+  state.currentExperiment = { ...exp, currentStep: 0, componentsPlaced: [] };
+  
+  let html = `<h2>${exp.title}</h2>`;
+  html += `<div id="expInstructions">`;
+  html += `<h3>Instructions</h3>`;
+  html += `<p>${exp.description}</p>`;
+  html += `<p><strong>Current Step:</strong> <span id="currentStep">${exp.steps[0]}</span></p>`;
+  html += `</div>`;
+  
+  html += `<div id="expArea">`;
+  html += `<h3 style="color: #ecf0f1; margin-bottom: 20px;">Components</h3>`;
+  html += `<div id="components">`;
+  exp.components.forEach((comp, i) => {
+    html += `<div class="component" onclick="window.selectComponent(${i})">${comp}</div>`;
+  });
+  html += `</div>`;
+  html += `<div id="workspace"><p style="color: #95a5a6; text-align: center; padding: 50px;">Click components above to place them here</p></div>`;
+  html += `</div>`;
+  
+  html += `<div style="text-align: center; margin-top: 20px;">`;
+  html += `<button class="expBtn success" onclick="window.nextStep()">NEXT STEP</button>`;
+  html += `<button class="expBtn" onclick="window.closeExperiment()">EXIT</button>`;
+  html += `</div>`;
+  
+  document.getElementById('expContent').innerHTML = html;
+  document.getElementById('experiment').classList.remove('hide');
 }
+
+window.selectComponent = function(index) {
+  const exp = state.currentExperiment;
+  if (!exp) return;
+  
+  if (!exp.componentsPlaced.includes(index)) {
+    exp.componentsPlaced.push(index);
+    const workspace = document.getElementById('workspace');
+    if (exp.componentsPlaced.length === 1) {
+      workspace.innerHTML = '';
+    }
+    const comp = document.createElement('div');
+    comp.className = 'component placed';
+    comp.textContent = exp.components[index];
+    comp.style.margin = '10px';
+    workspace.appendChild(comp);
+    
+    document.querySelectorAll('.component')[index].classList.add('placed');
+    notify(`Added: ${exp.components[index]}`);
+  }
+};
+
+window.nextStep = function() {
+  const exp = state.currentExperiment;
+  if (!exp) return;
+  
+  exp.currentStep++;
+  if (exp.currentStep >= exp.steps.length) {
+    state.experimentsCompleted++;
+    state.knowledge += 15;
+    updateHUD();
+    notify('🎉 Experiment completed! +15% Knowledge');
+    window.closeExperiment();
+  } else {
+    document.getElementById('currentStep').textContent = exp.steps[exp.currentStep];
+    notify(`Step ${exp.currentStep + 1}/${exp.steps.length}`);
+  }
+};
+
+window.closeExperiment = function() {
+  document.getElementById('experiment').classList.add('hide');
+  state.currentExperiment = null;
+};
 
 function updateHUD() {
   document.getElementById('role').textContent = state.char || '-';
   document.getElementById('lvl').textContent = state.lvl;
-  document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('rep').textContent = state.rep;
-  document.getElementById('fund').textContent = '$' + (state.fund / 1000).toFixed(0) + 'K';
-  document.getElementById('collabs').textContent = state.collabs;
-}
-
-function updateInv() {
-  const list = document.getElementById('invList');
-  list.innerHTML = state.inventory.length === 0 ? '<p style="color:#95a5a6;text-align:center;padding:20px">No items yet. Visit the Tech Store!</p>' : '';
-  
-  state.inventory.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'invItem';
-    div.textContent = item;
-    list.appendChild(div);
-  });
+  document.getElementById('tutorials').textContent = `${state.tutorialsCompleted}/10`;
+  document.getElementById('experiments').textContent = `${state.experimentsCompleted}/15`;
+  document.getElementById('knowledge').textContent = `${state.knowledge}%`;
 }
 
 function notify(msg) {
@@ -827,7 +708,7 @@ document.querySelectorAll('.charCard').forEach(card => {
     card.classList.add('selected');
     selChar = card.dataset.char;
     document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').textContent = 'START JOURNEY';
+    document.getElementById('startBtn').textContent = 'START LEARNING';
   });
 });
 
@@ -837,7 +718,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Loading environment...', 'Building city...', 'Creating labels...', 'Spawning NPCs...', 'Adding vehicles...', 'Ready!'];
+  const msgs = ['Loading labs...', 'Preparing tutorials...', 'Setting up experiments...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i++];
@@ -845,7 +726,6 @@ document.getElementById('startBtn').addEventListener('click', () => {
       clearInterval(interval);
       document.getElementById('loading').classList.add('hide');
       document.getElementById('hud').classList.remove('hide');
-      document.getElementById('inventory').classList.remove('hide');
       document.getElementById('controls').classList.remove('hide');
       init();
     }
