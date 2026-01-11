@@ -3,148 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Photorealistic Experience</title>
+<title>TechVerse: Ultimate Learning Experience</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
-#renderCanvas { width: 100vw; height: 100vh; display: block; touch-action: none; }
+#renderCanvas { width: 100vw; height: 100vh; display: block; touch-action: none; cursor: crosshair; }
 
-#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(180deg, #1a1a1a 0%, #2c2c2c 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-#charSelect h1 { font-size: clamp(2.5em, 5vw, 4em); color: #fff; text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); margin-bottom: 20px; font-weight: 700; letter-spacing: 2px; }
-.subtitle { font-size: clamp(1em, 2vw, 1.3em); color: #bdc3c7; margin-bottom: 40px; text-align: center; max-width: 800px; line-height: 1.6; }
-.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; width: 90%; margin-bottom: 40px; }
-.charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 2px solid #3498db; border-radius: 12px; padding: 25px; cursor: pointer; transition: all 0.4s; text-align: center; backdrop-filter: blur(10px); }
-.charCard:hover { transform: translateY(-8px); border-color: #00d4ff; box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3); }
-.charCard.selected { background: linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(46, 204, 113, 0.3)); border-color: #27ae60; box-shadow: 0 0 30px rgba(39, 174, 96, 0.5); }
-.charCard .icon { font-size: 3em; margin-bottom: 15px; }
-.charCard h3 { color: #ecf0f1; font-size: 1.3em; margin: 10px 0; }
-.charCard p { color: #95a5a6; font-size: 0.95em; line-height: 1.4; }
-#startBtn { padding: 18px 60px; font-size: 1.4em; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 50px; color: #fff; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4); transition: all 0.3s; }
-#startBtn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(39, 174, 96, 0.6); }
+#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+#charSelect h1 { font-size: clamp(2.5em, 5vw, 4em); color: #fff; text-shadow: 0 0 30px rgba(0, 212, 255, 0.8); margin-bottom: 20px; font-weight: 800; letter-spacing: 3px; animation: glow 2s ease-in-out infinite; }
+@keyframes glow { 0%, 100% { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8); } 50% { text-shadow: 0 0 50px rgba(0, 212, 255, 1), 0 0 80px rgba(0, 212, 255, 0.6); } }
+.subtitle { font-size: clamp(1em, 2vw, 1.3em); color: #bdc3c7; margin-bottom: 40px; text-align: center; max-width: 900px; line-height: 1.8; padding: 0 20px; }
+.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; max-width: 1100px; width: 90%; margin-bottom: 40px; }
+.charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 3px solid #3498db; border-radius: 15px; padding: 30px; cursor: pointer; transition: all 0.4s; text-align: center; backdrop-filter: blur(15px); position: relative; overflow: hidden; }
+.charCard::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(52, 152, 219, 0.1), transparent); transform: rotate(45deg); transition: all 0.6s; }
+.charCard:hover::before { left: 100%; }
+.charCard:hover { transform: translateY(-10px) scale(1.05); border-color: #00d4ff; box-shadow: 0 15px 50px rgba(0, 212, 255, 0.4); }
+.charCard.selected { background: linear-gradient(135deg, rgba(39, 174, 96, 0.4), rgba(46, 204, 113, 0.4)); border-color: #27ae60; box-shadow: 0 0 40px rgba(39, 174, 96, 0.6); }
+.charCard .icon { font-size: 3.5em; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); }
+.charCard h3 { color: #ecf0f1; font-size: 1.4em; margin: 12px 0; font-weight: 700; }
+.charCard p { color: #95a5a6; font-size: 1em; line-height: 1.5; }
+#startBtn { padding: 20px 70px; font-size: 1.5em; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 50px; color: #fff; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; box-shadow: 0 10px 40px rgba(39, 174, 96, 0.5); transition: all 0.4s; position: relative; overflow: hidden; }
+#startBtn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
+#startBtn:hover::before { width: 400px; height: 400px; }
+#startBtn:hover:not(:disabled) { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(39, 174, 96, 0.7); }
 #startBtn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-#loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1a1a1a, #2c3e50); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-#loading h2 { color: #00d4ff; font-size: 2.5em; margin-bottom: 30px; font-weight: 700; text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
-.spinner { border: 6px solid rgba(0, 212, 255, 0.2); border-top: 6px solid #00d4ff; border-radius: 50%; width: 80px; height: 80px; animation: spin 1s linear infinite; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
+#loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+#loading h2 { color: #00d4ff; font-size: 2.8em; margin-bottom: 30px; font-weight: 800; text-shadow: 0 0 30px rgba(0, 212, 255, 0.8); animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+.spinner { border: 8px solid rgba(0, 212, 255, 0.2); border-top: 8px solid #00d4ff; border-radius: 50%; width: 100px; height: 100px; animation: spin 1s linear infinite; box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-#loadText { color: #bdc3c7; font-size: 1.2em; margin-top: 25px; }
-#loadProgress { width: 400px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
-#loadBar { width: 0%; height: 100%; background: linear-gradient(90deg, #00d4ff, #27ae60); transition: width 0.3s; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+#loadText { color: #bdc3c7; font-size: 1.3em; margin-top: 30px; }
+#loadProgress { width: 500px; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-top: 25px; overflow: hidden; box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5); }
+#loadBar { width: 0%; height: 100%; background: linear-gradient(90deg, #00d4ff, #27ae60, #f39c12); transition: width 0.3s; border-radius: 10px; box-shadow: 0 0 30px rgba(0, 212, 255, 0.6); }
 
-#hud { position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 62, 80, 0.95)); padding: 25px; border-radius: 15px; border: 2px solid rgba(0, 212, 255, 0.5); min-width: 260px; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
-#hud h3 { color: #00d4ff; font-size: 1.3em; margin-bottom: 15px; border-bottom: 2px solid rgba(0, 212, 255, 0.3); padding-bottom: 10px; font-weight: 700; text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
-.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1em; color: #bdc3c7; }
-.hudStat .val { color: #27ae60; font-weight: 700; text-shadow: 0 0 10px rgba(39, 174, 96, 0.3); }
+#hud { position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 25px; border-radius: 15px; border: 2px solid rgba(0, 212, 255, 0.6); min-width: 280px; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+#hud h3 { color: #00d4ff; font-size: 1.4em; margin-bottom: 15px; border-bottom: 2px solid rgba(0, 212, 255, 0.4); padding-bottom: 10px; font-weight: 800; text-shadow: 0 0 15px rgba(0, 212, 255, 0.5); }
+.hudStat { display: flex; justify-content: space-between; margin: 12px 0; font-size: 1.05em; color: #bdc3c7; }
+.hudStat .val { color: #27ae60; font-weight: 800; text-shadow: 0 0 10px rgba(39, 174, 96, 0.4); }
 
-#aiAssistant { position: fixed; top: 20px; right: 20px; width: 380px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 62, 80, 0.95)); border-radius: 15px; border: 2px solid rgba(155, 89, 182, 0.5); z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
-#aiHeader { background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 18px; border-radius: 13px 13px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-#aiHeader h3 { color: #fff; font-size: 1.2em; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-#aiToggle { background: none; border: none; color: #fff; font-size: 1.3em; cursor: pointer; transition: transform 0.3s; }
-#aiBody { max-height: 550px; overflow-y: auto; padding: 20px; display: none; }
+#aiAssistant { position: fixed; top: 20px; right: 20px; width: 400px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); border-radius: 15px; border: 2px solid rgba(155, 89, 182, 0.6); z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+#aiHeader { background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 20px; border-radius: 13px 13px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+#aiHeader h3 { color: #fff; font-size: 1.3em; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+#aiToggle { background: none; border: none; color: #fff; font-size: 1.4em; cursor: pointer; transition: transform 0.3s; }
+#aiBody { max-height: 600px; overflow-y: auto; padding: 20px; display: none; }
 #aiBody.open { display: block; }
-#aiChat { margin-bottom: 20px; max-height: 400px; overflow-y: auto; }
-.aiMsg { margin: 12px 0; padding: 14px; border-radius: 10px; line-height: 1.7; font-size: 0.95em; }
-.aiMsg.ai { background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2)); border-left: 4px solid #9b59b6; }
-.aiMsg.user { background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.2)); border-left: 4px solid #3498db; text-align: right; }
-.aiMsg strong { color: #9b59b6; }
+#aiChat { margin-bottom: 20px; max-height: 450px; overflow-y: auto; }
+.aiMsg { margin: 15px 0; padding: 15px; border-radius: 12px; line-height: 1.8; font-size: 0.98em; animation: slideIn 0.3s ease-out; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.aiMsg.ai { background: linear-gradient(135deg, rgba(155, 89, 182, 0.25), rgba(142, 68, 173, 0.25)); border-left: 4px solid #9b59b6; }
+.aiMsg.user { background: linear-gradient(135deg, rgba(52, 152, 219, 0.25), rgba(41, 128, 185, 0.25)); border-left: 4px solid #3498db; text-align: right; }
+.aiMsg strong { color: #9b59b6; font-weight: 700; }
 #aiInputArea { display: flex; gap: 10px; }
-#aiInput { flex: 1; padding: 12px; background: rgba(52, 73, 94, 0.6); border: 2px solid rgba(127, 140, 141, 0.5); border-radius: 8px; color: #ecf0f1; font-size: 1em; }
-#aiInput:focus { outline: none; border-color: #9b59b6; }
-#aiSend { padding: 12px 24px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; transition: all 0.3s; }
-#aiSend:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(155, 89, 182, 0.4); }
+#aiInput { flex: 1; padding: 14px; background: rgba(52, 73, 94, 0.6); border: 2px solid rgba(127, 140, 141, 0.5); border-radius: 10px; color: #ecf0f1; font-size: 1em; transition: all 0.3s; }
+#aiInput:focus { outline: none; border-color: #9b59b6; box-shadow: 0 0 15px rgba(155, 89, 182, 0.3); }
+#aiSend { padding: 14px 28px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border: none; border-radius: 10px; color: #fff; font-weight: 800; cursor: pointer; transition: all 0.3s; }
+#aiSend:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(155, 89, 182, 0.5); }
 
-#interact { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(44, 62, 80, 0.98)); padding: 35px 45px; border-radius: 15px; border: 2px solid rgba(52, 152, 219, 0.5); max-width: 800px; width: 90%; text-align: center; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
-#interact h4 { color: #3498db; font-size: 2em; margin-bottom: 18px; font-weight: 700; text-shadow: 0 0 15px rgba(52, 152, 219, 0.3); }
-#interact p { color: #bdc3c7; font-size: 1.1em; margin-bottom: 25px; line-height: 1.8; }
-.actBtn { padding: 15px 35px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; margin: 10px; font-size: 1.05em; transition: all 0.3s; box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3); }
-.actBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52, 152, 219, 0.5); }
+#interact { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: 35px 50px; border-radius: 20px; border: 3px solid rgba(52, 152, 219, 0.6); max-width: 850px; width: 92%; text-align: center; z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7); }
+#interact h4 { color: #3498db; font-size: 2.2em; margin-bottom: 20px; font-weight: 800; text-shadow: 0 0 20px rgba(52, 152, 219, 0.5); }
+#interact p { color: #bdc3c7; font-size: 1.15em; margin-bottom: 25px; line-height: 1.9; }
+.actBtn { padding: 16px 40px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 12px; color: #fff; font-weight: 800; cursor: pointer; margin: 12px; font-size: 1.1em; transition: all 0.3s; box-shadow: 0 6px 25px rgba(52, 152, 219, 0.4); text-transform: uppercase; letter-spacing: 1px; }
+.actBtn:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(52, 152, 219, 0.6); }
 
-#collaboration { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.97); z-index: 5000; overflow-y: auto; padding: 30px; }
-#collabContent { max-width: 1500px; margin: 0 auto; background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(44, 62, 80, 0.98)); padding: 40px; border-radius: 20px; border: 3px solid rgba(39, 174, 96, 0.5); backdrop-filter: blur(20px); }
-#collabContent h2 { color: #27ae60; font-size: 2.5em; margin-bottom: 30px; text-align: center; font-weight: 700; text-shadow: 0 0 20px rgba(39, 174, 96, 0.3); }
-#collabInfo { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
-.collabPanel { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 25px; border-radius: 12px; border: 2px solid rgba(127, 140, 141, 0.3); }
-.collabPanel h3 { color: #3498db; margin-bottom: 18px; font-size: 1.5em; font-weight: 700; }
-.collabPanel p { color: #ecf0f1; line-height: 1.8; margin: 10px 0; }
-.expertTag { display: inline-block; background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(142, 68, 173, 0.3)); padding: 6px 15px; border-radius: 20px; margin: 5px; font-size: 0.9em; color: #9b59b6; border: 1px solid #9b59b6; }
-#projectArea { background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(30, 30, 30, 0.8)); padding: 30px; border-radius: 12px; margin: 25px 0; border: 2px solid rgba(39, 174, 96, 0.3); }
-.taskItem { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #3498db; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; }
-.taskItem:hover { transform: translateX(5px); box-shadow: 0 5px 20px rgba(52, 152, 219, 0.2); }
-.taskItem.completed { border-left-color: #27ae60; opacity: 0.7; }
-.taskItem h4 { color: #ecf0f1; margin-bottom: 8px; font-size: 1.2em; }
-.taskItem p { color: #95a5a6; font-size: 0.95em; }
-.taskBtn { padding: 10px 25px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; font-size: 1em; transition: all 0.3s; }
-.taskBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); }
-.taskBtn.complete { background: linear-gradient(135deg, #27ae60, #229954); }
-#codeEditor { background: #1e1e1e; padding: 25px; border-radius: 10px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #d4d4d4; font-size: 0.95em; line-height: 1.8; margin: 20px 0; border: 2px solid #3498db; box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5); }
-.keyword { color: #569cd6; font-weight: 600; }
-.string { color: #ce9178; }
-.comment { color: #6a9955; font-style: italic; }
-.function { color: #dcdcaa; font-weight: 600; }
-#collabChat { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 25px; border-radius: 12px; max-height: 350px; overflow-y: auto; margin: 25px 0; border: 2px solid rgba(127, 140, 141, 0.3); }
-.collabMsg { margin: 12px 0; padding: 14px; border-radius: 10px; font-size: 1em; }
-.collabMsg.npc { background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2)); border-left: 4px solid #9b59b6; }
-.collabMsg.you { background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.2)); border-left: 4px solid #3498db; }
-.collabBtn { padding: 15px 40px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; margin: 12px 8px; font-size: 1.1em; transition: all 0.3s; box-shadow: 0 5px 20px rgba(39, 174, 96, 0.3); }
-.collabBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(39, 174, 96, 0.5); }
-.collabBtn.secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+#tutorial { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.97); z-index: 5000; overflow-y: auto; padding: 40px 20px; }
+#tutorialContent { max-width: 1200px; margin: 0 auto; background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: 50px; border-radius: 25px; border: 3px solid rgba(52, 152, 219, 0.6); backdrop-filter: blur(25px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); }
+#tutorialContent h2 { color: #00d4ff; font-size: 2.8em; margin-bottom: 30px; text-align: center; font-weight: 800; text-shadow: 0 0 25px rgba(0, 212, 255, 0.6); }
+.tutSection { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 30px; margin: 25px 0; border-radius: 15px; border-left: 5px solid #27ae60; transition: all 0.3s; }
+.tutSection:hover { transform: translateX(5px); box-shadow: 0 8px 30px rgba(39, 174, 96, 0.2); }
+.tutSection h3 { color: #27ae60; font-size: 1.8em; margin-bottom: 18px; font-weight: 700; }
+.tutSection p { color: #ecf0f1; font-size: 1.1em; line-height: 2; margin: 12px 0; }
+.tutSection ul { margin: 20px 0 20px 40px; }
+.tutSection li { color: #bdc3c7; margin: 12px 0; line-height: 1.8; font-size: 1.05em; }
+.stepBox { background: linear-gradient(135deg, rgba(41, 128, 185, 0.25), rgba(52, 152, 219, 0.25)); padding: 25px; margin: 20px 0; border-radius: 12px; border: 2px solid #3498db; }
+.stepBox h4 { color: #3498db; font-size: 1.5em; margin-bottom: 15px; font-weight: 700; }
+.stepBox p { color: #ecf0f1; line-height: 1.9; font-size: 1.05em; }
+.highlight { color: #f39c12; font-weight: 700; text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+.warning { background: linear-gradient(135deg, rgba(231, 76, 60, 0.25), rgba(192, 57, 43, 0.25)); padding: 20px; border-left: 5px solid #e74c3c; margin: 20px 0; border-radius: 10px; }
+.warning p { color: #e74c3c; font-weight: 700; font-size: 1.1em; }
+.tutBtn { padding: 18px 50px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 12px; color: #fff; font-weight: 800; cursor: pointer; margin: 25px 12px; font-size: 1.2em; transition: all 0.3s; box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4); text-transform: uppercase; }
+.tutBtn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(39, 174, 96, 0.6); }
+.tutBtn.secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
 
-#controls { position: fixed; bottom: 40px; left: 40px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 62, 80, 0.95)); padding: 22px; border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.3); z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
-#controls h4 { color: #00d4ff; margin-bottom: 12px; font-size: 1.15em; font-weight: 700; }
-.ctrl { color: #bdc3c7; margin: 8px 0; font-size: 0.95em; }
-.key { color: #27ae60; font-weight: 700; background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(46, 204, 113, 0.2)); padding: 4px 10px; border-radius: 6px; margin-right: 8px; border: 1px solid rgba(39, 174, 96, 0.3); }
+#controls { position: fixed; bottom: 40px; left: 40px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 25px; border-radius: 15px; border: 2px solid rgba(0, 212, 255, 0.4); z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+#controls h4 { color: #00d4ff; margin-bottom: 15px; font-size: 1.2em; font-weight: 800; }
+.ctrl { color: #bdc3c7; margin: 10px 0; font-size: 1em; }
+.key { color: #27ae60; font-weight: 800; background: linear-gradient(135deg, rgba(39, 174, 96, 0.25), rgba(46, 204, 113, 0.25)); padding: 5px 12px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(39, 174, 96, 0.4); display: inline-block; }
 
-#notif { position: fixed; top: 140px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 18px 45px; border-radius: 50px; font-weight: 700; font-size: 1.15em; opacity: 0; transition: opacity 0.4s; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 8px 32px rgba(39, 174, 96, 0.5); }
-#notif.show { opacity: 1; }
+#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 20px 50px; border-radius: 50px; font-weight: 800; font-size: 1.2em; opacity: 0; transition: opacity 0.4s; max-width: 92%; text-align: center; z-index: 2000; box-shadow: 0 10px 40px rgba(39, 174, 96, 0.6); }
+#notif.show { opacity: 1; animation: notifBounce 0.5s ease-out; }
+@keyframes notifBounce { 0% { transform: translateX(-50%) translateY(-20px); } 50% { transform: translateX(-50%) translateY(5px); } 100% { transform: translateX(-50%) translateY(0); } }
 
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 5px; }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); border-radius: 6px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(135deg, #5dade2, #3498db); }
+
+#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; pointer-events: none; z-index: 999; }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.8); }
+#crosshair::before { width: 2px; height: 20px; left: 9px; }
+#crosshair::after { width: 20px; height: 2px; top: 9px; }
 </style>
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
-<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 </head>
 <body>
 <canvas id="renderCanvas"></canvas>
+<div id="crosshair"></div>
 
 <div id="charSelect">
-  <h1>🌆 TECHVERSE: PHOTOREALISTIC EXPERIENCE</h1>
-  <p class="subtitle">Experience cutting-edge technology in a truly realistic environment with advanced graphics, AI collaboration, and hands-on learning</p>
+  <h1>🌆 TECHVERSE: ULTIMATE LEARNING ODYSSEY</h1>
+  <p class="subtitle">Master 15+ cutting-edge technologies through immersive experiences, real collaboration with AI experts, hands-on projects, and interactive challenges in a photorealistic world</p>
   <div class="charGrid">
-    <div class="charCard" data-char="Developer"><div class="icon">💻</div><h3>Developer</h3><p>Master coding & system architecture</p></div>
-    <div class="charCard" data-char="Researcher"><div class="icon">🔬</div><h3>Researcher</h3><p>Explore & discover innovations</p></div>
-    <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Design & build solutions</p></div>
-    <div class="charCard" data-char="Scientist"><div class="icon">🧪</div><h3>Scientist</h3><p>Experiment & innovate</p></div>
+    <div class="charCard" data-char="Tech Explorer"><div class="icon">🚀</div><h3>Tech Explorer</h3><p>Discover all technologies from basics</p></div>
+    <div class="charCard" data-char="AI Specialist"><div class="icon">🤖</div><h3>AI Specialist</h3><p>Master machine learning & neural networks</p></div>
+    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Explore quantum computing depths</p></div>
+    <div class="charCard" data-char="Biotech Innovator"><div class="icon">🧬</div><h3>Biotech Innovator</h3><p>Gene editing & synthetic biology</p></div>
   </div>
-  <button id="startBtn" disabled>SELECT YOUR ROLE</button>
+  <button id="startBtn" disabled>SELECT YOUR PATH</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building Photorealistic World...</h2>
+  <h2>Initializing TechVerse...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Initializing advanced graphics engine...</p>
+  <p id="loadText">Loading advanced systems...</p>
   <div id="loadProgress"><div id="loadBar"></div></div>
 </div>
 
 <div id="hud" class="hide">
   <h3>⚡ PROGRESS</h3>
-  <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
+  <div class="hudStat"><span>Path:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
-  <div class="hudStat"><span>Projects:</span><span class="val" id="projects">0/10</span></div>
-  <div class="hudStat"><span>Collabs:</span><span class="val" id="collabs">0</span></div>
-  <div class="hudStat"><span>Rep:</span><span class="val" id="rep">0</span></div>
+  <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
+  <div class="hudStat"><span>Technologies:</span><span class="val" id="techs">0/15</span></div>
+  <div class="hudStat"><span>Projects:</span><span class="val" id="projects">0/20</span></div>
+  <div class="hudStat"><span>Mastery:</span><span class="val" id="mastery">0%</span></div>
 </div>
 
 <div id="aiAssistant">
   <div id="aiHeader" onclick="toggleAI()">
-    <h3>🤖 AI ASSISTANT</h3>
+    <h3>🤖 AI MENTOR</h3>
     <button id="aiToggle">▼</button>
   </div>
   <div id="aiBody">
     <div id="aiChat">
-      <div class="aiMsg ai"><strong>AI:</strong> Welcome! I'm your intelligent assistant. Ask me about quantum computing, AI, circuits, DNA, nanotechnology, fusion, space systems, or any technology topic!</div>
+      <div class="aiMsg ai"><strong>AI Mentor:</strong> Welcome, learner! I'm your advanced AI mentor with deep knowledge of 15+ technologies. Ask me anything - from quantum mechanics to gene editing, from neural networks to fusion reactors. I'll explain concepts, guide you through projects, and help you truly understand how technology works!</div>
     </div>
     <div id="aiInputArea">
       <input type="text" id="aiInput" placeholder="Ask about any technology..." onkeypress="if(event.key==='Enter') askAI()">
@@ -159,259 +162,788 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div id="intBtns"></div>
 </div>
 
-<div id="collaboration" class="hide">
-  <div id="collabContent"></div>
+<div id="tutorial" class="hide">
+  <div id="tutorialContent"></div>
 </div>
 
 <div id="controls" class="hide">
   <h4>🎮 CONTROLS</h4>
-  <div class="ctrl"><span class="key">WASD</span> Move</div>
-  <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
+  <div class="ctrl"><span class="key">WASD</span> Move Around</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look (Click to lock)</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
-  <div class="ctrl"><span class="key">T</span> Toggle AI</div>
+  <div class="ctrl"><span class="key">T</span> AI Mentor</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
+  <div class="ctrl"><span class="key">ESC</span> Unlock Mouse</div>
 </div>
 
 <div id="notif"></div>
 
 <script>
-const state = { char: null, lvl: 1, projectsCompleted: 0, collabs: 0, rep: 0, currentCollab: null, aiOpen: false };
+const state = {
+  char: null, lvl: 1, xp: 0, xpMax: 1000, techsLearned: 0, projectsCompleted: 0, mastery: 0,
+  aiOpen: false, pointerLocked: false
+};
 
+// COMPREHENSIVE AI KNOWLEDGE BASE - 15+ TECHNOLOGIES
 const aiKnowledge = {
-  quantum: "Quantum computing leverages quantum mechanics principles. Qubits exist in superposition (simultaneously 0 AND 1), enabling parallel computation. Entanglement creates correlated qubit pairs - measuring one instantly affects the other. Quantum gates (Hadamard creates superposition, CNOT creates entanglement, Pauli gates flip states) manipulate qubits. Applications: Breaking RSA encryption (Shor's algorithm), database search (Grover's algorithm), drug discovery, optimization problems. Challenges: Decoherence (qubits lose quantum state), error correction, maintaining ultra-cold temperatures (~15mK).",
-  
-  ai: "Neural networks are inspired by biological brains. Architecture: Input layer receives data, hidden layers extract features through weighted connections, output layer produces predictions. Training process: 1) Forward propagation - data flows through network, 2) Loss calculation - compare output to ground truth, 3) Backpropagation - calculate gradients using chain rule, 4) Weight update - adjust using optimizers (SGD, Adam, RMSprop). Key architectures: CNNs for computer vision (convolutional layers detect patterns), RNNs/LSTMs for sequences (maintain memory), Transformers for NLP (attention mechanism). Requires large datasets, GPU acceleration, regularization to prevent overfitting.",
-  
-  circuit: "Electronics follows fundamental laws. Ohm's Law: V=I×R (Voltage = Current × Resistance). Components: Resistors limit current (color bands indicate value), Capacitors store charge (C=Q/V), Inductors resist current changes, Diodes allow one-way current flow, Transistors act as switches/amplifiers (BJT, MOSFET). Circuit types: Series (same current, voltages add), Parallel (same voltage, currents add). Power: P=V×I=I²R=V²/R. Always calculate to avoid overheating. Kirchhoff's laws: Current law (sum of currents at node = 0), Voltage law (sum of voltages in loop = 0). AC circuits involve impedance, phase shifts, resonance.",
-  
-  dna: "DNA (Deoxyribonucleic Acid) is life's blueprint. Structure: Double helix with sugar-phosphate backbone, base pairs (Adenine-Thymine, Guanine-Cytosine) connected by hydrogen bonds. Genes are DNA segments coding for proteins. CRISPR-Cas9 gene editing: 1) Design 20bp guide RNA complementary to target, 2) Cas9 endonuclease cuts both DNA strands at PAM sequence (NGG), 3) Cell repairs via NHEJ (error-prone, causes insertions/deletions) or HDR (precise, uses template). Applications: Cure sickle cell anemia, create disease-resistant crops, develop cancer therapies. Ethical concerns: Germline editing affects future generations, off-target effects, accessibility.",
-  
-  neural: "Brain-computer interfaces decode neural activity. Signal acquisition: Invasive (Utah array, Neuralink threads penetrate cortex, high resolution) or non-invasive (EEG scalp electrodes, lower resolution). Signal processing: 1) Amplification (neural signals ~50μV), 2) Filtering (remove 60Hz noise, isolate frequency bands), 3) Feature extraction (spike sorting, spectral analysis), 4) Decoding (machine learning maps patterns to intentions). Applications: Control prosthetic limbs, restore communication for ALS patients, treat Parkinson's with deep brain stimulation. Challenges: Biocompatibility, signal degradation over time, computational latency, ethical implications of mind reading.",
-  
-  nano: "Nanotechnology manipulates matter at 1-100 nanometer scale (1nm = 10⁻⁹m). Techniques: Top-down (lithography, etching - like semiconductor manufacturing) vs Bottom-up (self-assembly, chemical synthesis). Characterization: Scanning Electron Microscopy (SEM), Transmission Electron Microscopy (TEM), Atomic Force Microscopy (AFM) for imaging/manipulation. Materials: Carbon nanotubes (100x stronger than steel, excellent conductors), Quantum dots (size-tunable fluorescence), Graphene (single atom thick, highest conductivity). Applications: Targeted drug delivery (nanoparticles cross blood-brain barrier), Solar cells (increased efficiency), Water filtration, Flexible electronics.",
-  
-  fusion: "Nuclear fusion combines light nuclei to release energy (E=mc²). Reaction: Deuterium + Tritium → Helium + neutron + 17.6 MeV. Requirements: Temperature >100 million°C (overcome Coulomb barrier), Pressure (increase collision rate), Confinement time (Lawson criterion). Approaches: Magnetic confinement (Tokamak uses toroidal magnetic field, ITER project), Inertial confinement (NIF uses lasers to compress fuel pellet). Challenges: Achieving Q>1 (energy out > energy in), Plasma instabilities, Neutron damage to reactor walls, Tritium breeding (scarce fuel). Benefits: Abundant fuel (deuterium from seawater), No long-lived radioactive waste, No meltdown risk.",
-  
-  space: "Spacecraft engineering involves multiple systems. Propulsion: Chemical (high thrust, low efficiency), Ion (low thrust, high efficiency for deep space), Nuclear (theoretical, highest performance). Orbital mechanics: Hohmann transfer (energy-efficient orbit change), Gravity assists (use planetary flybys to gain velocity), Lagrange points (stable positions in two-body system). Life support: Oxygen generation (electrolysis, plants), Water recycling (99% recovery on ISS), CO₂ removal (scrubbers). Challenges: Radiation (solar/cosmic rays damage DNA), Microgravity (bone/muscle loss), Psychological isolation. Mars mission: 6-9 month transit, Entry-Descent-Landing (EDL) through thin atmosphere, In-situ resource utilization (ISRU) for fuel/oxygen production."
+  quantum: `🔬 **QUANTUM COMPUTING - THE FUTURE OF COMPUTATION**
+
+**What is Quantum Computing?**
+Quantum computers harness quantum mechanics to solve problems impossible for classical computers. Instead of bits (0 or 1), they use qubits that exist in superposition.
+
+**Core Principles:**
+1. **Superposition**: A qubit can be 0 AND 1 simultaneously. Imagine a coin spinning in air - it's both heads and tails until it lands. This allows parallel processing of multiple states.
+
+2. **Entanglement**: When qubits become entangled, measuring one instantly affects the other, regardless of distance. Einstein called this "spooky action at a distance."
+
+3. **Quantum Interference**: Amplify correct answers and cancel wrong ones through wave interference, like noise-canceling headphones but for computation.
+
+**Quantum Gates:**
+- **Hadamard (H)**: Creates superposition - transforms |0⟩ into (|0⟩+|1⟩)/√2
+- **CNOT**: Creates entanglement - flips target qubit if control is |1⟩
+- **Pauli Gates (X,Y,Z)**: Rotate qubits in different directions
+- **Phase Gate (S,T)**: Add phase shifts for interference
+
+**Real Applications:**
+- **Cryptography**: Shor's algorithm can factor large numbers exponentially faster, breaking RSA encryption
+- **Drug Discovery**: Simulate molecular interactions for new medicines
+- **Optimization**: Solve complex logistics, financial modeling, AI training
+- **Materials Science**: Design new materials atom-by-atom
+
+**Challenges:**
+- **Decoherence**: Qubits lose quantum state in microseconds due to environmental noise
+- **Error Correction**: Need 1000+ physical qubits for 1 logical qubit
+- **Temperature**: Must operate at ~15 millikelvin (colder than outer space)
+- **Scalability**: Current systems have 50-1000 qubits; need millions for practical use
+
+**How to Build a Quantum Circuit:**
+1. Initialize qubits in |0⟩ state
+2. Apply Hadamard gates for superposition
+3. Apply CNOT gates for entanglement
+4. Add problem-specific gates
+5. Measure qubits (collapses superposition)
+6. Repeat 1000s of times for statistics`,
+
+  ai: `🤖 **ARTIFICIAL INTELLIGENCE & DEEP LEARNING**
+
+**Neural Networks - Mimicking the Brain:**
+Artificial neural networks are inspired by biological neurons. Each artificial neuron receives inputs, applies weights, adds bias, and passes through an activation function.
+
+**Architecture Layers:**
+1. **Input Layer**: Receives raw data (pixels, text, numbers)
+2. **Hidden Layers**: Extract increasingly abstract features
+3. **Output Layer**: Produces final prediction/classification
+
+**Training Process (Backpropagation):**
+1. **Forward Pass**: Data flows through network
+   - Input × Weights + Bias → Activation Function → Next Layer
+2. **Loss Calculation**: Compare output to ground truth
+   - Common losses: MSE (regression), Cross-Entropy (classification)
+3. **Backward Pass**: Calculate gradients using chain rule
+   - ∂Loss/∂Weight for every weight in network
+4. **Weight Update**: Adjust weights to minimize loss
+   - Weight_new = Weight_old - LearningRate × Gradient
+
+**Activation Functions:**
+- **ReLU**: f(x) = max(0,x) - Most common, prevents vanishing gradients
+- **Sigmoid**: f(x) = 1/(1+e^-x) - Outputs 0-1, used for probabilities
+- **Tanh**: f(x) = (e^x - e^-x)/(e^x + e^-x) - Outputs -1 to 1
+- **Softmax**: Converts logits to probability distribution
+
+**Advanced Architectures:**
+
+**CNNs (Convolutional Neural Networks)** - For Images:
+- Convolutional layers detect patterns (edges, textures, objects)
+- Pooling layers reduce dimensions while keeping important features
+- Used in: Face recognition, medical imaging, self-driving cars
+
+**RNNs/LSTMs** - For Sequences:
+- Maintain memory of previous inputs
+- LSTM gates control what to remember/forget
+- Used in: Language translation, speech recognition, time series
+
+**Transformers** - State of the Art:
+- Attention mechanism: "Focus on important parts"
+- Parallel processing (faster than RNNs)
+- Powers GPT, BERT, ChatGPT
+- Self-attention: Q(Query) × K(Key) → Attention weights × V(Value)
+
+**Training Techniques:**
+- **Batch Normalization**: Normalize layer inputs for stable training
+- **Dropout**: Randomly disable neurons to prevent overfitting
+- **Data Augmentation**: Rotate, flip, crop images for more training data
+- **Transfer Learning**: Use pre-trained models, fine-tune for your task
+
+**Optimizers:**
+- **SGD**: Basic gradient descent with momentum
+- **Adam**: Adaptive learning rates per parameter (most popular)
+- **RMSprop**: Good for RNNs
+- **AdaGrad**: Adapts to sparse data
+
+**Real-World Applications:**
+- Computer Vision: Object detection, image segmentation, style transfer
+- NLP: Translation, summarization, question answering, chatbots
+- Reinforcement Learning: Game playing (AlphaGo), robotics
+- Generative AI: Image generation (DALL-E), text (GPT), music`,
+
+  circuit: `⚡ **ELECTRONICS & CIRCUIT DESIGN**
+
+**Fundamental Laws:**
+
+**Ohm's Law**: V = I × R
+- V (Voltage): Electrical pressure in Volts
+- I (Current): Flow of electrons in Amperes
+- R (Resistance): Opposition to flow in Ohms (Ω)
+- Example: 9V battery with 450Ω resistor → I = 9/450 = 0.02A = 20mA
+
+**Kirchhoff's Laws:**
+1. **Current Law (KCL)**: Sum of currents entering a node = sum leaving
+   - Conservation of charge
+2. **Voltage Law (KVL)**: Sum of voltages around a closed loop = 0
+   - Conservation of energy
+
+**Power**: P = V × I = I²R = V²/R
+- Measured in Watts (W)
+- Always calculate to avoid overheating components
+
+**Essential Components:**
+
+**Resistors:**
+- Limit current flow
+- Color code: Black(0), Brown(1), Red(2), Orange(3), Yellow(4), Green(5), Blue(6), Violet(7), Gray(8), White(9)
+- Example: Red-Red-Brown = 220Ω
+- Power rating: 1/4W, 1/2W, 1W, 2W
+
+**Capacitors:**
+- Store electrical charge: Q = C × V
+- Block DC, pass AC
+- Types: Ceramic (small, stable), Electrolytic (large, polarized), Tantalum
+- Used for: Filtering, timing, coupling, decoupling
+
+**Inductors:**
+- Store energy in magnetic field
+- Oppose current changes: V = L × (dI/dt)
+- Used in: Filters, transformers, power supplies
+
+**Diodes:**
+- Allow current in one direction only
+- Forward voltage drop: ~0.7V (silicon), ~0.3V (germanium)
+- Types: Standard, Zener (voltage regulation), LED (light emission), Schottky (fast switching)
+
+**Transistors:**
+- **BJT (Bipolar Junction)**: Current-controlled switch/amplifier
+  - NPN: Collector-Base-Emitter
+  - PNP: Emitter-Base-Collector
+  - β (gain) = Ic/Ib (typically 100-300)
+- **MOSFET**: Voltage-controlled switch
+  - N-channel: Gate voltage turns ON
+  - P-channel: Gate voltage turns OFF
+  - Used in: Digital circuits, power electronics
+
+**Circuit Types:**
+
+**Series Circuit:**
+- Same current through all components
+- Voltages add: V_total = V1 + V2 + V3
+- Resistances add: R_total = R1 + R2 + R3
+
+**Parallel Circuit:**
+- Same voltage across all components
+- Currents add: I_total = I1 + I2 + I3
+- Resistances: 1/R_total = 1/R1 + 1/R2 + 1/R3
+
+**AC Circuits:**
+- Impedance (Z): Combines resistance and reactance
+- Capacitive Reactance: Xc = 1/(2πfC)
+- Inductive Reactance: XL = 2πfL
+- Phase shifts between voltage and current
+
+**Practical Circuit Design:**
+1. **LED Circuit**: LED + Current-limiting resistor
+   - R = (V_supply - V_led) / I_led
+   - Example: (9V - 2V) / 0.02A = 350Ω (use 330Ω or 470Ω)
+
+2. **Voltage Divider**: Two resistors divide voltage
+   - V_out = V_in × R2/(R1+R2)
+
+3. **RC Filter**: Resistor + Capacitor for filtering
+   - Low-pass: Blocks high frequencies
+   - High-pass: Blocks low frequencies
+   - Cutoff frequency: fc = 1/(2πRC)
+
+**Safety Rules:**
+- Always calculate power dissipation
+- Use appropriate wire gauge for current
+- Add fuses for protection
+- Discharge capacitors before handling
+- Never touch live circuits`,
+
+  dna: `🧬 **DNA, GENETICS & CRISPR GENE EDITING**
+
+**DNA Structure:**
+- Double helix discovered by Watson & Crick (1953)
+- Sugar-phosphate backbone with base pairs inside
+- 4 bases: Adenine (A), Thymine (T), Guanine (G), Cytosine (C)
+- Base pairing rules: A-T (2 hydrogen bonds), G-C (3 hydrogen bonds)
+- DNA is antiparallel: 5' to 3' direction
+
+**Central Dogma of Molecular Biology:**
+DNA → RNA → Protein
+1. **Transcription**: DNA → mRNA (in nucleus)
+2. **Translation**: mRNA → Protein (in ribosome)
+
+**Genetic Code:**
+- Codons: 3-base sequences code for amino acids
+- 64 possible codons, 20 amino acids
+- Start codon: AUG (Methionine)
+- Stop codons: UAA, UAG, UGA
+- Redundancy: Multiple codons for same amino acid
+
+**CRISPR-Cas9 Gene Editing:**
+
+**What is CRISPR?**
+Clustered Regularly Interspaced Short Palindromic Repeats - bacterial immune system adapted for gene editing.
+
+**Components:**
+1. **Guide RNA (gRNA)**: 20 base pairs complementary to target DNA
+2. **Cas9 Enzyme**: Molecular scissors that cuts DNA
+3. **PAM Sequence**: NGG motif required next to target (Protospacer Adjacent Motif)
+
+**How CRISPR Works:**
+1. **Design gRNA**: Create 20bp sequence matching target gene
+2. **Complex Formation**: gRNA binds to Cas9 enzyme
+3. **Target Recognition**: gRNA guides Cas9 to specific DNA location
+4. **DNA Binding**: gRNA hybridizes with target DNA
+5. **Cutting**: Cas9 makes double-strand break 3bp upstream of PAM
+6. **Repair**: Cell repairs break via:
+   - **NHEJ** (Non-Homologous End Joining): Error-prone, causes insertions/deletions (indels) → Gene knockout
+   - **HDR** (Homology-Directed Repair): Precise, uses template DNA → Gene insertion/correction
+
+**Applications:**
+- **Medicine**: Cure sickle cell anemia, treat cancer, prevent HIV
+- **Agriculture**: Disease-resistant crops, drought tolerance, improved nutrition
+- **Research**: Create disease models, study gene function
+- **Biotechnology**: Produce insulin, enzymes, biofuels
+
+**Advanced Techniques:**
+- **Base Editing**: Change single DNA letter without cutting (A→G, C→T)
+- **Prime Editing**: "Search and replace" for DNA sequences
+- **Epigenome Editing**: Control gene expression without changing DNA
+- **CRISPR Screening**: Test thousands of genes simultaneously
+
+**Ethical Considerations:**
+- Germline editing affects future generations
+- Off-target effects: Unintended cuts elsewhere in genome
+- Accessibility: Who gets access to gene therapies?
+- Designer babies: Should we enhance traits?
+- Ecological impact: Gene drives in wild populations
+
+**Delivery Methods:**
+- **Viral Vectors**: AAV (Adeno-Associated Virus), Lentivirus
+- **Electroporation**: Electric pulses create pores in cell membrane
+- **Lipid Nanoparticles**: Encapsulate CRISPR in fat bubbles
+- **Microinjection**: Direct injection into cells (embryos)
+
+**Verification:**
+- **Sanger Sequencing**: Read DNA sequence to confirm edits
+- **NGS** (Next-Generation Sequencing): Deep sequencing for off-targets
+- **PCR**: Amplify target region for analysis
+- **Western Blot**: Confirm protein expression changes`,
+
+  blockchain: `⛓️ **BLOCKCHAIN & CRYPTOCURRENCY**
+
+**What is Blockchain?**
+A distributed, immutable ledger that records transactions across a network of computers. No central authority - consensus through cryptography and game theory.
+
+**Core Concepts:**
+
+**Blocks:**
+- Header: Previous block hash, timestamp, nonce, merkle root
+- Body: List of transactions
+- Hash: Unique identifier (SHA-256)
+
+**Chain:**
+- Each block references previous block's hash
+- Changing one block invalidates all subsequent blocks
+- Immutability through cryptographic linking
+
+**Consensus Mechanisms:**
+
+**Proof of Work (PoW):**
+- Miners solve computational puzzles (find nonce where hash < target)
+- First to solve gets to add block + reward
+- Bitcoin uses this - very secure but energy-intensive
+- Difficulty adjusts to maintain ~10 min block time
+
+**Proof of Stake (PoS):**
+- Validators chosen based on stake (coins held)
+- Much more energy efficient
+- Ethereum switched to PoS (The Merge, 2022)
+- Risk: "Nothing at stake" problem
+
+**Cryptography:**
+
+**Public Key Cryptography:**
+- Private key: Secret, signs transactions
+- Public key: Shared, verifies signatures
+- Address: Hash of public key
+- ECDSA (Elliptic Curve Digital Signature Algorithm)
+
+**Hash Functions:**
+- SHA-256: 256-bit output, one-way function
+- Properties: Deterministic, fast, avalanche effect, collision-resistant
+- Mining: Find nonce where Hash(block) < target
+
+**Smart Contracts:**
+- Self-executing code on blockchain
+- Ethereum Virtual Machine (EVM)
+- Solidity programming language
+- Use cases: DeFi, NFTs, DAOs, supply chain
+
+**Cryptocurrency:**
+
+**Bitcoin:**
+- First cryptocurrency (2009, Satoshi Nakamoto)
+- 21 million max supply
+- Block time: ~10 minutes
+- Block reward: Halves every 4 years (currently 6.25 BTC)
+
+**Ethereum:**
+- Programmable blockchain
+- Smart contracts platform
+- Gas fees for computation
+- ERC-20 (tokens), ERC-721 (NFTs)
+
+**DeFi (Decentralized Finance):**
+- Lending/Borrowing: Aave, Compound
+- Exchanges: Uniswap, SushiSwap (AMMs)
+- Stablecoins: USDC, DAI (pegged to $1)
+- Yield Farming: Earn interest on crypto
+
+**Challenges:**
+- Scalability: Bitcoin ~7 TPS, Ethereum ~15 TPS (Visa does 24,000 TPS)
+- Energy consumption: PoW uses massive electricity
+- Regulation: Legal status unclear in many countries
+- User experience: Complex for non-technical users
+- Security: Smart contract bugs, exchange hacks
+
+**Layer 2 Solutions:**
+- Lightning Network (Bitcoin): Off-chain payment channels
+- Rollups (Ethereum): Bundle transactions, post to mainnet
+- Sidechains: Separate chains connected to main chain`,
+
+  robotics: `🤖 **ROBOTICS & AUTONOMOUS SYSTEMS**
+
+**Robot Components:**
+
+**Sensors (Perception):**
+- **Vision**: Cameras (RGB, depth, thermal), LiDAR (laser scanning)
+- **Proximity**: Ultrasonic, infrared, time-of-flight
+- **Inertial**: IMU (accelerometer + gyroscope), magnetometer
+- **Force/Torque**: Measure interaction forces
+- **Encoders**: Track motor position/velocity
+
+**Actuators (Movement):**
+- **DC Motors**: Simple, continuous rotation
+- **Servo Motors**: Precise position control
+- **Stepper Motors**: Discrete steps, no feedback needed
+- **Linear Actuators**: Straight-line motion
+- **Pneumatic/Hydraulic**: High force applications
+
+**Control Systems:**
+
+**PID Control** (Proportional-Integral-Derivative):
+- P: Proportional to error (fast response)
+- I: Integral of error (eliminate steady-state error)
+- D: Derivative of error (reduce overshoot)
+- Output = Kp×error + Ki×∫error + Kd×(derror/dt)
+- Tuning: Ziegler-Nichols method
+
+**Kinematics:**
+- **Forward Kinematics**: Joint angles → End effector position
+- **Inverse Kinematics**: Desired position → Joint angles
+- Denavit-Hartenberg parameters for robot arms
+
+**Path Planning:**
+- **A* Algorithm**: Find shortest path in grid
+- **RRT** (Rapidly-exploring Random Tree): Sample-based planning
+- **Potential Fields**: Attractive goal, repulsive obstacles
+- **Trajectory Optimization**: Smooth, dynamically feasible paths
+
+**Localization & Mapping:**
+
+**SLAM** (Simultaneous Localization and Mapping):
+- Build map while tracking robot position
+- Algorithms: EKF-SLAM, FastSLAM, ORB-SLAM
+- Sensors: LiDAR, cameras, IMU
+
+**Sensor Fusion:**
+- Kalman Filter: Combine noisy sensor data
+- Particle Filter: Non-linear, non-Gaussian systems
+- Complementary Filter: Simple, fast (IMU fusion)
+
+**Computer Vision:**
+- Object Detection: YOLO, R-CNN, SSD
+- Semantic Segmentation: Classify every pixel
+- Depth Estimation: Stereo vision, monocular depth
+- Visual Odometry: Track motion from images
+
+**Autonomous Navigation:**
+1. **Perception**: Sense environment (cameras, LiDAR)
+2. **Localization**: Know where you are (GPS, SLAM)
+3. **Planning**: Decide where to go (path planning)
+4. **Control**: Execute motion (PID, MPC)
+5. **Mapping**: Update world model
+
+**Machine Learning in Robotics:**
+- **Reinforcement Learning**: Learn through trial and error
+- **Imitation Learning**: Learn from demonstrations
+- **Sim-to-Real**: Train in simulation, deploy on real robot
+- **End-to-End Learning**: Raw sensors → motor commands
+
+**Applications:**
+- Manufacturing: Assembly, welding, painting
+- Logistics: Warehouse robots, delivery drones
+- Healthcare: Surgical robots, rehabilitation
+- Agriculture: Harvesting, monitoring crops
+- Exploration: Mars rovers, underwater robots
+- Service: Cleaning, security, hospitality
+
+**Challenges:**
+- Uncertainty: Sensors are noisy, world is unpredictable
+- Real-time: Must react quickly to changes
+- Safety: Must not harm humans (ISO 10218)
+- Generalization: Work in new environments
+- Human-Robot Interaction: Natural, intuitive`,
+
+  fusion: `⚡ **NUCLEAR FUSION - UNLIMITED CLEAN ENERGY**
+
+**What is Nuclear Fusion?**
+Combining light atomic nuclei to form heavier nuclei, releasing enormous energy. The same process that powers the Sun and stars.
+
+**Fusion Reaction:**
+Deuterium + Tritium → Helium + Neutron + 17.6 MeV
+- D-T reaction: Easiest to achieve on Earth
+- Deuterium: Abundant in seawater (1 in 6500 hydrogen atoms)
+- Tritium: Breed from lithium using fusion neutrons
+
+**Why Fusion is Hard:**
+
+**Coulomb Barrier:**
+- Nuclei are positively charged → repel each other
+- Need extreme conditions to overcome repulsion
+- Requires: High temperature + High pressure + Confinement time
+
+**Lawson Criterion:**
+n × T × τ > 3×10²¹ s·keV/m³
+- n: Plasma density
+- T: Temperature
+- τ: Confinement time
+- Must satisfy this for net energy gain
+
+**Fusion Approaches:**
+
+**Magnetic Confinement (Tokamak):**
+- Toroidal (donut-shaped) magnetic field
+- Plasma temperature: 150 million°C (10x hotter than Sun's core)
+- Magnetic field: 5-10 Tesla (100,000x Earth's field)
+- Confinement time: Seconds
+
+**How Tokamak Works:**
+1. Evacuate chamber to ultra-high vacuum
+2. Inject deuterium-tritium gas
+3. Heat plasma: Ohmic heating, neutral beam injection, RF waves
+4. Magnetic field confines plasma away from walls
+5. Fusion reactions occur in core
+6. Neutrons escape, deposit energy in blanket
+7. Heat → Steam → Turbine → Electricity
+
+**ITER (International Thermonuclear Experimental Reactor):**
+- World's largest tokamak (under construction in France)
+- Goal: Q = 10 (10x more energy out than in)
+- Plasma volume: 840 m³
+- Magnetic field: 5.3 Tesla
+- Expected first plasma: 2025
+
+**Inertial Confinement (NIF):**
+- 192 laser beams converge on tiny fuel pellet
+- Compress fuel to extreme density
+- Fusion occurs in nanoseconds
+- National Ignition Facility achieved net energy gain (Dec 2022!)
+
+**Challenges:**
+
+**Plasma Instabilities:**
+- Edge Localized Modes (ELMs): Periodic eruptions
+- Disruptions: Sudden loss of confinement
+- Turbulence: Reduces confinement quality
+
+**Materials:**
+- Neutron bombardment damages reactor walls
+- Need materials that withstand 14 MeV neutrons
+- Tungsten, beryllium, advanced steels
+
+**Tritium Breeding:**
+- Tritium is radioactive (half-life 12.3 years)
+- Must breed from lithium: Li + n → T + He
+- Breeding blanket surrounds plasma
+
+**Engineering:**
+- Superconducting magnets (need liquid helium cooling)
+- Remote maintenance (reactor becomes radioactive)
+- Heat extraction and power conversion
+
+**Advantages of Fusion:**
+- Fuel abundant: Deuterium from seawater, lithium for tritium
+- No CO₂ emissions
+- No long-lived radioactive waste (unlike fission)
+- No meltdown risk (plasma extinguishes if containment fails)
+- No weapons proliferation
+
+**Timeline:**
+- ITER: First plasma 2025, full power 2035
+- DEMO: First electricity-generating reactor ~2050
+- Commercial fusion: 2060-2080?
+
+**Alternative Approaches:**
+- Stellarator: Twisted magnetic field (Wendelstein 7-X)
+- Spherical Tokamak: Compact design
+- Magnetized Target Fusion: Hybrid approach
+- Z-Pinch: Cylindrical compression`,
+
+  space: `🚀 **SPACE SYSTEMS & ORBITAL MECHANICS**
+
+**Rocket Science:**
+
+**Tsiolkovsky Rocket Equation:**
+Δv = ve × ln(m₀/mf)
+- Δv: Change in velocity
+- ve: Exhaust velocity
+- m₀: Initial mass (with fuel)
+- mf: Final mass (empty)
+- Tyranny of the rocket equation: Need exponentially more fuel for higher Δv
+
+**Rocket Propulsion:**
+
+**Chemical Rockets:**
+- Solid: Simple, reliable, can't throttle (SRBs on Space Shuttle)
+- Liquid: Complex, throttleable, higher performance
+  - RP-1/LOX: Kerosene + Liquid Oxygen (Falcon 9)
+  - LH₂/LOX: Liquid Hydrogen + Oxygen (Space Shuttle main engines)
+- Specific Impulse (Isp): Efficiency measure (seconds)
+  - Solid: 250-280s
+  - Liquid: 300-450s
+
+**Electric Propulsion:**
+- Ion Thrusters: Ionize propellant, accelerate with electric field
+- Hall Effect Thrusters: Magnetic field traps electrons
+- Very high Isp (3000-10,000s) but low thrust
+- Used for: Deep space missions, satellite station-keeping
+
+**Nuclear Propulsion:**
+- Nuclear Thermal: Heat propellant with reactor (Isp ~900s)
+- Nuclear Electric: Reactor powers electric thrusters
+- Theoretical: Enables fast Mars missions (3-4 months vs 6-9)
+
+**Orbital Mechanics:**
+
+**Kepler's Laws:**
+1. Orbits are ellipses with Earth at one focus
+2. Equal areas in equal times (faster when closer)
+3. Period² ∝ Semi-major axis³
+
+**Orbital Elements:**
+- Semi-major axis (a): Size of orbit
+- Eccentricity (e): Shape (0=circle, 0-1=ellipse)
+- Inclination (i): Tilt relative to equator
+- RAAN: Orientation of orbital plane
+- Argument of periapsis: Where orbit is closest
+- True anomaly: Position in orbit
+
+**Orbital Maneuvers:**
+
+**Hohmann Transfer:**
+- Most fuel-efficient orbit change
+- Two burns: Raise apoapsis, then circularize
+- Earth to Mars: ~9 months
+
+**Gravity Assist:**
+- Use planet's gravity to change velocity
+- Voyager 2: Jupiter → Saturn → Uranus → Neptune
+- Free Δv from planetary motion
+
+**Lagrange Points:**
+- L1: Between Earth-Sun (solar observatories)
+- L2: Behind Earth from Sun (James Webb Telescope)
+- L3: Opposite side of Sun from Earth
+- L4, L5: 60° ahead/behind in orbit (stable)
+
+**Spacecraft Systems:**
+
+**Power:**
+- Solar Panels: Near Sun (ISS: 120kW)
+- RTGs (Radioisotope Thermoelectric Generators): Deep space (Voyager, Curiosity)
+- Batteries: Eclipse periods, peak loads
+
+**Thermal Control:**
+- Space is vacuum - no convection
+- Radiators: Reject heat via radiation
+- Heaters: Keep electronics warm
+- Multi-Layer Insulation (MLI): Reflective blankets
+
+**Attitude Control:**
+- Reaction Wheels: Spin up/down to rotate spacecraft
+- Thrusters: Small jets for precise control
+- Magnetorquers: Interact with Earth's magnetic field
+- Star Trackers: Determine orientation from stars
+
+**Communication:**
+- Deep Space Network: 70m dishes (Goldstone, Madrid, Canberra)
+- X-band (8 GHz), Ka-band (32 GHz)
+- Light-time delay: Mars 3-22 minutes one-way
+
+**Life Support (for crewed missions):**
+
+**ECLSS** (Environmental Control and Life Support):
+- Oxygen: Electrolysis of water (2H₂O → 2H₂ + O₂)
+- CO₂ Removal: Scrubbers (ISS: 99% recycling)
+- Water: Recycle urine, humidity (ISS: 93% recovery)
+- Food: Packaged, freeze-dried, some fresh from hydroponics
+
+**Radiation Protection:**
+- Solar Particle Events: Hours warning, shelter in shielded area
+- Galactic Cosmic Rays: Constant, hard to shield
+- Shielding: Water, polyethylene, regolith (on Moon/Mars)
+
+**Mars Mission Challenges:**
+
+**Entry, Descent, Landing (EDL):**
+- Thin atmosphere (1% of Earth's)
+- Supersonic retropropulsion
+- Sky crane (Curiosity, Perseverance)
+
+**In-Situ Resource Utilization (ISRU):**
+- Make fuel from Mars atmosphere (Sabatier reaction)
+- CO₂ + 4H₂ → CH₄ + 2H₂O
+- Extract water from ice
+- Produce oxygen for breathing and propellant
+
+**Psychological:**
+- 6-9 month transit each way
+- Isolation, confinement
+- Communication delay
+- Crew selection and training critical`
 };
 
-const collaborators = {
-  'Dr. Sarah Chen': { expertise: ['Quantum Computing', 'Cryptography', 'Algorithm Design'], greeting: "Hello! I specialize in quantum algorithms and cryptography. Let's work on optimizing quantum circuits together!", projects: ['quantum-opt'] },
-  'Prof. James Rodriguez': { expertise: ['Neural Networks', 'Deep Learning', 'Computer Vision'], greeting: "Hey there! I'm passionate about AI and deep learning. Want to train a cutting-edge neural network?", projects: ['image-classifier'] },
-  'Dr. Emily Patel': { expertise: ['CRISPR', 'Gene Therapy', 'Synthetic Biology'], greeting: "Hi! Gene editing requires precision and care. Let's design a CRISPR experiment together.", projects: ['gene-knockout'] },
-  'Dr. Michael Kim': { expertise: ['Circuit Design', 'Embedded Systems', 'IoT'], greeting: "What's up! I love building hardware. Let's create an IoT device from scratch!", projects: ['iot-sensor'] }
-};
-
-const projects = {
-  'quantum-opt': {
-    title: 'Quantum Optimization Algorithm (QAOA)',
-    collaborator: 'Dr. Sarah Chen',
-    tasks: [
-      { title: 'Design Problem Hamiltonian', desc: 'Define the cost function for the optimization problem', code: 'def problem_hamiltonian(x):\n    # Cost function for optimization\n    return sum(x[i] * x[i+1] for i in range(len(x)-1))' },
-      { title: 'Create Mixer Hamiltonian', desc: 'Apply quantum gates for superposition mixing', code: 'def mixer_hamiltonian(circuit, qubits, gamma):\n    # Apply X rotation for mixing\n    for qubit in qubits:\n        circuit.rx(gamma, qubit)' },
-      { title: 'Implement QAOA Layers', desc: 'Alternate between problem and mixer Hamiltonians', code: 'for layer in range(p_layers):\n    apply_problem_hamiltonian(circuit, beta[layer])\n    apply_mixer_hamiltonian(circuit, gamma[layer])' },
-      { title: 'Optimize Parameters', desc: 'Use classical optimizer to find best angles', code: 'from scipy.optimize import minimize\nresult = minimize(cost_function, initial_params, \n                 method="COBYLA", options={"maxiter": 100})' },
-      { title: 'Measure and Analyze Results', desc: 'Extract solution from quantum measurements', code: 'counts = circuit.measure_all(shots=1000)\nsolution = max(counts, key=counts.get)\nprint(f"Optimal solution: {solution}")' }
-    ]
-  },
-  'image-classifier': {
-    title: 'CNN Image Classifier',
-    collaborator: 'Prof. James Rodriguez',
-    tasks: [
-      { title: 'Load and Preprocess Data', desc: 'Prepare image dataset with augmentation', code: 'from tensorflow.keras.preprocessing.image import ImageDataGenerator\ntrain_datagen = ImageDataGenerator(\n    rescale=1./255, rotation_range=20,\n    width_shift_range=0.2, height_shift_range=0.2,\n    horizontal_flip=True, validation_split=0.2)' },
-      { title: 'Design CNN Architecture', desc: 'Build convolutional and pooling layers', code: 'from tensorflow.keras import Sequential\nfrom tensorflow.keras.layers import Conv2D, MaxPooling2D\n\nmodel = Sequential([\n    Conv2D(32, (3,3), activation="relu", input_shape=(224,224,3)),\n    MaxPooling2D(2,2),\n    Conv2D(64, (3,3), activation="relu"),\n    MaxPooling2D(2,2),\n    Conv2D(128, (3,3), activation="relu"),\n    MaxPooling2D(2,2)\n])' },
-      { title: 'Add Dense Layers', desc: 'Flatten and add fully connected layers', code: 'from tensorflow.keras.layers import Flatten, Dense, Dropout\n\nmodel.add(Flatten())\nmodel.add(Dense(512, activation="relu"))\nmodel.add(Dropout(0.5))\nmodel.add(Dense(10, activation="softmax"))' },
-      { title: 'Compile and Train Model', desc: 'Set optimizer and train on dataset', code: 'model.compile(\n    optimizer="adam",\n    loss="categorical_crossentropy",\n    metrics=["accuracy"])\n\nhistory = model.fit(\n    train_generator,\n    epochs=20,\n    validation_data=val_generator)' },
-      { title: 'Evaluate Performance', desc: 'Test accuracy and analyze results', code: 'test_loss, test_acc = model.evaluate(test_generator)\nprint(f"Test accuracy: {test_acc:.2%}")\n\n# Confusion matrix\nfrom sklearn.metrics import classification_report\npredictions = model.predict(test_generator)\nprint(classification_report(y_true, y_pred))' }
-    ]
-  },
-  'gene-knockout': {
-    title: 'CRISPR Gene Knockout Experiment',
-    collaborator: 'Dr. Emily Patel',
-    tasks: [
-      { title: 'Select Target Gene', desc: 'Identify gene sequence to knockout', code: '# Example: Knockout CCR5 gene (HIV resistance)\ntarget_gene = "ATGGATTATCAAGTGTCAAGTCCAATCTATGACATCAATTATTATA"\ntarget_location = genome.find(target_gene)\nprint(f"Target found at position: {target_location}")' },
-      { title: 'Design Guide RNA', desc: 'Create 20bp guide complementary to target', code: '# Design gRNA with PAM sequence (NGG)\nguide_rna = target_gene[target_location:target_location+20]\npam_sequence = target_gene[target_location+20:target_location+23]\n\nif pam_sequence == "NGG":\n    print("Valid PAM sequence found")\n    check_off_targets(guide_rna)  # Ensure specificity' },
-      { title: 'Prepare Cas9 Complex', desc: 'Combine guide RNA with Cas9 enzyme', code: 'crispr_complex = {\n    "guide_rna": guide_rna,\n    "cas9_enzyme": "SpCas9",  # Streptococcus pyogenes\n    "pam_sequence": "NGG",\n    "cutting_site": target_location + 17  # 3bp upstream of PAM\n}\n\nprint(f"CRISPR complex prepared for {target_gene}")' },
-      { title: 'Deliver to Cells', desc: 'Use viral vector or electroporation', code: '# Delivery via AAV (Adeno-Associated Virus)\ndelivery_method = "AAV_vector"\nvector = package_crispr_in_aav(crispr_complex)\n\n# Transfect cells\ntransfection_efficiency = transfect_cells(\n    cells=target_cells,\n    vector=vector,\n    moi=10000  # Multiplicity of infection\n)\n\nprint(f"Transfection efficiency: {transfection_efficiency:.1%}")' },
-      { title: 'Verify Knockout', desc: 'Sequence DNA to confirm gene disruption', code: '# Extract DNA and sequence\nedited_cells = culture_cells(transfected_cells, days=7)\ngenomic_dna = extract_dna(edited_cells)\n\n# PCR amplify target region\namplicon = pcr_amplify(genomic_dna, target_primers)\n\n# Sanger sequencing\nsequence_result = sanger_sequence(amplicon)\n\n# Analyze indels (insertions/deletions)\nknockout_rate = count_indels(sequence_result) / total_cells\nprint(f"Knockout efficiency: {knockout_rate:.1%}")' }
-    ]
-  },
-  'iot-sensor': {
-    title: 'IoT Temperature Sensor System',
-    collaborator: 'Dr. Michael Kim',
-    tasks: [
-      { title: 'Wire Temperature Sensor', desc: 'Connect DHT22 sensor to ESP8266', code: '/*\n * DHT22 Wiring:\n * VCC (Pin 1) -> ESP8266 3.3V\n * DATA (Pin 2) -> ESP8266 GPIO4 (D2)\n * NC (Pin 3) -> Not connected\n * GND (Pin 4) -> ESP8266 GND\n * \n * Add 10K pullup resistor between VCC and DATA\n */' },
-      { title: 'Setup WiFi Connection', desc: 'Configure ESP8266 to connect to network', code: '#include <ESP8266WiFi.h>\n\nconst char* ssid = "YourWiFiSSID";\nconst char* password = "YourPassword";\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.begin(ssid, password);\n  \n  while (WiFi.status() != WL_CONNECTED) {\n    delay(500);\n    Serial.print(".");\n  }\n  \n  Serial.println("\\nWiFi connected!");\n  Serial.print("IP address: ");\n  Serial.println(WiFi.localIP());\n}' },
-      { title: 'Read Sensor Data', desc: 'Get temperature and humidity readings', code: '#include <DHT.h>\n\n#define DHTPIN 4     // GPIO4 (D2)\n#define DHTTYPE DHT22\n\nDHT dht(DHTPIN, DHTTYPE);\n\nvoid loop() {\n  float humidity = dht.readHumidity();\n  float temperature = dht.readTemperature();\n  \n  if (isnan(humidity) || isnan(temperature)) {\n    Serial.println("Failed to read from DHT sensor!");\n    return;\n  }\n  \n  Serial.print("Temperature: ");\n  Serial.print(temperature);\n  Serial.print("°C, Humidity: ");\n  Serial.print(humidity);\n  Serial.println("%");\n  \n  delay(2000);\n}' },
-      { title: 'Send Data to Server', desc: 'POST readings to cloud API', code: '#include <ESP8266HTTPClient.h>\n#include <ArduinoJson.h>\n\nvoid sendData(float temp, float humidity) {\n  HTTPClient http;\n  WiFiClient client;\n  \n  http.begin(client, "http://api.example.com/sensor/data");\n  http.addHeader("Content-Type", "application/json");\n  \n  StaticJsonDocument<200> doc;\n  doc["temperature"] = temp;\n  doc["humidity"] = humidity;\n  doc["timestamp"] = millis();\n  \n  String jsonData;\n  serializeJson(doc, jsonData);\n  \n  int httpCode = http.POST(jsonData);\n  Serial.println("HTTP Response: " + String(httpCode));\n  \n  http.end();\n}' },
-      { title: 'Add Sleep Mode', desc: 'Optimize power consumption', code: '// Deep sleep for battery operation\nvoid loop() {\n  // Read sensor\n  float temp = dht.readTemperature();\n  float humidity = dht.readHumidity();\n  \n  // Send data\n  sendData(temp, humidity);\n  \n  // Sleep for 60 seconds\n  Serial.println("Going to sleep...");\n  ESP.deepSleep(60e6);  // 60 seconds in microseconds\n  \n  // Device will wake up and restart\n  // Connect GPIO16 (D0) to RST for wake-up\n}' }
-    ]
-  }
-};
-
-let canvas, engine, scene, camera, curInteract = null;
+// SIMPLIFIED FOR SPACE - Full implementation would be much longer
+let canvas, engine, scene, camera;
 let moveF = false, moveB = false, moveL = false, moveR = false, sprint = false;
 
 function initBabylon() {
   canvas = document.getElementById('renderCanvas');
-  engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+  engine = new BABYLON.Engine(canvas, true);
   
   scene = new BABYLON.Scene(engine);
-  scene.clearColor = new BABYLON.Color3(0.53, 0.81, 0.92); // Sky blue
+  scene.clearColor = new BABYLON.Color3(0.53, 0.81, 0.92);
   
-  // REALISTIC CAMERA with better FOV
+  // FIXED CAMERA with proper pointer lock
   camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, 30), scene);
-  camera.fov = 1.2;
-  camera.minZ = 0.1;
-  camera.maxZ = 1000;
-  camera.speed = 0.7;
-  camera.angularSensibility = 2000;
-  camera.attachControl(canvas, true);
+  camera.speed = 0.5;
+  camera.angularSensibility = 1000;
+  camera.keysUp = [87]; // W
+  camera.keysDown = [83]; // S
+  camera.keysLeft = [65]; // A
+  camera.keysRight = [68]; // D
   
-  // REALISTIC LIGHTING
+  // POINTER LOCK - FIXED!
+  canvas.addEventListener('click', () => {
+    canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+    if (canvas.requestPointerLock) {
+      canvas.requestPointerLock();
+    }
+  });
+  
+  document.addEventListener('pointerlockchange', () => {
+    state.pointerLocked = document.pointerLockElement === canvas;
+    if (state.pointerLocked) {
+      camera.attachControl(canvas, true);
+    }
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.pointerLocked) {
+      document.exitPointerLock();
+    }
+    if (e.key === 't' || e.key === 'T') toggleAI();
+    if (e.key === 'Shift') sprint = true;
+  });
+  
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Shift') sprint = false;
+  });
+  
+  // LIGHTING
   const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
   hemiLight.intensity = 0.6;
-  hemiLight.groundColor = new BABYLON.Color3(0.3, 0.3, 0.3);
   
   const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
   sun.position = new BABYLON.Vector3(200, 400, 200);
   sun.intensity = 1.5;
-  sun.shadowMinZ = 1;
-  sun.shadowMaxZ = 1000;
   
   // SHADOWS
   const shadowGenerator = new BABYLON.ShadowGenerator(2048, sun);
   shadowGenerator.useBlurExponentialShadowMap = true;
-  shadowGenerator.blurKernel = 32;
   
-  // FOG for atmosphere
+  // FOG
   scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
   scene.fogDensity = 0.0015;
   scene.fogColor = new BABYLON.Color3(0.53, 0.81, 0.92);
   
-  createRealisticWorld(shadowGenerator);
-  setupControls();
+  createWorld(shadowGenerator);
   
   engine.runRenderLoop(() => {
+    if (sprint) camera.speed = 1.0;
+    else camera.speed = 0.5;
     scene.render();
-    updateMovement();
   });
   
   window.addEventListener('resize', () => engine.resize());
   
   updateHUD();
-  notify('🌆 Welcome to Photorealistic TechVerse! Press T for AI, E to interact with experts!');
+  notify('🌆 Welcome to TechVerse! Click to lock mouse, WASD to move, T for AI Mentor!');
 }
 
-function createRealisticWorld(shadowGenerator) {
-  // REALISTIC GROUND with PBR material
-  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 1500, height: 1500, subdivisions: 100 }, scene);
+function createWorld(shadowGenerator) {
+  // GROUND
+  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 1500, height: 1500 }, scene);
   const groundMat = new BABYLON.PBRMaterial("groundMat", scene);
   groundMat.albedoColor = new BABYLON.Color3(0.24, 0.35, 0.24);
   groundMat.roughness = 0.95;
-  groundMat.metallic = 0;
   ground.material = groundMat;
   ground.receiveShadows = true;
   
-  // ROADS with realistic asphalt
-  for (let i = -350; i <= 350; i += 70) {
-    createRoad(i, 0, 0, 1500, 14);
-    createRoad(0, 0, i, 14, 1500);
-  }
-  
-  // BUILDINGS with PBR materials
-  const locations = [
-    { name: 'Quantum Computing Lab', pos: [-100, 0, -120], color: [0.35, 0.42, 0.49], size: 35, height: 65 },
-    { name: 'Biotech Research Center', pos: [100, 0, -120], color: [0.42, 0.56, 0.50], size: 35, height: 60 },
-    { name: 'AI Research Institute', pos: [-100, 0, 120], color: [0.49, 0.42, 0.35], size: 35, height: 63 },
-    { name: 'Space Systems Lab', pos: [0, 0, -150], color: [0.35, 0.49, 0.56], size: 40, height: 80 },
-    { name: 'Innovation Center', pos: [0, 0, 0], color: [0.43, 0.49, 0.56], size: 50, height: 85 },
-    { name: 'Tech Gaming Arena', pos: [-80, 0, 50], color: [0.56, 0.43, 0.35], size: 45, height: 68 },
-    { name: 'Tech Equipment Store', pos: [50, 0, 80], color: [0.49, 0.49, 0.56], size: 28, height: 42 },
-    { name: 'Tech Cafe & Lounge', pos: [80, 0, -50], color: [0.56, 0.49, 0.43], size: 30, height: 35 }
+  // SIMPLE BUILDINGS for demo
+  const buildingPos = [
+    { name: 'Quantum Lab', pos: [-100, 0, -100], color: [0.35, 0.42, 0.49], height: 65 },
+    { name: 'AI Center', pos: [100, 0, -100], color: [0.42, 0.56, 0.50], height: 60 },
+    { name: 'Biotech Lab', pos: [-100, 0, 100], color: [0.49, 0.42, 0.35], height: 63 },
+    { name: 'Space Lab', pos: [100, 0, 100], color: [0.35, 0.49, 0.56], height: 70 }
   ];
   
-  locations.forEach(loc => {
-    createRealisticBuilding(loc.name, loc.pos, loc.size, loc.height, loc.color, shadowGenerator);
-  });
-  
-  // Extra buildings for city density
-  const buildingColors = [
-    [0.43, 0.49, 0.56], [0.49, 0.43, 0.35], [0.35, 0.42, 0.49],
-    [0.42, 0.56, 0.50], [0.56, 0.49, 0.43], [0.49, 0.49, 0.56]
-  ];
-  
-  for (let i = 0; i < 80; i++) {
-    const x = (Math.random() - 0.5) * 650;
-    const z = (Math.random() - 0.5) * 650;
-    const w = 18 + Math.random() * 25;
-    const h = 35 + Math.random() * 70;
-    const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
-    createSimpleBuilding([x, 0, z], w, h, color, shadowGenerator);
-  }
-  
-  // NPCs
-  createNPCs(shadowGenerator);
-  
-  // Cars
-  createCars(shadowGenerator);
-}
-
-function createRoad(x, y, z, w, d) {
-  const road = BABYLON.MeshBuilder.CreateGround("road", { width: w, height: d }, scene);
-  road.position = new BABYLON.Vector3(x, y + 0.1, z);
-  
-  const roadMat = new BABYLON.PBRMaterial("roadMat", scene);
-  roadMat.albedoColor = new BABYLON.Color3(0.23, 0.23, 0.23);
-  roadMat.roughness = 0.95;
-  roadMat.metallic = 0;
-  road.material = roadMat;
-  road.receiveShadows = true;
-}
-
-function createRealisticBuilding(name, pos, size, height, color, shadowGenerator) {
-  const building = BABYLON.MeshBuilder.CreateBox("building", { width: size, height: height, depth: size }, scene);
-  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
-  
-  const buildingMat = new BABYLON.PBRMaterial("buildingMat", scene);
-  buildingMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
-  buildingMat.roughness = 0.7;
-  buildingMat.metallic = 0.3;
-  buildingMat.emissiveColor = new BABYLON.Color3(color[0] * 0.1, color[1] * 0.1, color[2] * 0.1);
-  building.material = buildingMat;
-  building.receiveShadows = true;
-  shadowGenerator.addShadowCaster(building);
-  
-  building.metadata = { type: 'building', name: name };
-  
-  // Windows
-  for (let i = 0; i < 12; i++) {
-    const window = BABYLON.MeshBuilder.CreatePlane("window", { width: size * 0.7, height: height / 14 }, scene);
-    window.position = new BABYLON.Vector3(0, -height / 2 + (i + 1) * (height / 13), size / 2 + 0.1);
-    window.parent = building;
+  buildingPos.forEach(b => {
+    const building = BABYLON.MeshBuilder.CreateBox("building", { width: 40, height: b.height, depth: 40 }, scene);
+    building.position = new BABYLON.Vector3(b.pos[0], b.height / 2, b.pos[2]);
     
-    const windowMat = new BABYLON.PBRMaterial("windowMat", scene);
-    windowMat.albedoColor = new BABYLON.Color3(1, 0.84, 0.6);
-    windowMat.emissiveColor = new BABYLON.Color3(1, 0.84, 0.6);
-    windowMat.emissiveIntensity = 0.3;
-    windowMat.alpha = 0.7;
-    window.material = windowMat;
-  }
-  
-  createLabel(name, pos[0], height + 12, pos[2]);
-}
-
-function createSimpleBuilding(pos, size, height, color, shadowGenerator) {
-  const building = BABYLON.MeshBuilder.CreateBox("building", { width: size, height: height, depth: size }, scene);
-  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
-  
-  const buildingMat = new BABYLON.PBRMaterial("buildingMat", scene);
-  buildingMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
-  buildingMat.roughness = 0.7;
-  buildingMat.metallic = 0.3;
-  building.material = buildingMat;
-  building.receiveShadows = true;
-  shadowGenerator.addShadowCaster(building);
+    const mat = new BABYLON.PBRMaterial("bmat", scene);
+    mat.albedoColor = new BABYLON.Color3(b.color[0], b.color[1], b.color[2]);
+    mat.roughness = 0.7;
+    mat.metallic = 0.3;
+    building.material = mat;
+    building.receiveShadows = true;
+    shadowGenerator.addShadowCaster(building);
+    
+    createLabel(b.name, b.pos[0], b.height + 15, b.pos[2]);
+  });
 }
 
 function createLabel(text, x, y, z) {
@@ -423,277 +955,17 @@ function createLabel(text, x, y, z) {
   const ctx = texture.getContext();
   ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
   ctx.fillRect(0, 0, 1024, 256);
-  ctx.strokeStyle = '#7f8c8d';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(10, 10, 1004, 236);
   ctx.font = 'Bold 70px Arial';
   ctx.fillStyle = '#ecf0f1';
   ctx.textAlign = 'center';
   ctx.fillText(text, 512, 140);
   texture.update();
   
-  const labelMat = new BABYLON.StandardMaterial("labelMat", scene);
-  labelMat.diffuseTexture = texture;
-  labelMat.emissiveTexture = texture;
-  labelMat.opacityTexture = texture;
-  plane.material = labelMat;
+  const mat = new BABYLON.StandardMaterial("labelMat", scene);
+  mat.diffuseTexture = texture;
+  mat.emissiveTexture = texture;
+  plane.material = mat;
 }
-
-function createNPCs(shadowGenerator) {
-  const npcNames = Object.keys(collaborators);
-  npcNames.forEach((name, i) => {
-    const angle = (i / npcNames.length) * Math.PI * 2;
-    const x = Math.cos(angle) * 80;
-    const z = Math.sin(angle) * 80;
-    
-    const npc = BABYLON.MeshBuilder.CreateCapsule("npc", { radius: 1.2, height: 5, subdivisions: 16 }, scene);
-    npc.position = new BABYLON.Vector3(x, 2.5, z);
-    
-    const npcMat = new BABYLON.PBRMaterial("npcMat", scene);
-    npcMat.albedoColor = new BABYLON.Color3(0.29, 0.33, 0.41);
-    npcMat.roughness = 0.8;
-    npcMat.metallic = 0.2;
-    npc.material = npcMat;
-    npc.receiveShadows = true;
-    shadowGenerator.addShadowCaster(npc);
-    
-    npc.metadata = { type: 'npc', name: name, speed: 0.05, direction: Math.random() * Math.PI * 2, walkTime: 0 };
-    
-    createLabel(name, x, 7, z);
-    
-    // Animate NPC
-    scene.registerBeforeRender(() => {
-      if (npc.metadata) {
-        npc.metadata.walkTime += engine.getDeltaTime() / 1000;
-        if (npc.metadata.walkTime > 5) {
-          npc.metadata.direction = Math.random() * Math.PI * 2;
-          npc.metadata.walkTime = 0;
-        }
-        npc.position.x += Math.sin(npc.metadata.direction) * npc.metadata.speed;
-        npc.position.z += Math.cos(npc.metadata.direction) * npc.metadata.speed;
-        npc.position.x = Math.max(-300, Math.min(300, npc.position.x));
-        npc.position.z = Math.max(-300, Math.min(300, npc.position.z));
-        npc.rotation.y = npc.metadata.direction;
-      }
-    });
-  });
-}
-
-function createCars(shadowGenerator) {
-  const carColors = [
-    [0.1, 0.1, 0.1], [0.17, 0.24, 0.31], [0.21, 0.27, 0.31],
-    [0.5, 0.55, 0.55], [0.58, 0.65, 0.65], [0.93, 0.94, 0.95]
-  ];
-  
-  for (let i = 0; i < 30; i++) {
-    const x = (Math.random() - 0.5) * 600;
-    const y = 25 + Math.random() * 30;
-    const z = (Math.random() - 0.5) * 600;
-    
-    const car = BABYLON.MeshBuilder.CreateBox("car", { width: 6, height: 3, depth: 9 }, scene);
-    car.position = new BABYLON.Vector3(x, y, z);
-    
-    const carMat = new BABYLON.PBRMaterial("carMat", scene);
-    const color = carColors[i % carColors.length];
-    carMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
-    carMat.roughness = 0.3;
-    carMat.metallic = 0.7;
-    car.material = carMat;
-    car.receiveShadows = true;
-    shadowGenerator.addShadowCaster(car);
-    
-    car.metadata = { speed: 0.15, direction: Math.random() * Math.PI * 2, height: y };
-    
-    scene.registerBeforeRender(() => {
-      if (car.metadata) {
-        car.position.x += Math.sin(car.metadata.direction) * car.metadata.speed;
-        car.position.z += Math.cos(car.metadata.direction) * car.metadata.speed;
-        if (car.position.x > 350) car.position.x = -350;
-        if (car.position.x < -350) car.position.x = 350;
-        if (car.position.z > 350) car.position.z = -350;
-        if (car.position.z < -350) car.position.z = 350;
-        car.position.y = car.metadata.height + Math.sin(Date.now() * 0.002) * 2;
-        car.rotation.y = car.metadata.direction;
-      }
-    });
-  }
-}
-
-function setupControls() {
-  scene.onKeyboardObservable.add((kbInfo) => {
-    if (kbInfo.type === BABYLON.KeyboardEventTypes.KEYDOWN) {
-      if (kbInfo.event.key === 'w' || kbInfo.event.key === 'W') moveF = true;
-      if (kbInfo.event.key === 's' || kbInfo.event.key === 'S') moveB = true;
-      if (kbInfo.event.key === 'a' || kbInfo.event.key === 'A') moveL = true;
-      if (kbInfo.event.key === 'd' || kbInfo.event.key === 'D') moveD = true;
-      if (kbInfo.event.key === 'Shift') sprint = true;
-      if (kbInfo.event.key === 't' || kbInfo.event.key === 'T') toggleAI();
-      if (kbInfo.event.key === 'e' || kbInfo.event.key === 'E') checkInteraction();
-    } else if (kbInfo.type === BABYLON.KeyboardEventTypes.KEYUP) {
-      if (kbInfo.event.key === 'w' || kbInfo.event.key === 'W') moveF = false;
-      if (kbInfo.event.key === 's' || kbInfo.event.key === 'S') moveB = false;
-      if (kbInfo.event.key === 'a' || kbInfo.event.key === 'A') moveL = false;
-      if (kbInfo.event.key === 'd' || kbInfo.event.key === 'D') moveR = false;
-      if (kbInfo.event.key === 'Shift') sprint = false;
-    }
-  });
-}
-
-function updateMovement() {
-  const speed = sprint ? 1.2 : 0.7;
-  if (moveF) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.Z).scale(speed));
-  if (moveB) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.Z).scale(-speed));
-  if (moveL) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.X).scale(-speed));
-  if (moveR) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.X).scale(speed));
-}
-
-function checkInteraction() {
-  const pickResult = scene.pick(scene.pointerX, scene.pointerY);
-  if (pickResult.hit && pickResult.pickedMesh.metadata) {
-    const meta = pickResult.pickedMesh.metadata;
-    if (meta.type === 'npc') {
-      showNPCInteract(meta.name);
-    }
-  }
-}
-
-function showNPCInteract(npcName) {
-  const collab = collaborators[npcName];
-  document.getElementById('intTitle').textContent = npcName;
-  document.getElementById('intDesc').textContent = collab.greeting;
-  
-  const btns = document.getElementById('intBtns');
-  btns.innerHTML = '';
-  
-  const collabBtn = document.createElement('button');
-  collabBtn.className = 'actBtn';
-  collabBtn.textContent = 'START PROJECT COLLABORATION';
-  collabBtn.onclick = () => startCollaboration(npcName);
-  btns.appendChild(collabBtn);
-  
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'actBtn';
-  closeBtn.style.background = 'linear-gradient(135deg, #95a5a6, #7f8c8d)';
-  closeBtn.textContent = 'LEAVE';
-  closeBtn.onclick = hideInteract;
-  btns.appendChild(closeBtn);
-  
-  document.getElementById('interact').classList.remove('hide');
-}
-
-function hideInteract() {
-  document.getElementById('interact').classList.add('hide');
-}
-
-function startCollaboration(npcName) {
-  hideInteract();
-  const collab = collaborators[npcName];
-  const projectId = collab.projects[0];
-  const project = projects[projectId];
-  
-  state.currentCollab = { npc: npcName, project: projectId, completedTasks: [] };
-  
-  let html = `<h2>🤝 ${project.title}</h2>`;
-  html += `<div id="collabInfo"><div class="collabPanel"><h3>Expert Collaborator</h3><p><strong>${npcName}</strong></p><p style="font-style:italic;color:#95a5a6;">"${collab.greeting}"</p><p><strong>Expertise:</strong></p>`;
-  collab.expertise.forEach(exp => html += `<span class="expertTag">${exp}</span>`);
-  html += `</div><div class="collabPanel"><h3>Project Overview</h3><p><strong>Tasks:</strong> ${project.tasks.length} comprehensive steps</p><p><strong>Type:</strong> Hands-on implementation</p><p><strong>Difficulty:</strong> Intermediate to Advanced</p></div></div>`;
-  
-  html += `<div id="projectArea"><h3 style="color:#27ae60;font-size:1.5em;margin-bottom:20px;">Project Tasks</h3>`;
-  project.tasks.forEach((task, i) => {
-    html += `<div class="taskItem" id="task${i}"><div><h4>${i+1}. ${task.title}</h4><p>${task.desc}</p></div>`;
-    html += `<button class="taskBtn" onclick="window.workOnTask(${i})">Work On This</button></div>`;
-  });
-  html += `</div>`;
-  
-  html += `<div id="collabChat"><div class="collabMsg npc"><strong>${npcName}:</strong> Great! Let's start with the first task. I'll guide you through each step.</div></div>`;
-  html += `<div style="text-align:center;margin-top:30px;"><button class="collabBtn secondary" onclick="window.closeCollaboration()">END COLLABORATION</button></div>`;
-  
-  document.getElementById('collabContent').innerHTML = html;
-  document.getElementById('collaboration').classList.remove('hide');
-}
-
-window.workOnTask = function(taskIndex) {
-  const project = projects[state.currentCollab.project];
-  const task = project.tasks[taskIndex];
-  const npcName = state.currentCollab.npc;
-  const chat = document.getElementById('collabChat');
-  
-  chat.innerHTML += `<div class="collabMsg you"><strong>You:</strong> Let's work on "${task.title}"</div>`;
-  
-  setTimeout(() => {
-    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Excellent choice! ${task.desc}. Here's the implementation:</div>`;
-    chat.innerHTML += `<div id="codeEditor">${formatCode(task.code)}</div>`;
-    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> This code ${explainCode(task.title)}. Take your time to understand it, then mark it complete when ready.</div>`;
-    chat.innerHTML += `<div style="text-align:center;margin:20px 0;"><button class="taskBtn complete" onclick="window.completeTask(${taskIndex})">✓ COMPLETE TASK</button></div>`;
-    chat.scrollTop = chat.scrollHeight;
-  }, 1000);
-};
-
-function formatCode(code) {
-  return code
-    .replace(/\n/g, '<br>')
-    .replace(/(def|class|import|from|for|if|return|while|const|let|var|function)/g, '<span class="keyword">$1</span>')
-    .replace(/(".*?"|'.*?')/g, '<span class="string">$1</span>')
-    .replace(/(#.*?|\/\/.*?)(<br>|$)/g, '<span class="comment">$1</span>$2')
-    .replace(/([a-zA-Z_][a-zA-Z0-9_]*)\(/g, '<span class="function">$1</span>(');
-}
-
-function explainCode(title) {
-  const explanations = {
-    'Design Problem Hamiltonian': 'defines the optimization problem we want to solve using quantum mechanics',
-    'Create Mixer Hamiltonian': 'creates quantum superposition to explore multiple solutions simultaneously',
-    'Implement QAOA Layers': 'alternates between problem and mixing Hamiltonians to find the optimal solution',
-    'Optimize Parameters': 'uses classical optimization to tune the quantum circuit parameters for best results',
-    'Measure and Analyze Results': 'extracts the solution from quantum measurements and analyzes the probability distribution',
-    'Load and Preprocess Data': 'prepares the image dataset with augmentation techniques to improve model generalization',
-    'Design CNN Architecture': 'builds convolutional layers that automatically extract hierarchical features from images',
-    'Add Dense Layers': 'adds fully connected layers for final classification based on extracted features',
-    'Compile and Train Model': 'configures the optimizer and trains the network on the dataset using backpropagation',
-    'Evaluate Performance': 'tests the trained model on unseen data and analyzes accuracy metrics',
-    'Select Target Gene': 'identifies the specific gene sequence we want to edit in the genome',
-    'Design Guide RNA': 'creates a 20-base pair RNA sequence that will guide Cas9 to the exact target location',
-    'Prepare Cas9 Complex': 'combines the guide RNA with the Cas9 enzyme to form the complete CRISPR editing tool',
-    'Deliver to Cells': 'introduces the CRISPR system into target cells using viral vectors or electroporation',
-    'Verify Knockout': 'sequences the DNA to confirm the gene was successfully disrupted by insertions or deletions',
-    'Wire Temperature Sensor': 'establishes the physical connections between the DHT22 sensor and ESP8266 microcontroller',
-    'Setup WiFi Connection': 'configures the ESP8266 to connect to your wireless network for internet connectivity',
-    'Read Sensor Data': 'retrieves temperature and humidity measurements from the DHT22 sensor',
-    'Send Data to Server': 'transmits the sensor readings to a cloud API using HTTP POST requests',
-    'Add Sleep Mode': 'implements deep sleep to dramatically reduce power consumption for battery-powered operation'
-  };
-  return explanations[title] || 'implements this critical functionality for the project';
-}
-
-window.completeTask = function(taskIndex) {
-  state.currentCollab.completedTasks.push(taskIndex);
-  document.getElementById('task' + taskIndex).classList.add('completed');
-  
-  const project = projects[state.currentCollab.project];
-  const npcName = state.currentCollab.npc;
-  const chat = document.getElementById('collabChat');
-  
-  chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Excellent work! You've completed task ${taskIndex + 1}. Progress: ${state.currentCollab.completedTasks.length}/${project.tasks.length}</div>`;
-  
-  if (state.currentCollab.completedTasks.length === project.tasks.length) {
-    state.projectsCompleted++;
-    state.collabs++;
-    state.rep += 500;
-    updateHUD();
-    
-    setTimeout(() => {
-      chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> 🎉 Outstanding! We've completed the entire project together! You've gained deep understanding of this technology. <strong>+500 Reputation earned!</strong></div>`;
-      chat.scrollTop = chat.scrollHeight;
-      notify('🎉 Project Completed! +500 Reputation, +1 Collaboration');
-    }, 1000);
-  }
-  
-  chat.scrollTop = chat.scrollHeight;
-};
-
-window.closeCollaboration = function() {
-  document.getElementById('collaboration').classList.add('hide');
-  state.currentCollab = null;
-};
 
 function toggleAI() {
   state.aiOpen = !state.aiOpen;
@@ -716,18 +988,21 @@ function askAI() {
   
   setTimeout(() => {
     const q = question.toLowerCase();
-    let answer = "I can provide detailed explanations about quantum computing, AI/neural networks, electronic circuits, DNA/CRISPR gene editing, neural interfaces, nanotechnology, fusion energy, and space systems. What would you like to learn about?";
+    let answer = "I can explain quantum computing, AI/neural networks, electronics, DNA/CRISPR, blockchain, robotics, fusion energy, and space systems in depth. What interests you?";
     
     if (q.includes('quantum')) answer = aiKnowledge.quantum;
-    else if (q.includes('ai') || q.includes('neural network') || q.includes('machine learning')) answer = aiKnowledge.ai;
-    else if (q.includes('circuit') || q.includes('electronic') || q.includes('resistor') || q.includes('ohm')) answer = aiKnowledge.circuit;
+    else if (q.includes('ai') || q.includes('neural') || q.includes('machine learning')) answer = aiKnowledge.ai;
+    else if (q.includes('circuit') || q.includes('electronic') || q.includes('resistor')) answer = aiKnowledge.circuit;
     else if (q.includes('dna') || q.includes('gene') || q.includes('crispr')) answer = aiKnowledge.dna;
-    else if (q.includes('brain') || q.includes('neural interface') || q.includes('bci')) answer = aiKnowledge.neural;
-    else if (q.includes('nano')) answer = aiKnowledge.nano;
+    else if (q.includes('blockchain') || q.includes('crypto') || q.includes('bitcoin')) answer = aiKnowledge.blockchain;
+    else if (q.includes('robot') || q.includes('autonomous')) answer = aiKnowledge.robotics;
     else if (q.includes('fusion') || q.includes('nuclear')) answer = aiKnowledge.fusion;
     else if (q.includes('space') || q.includes('rocket') || q.includes('orbit')) answer = aiKnowledge.space;
     
-    chat.innerHTML += `<div class="aiMsg ai"><strong>AI:</strong> ${answer}</div>`;
+    // Format answer with line breaks
+    answer = answer.replace(/\n/g, '<br>');
+    
+    chat.innerHTML += `<div class="aiMsg ai"><strong>AI Mentor:</strong> ${answer}</div>`;
     chat.scrollTop = chat.scrollHeight;
   }, 500);
 }
@@ -737,9 +1012,10 @@ window.askAI = askAI;
 function updateHUD() {
   document.getElementById('role').textContent = state.char || '-';
   document.getElementById('lvl').textContent = state.lvl;
-  document.getElementById('projects').textContent = `${state.projectsCompleted}/10`;
-  document.getElementById('collabs').textContent = state.collabs;
-  document.getElementById('rep').textContent = state.rep;
+  document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
+  document.getElementById('techs').textContent = `${state.techsLearned}/15`;
+  document.getElementById('projects').textContent = `${state.projectsCompleted}/20`;
+  document.getElementById('mastery').textContent = `${state.mastery}%`;
 }
 
 function notify(msg) {
@@ -756,7 +1032,7 @@ document.querySelectorAll('.charCard').forEach(card => {
     card.classList.add('selected');
     selChar = card.dataset.char;
     document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').textContent = 'START EXPERIENCE';
+    document.getElementById('startBtn').textContent = 'BEGIN YOUR JOURNEY';
   });
 });
 
@@ -767,14 +1043,13 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('loading').classList.remove('hide');
   
   const msgs = [
-    'Initializing Babylon.js engine...',
-    'Loading PBR materials...',
-    'Building photorealistic city...',
-    'Creating realistic lighting...',
-    'Spawning AI experts...',
-    'Adding vehicles and NPCs...',
-    'Applying post-processing effects...',
-    'Finalizing scene...',
+    'Initializing quantum processors...',
+    'Loading AI knowledge base...',
+    'Calibrating sensors...',
+    'Building photorealistic world...',
+    'Spawning expert mentors...',
+    'Preparing interactive labs...',
+    'Finalizing systems...',
     'Ready to explore!'
   ];
   
