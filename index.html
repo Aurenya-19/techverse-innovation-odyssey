@@ -3,120 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Complete AI-Powered City</title>
+<title>TechVerse: Photorealistic Experience</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #1a1a1a; color: #e0e0e0; }
-#canvas { display: block; width: 100vw; height: 100vh; }
+body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
+#renderCanvas { width: 100vw; height: 100vh; display: block; touch-action: none; }
 
-#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow-y: auto; padding: 20px; z-index: 10000; }
-#charSelect h1 { font-size: clamp(2em, 4vw, 3em); color: #ecf0f1; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin: 20px 0; font-weight: 600; }
-.subtitle { font-size: clamp(0.9em, 1.5vw, 1.1em); color: #bdc3c7; margin-bottom: 20px; text-align: center; }
-.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; max-width: 1200px; width: 100%; padding: 10px; margin-bottom: 20px; }
-.charCard { background: rgba(52, 73, 94, 0.8); border: 2px solid #7f8c8d; border-radius: 8px; padding: 15px; cursor: pointer; transition: all 0.3s; text-align: center; min-height: 160px; }
-.charCard:hover { background: rgba(52, 73, 94, 1); transform: translateY(-3px); }
-.charCard.selected { background: rgba(46, 204, 113, 0.3); border-color: #27ae60; }
-.charCard .icon { font-size: 2.5em; margin-bottom: 8px; }
-.charCard h3 { color: #ecf0f1; font-size: 1.1em; margin: 8px 0; }
-.charCard p { color: #95a5a6; font-size: 0.8em; line-height: 1.3; }
-#startBtn { padding: 15px 50px; font-size: clamp(1em, 2vw, 1.3em); background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 20px 0; text-transform: uppercase; }
-#startBtn:hover:not(:disabled) { transform: translateY(-2px); }
-#startBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(180deg, #1a1a1a 0%, #2c2c2c 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+#charSelect h1 { font-size: clamp(2.5em, 5vw, 4em); color: #fff; text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); margin-bottom: 20px; font-weight: 700; letter-spacing: 2px; }
+.subtitle { font-size: clamp(1em, 2vw, 1.3em); color: #bdc3c7; margin-bottom: 40px; text-align: center; max-width: 800px; line-height: 1.6; }
+.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; width: 90%; margin-bottom: 40px; }
+.charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 2px solid #3498db; border-radius: 12px; padding: 25px; cursor: pointer; transition: all 0.4s; text-align: center; backdrop-filter: blur(10px); }
+.charCard:hover { transform: translateY(-8px); border-color: #00d4ff; box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3); }
+.charCard.selected { background: linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(46, 204, 113, 0.3)); border-color: #27ae60; box-shadow: 0 0 30px rgba(39, 174, 96, 0.5); }
+.charCard .icon { font-size: 3em; margin-bottom: 15px; }
+.charCard h3 { color: #ecf0f1; font-size: 1.3em; margin: 10px 0; }
+.charCard p { color: #95a5a6; font-size: 0.95em; line-height: 1.4; }
+#startBtn { padding: 18px 60px; font-size: 1.4em; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 50px; color: #fff; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4); transition: all 0.3s; }
+#startBtn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(39, 174, 96, 0.6); }
+#startBtn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-#loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(44, 62, 80, 0.95); padding: 40px; border-radius: 10px; border: 2px solid #7f8c8d; z-index: 9999; }
-.spinner { border: 4px solid rgba(127, 140, 141, 0.3); border-top: 4px solid #7f8c8d; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 15px auto; }
+#loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1a1a1a, #2c3e50); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+#loading h2 { color: #00d4ff; font-size: 2.5em; margin-bottom: 30px; font-weight: 700; text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+.spinner { border: 6px solid rgba(0, 212, 255, 0.2); border-top: 6px solid #00d4ff; border-radius: 50%; width: 80px; height: 80px; animation: spin 1s linear infinite; box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+#loadText { color: #bdc3c7; font-size: 1.2em; margin-top: 25px; }
+#loadProgress { width: 400px; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
+#loadBar { width: 0%; height: 100%; background: linear-gradient(90deg, #00d4ff, #27ae60); transition: width 0.3s; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(44, 62, 80, 0.95); padding: 20px; border-radius: 8px; border: 2px solid #7f8c8d; min-width: 240px; z-index: 1000; }
-#hud h3 { color: #ecf0f1; font-size: 1.2em; margin-bottom: 12px; border-bottom: 2px solid #7f8c8d; padding-bottom: 8px; }
-.hudStat { display: flex; justify-content: space-between; margin: 8px 0; font-size: 0.95em; color: #bdc3c7; }
-.hudStat .val { color: #27ae60; font-weight: 700; }
+#hud { position: fixed; top: 20px; left: 20px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 62, 80, 0.95)); padding: 25px; border-radius: 15px; border: 2px solid rgba(0, 212, 255, 0.5); min-width: 260px; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+#hud h3 { color: #00d4ff; font-size: 1.3em; margin-bottom: 15px; border-bottom: 2px solid rgba(0, 212, 255, 0.3); padding-bottom: 10px; font-weight: 700; text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1em; color: #bdc3c7; }
+.hudStat .val { color: #27ae60; font-weight: 700; text-shadow: 0 0 10px rgba(39, 174, 96, 0.3); }
 
-#aiAssistant { position: fixed; top: 15px; right: 15px; width: 350px; background: rgba(44, 62, 80, 0.98); border-radius: 12px; border: 3px solid #9b59b6; z-index: 1000; box-shadow: 0 8px 32px rgba(155, 89, 182, 0.4); }
-#aiHeader { background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 15px; border-radius: 9px 9px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-#aiHeader h3 { color: #fff; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
-#aiToggle { background: none; border: none; color: #fff; font-size: 1.2em; cursor: pointer; }
-#aiBody { max-height: 500px; overflow-y: auto; padding: 15px; display: none; }
+#aiAssistant { position: fixed; top: 20px; right: 20px; width: 380px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 62, 80, 0.95)); border-radius: 15px; border: 2px solid rgba(155, 89, 182, 0.5); z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+#aiHeader { background: linear-gradient(135deg, #9b59b6, #8e44ad); padding: 18px; border-radius: 13px 13px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+#aiHeader h3 { color: #fff; font-size: 1.2em; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+#aiToggle { background: none; border: none; color: #fff; font-size: 1.3em; cursor: pointer; transition: transform 0.3s; }
+#aiBody { max-height: 550px; overflow-y: auto; padding: 20px; display: none; }
 #aiBody.open { display: block; }
-#aiChat { margin-bottom: 15px; max-height: 350px; overflow-y: auto; }
-.aiMsg { margin: 10px 0; padding: 12px; border-radius: 8px; line-height: 1.6; font-size: 0.9em; }
-.aiMsg.ai { background: rgba(155, 89, 182, 0.2); border-left: 3px solid #9b59b6; }
-.aiMsg.user { background: rgba(52, 152, 219, 0.2); border-left: 3px solid #3498db; text-align: right; }
+#aiChat { margin-bottom: 20px; max-height: 400px; overflow-y: auto; }
+.aiMsg { margin: 12px 0; padding: 14px; border-radius: 10px; line-height: 1.7; font-size: 0.95em; }
+.aiMsg.ai { background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2)); border-left: 4px solid #9b59b6; }
+.aiMsg.user { background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.2)); border-left: 4px solid #3498db; text-align: right; }
 .aiMsg strong { color: #9b59b6; }
-#aiInputArea { display: flex; gap: 8px; }
-#aiInput { flex: 1; padding: 10px; background: rgba(52, 73, 94, 0.6); border: 2px solid #7f8c8d; border-radius: 6px; color: #ecf0f1; font-size: 0.95em; }
-#aiSend { padding: 10px 20px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; }
+#aiInputArea { display: flex; gap: 10px; }
+#aiInput { flex: 1; padding: 12px; background: rgba(52, 73, 94, 0.6); border: 2px solid rgba(127, 140, 141, 0.5); border-radius: 8px; color: #ecf0f1; font-size: 1em; }
+#aiInput:focus { outline: none; border-color: #9b59b6; }
+#aiSend { padding: 12px 24px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+#aiSend:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(155, 89, 182, 0.4); }
 
-#interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.98); padding: 30px 40px; border-radius: 10px; border: 2px solid #3498db; max-width: 750px; width: 90%; text-align: center; z-index: 1000; }
-#interact h4 { color: #3498db; font-size: 1.8em; margin-bottom: 15px; }
-#interact p { color: #bdc3c7; font-size: 1.05em; margin-bottom: 20px; line-height: 1.7; }
-.actBtn { padding: 14px 30px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 8px; font-size: 1em; transition: all 0.3s; }
-.actBtn:hover { transform: translateY(-2px); }
+#interact { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(44, 62, 80, 0.98)); padding: 35px 45px; border-radius: 15px; border: 2px solid rgba(52, 152, 219, 0.5); max-width: 800px; width: 90%; text-align: center; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+#interact h4 { color: #3498db; font-size: 2em; margin-bottom: 18px; font-weight: 700; text-shadow: 0 0 15px rgba(52, 152, 219, 0.3); }
+#interact p { color: #bdc3c7; font-size: 1.1em; margin-bottom: 25px; line-height: 1.8; }
+.actBtn { padding: 15px 35px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; margin: 10px; font-size: 1.05em; transition: all 0.3s; box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3); }
+.actBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52, 152, 219, 0.5); }
 
-#collaboration { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.95); z-index: 5000; overflow-y: auto; padding: 20px; }
-#collabContent { max-width: 1400px; margin: 0 auto; background: rgba(44, 62, 80, 0.98); padding: 30px; border-radius: 12px; border: 3px solid #27ae60; }
-#collabContent h2 { color: #27ae60; font-size: 2em; margin-bottom: 20px; text-align: center; }
-#collabInfo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.collabPanel { background: rgba(52, 73, 94, 0.6); padding: 20px; border-radius: 8px; border: 2px solid #7f8c8d; }
-.collabPanel h3 { color: #3498db; margin-bottom: 15px; font-size: 1.3em; }
-.collabPanel p { color: #ecf0f1; line-height: 1.7; margin: 8px 0; }
-.expertTag { display: inline-block; background: rgba(155, 89, 182, 0.3); padding: 4px 12px; border-radius: 15px; margin: 4px; font-size: 0.85em; color: #9b59b6; border: 1px solid #9b59b6; }
-#projectArea { background: rgba(26, 26, 26, 0.8); padding: 25px; border-radius: 10px; margin: 20px 0; border: 2px solid #27ae60; }
-.taskItem { background: rgba(52, 73, 94, 0.6); padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #3498db; display: flex; justify-content: space-between; align-items: center; }
+#collaboration { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.97); z-index: 5000; overflow-y: auto; padding: 30px; }
+#collabContent { max-width: 1500px; margin: 0 auto; background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(44, 62, 80, 0.98)); padding: 40px; border-radius: 20px; border: 3px solid rgba(39, 174, 96, 0.5); backdrop-filter: blur(20px); }
+#collabContent h2 { color: #27ae60; font-size: 2.5em; margin-bottom: 30px; text-align: center; font-weight: 700; text-shadow: 0 0 20px rgba(39, 174, 96, 0.3); }
+#collabInfo { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+.collabPanel { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 25px; border-radius: 12px; border: 2px solid rgba(127, 140, 141, 0.3); }
+.collabPanel h3 { color: #3498db; margin-bottom: 18px; font-size: 1.5em; font-weight: 700; }
+.collabPanel p { color: #ecf0f1; line-height: 1.8; margin: 10px 0; }
+.expertTag { display: inline-block; background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(142, 68, 173, 0.3)); padding: 6px 15px; border-radius: 20px; margin: 5px; font-size: 0.9em; color: #9b59b6; border: 1px solid #9b59b6; }
+#projectArea { background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(30, 30, 30, 0.8)); padding: 30px; border-radius: 12px; margin: 25px 0; border: 2px solid rgba(39, 174, 96, 0.3); }
+.taskItem { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #3498db; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; }
+.taskItem:hover { transform: translateX(5px); box-shadow: 0 5px 20px rgba(52, 152, 219, 0.2); }
 .taskItem.completed { border-left-color: #27ae60; opacity: 0.7; }
-.taskItem h4 { color: #ecf0f1; margin-bottom: 5px; }
-.taskItem p { color: #95a5a6; font-size: 0.9em; }
-.taskBtn { padding: 8px 20px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; font-size: 0.9em; }
+.taskItem h4 { color: #ecf0f1; margin-bottom: 8px; font-size: 1.2em; }
+.taskItem p { color: #95a5a6; font-size: 0.95em; }
+.taskBtn { padding: 10px 25px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; font-size: 1em; transition: all 0.3s; }
+.taskBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); }
 .taskBtn.complete { background: linear-gradient(135deg, #27ae60, #229954); }
-#codeEditor { background: #1e1e1e; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; color: #d4d4d4; font-size: 0.9em; line-height: 1.6; margin: 15px 0; border: 2px solid #3498db; }
-.keyword { color: #569cd6; }
+#codeEditor { background: #1e1e1e; padding: 25px; border-radius: 10px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #d4d4d4; font-size: 0.95em; line-height: 1.8; margin: 20px 0; border: 2px solid #3498db; box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5); }
+.keyword { color: #569cd6; font-weight: 600; }
 .string { color: #ce9178; }
-.comment { color: #6a9955; }
-.function { color: #dcdcaa; }
-#collabChat { background: rgba(52, 73, 94, 0.6); padding: 20px; border-radius: 8px; max-height: 300px; overflow-y: auto; margin: 20px 0; }
-.collabMsg { margin: 10px 0; padding: 10px; border-radius: 6px; font-size: 0.95em; }
-.collabMsg.npc { background: rgba(155, 89, 182, 0.2); border-left: 3px solid #9b59b6; }
-.collabMsg.you { background: rgba(52, 152, 219, 0.2); border-left: 3px solid #3498db; }
-.collabBtn { padding: 12px 30px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px 5px; font-size: 1em; }
+.comment { color: #6a9955; font-style: italic; }
+.function { color: #dcdcaa; font-weight: 600; }
+#collabChat { background: linear-gradient(135deg, rgba(52, 73, 94, 0.6), rgba(44, 62, 80, 0.6)); padding: 25px; border-radius: 12px; max-height: 350px; overflow-y: auto; margin: 25px 0; border: 2px solid rgba(127, 140, 141, 0.3); }
+.collabMsg { margin: 12px 0; padding: 14px; border-radius: 10px; font-size: 1em; }
+.collabMsg.npc { background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.2)); border-left: 4px solid #9b59b6; }
+.collabMsg.you { background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.2)); border-left: 4px solid #3498db; }
+.collabBtn { padding: 15px 40px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; margin: 12px 8px; font-size: 1.1em; transition: all 0.3s; box-shadow: 0 5px 20px rgba(39, 174, 96, 0.3); }
+.collabBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(39, 174, 96, 0.5); }
 .collabBtn.secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
 
-#controls { position: fixed; bottom: 30px; left: 30px; background: rgba(44, 62, 80, 0.95); padding: 18px; border-radius: 8px; border: 2px solid #7f8c8d; z-index: 1000; }
-#controls h4 { color: #ecf0f1; margin-bottom: 10px; font-size: 1.05em; }
-.ctrl { color: #bdc3c7; margin: 6px 0; font-size: 0.9em; }
-.key { color: #27ae60; font-weight: 700; background: rgba(39, 174, 96, 0.2); padding: 3px 8px; border-radius: 4px; }
+#controls { position: fixed; bottom: 40px; left: 40px; background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 62, 80, 0.95)); padding: 22px; border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.3); z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+#controls h4 { color: #00d4ff; margin-bottom: 12px; font-size: 1.15em; font-weight: 700; }
+.ctrl { color: #bdc3c7; margin: 8px 0; font-size: 0.95em; }
+.key { color: #27ae60; font-weight: 700; background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(46, 204, 113, 0.2)); padding: 4px 10px; border-radius: 6px; margin-right: 8px; border: 1px solid rgba(39, 174, 96, 0.3); }
 
-#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: rgba(39, 174, 96, 0.95); color: #fff; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; max-width: 85%; text-align: center; z-index: 2000; }
+#notif { position: fixed; top: 140px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 18px 45px; border-radius: 50px; font-weight: 700; font-size: 1.15em; opacity: 0; transition: opacity 0.4s; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 8px 32px rgba(39, 174, 96, 0.5); }
 #notif.show { opacity: 1; }
 
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
-::-webkit-scrollbar-thumb { background: #7f8c8d; border-radius: 4px; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 5px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(135deg, #5dade2, #3498db); }
 </style>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="renderCanvas"></canvas>
 
 <div id="charSelect">
-  <h1>🌆 TechVerse: Complete AI-Powered City</h1>
-  <p class="subtitle">Explore a full city, collaborate with AI experts, learn real technology</p>
+  <h1>🌆 TECHVERSE: PHOTOREALISTIC EXPERIENCE</h1>
+  <p class="subtitle">Experience cutting-edge technology in a truly realistic environment with advanced graphics, AI collaboration, and hands-on learning</p>
   <div class="charGrid">
-    <div class="charCard" data-char="Developer"><div class="icon">💻</div><h3>Developer</h3><p>Code & build systems</p></div>
-    <div class="charCard" data-char="Researcher"><div class="icon">🔬</div><h3>Researcher</h3><p>Explore & discover</p></div>
-    <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Design & create</p></div>
+    <div class="charCard" data-char="Developer"><div class="icon">💻</div><h3>Developer</h3><p>Master coding & system architecture</p></div>
+    <div class="charCard" data-char="Researcher"><div class="icon">🔬</div><h3>Researcher</h3><p>Explore & discover innovations</p></div>
+    <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Design & build solutions</p></div>
     <div class="charCard" data-char="Scientist"><div class="icon">🧪</div><h3>Scientist</h3><p>Experiment & innovate</p></div>
   </div>
-  <button id="startBtn" disabled>Select Role</button>
+  <button id="startBtn" disabled>SELECT YOUR ROLE</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building Complete City...</h2>
+  <h2>Building Photorealistic World...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Initializing...</p>
+  <p id="loadText">Initializing advanced graphics engine...</p>
+  <div id="loadProgress"><div id="loadBar"></div></div>
 </div>
 
 <div id="hud" class="hide">
-  <h3>PROGRESS</h3>
+  <h3>⚡ PROGRESS</h3>
   <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>Projects:</span><span class="val" id="projects">0/10</span></div>
@@ -126,15 +139,15 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 
 <div id="aiAssistant">
   <div id="aiHeader" onclick="toggleAI()">
-    <h3>🤖 AI Assistant</h3>
+    <h3>🤖 AI ASSISTANT</h3>
     <button id="aiToggle">▼</button>
   </div>
   <div id="aiBody">
     <div id="aiChat">
-      <div class="aiMsg ai"><strong>AI:</strong> Hi! Ask me about quantum computing, AI, circuits, DNA, or any technology!</div>
+      <div class="aiMsg ai"><strong>AI:</strong> Welcome! I'm your intelligent assistant. Ask me about quantum computing, AI, circuits, DNA, nanotechnology, fusion, space systems, or any technology topic!</div>
     </div>
     <div id="aiInputArea">
-      <input type="text" id="aiInput" placeholder="Ask about technology..." onkeypress="if(event.key==='Enter') askAI()">
+      <input type="text" id="aiInput" placeholder="Ask about any technology..." onkeypress="if(event.key==='Enter') askAI()">
       <button id="aiSend" onclick="askAI()">Send</button>
     </div>
   </div>
@@ -151,9 +164,9 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 </div>
 
 <div id="controls" class="hide">
-  <h4>CONTROLS</h4>
+  <h4>🎮 CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
-  <div class="ctrl"><span class="key">MOUSE</span> Look</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">T</span> Toggle AI</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
@@ -161,199 +174,253 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 
 <div id="notif"></div>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
-<script type="module">
-import * as THREE from 'three';
-
+<script>
 const state = { char: null, lvl: 1, projectsCompleted: 0, collabs: 0, rep: 0, currentCollab: null, aiOpen: false };
 
 const aiKnowledge = {
-  quantum: "Quantum computing uses qubits in superposition (0 AND 1 simultaneously). Key concepts: Superposition enables parallel processing, Entanglement creates correlated qubits, Quantum gates (Hadamard, CNOT) manipulate states. Applications: cryptography, optimization, drug discovery.",
-  ai: "Neural networks have layers of neurons. Training: 1) Forward pass, 2) Loss calculation, 3) Backpropagation, 4) Weight update. Architectures: CNN for images, RNN for sequences, Transformers for language.",
-  circuit: "Ohm's Law: V=I×R. Components: Resistors limit current, Capacitors store charge, LEDs emit light (need resistor), Transistors switch. Series: same current. Parallel: same voltage.",
-  dna: "DNA has base pairs A-T and G-C. CRISPR-Cas9: 1) Guide RNA targets sequence, 2) Cas9 cuts DNA, 3) Cell repairs with edits. Applications: cure diseases, improve crops.",
-  neural: "Brain-computer interfaces read neural signals. Process: 1) Record activity, 2) Filter noise, 3) Extract features, 4) Decode intent. Applications: control prosthetics, restore communication.",
-  nano: "Nanotechnology at 1-100nm scale. Techniques: Electron microscopy, Atomic force microscopy, Self-assembly. Applications: Drug delivery, Materials, Electronics.",
-  fusion: "Nuclear fusion combines hydrogen atoms. Requirements: >100M°C, High pressure, Confinement. Tokamak uses magnetic fields. Challenge: net energy gain.",
-  space: "Spacecraft design: Propulsion, Life support, Radiation shielding, Thermal control. Orbital mechanics: Hohmann transfer, Gravity assists."
+  quantum: "Quantum computing leverages quantum mechanics principles. Qubits exist in superposition (simultaneously 0 AND 1), enabling parallel computation. Entanglement creates correlated qubit pairs - measuring one instantly affects the other. Quantum gates (Hadamard creates superposition, CNOT creates entanglement, Pauli gates flip states) manipulate qubits. Applications: Breaking RSA encryption (Shor's algorithm), database search (Grover's algorithm), drug discovery, optimization problems. Challenges: Decoherence (qubits lose quantum state), error correction, maintaining ultra-cold temperatures (~15mK).",
+  
+  ai: "Neural networks are inspired by biological brains. Architecture: Input layer receives data, hidden layers extract features through weighted connections, output layer produces predictions. Training process: 1) Forward propagation - data flows through network, 2) Loss calculation - compare output to ground truth, 3) Backpropagation - calculate gradients using chain rule, 4) Weight update - adjust using optimizers (SGD, Adam, RMSprop). Key architectures: CNNs for computer vision (convolutional layers detect patterns), RNNs/LSTMs for sequences (maintain memory), Transformers for NLP (attention mechanism). Requires large datasets, GPU acceleration, regularization to prevent overfitting.",
+  
+  circuit: "Electronics follows fundamental laws. Ohm's Law: V=I×R (Voltage = Current × Resistance). Components: Resistors limit current (color bands indicate value), Capacitors store charge (C=Q/V), Inductors resist current changes, Diodes allow one-way current flow, Transistors act as switches/amplifiers (BJT, MOSFET). Circuit types: Series (same current, voltages add), Parallel (same voltage, currents add). Power: P=V×I=I²R=V²/R. Always calculate to avoid overheating. Kirchhoff's laws: Current law (sum of currents at node = 0), Voltage law (sum of voltages in loop = 0). AC circuits involve impedance, phase shifts, resonance.",
+  
+  dna: "DNA (Deoxyribonucleic Acid) is life's blueprint. Structure: Double helix with sugar-phosphate backbone, base pairs (Adenine-Thymine, Guanine-Cytosine) connected by hydrogen bonds. Genes are DNA segments coding for proteins. CRISPR-Cas9 gene editing: 1) Design 20bp guide RNA complementary to target, 2) Cas9 endonuclease cuts both DNA strands at PAM sequence (NGG), 3) Cell repairs via NHEJ (error-prone, causes insertions/deletions) or HDR (precise, uses template). Applications: Cure sickle cell anemia, create disease-resistant crops, develop cancer therapies. Ethical concerns: Germline editing affects future generations, off-target effects, accessibility.",
+  
+  neural: "Brain-computer interfaces decode neural activity. Signal acquisition: Invasive (Utah array, Neuralink threads penetrate cortex, high resolution) or non-invasive (EEG scalp electrodes, lower resolution). Signal processing: 1) Amplification (neural signals ~50μV), 2) Filtering (remove 60Hz noise, isolate frequency bands), 3) Feature extraction (spike sorting, spectral analysis), 4) Decoding (machine learning maps patterns to intentions). Applications: Control prosthetic limbs, restore communication for ALS patients, treat Parkinson's with deep brain stimulation. Challenges: Biocompatibility, signal degradation over time, computational latency, ethical implications of mind reading.",
+  
+  nano: "Nanotechnology manipulates matter at 1-100 nanometer scale (1nm = 10⁻⁹m). Techniques: Top-down (lithography, etching - like semiconductor manufacturing) vs Bottom-up (self-assembly, chemical synthesis). Characterization: Scanning Electron Microscopy (SEM), Transmission Electron Microscopy (TEM), Atomic Force Microscopy (AFM) for imaging/manipulation. Materials: Carbon nanotubes (100x stronger than steel, excellent conductors), Quantum dots (size-tunable fluorescence), Graphene (single atom thick, highest conductivity). Applications: Targeted drug delivery (nanoparticles cross blood-brain barrier), Solar cells (increased efficiency), Water filtration, Flexible electronics.",
+  
+  fusion: "Nuclear fusion combines light nuclei to release energy (E=mc²). Reaction: Deuterium + Tritium → Helium + neutron + 17.6 MeV. Requirements: Temperature >100 million°C (overcome Coulomb barrier), Pressure (increase collision rate), Confinement time (Lawson criterion). Approaches: Magnetic confinement (Tokamak uses toroidal magnetic field, ITER project), Inertial confinement (NIF uses lasers to compress fuel pellet). Challenges: Achieving Q>1 (energy out > energy in), Plasma instabilities, Neutron damage to reactor walls, Tritium breeding (scarce fuel). Benefits: Abundant fuel (deuterium from seawater), No long-lived radioactive waste, No meltdown risk.",
+  
+  space: "Spacecraft engineering involves multiple systems. Propulsion: Chemical (high thrust, low efficiency), Ion (low thrust, high efficiency for deep space), Nuclear (theoretical, highest performance). Orbital mechanics: Hohmann transfer (energy-efficient orbit change), Gravity assists (use planetary flybys to gain velocity), Lagrange points (stable positions in two-body system). Life support: Oxygen generation (electrolysis, plants), Water recycling (99% recovery on ISS), CO₂ removal (scrubbers). Challenges: Radiation (solar/cosmic rays damage DNA), Microgravity (bone/muscle loss), Psychological isolation. Mars mission: 6-9 month transit, Entry-Descent-Landing (EDL) through thin atmosphere, In-situ resource utilization (ISRU) for fuel/oxygen production."
 };
 
 const collaborators = {
-  'Dr. Sarah Chen': { expertise: ['Quantum Computing', 'Cryptography'], greeting: "Let's optimize quantum circuits together!", projects: ['quantum-opt'] },
-  'Prof. James Rodriguez': { expertise: ['Neural Networks', 'Deep Learning'], greeting: "Want to train a neural network?", projects: ['image-classifier'] },
-  'Dr. Emily Patel': { expertise: ['CRISPR', 'Gene Therapy'], greeting: "Let's design a CRISPR experiment.", projects: ['gene-knockout'] },
-  'Dr. Michael Kim': { expertise: ['Circuit Design', 'IoT'], greeting: "Let's build something cool!", projects: ['iot-sensor'] }
+  'Dr. Sarah Chen': { expertise: ['Quantum Computing', 'Cryptography', 'Algorithm Design'], greeting: "Hello! I specialize in quantum algorithms and cryptography. Let's work on optimizing quantum circuits together!", projects: ['quantum-opt'] },
+  'Prof. James Rodriguez': { expertise: ['Neural Networks', 'Deep Learning', 'Computer Vision'], greeting: "Hey there! I'm passionate about AI and deep learning. Want to train a cutting-edge neural network?", projects: ['image-classifier'] },
+  'Dr. Emily Patel': { expertise: ['CRISPR', 'Gene Therapy', 'Synthetic Biology'], greeting: "Hi! Gene editing requires precision and care. Let's design a CRISPR experiment together.", projects: ['gene-knockout'] },
+  'Dr. Michael Kim': { expertise: ['Circuit Design', 'Embedded Systems', 'IoT'], greeting: "What's up! I love building hardware. Let's create an IoT device from scratch!", projects: ['iot-sensor'] }
 };
 
 const projects = {
   'quantum-opt': {
-    title: 'Quantum Optimization', collaborator: 'Dr. Sarah Chen',
+    title: 'Quantum Optimization Algorithm (QAOA)',
+    collaborator: 'Dr. Sarah Chen',
     tasks: [
-      { title: 'Design Hamiltonian', desc: 'Define cost function', code: 'def hamiltonian(x):\n    return sum(x[i]*x[i+1] for i in range(len(x)-1))' },
-      { title: 'Create Mixer', desc: 'Apply quantum gates', code: 'circuit.h(qubits)\ncircuit.rx(theta, qubits)' },
-      { title: 'QAOA Layers', desc: 'Alternate problem/mixer', code: 'for p in range(layers):\n    apply_problem(beta[p])\n    apply_mixer(gamma[p])' },
-      { title: 'Optimize Parameters', desc: 'Classical optimization', code: 'result = minimize(cost, params, method="COBYLA")' },
-      { title: 'Measure Results', desc: 'Get solution', code: 'counts = circuit.measure_all()\nsolution = max(counts, key=counts.get)' }
+      { title: 'Design Problem Hamiltonian', desc: 'Define the cost function for the optimization problem', code: 'def problem_hamiltonian(x):\n    # Cost function for optimization\n    return sum(x[i] * x[i+1] for i in range(len(x)-1))' },
+      { title: 'Create Mixer Hamiltonian', desc: 'Apply quantum gates for superposition mixing', code: 'def mixer_hamiltonian(circuit, qubits, gamma):\n    # Apply X rotation for mixing\n    for qubit in qubits:\n        circuit.rx(gamma, qubit)' },
+      { title: 'Implement QAOA Layers', desc: 'Alternate between problem and mixer Hamiltonians', code: 'for layer in range(p_layers):\n    apply_problem_hamiltonian(circuit, beta[layer])\n    apply_mixer_hamiltonian(circuit, gamma[layer])' },
+      { title: 'Optimize Parameters', desc: 'Use classical optimizer to find best angles', code: 'from scipy.optimize import minimize\nresult = minimize(cost_function, initial_params, \n                 method="COBYLA", options={"maxiter": 100})' },
+      { title: 'Measure and Analyze Results', desc: 'Extract solution from quantum measurements', code: 'counts = circuit.measure_all(shots=1000)\nsolution = max(counts, key=counts.get)\nprint(f"Optimal solution: {solution}")' }
     ]
   },
   'image-classifier': {
-    title: 'CNN Image Classifier', collaborator: 'Prof. James Rodriguez',
+    title: 'CNN Image Classifier',
+    collaborator: 'Prof. James Rodriguez',
     tasks: [
-      { title: 'Load Data', desc: 'Prepare images', code: 'train_gen = ImageDataGenerator(rescale=1./255)' },
-      { title: 'Design CNN', desc: 'Build layers', code: 'model = Sequential([\n    Conv2D(32, (3,3), activation="relu"),\n    MaxPooling2D(2,2)\n])' },
-      { title: 'Add Dense Layers', desc: 'Classification', code: 'model.add(Flatten())\nmodel.add(Dense(128, activation="relu"))' },
-      { title: 'Train Model', desc: 'Fit on data', code: 'model.compile(optimizer="adam")\nmodel.fit(train_gen, epochs=20)' },
-      { title: 'Evaluate', desc: 'Test accuracy', code: 'test_acc = model.evaluate(test_data)\nprint(f"Accuracy: {test_acc:.2%}")' }
+      { title: 'Load and Preprocess Data', desc: 'Prepare image dataset with augmentation', code: 'from tensorflow.keras.preprocessing.image import ImageDataGenerator\ntrain_datagen = ImageDataGenerator(\n    rescale=1./255, rotation_range=20,\n    width_shift_range=0.2, height_shift_range=0.2,\n    horizontal_flip=True, validation_split=0.2)' },
+      { title: 'Design CNN Architecture', desc: 'Build convolutional and pooling layers', code: 'from tensorflow.keras import Sequential\nfrom tensorflow.keras.layers import Conv2D, MaxPooling2D\n\nmodel = Sequential([\n    Conv2D(32, (3,3), activation="relu", input_shape=(224,224,3)),\n    MaxPooling2D(2,2),\n    Conv2D(64, (3,3), activation="relu"),\n    MaxPooling2D(2,2),\n    Conv2D(128, (3,3), activation="relu"),\n    MaxPooling2D(2,2)\n])' },
+      { title: 'Add Dense Layers', desc: 'Flatten and add fully connected layers', code: 'from tensorflow.keras.layers import Flatten, Dense, Dropout\n\nmodel.add(Flatten())\nmodel.add(Dense(512, activation="relu"))\nmodel.add(Dropout(0.5))\nmodel.add(Dense(10, activation="softmax"))' },
+      { title: 'Compile and Train Model', desc: 'Set optimizer and train on dataset', code: 'model.compile(\n    optimizer="adam",\n    loss="categorical_crossentropy",\n    metrics=["accuracy"])\n\nhistory = model.fit(\n    train_generator,\n    epochs=20,\n    validation_data=val_generator)' },
+      { title: 'Evaluate Performance', desc: 'Test accuracy and analyze results', code: 'test_loss, test_acc = model.evaluate(test_generator)\nprint(f"Test accuracy: {test_acc:.2%}")\n\n# Confusion matrix\nfrom sklearn.metrics import classification_report\npredictions = model.predict(test_generator)\nprint(classification_report(y_true, y_pred))' }
     ]
   },
   'gene-knockout': {
-    title: 'CRISPR Gene Knockout', collaborator: 'Dr. Emily Patel',
+    title: 'CRISPR Gene Knockout Experiment',
+    collaborator: 'Dr. Emily Patel',
     tasks: [
-      { title: 'Select Gene', desc: 'Identify target', code: 'target_gene = "ATGCGATCGATCG"\nlocation = find_gene(genome, target)' },
-      { title: 'Design Guide RNA', desc: 'Create 20bp guide', code: 'guide_rna = target[location:location+20]\ncheck_off_targets(guide_rna)' },
-      { title: 'Prepare Cas9', desc: 'Combine RNA+enzyme', code: 'crispr = {"guide": guide_rna, "cas9": "SpCas9", "pam": "NGG"}' },
-      { title: 'Deliver to Cells', desc: 'Use viral vector', code: 'delivery = "AAV_vector"\nefficiency = deliver(cells, crispr)' },
-      { title: 'Verify Knockout', desc: 'Sequence DNA', code: 'edited = sequence_genome(cells)\nrate = count_indels(edited)/total' }
+      { title: 'Select Target Gene', desc: 'Identify gene sequence to knockout', code: '# Example: Knockout CCR5 gene (HIV resistance)\ntarget_gene = "ATGGATTATCAAGTGTCAAGTCCAATCTATGACATCAATTATTATA"\ntarget_location = genome.find(target_gene)\nprint(f"Target found at position: {target_location}")' },
+      { title: 'Design Guide RNA', desc: 'Create 20bp guide complementary to target', code: '# Design gRNA with PAM sequence (NGG)\nguide_rna = target_gene[target_location:target_location+20]\npam_sequence = target_gene[target_location+20:target_location+23]\n\nif pam_sequence == "NGG":\n    print("Valid PAM sequence found")\n    check_off_targets(guide_rna)  # Ensure specificity' },
+      { title: 'Prepare Cas9 Complex', desc: 'Combine guide RNA with Cas9 enzyme', code: 'crispr_complex = {\n    "guide_rna": guide_rna,\n    "cas9_enzyme": "SpCas9",  # Streptococcus pyogenes\n    "pam_sequence": "NGG",\n    "cutting_site": target_location + 17  # 3bp upstream of PAM\n}\n\nprint(f"CRISPR complex prepared for {target_gene}")' },
+      { title: 'Deliver to Cells', desc: 'Use viral vector or electroporation', code: '# Delivery via AAV (Adeno-Associated Virus)\ndelivery_method = "AAV_vector"\nvector = package_crispr_in_aav(crispr_complex)\n\n# Transfect cells\ntransfection_efficiency = transfect_cells(\n    cells=target_cells,\n    vector=vector,\n    moi=10000  # Multiplicity of infection\n)\n\nprint(f"Transfection efficiency: {transfection_efficiency:.1%}")' },
+      { title: 'Verify Knockout', desc: 'Sequence DNA to confirm gene disruption', code: '# Extract DNA and sequence\nedited_cells = culture_cells(transfected_cells, days=7)\ngenomic_dna = extract_dna(edited_cells)\n\n# PCR amplify target region\namplicon = pcr_amplify(genomic_dna, target_primers)\n\n# Sanger sequencing\nsequence_result = sanger_sequence(amplicon)\n\n# Analyze indels (insertions/deletions)\nknockout_rate = count_indels(sequence_result) / total_cells\nprint(f"Knockout efficiency: {knockout_rate:.1%}")' }
     ]
   },
   'iot-sensor': {
-    title: 'IoT Temperature Sensor', collaborator: 'Dr. Michael Kim',
+    title: 'IoT Temperature Sensor System',
+    collaborator: 'Dr. Michael Kim',
     tasks: [
-      { title: 'Wire Sensor', desc: 'Connect DHT22', code: '// VCC->3.3V, DATA->GPIO4, GND->GND' },
-      { title: 'Setup WiFi', desc: 'Configure ESP8266', code: 'WiFi.begin("SSID", "pass");\nwhile(WiFi.status()!=WL_CONNECTED) delay(500);' },
-      { title: 'Read Data', desc: 'Get temperature', code: 'DHT dht(4, DHT22);\nfloat temp = dht.readTemperature();' },
-      { title: 'Send to Server', desc: 'POST to API', code: 'http.begin("http://api.com/data");\nhttp.POST(json_data);' },
-      { title: 'Add Sleep', desc: 'Save power', code: 'ESP.deepSleep(60e6); // 60 seconds' }
+      { title: 'Wire Temperature Sensor', desc: 'Connect DHT22 sensor to ESP8266', code: '/*\n * DHT22 Wiring:\n * VCC (Pin 1) -> ESP8266 3.3V\n * DATA (Pin 2) -> ESP8266 GPIO4 (D2)\n * NC (Pin 3) -> Not connected\n * GND (Pin 4) -> ESP8266 GND\n * \n * Add 10K pullup resistor between VCC and DATA\n */' },
+      { title: 'Setup WiFi Connection', desc: 'Configure ESP8266 to connect to network', code: '#include <ESP8266WiFi.h>\n\nconst char* ssid = "YourWiFiSSID";\nconst char* password = "YourPassword";\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.begin(ssid, password);\n  \n  while (WiFi.status() != WL_CONNECTED) {\n    delay(500);\n    Serial.print(".");\n  }\n  \n  Serial.println("\\nWiFi connected!");\n  Serial.print("IP address: ");\n  Serial.println(WiFi.localIP());\n}' },
+      { title: 'Read Sensor Data', desc: 'Get temperature and humidity readings', code: '#include <DHT.h>\n\n#define DHTPIN 4     // GPIO4 (D2)\n#define DHTTYPE DHT22\n\nDHT dht(DHTPIN, DHTTYPE);\n\nvoid loop() {\n  float humidity = dht.readHumidity();\n  float temperature = dht.readTemperature();\n  \n  if (isnan(humidity) || isnan(temperature)) {\n    Serial.println("Failed to read from DHT sensor!");\n    return;\n  }\n  \n  Serial.print("Temperature: ");\n  Serial.print(temperature);\n  Serial.print("°C, Humidity: ");\n  Serial.print(humidity);\n  Serial.println("%");\n  \n  delay(2000);\n}' },
+      { title: 'Send Data to Server', desc: 'POST readings to cloud API', code: '#include <ESP8266HTTPClient.h>\n#include <ArduinoJson.h>\n\nvoid sendData(float temp, float humidity) {\n  HTTPClient http;\n  WiFiClient client;\n  \n  http.begin(client, "http://api.example.com/sensor/data");\n  http.addHeader("Content-Type", "application/json");\n  \n  StaticJsonDocument<200> doc;\n  doc["temperature"] = temp;\n  doc["humidity"] = humidity;\n  doc["timestamp"] = millis();\n  \n  String jsonData;\n  serializeJson(doc, jsonData);\n  \n  int httpCode = http.POST(jsonData);\n  Serial.println("HTTP Response: " + String(httpCode));\n  \n  http.end();\n}' },
+      { title: 'Add Sleep Mode', desc: 'Optimize power consumption', code: '// Deep sleep for battery operation\nvoid loop() {\n  // Read sensor\n  float temp = dht.readTemperature();\n  float humidity = dht.readHumidity();\n  \n  // Send data\n  sendData(temp, humidity);\n  \n  // Sleep for 60 seconds\n  Serial.println("Going to sleep...");\n  ESP.deepSleep(60e6);  // 60 seconds in microseconds\n  \n  // Device will wake up and restart\n  // Connect GPIO16 (D0) to RST for wake-up\n}' }
     ]
   }
 };
 
-let scene, camera, renderer, buildings = [], npcs = [], cars = [], curInteract = null;
+let canvas, engine, scene, camera, curInteract = null;
 let moveF = false, moveB = false, moveL = false, moveR = false, sprint = false;
-const vel = new THREE.Vector3(), dir = new THREE.Vector3(), clock = new THREE.Clock();
 
-const locations = {
-  quantum: { name: 'Quantum Computing Lab', pos: [-100, 0, -120], color: 0x5a6c7d, size: 35, height: 65 },
-  bio: { name: 'Biotech Research Center', pos: [100, 0, -120], color: 0x6b8e7f, size: 35, height: 60 },
-  ai: { name: 'AI Research Institute', pos: [-100, 0, 120], color: 0x7d6b5a, size: 35, height: 63 },
-  space: { name: 'Space Systems Lab', pos: [0, 0, -150], color: 0x5a7d8e, size: 40, height: 80 },
-  hybrid: { name: 'Innovation Center', pos: [0, 0, 0], color: 0x6d7d8e, size: 50, height: 85 },
-  arena: { name: 'Tech Gaming Arena', pos: [-80, 0, 50], color: 0x8e6d5a, size: 45, height: 68 },
-  store: { name: 'Tech Equipment Store', pos: [50, 0, 80], color: 0x7d7d8e, size: 28, height: 42 },
-  cafe: { name: 'Tech Cafe & Lounge', pos: [80, 0, -50], color: 0x8e7d6d, size: 30, height: 35 }
-};
-
-function init() {
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 100, 800);
-
-  camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-  camera.position.set(0, 5, 30);
-
-  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.shadowMap.enabled = true;
-
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-
-  const sun = new THREE.DirectionalLight(0xffffff, 1.2);
-  sun.position.set(200, 400, 200);
-  sun.castShadow = true;
-  scene.add(sun);
-
-  createWorld();
-  createNPCs();
-  createCars();
+function initBabylon() {
+  canvas = document.getElementById('renderCanvas');
+  engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+  
+  scene = new BABYLON.Scene(engine);
+  scene.clearColor = new BABYLON.Color3(0.53, 0.81, 0.92); // Sky blue
+  
+  // REALISTIC CAMERA with better FOV
+  camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, 30), scene);
+  camera.fov = 1.2;
+  camera.minZ = 0.1;
+  camera.maxZ = 1000;
+  camera.speed = 0.7;
+  camera.angularSensibility = 2000;
+  camera.attachControl(canvas, true);
+  
+  // REALISTIC LIGHTING
+  const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+  hemiLight.intensity = 0.6;
+  hemiLight.groundColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+  
+  const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
+  sun.position = new BABYLON.Vector3(200, 400, 200);
+  sun.intensity = 1.5;
+  sun.shadowMinZ = 1;
+  sun.shadowMaxZ = 1000;
+  
+  // SHADOWS
+  const shadowGenerator = new BABYLON.ShadowGenerator(2048, sun);
+  shadowGenerator.useBlurExponentialShadowMap = true;
+  shadowGenerator.blurKernel = 32;
+  
+  // FOG for atmosphere
+  scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
+  scene.fogDensity = 0.0015;
+  scene.fogColor = new BABYLON.Color3(0.53, 0.81, 0.92);
+  
+  createRealisticWorld(shadowGenerator);
   setupControls();
-  animate();
+  
+  engine.runRenderLoop(() => {
+    scene.render();
+    updateMovement();
+  });
+  
+  window.addEventListener('resize', () => engine.resize());
+  
   updateHUD();
-
-  notify('🌆 Welcome to TechVerse! Explore the city, ask AI (press T), collaborate with experts!');
+  notify('🌆 Welcome to Photorealistic TechVerse! Press T for AI, E to interact with experts!');
 }
 
-function createWorld() {
-  const groundGeo = new THREE.PlaneGeometry(1500, 1500);
-  const groundMat = new THREE.MeshStandardMaterial({ color: 0x3d5a3d, roughness: 0.9 });
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI / 2;
-  ground.receiveShadow = true;
-  scene.add(ground);
-
+function createRealisticWorld(shadowGenerator) {
+  // REALISTIC GROUND with PBR material
+  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 1500, height: 1500, subdivisions: 100 }, scene);
+  const groundMat = new BABYLON.PBRMaterial("groundMat", scene);
+  groundMat.albedoColor = new BABYLON.Color3(0.24, 0.35, 0.24);
+  groundMat.roughness = 0.95;
+  groundMat.metallic = 0;
+  ground.material = groundMat;
+  ground.receiveShadows = true;
+  
+  // ROADS with realistic asphalt
   for (let i = -350; i <= 350; i += 70) {
     createRoad(i, 0, 0, 1500, 14);
     createRoad(0, 0, i, 14, 1500);
   }
-
-  const grid = new THREE.GridHelper(1500, 300, 0xcccc99, 0x444444);
-  grid.position.y = 0.1;
-  scene.add(grid);
-
-  Object.entries(locations).forEach(([id, loc]) => {
-    createBuilding(loc.pos[0], loc.pos[1], loc.pos[2], loc.size, loc.height, loc.size, loc.color, loc.name, id);
+  
+  // BUILDINGS with PBR materials
+  const locations = [
+    { name: 'Quantum Computing Lab', pos: [-100, 0, -120], color: [0.35, 0.42, 0.49], size: 35, height: 65 },
+    { name: 'Biotech Research Center', pos: [100, 0, -120], color: [0.42, 0.56, 0.50], size: 35, height: 60 },
+    { name: 'AI Research Institute', pos: [-100, 0, 120], color: [0.49, 0.42, 0.35], size: 35, height: 63 },
+    { name: 'Space Systems Lab', pos: [0, 0, -150], color: [0.35, 0.49, 0.56], size: 40, height: 80 },
+    { name: 'Innovation Center', pos: [0, 0, 0], color: [0.43, 0.49, 0.56], size: 50, height: 85 },
+    { name: 'Tech Gaming Arena', pos: [-80, 0, 50], color: [0.56, 0.43, 0.35], size: 45, height: 68 },
+    { name: 'Tech Equipment Store', pos: [50, 0, 80], color: [0.49, 0.49, 0.56], size: 28, height: 42 },
+    { name: 'Tech Cafe & Lounge', pos: [80, 0, -50], color: [0.56, 0.49, 0.43], size: 30, height: 35 }
+  ];
+  
+  locations.forEach(loc => {
+    createRealisticBuilding(loc.name, loc.pos, loc.size, loc.height, loc.color, shadowGenerator);
   });
-
-  const buildingColors = [0x6d7d8e, 0x7d6d5a, 0x5a6c7d, 0x6b8e7f, 0x8e7d6d, 0x7d8e8e];
+  
+  // Extra buildings for city density
+  const buildingColors = [
+    [0.43, 0.49, 0.56], [0.49, 0.43, 0.35], [0.35, 0.42, 0.49],
+    [0.42, 0.56, 0.50], [0.56, 0.49, 0.43], [0.49, 0.49, 0.56]
+  ];
+  
   for (let i = 0; i < 80; i++) {
     const x = (Math.random() - 0.5) * 650;
     const z = (Math.random() - 0.5) * 650;
     const w = 18 + Math.random() * 25;
     const h = 35 + Math.random() * 70;
     const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
-    createSimpleBuilding(x, 0, z, w, h, w, color);
+    createSimpleBuilding([x, 0, z], w, h, color, shadowGenerator);
   }
+  
+  // NPCs
+  createNPCs(shadowGenerator);
+  
+  // Cars
+  createCars(shadowGenerator);
 }
 
 function createRoad(x, y, z, w, d) {
-  const road = new THREE.Mesh(
-    new THREE.PlaneGeometry(w, d),
-    new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.95 })
-  );
-  road.rotation.x = -Math.PI / 2;
-  road.position.set(x, y + 0.1, z);
-  road.receiveShadow = true;
-  scene.add(road);
+  const road = BABYLON.MeshBuilder.CreateGround("road", { width: w, height: d }, scene);
+  road.position = new BABYLON.Vector3(x, y + 0.1, z);
+  
+  const roadMat = new BABYLON.PBRMaterial("roadMat", scene);
+  roadMat.albedoColor = new BABYLON.Color3(0.23, 0.23, 0.23);
+  roadMat.roughness = 0.95;
+  roadMat.metallic = 0;
+  road.material = roadMat;
+  road.receiveShadows = true;
 }
 
-function createBuilding(x, y, z, w, h, d, color, name, id) {
-  const bldg = new THREE.Mesh(
-    new THREE.BoxGeometry(w, h, d),
-    new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.3 })
-  );
-  bldg.position.set(x, h / 2, z);
-  bldg.castShadow = true;
-  bldg.userData = { type: 'building', id, name };
-  scene.add(bldg);
-  buildings.push(bldg);
-
+function createRealisticBuilding(name, pos, size, height, color, shadowGenerator) {
+  const building = BABYLON.MeshBuilder.CreateBox("building", { width: size, height: height, depth: size }, scene);
+  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
+  
+  const buildingMat = new BABYLON.PBRMaterial("buildingMat", scene);
+  buildingMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  buildingMat.roughness = 0.7;
+  buildingMat.metallic = 0.3;
+  buildingMat.emissiveColor = new BABYLON.Color3(color[0] * 0.1, color[1] * 0.1, color[2] * 0.1);
+  building.material = buildingMat;
+  building.receiveShadows = true;
+  shadowGenerator.addShadowCaster(building);
+  
+  building.metadata = { type: 'building', name: name };
+  
+  // Windows
   for (let i = 0; i < 12; i++) {
-    const window = new THREE.Mesh(
-      new THREE.PlaneGeometry(w * 0.7, h / 14),
-      new THREE.MeshStandardMaterial({ color: 0xffd699, emissive: 0xffd699, emissiveIntensity: 0.3, transparent: true, opacity: 0.7 })
-    );
-    window.position.set(0, -h / 2 + (i + 1) * (h / 13), d / 2 + 0.1);
-    bldg.add(window);
+    const window = BABYLON.MeshBuilder.CreatePlane("window", { width: size * 0.7, height: height / 14 }, scene);
+    window.position = new BABYLON.Vector3(0, -height / 2 + (i + 1) * (height / 13), size / 2 + 0.1);
+    window.parent = building;
+    
+    const windowMat = new BABYLON.PBRMaterial("windowMat", scene);
+    windowMat.albedoColor = new BABYLON.Color3(1, 0.84, 0.6);
+    windowMat.emissiveColor = new BABYLON.Color3(1, 0.84, 0.6);
+    windowMat.emissiveIntensity = 0.3;
+    windowMat.alpha = 0.7;
+    window.material = windowMat;
   }
-
-  createLabel(name, x, h + 12, z, 2.5);
+  
+  createLabel(name, pos[0], height + 12, pos[2]);
 }
 
-function createSimpleBuilding(x, y, z, w, h, d, color) {
-  const bldg = new THREE.Mesh(
-    new THREE.BoxGeometry(w, h, d),
-    new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.3 })
-  );
-  bldg.position.set(x, h / 2, z);
-  bldg.castShadow = true;
-  scene.add(bldg);
+function createSimpleBuilding(pos, size, height, color, shadowGenerator) {
+  const building = BABYLON.MeshBuilder.CreateBox("building", { width: size, height: height, depth: size }, scene);
+  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
+  
+  const buildingMat = new BABYLON.PBRMaterial("buildingMat", scene);
+  buildingMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  buildingMat.roughness = 0.7;
+  buildingMat.metallic = 0.3;
+  building.material = buildingMat;
+  building.receiveShadows = true;
+  shadowGenerator.addShadowCaster(building);
 }
 
-function createLabel(text, x, y, z, scale = 1) {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = 1024;
-  canvas.height = 256;
+function createLabel(text, x, y, z) {
+  const plane = BABYLON.MeshBuilder.CreatePlane("label", { width: 30, height: 7.5 }, scene);
+  plane.position = new BABYLON.Vector3(x, y, z);
+  plane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+  
+  const texture = new BABYLON.DynamicTexture("labelTexture", { width: 1024, height: 256 }, scene);
+  const ctx = texture.getContext();
   ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
   ctx.fillRect(0, 0, 1024, 256);
   ctx.strokeStyle = '#7f8c8d';
@@ -362,174 +429,137 @@ function createLabel(text, x, y, z, scale = 1) {
   ctx.font = 'Bold 70px Arial';
   ctx.fillStyle = '#ecf0f1';
   ctx.textAlign = 'center';
-  ctx.fillText(text, 512, 128);
+  ctx.fillText(text, 512, 140);
+  texture.update();
   
-  const texture = new THREE.CanvasTexture(canvas);
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
-  sprite.position.set(x, y, z);
-  sprite.scale.set(30 * scale, 7.5 * scale, 1);
-  scene.add(sprite);
+  const labelMat = new BABYLON.StandardMaterial("labelMat", scene);
+  labelMat.diffuseTexture = texture;
+  labelMat.emissiveTexture = texture;
+  labelMat.opacityTexture = texture;
+  plane.material = labelMat;
 }
 
-function createNPCs() {
-  Object.keys(collaborators).forEach((name, i) => {
-    const angle = (i / 4) * Math.PI * 2;
+function createNPCs(shadowGenerator) {
+  const npcNames = Object.keys(collaborators);
+  npcNames.forEach((name, i) => {
+    const angle = (i / npcNames.length) * Math.PI * 2;
     const x = Math.cos(angle) * 80;
     const z = Math.sin(angle) * 80;
     
-    const npc = new THREE.Mesh(
-      new THREE.CapsuleGeometry(1.2, 3.5, 8, 16),
-      new THREE.MeshStandardMaterial({ color: 0x4a5568, roughness: 0.8, metalness: 0.2 })
-    );
-    npc.position.set(x, 2.5, z);
-    npc.castShadow = true;
-    npc.userData = { type: 'npc', name, speed: 0.7, direction: Math.random() * Math.PI * 2, walkTime: 0 };
-    scene.add(npc);
-    npcs.push(npc);
+    const npc = BABYLON.MeshBuilder.CreateCapsule("npc", { radius: 1.2, height: 5, subdivisions: 16 }, scene);
+    npc.position = new BABYLON.Vector3(x, 2.5, z);
     
-    createLabel(name, x, 7, z, 0.6);
+    const npcMat = new BABYLON.PBRMaterial("npcMat", scene);
+    npcMat.albedoColor = new BABYLON.Color3(0.29, 0.33, 0.41);
+    npcMat.roughness = 0.8;
+    npcMat.metallic = 0.2;
+    npc.material = npcMat;
+    npc.receiveShadows = true;
+    shadowGenerator.addShadowCaster(npc);
+    
+    npc.metadata = { type: 'npc', name: name, speed: 0.05, direction: Math.random() * Math.PI * 2, walkTime: 0 };
+    
+    createLabel(name, x, 7, z);
+    
+    // Animate NPC
+    scene.registerBeforeRender(() => {
+      if (npc.metadata) {
+        npc.metadata.walkTime += engine.getDeltaTime() / 1000;
+        if (npc.metadata.walkTime > 5) {
+          npc.metadata.direction = Math.random() * Math.PI * 2;
+          npc.metadata.walkTime = 0;
+        }
+        npc.position.x += Math.sin(npc.metadata.direction) * npc.metadata.speed;
+        npc.position.z += Math.cos(npc.metadata.direction) * npc.metadata.speed;
+        npc.position.x = Math.max(-300, Math.min(300, npc.position.x));
+        npc.position.z = Math.max(-300, Math.min(300, npc.position.z));
+        npc.rotation.y = npc.metadata.direction;
+      }
+    });
   });
 }
 
-function createCars() {
-  const carColors = [0x1a1a1a, 0x2c3e50, 0x34495e, 0x7f8c8d, 0x95a5a6, 0xecf0f1];
+function createCars(shadowGenerator) {
+  const carColors = [
+    [0.1, 0.1, 0.1], [0.17, 0.24, 0.31], [0.21, 0.27, 0.31],
+    [0.5, 0.55, 0.55], [0.58, 0.65, 0.65], [0.93, 0.94, 0.95]
+  ];
+  
   for (let i = 0; i < 30; i++) {
     const x = (Math.random() - 0.5) * 600;
     const y = 25 + Math.random() * 30;
     const z = (Math.random() - 0.5) * 600;
     
-    const car = new THREE.Mesh(
-      new THREE.BoxGeometry(6, 3, 9),
-      new THREE.MeshStandardMaterial({ color: carColors[i % carColors.length], roughness: 0.3, metalness: 0.7 })
-    );
-    car.position.set(x, y, z);
-    car.castShadow = true;
-    car.userData = { speed: 2 + Math.random() * 2.5, direction: Math.random() * Math.PI * 2, height: y };
-    scene.add(car);
-    cars.push(car);
+    const car = BABYLON.MeshBuilder.CreateBox("car", { width: 6, height: 3, depth: 9 }, scene);
+    car.position = new BABYLON.Vector3(x, y, z);
+    
+    const carMat = new BABYLON.PBRMaterial("carMat", scene);
+    const color = carColors[i % carColors.length];
+    carMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
+    carMat.roughness = 0.3;
+    carMat.metallic = 0.7;
+    car.material = carMat;
+    car.receiveShadows = true;
+    shadowGenerator.addShadowCaster(car);
+    
+    car.metadata = { speed: 0.15, direction: Math.random() * Math.PI * 2, height: y };
+    
+    scene.registerBeforeRender(() => {
+      if (car.metadata) {
+        car.position.x += Math.sin(car.metadata.direction) * car.metadata.speed;
+        car.position.z += Math.cos(car.metadata.direction) * car.metadata.speed;
+        if (car.position.x > 350) car.position.x = -350;
+        if (car.position.x < -350) car.position.x = 350;
+        if (car.position.z > 350) car.position.z = -350;
+        if (car.position.z < -350) car.position.z = 350;
+        car.position.y = car.metadata.height + Math.sin(Date.now() * 0.002) * 2;
+        car.rotation.y = car.metadata.direction;
+      }
+    });
   }
 }
 
 function setupControls() {
-  addEventListener('resize', () => {
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  });
-
-  addEventListener('keydown', e => {
-    if (e.code === 'KeyW') moveF = true;
-    if (e.code === 'KeyS') moveB = true;
-    if (e.code === 'KeyA') moveL = true;
-    if (e.code === 'KeyD') moveR = true;
-    if (e.code === 'ShiftLeft') sprint = true;
-    if (e.code === 'KeyE' && curInteract) interact();
-    if (e.code === 'KeyT') toggleAI();
-  });
-
-  addEventListener('keyup', e => {
-    if (e.code === 'KeyW') moveF = false;
-    if (e.code === 'KeyS') moveB = false;
-    if (e.code === 'KeyA') moveL = false;
-    if (e.code === 'KeyD') moveR = false;
-    if (e.code === 'ShiftLeft') sprint = false;
-  });
-
-  addEventListener('mousemove', e => {
-    if (document.pointerLockElement === document.body) {
-      camera.rotation.y -= (e.movementX || 0) * 0.002;
-      camera.rotation.x -= (e.movementY || 0) * 0.002;
-      camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+  scene.onKeyboardObservable.add((kbInfo) => {
+    if (kbInfo.type === BABYLON.KeyboardEventTypes.KEYDOWN) {
+      if (kbInfo.event.key === 'w' || kbInfo.event.key === 'W') moveF = true;
+      if (kbInfo.event.key === 's' || kbInfo.event.key === 'S') moveB = true;
+      if (kbInfo.event.key === 'a' || kbInfo.event.key === 'A') moveL = true;
+      if (kbInfo.event.key === 'd' || kbInfo.event.key === 'D') moveD = true;
+      if (kbInfo.event.key === 'Shift') sprint = true;
+      if (kbInfo.event.key === 't' || kbInfo.event.key === 'T') toggleAI();
+      if (kbInfo.event.key === 'e' || kbInfo.event.key === 'E') checkInteraction();
+    } else if (kbInfo.type === BABYLON.KeyboardEventTypes.KEYUP) {
+      if (kbInfo.event.key === 'w' || kbInfo.event.key === 'W') moveF = false;
+      if (kbInfo.event.key === 's' || kbInfo.event.key === 'S') moveB = false;
+      if (kbInfo.event.key === 'a' || kbInfo.event.key === 'A') moveL = false;
+      if (kbInfo.event.key === 'd' || kbInfo.event.key === 'D') moveR = false;
+      if (kbInfo.event.key === 'Shift') sprint = false;
     }
-  });
-
-  document.body.addEventListener('click', () => {
-    if (!document.getElementById('charSelect').classList.contains('hide')) return;
-    document.body.requestPointerLock();
   });
 }
 
-function animate() {
-  requestAnimationFrame(animate);
-  const delta = clock.getDelta();
-  const speed = sprint ? 100 : 70;
-
-  vel.x -= vel.x * 10 * delta;
-  vel.z -= vel.z * 10 * delta;
-  dir.z = Number(moveF) - Number(moveB);
-  dir.x = Number(moveR) - Number(moveL);
-  dir.normalize();
-
-  if (moveF || moveB) vel.z -= dir.z * speed * delta;
-  if (moveL || moveR) vel.x -= dir.x * speed * delta;
-
-  camera.position.x += vel.x * delta;
-  camera.position.z += vel.z * delta;
-
-  npcs.forEach(npc => {
-    npc.userData.walkTime += delta;
-    if (npc.userData.walkTime > 5) {
-      npc.userData.direction = Math.random() * Math.PI * 2;
-      npc.userData.walkTime = 0;
-    }
-    npc.position.x += Math.sin(npc.userData.direction) * npc.userData.speed * delta;
-    npc.position.z += Math.cos(npc.userData.direction) * npc.userData.speed * delta;
-    npc.position.x = Math.max(-300, Math.min(300, npc.position.x));
-    npc.position.z = Math.max(-300, Math.min(300, npc.position.z));
-    npc.rotation.y = npc.userData.direction;
-    npc.position.y = 2.5 + Math.sin(Date.now() * 0.005 + npc.position.x) * 0.3;
-  });
-
-  cars.forEach(car => {
-    car.position.x += Math.sin(car.userData.direction) * car.userData.speed * delta;
-    car.position.z += Math.cos(car.userData.direction) * car.userData.speed * delta;
-    if (car.position.x > 350) car.position.x = -350;
-    if (car.position.x < -350) car.position.x = 350;
-    if (car.position.z > 350) car.position.z = -350;
-    if (car.position.z < -350) car.position.z = 350;
-    car.position.y = car.userData.height + Math.sin(Date.now() * 0.002 + car.position.x) * 2;
-    car.rotation.y = car.userData.direction;
-  });
-
-  checkNearby();
-  renderer.render(scene, camera);
+function updateMovement() {
+  const speed = sprint ? 1.2 : 0.7;
+  if (moveF) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.Z).scale(speed));
+  if (moveB) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.Z).scale(-speed));
+  if (moveL) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.X).scale(-speed));
+  if (moveR) camera.position.addInPlace(camera.getDirection(BABYLON.Axis.X).scale(speed));
 }
 
-function checkNearby() {
-  let nearest = null, minDist = 35;
-  
-  buildings.forEach(bldg => {
-    const dist = camera.position.distanceTo(bldg.position);
-    if (dist < minDist) { minDist = dist; nearest = bldg; }
-  });
-
-  npcs.forEach(npc => {
-    const dist = camera.position.distanceTo(npc.position);
-    if (dist < 15 && dist < minDist) { minDist = dist; nearest = npc; }
-  });
-
-  if (nearest && nearest !== curInteract) { 
-    curInteract = nearest; 
-    if (nearest.userData.type === 'npc') showNPCInteract();
-    else showBuildingInteract();
+function checkInteraction() {
+  const pickResult = scene.pick(scene.pointerX, scene.pointerY);
+  if (pickResult.hit && pickResult.pickedMesh.metadata) {
+    const meta = pickResult.pickedMesh.metadata;
+    if (meta.type === 'npc') {
+      showNPCInteract(meta.name);
+    }
   }
-  else if (!nearest && curInteract) { curInteract = null; hideInteract(); }
 }
 
-function showBuildingInteract() {
-  const loc = locations[curInteract.userData.id];
-  if (!loc) return;
-  document.getElementById('intTitle').textContent = loc.name;
-  document.getElementById('intDesc').textContent = 'Research facility with advanced technology.';
-  
-  const btns = document.getElementById('intBtns');
-  btns.innerHTML = '<button class="actBtn" onclick="window.hideInteract()">EXIT</button>';
-  document.getElementById('interact').classList.remove('hide');
-}
-
-function showNPCInteract() {
-  const collab = collaborators[curInteract.userData.name];
-  document.getElementById('intTitle').textContent = curInteract.userData.name;
+function showNPCInteract(npcName) {
+  const collab = collaborators[npcName];
+  document.getElementById('intTitle').textContent = npcName;
   document.getElementById('intDesc').textContent = collab.greeting;
   
   const btns = document.getElementById('intBtns');
@@ -537,8 +567,8 @@ function showNPCInteract() {
   
   const collabBtn = document.createElement('button');
   collabBtn.className = 'actBtn';
-  collabBtn.textContent = 'START PROJECT';
-  collabBtn.onclick = () => startCollaboration(curInteract.userData.name);
+  collabBtn.textContent = 'START PROJECT COLLABORATION';
+  collabBtn.onclick = () => startCollaboration(npcName);
   btns.appendChild(collabBtn);
   
   const closeBtn = document.createElement('button');
@@ -555,8 +585,6 @@ function hideInteract() {
   document.getElementById('interact').classList.add('hide');
 }
 
-function interact() {}
-
 function startCollaboration(npcName) {
   hideInteract();
   const collab = collaborators[npcName];
@@ -566,19 +594,19 @@ function startCollaboration(npcName) {
   state.currentCollab = { npc: npcName, project: projectId, completedTasks: [] };
   
   let html = `<h2>🤝 ${project.title}</h2>`;
-  html += `<div id="collabInfo"><div class="collabPanel"><h3>Collaborator</h3><p><strong>${npcName}</strong></p><p>"${collab.greeting}"</p>`;
+  html += `<div id="collabInfo"><div class="collabPanel"><h3>Expert Collaborator</h3><p><strong>${npcName}</strong></p><p style="font-style:italic;color:#95a5a6;">"${collab.greeting}"</p><p><strong>Expertise:</strong></p>`;
   collab.expertise.forEach(exp => html += `<span class="expertTag">${exp}</span>`);
-  html += `</div><div class="collabPanel"><h3>Project</h3><p>${project.tasks.length} tasks to complete</p></div></div>`;
+  html += `</div><div class="collabPanel"><h3>Project Overview</h3><p><strong>Tasks:</strong> ${project.tasks.length} comprehensive steps</p><p><strong>Type:</strong> Hands-on implementation</p><p><strong>Difficulty:</strong> Intermediate to Advanced</p></div></div>`;
   
-  html += `<div id="projectArea"><h3>Tasks</h3>`;
+  html += `<div id="projectArea"><h3 style="color:#27ae60;font-size:1.5em;margin-bottom:20px;">Project Tasks</h3>`;
   project.tasks.forEach((task, i) => {
     html += `<div class="taskItem" id="task${i}"><div><h4>${i+1}. ${task.title}</h4><p>${task.desc}</p></div>`;
-    html += `<button class="taskBtn" onclick="window.workOnTask(${i})">Work</button></div>`;
+    html += `<button class="taskBtn" onclick="window.workOnTask(${i})">Work On This</button></div>`;
   });
   html += `</div>`;
   
-  html += `<div id="collabChat"><div class="collabMsg npc"><strong>${npcName}:</strong> Let's start!</div></div>`;
-  html += `<div style="text-align:center;margin-top:20px;"><button class="collabBtn secondary" onclick="window.closeCollaboration()">END</button></div>`;
+  html += `<div id="collabChat"><div class="collabMsg npc"><strong>${npcName}:</strong> Great! Let's start with the first task. I'll guide you through each step.</div></div>`;
+  html += `<div style="text-align:center;margin-top:30px;"><button class="collabBtn secondary" onclick="window.closeCollaboration()">END COLLABORATION</button></div>`;
   
   document.getElementById('collabContent').innerHTML = html;
   document.getElementById('collaboration').classList.remove('hide');
@@ -590,14 +618,51 @@ window.workOnTask = function(taskIndex) {
   const npcName = state.currentCollab.npc;
   const chat = document.getElementById('collabChat');
   
-  chat.innerHTML += `<div class="collabMsg you"><strong>You:</strong> Working on "${task.title}"</div>`;
+  chat.innerHTML += `<div class="collabMsg you"><strong>You:</strong> Let's work on "${task.title}"</div>`;
+  
   setTimeout(() => {
-    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> ${task.desc}. Here's the code:</div>`;
-    chat.innerHTML += `<div id="codeEditor">${task.code.replace(/\n/g, '<br>')}</div>`;
-    chat.innerHTML += `<div style="text-align:center;margin:15px 0;"><button class="taskBtn complete" onclick="window.completeTask(${taskIndex})">✓ Complete</button></div>`;
+    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Excellent choice! ${task.desc}. Here's the implementation:</div>`;
+    chat.innerHTML += `<div id="codeEditor">${formatCode(task.code)}</div>`;
+    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> This code ${explainCode(task.title)}. Take your time to understand it, then mark it complete when ready.</div>`;
+    chat.innerHTML += `<div style="text-align:center;margin:20px 0;"><button class="taskBtn complete" onclick="window.completeTask(${taskIndex})">✓ COMPLETE TASK</button></div>`;
     chat.scrollTop = chat.scrollHeight;
   }, 1000);
 };
+
+function formatCode(code) {
+  return code
+    .replace(/\n/g, '<br>')
+    .replace(/(def|class|import|from|for|if|return|while|const|let|var|function)/g, '<span class="keyword">$1</span>')
+    .replace(/(".*?"|'.*?')/g, '<span class="string">$1</span>')
+    .replace(/(#.*?|\/\/.*?)(<br>|$)/g, '<span class="comment">$1</span>$2')
+    .replace(/([a-zA-Z_][a-zA-Z0-9_]*)\(/g, '<span class="function">$1</span>(');
+}
+
+function explainCode(title) {
+  const explanations = {
+    'Design Problem Hamiltonian': 'defines the optimization problem we want to solve using quantum mechanics',
+    'Create Mixer Hamiltonian': 'creates quantum superposition to explore multiple solutions simultaneously',
+    'Implement QAOA Layers': 'alternates between problem and mixing Hamiltonians to find the optimal solution',
+    'Optimize Parameters': 'uses classical optimization to tune the quantum circuit parameters for best results',
+    'Measure and Analyze Results': 'extracts the solution from quantum measurements and analyzes the probability distribution',
+    'Load and Preprocess Data': 'prepares the image dataset with augmentation techniques to improve model generalization',
+    'Design CNN Architecture': 'builds convolutional layers that automatically extract hierarchical features from images',
+    'Add Dense Layers': 'adds fully connected layers for final classification based on extracted features',
+    'Compile and Train Model': 'configures the optimizer and trains the network on the dataset using backpropagation',
+    'Evaluate Performance': 'tests the trained model on unseen data and analyzes accuracy metrics',
+    'Select Target Gene': 'identifies the specific gene sequence we want to edit in the genome',
+    'Design Guide RNA': 'creates a 20-base pair RNA sequence that will guide Cas9 to the exact target location',
+    'Prepare Cas9 Complex': 'combines the guide RNA with the Cas9 enzyme to form the complete CRISPR editing tool',
+    'Deliver to Cells': 'introduces the CRISPR system into target cells using viral vectors or electroporation',
+    'Verify Knockout': 'sequences the DNA to confirm the gene was successfully disrupted by insertions or deletions',
+    'Wire Temperature Sensor': 'establishes the physical connections between the DHT22 sensor and ESP8266 microcontroller',
+    'Setup WiFi Connection': 'configures the ESP8266 to connect to your wireless network for internet connectivity',
+    'Read Sensor Data': 'retrieves temperature and humidity measurements from the DHT22 sensor',
+    'Send Data to Server': 'transmits the sensor readings to a cloud API using HTTP POST requests',
+    'Add Sleep Mode': 'implements deep sleep to dramatically reduce power consumption for battery-powered operation'
+  };
+  return explanations[title] || 'implements this critical functionality for the project';
+}
 
 window.completeTask = function(taskIndex) {
   state.currentCollab.completedTasks.push(taskIndex);
@@ -607,18 +672,21 @@ window.completeTask = function(taskIndex) {
   const npcName = state.currentCollab.npc;
   const chat = document.getElementById('collabChat');
   
-  chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Great! ${state.currentCollab.completedTasks.length}/${project.tasks.length} done.</div>`;
+  chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Excellent work! You've completed task ${taskIndex + 1}. Progress: ${state.currentCollab.completedTasks.length}/${project.tasks.length}</div>`;
   
   if (state.currentCollab.completedTasks.length === project.tasks.length) {
     state.projectsCompleted++;
     state.collabs++;
     state.rep += 500;
     updateHUD();
+    
     setTimeout(() => {
-      chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> 🎉 Project complete! +500 Rep!</div>`;
-      notify('🎉 Project completed! +500 Rep');
+      chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> 🎉 Outstanding! We've completed the entire project together! You've gained deep understanding of this technology. <strong>+500 Reputation earned!</strong></div>`;
+      chat.scrollTop = chat.scrollHeight;
+      notify('🎉 Project Completed! +500 Reputation, +1 Collaboration');
     }, 1000);
   }
+  
   chat.scrollTop = chat.scrollHeight;
 };
 
@@ -636,7 +704,6 @@ function toggleAI() {
 }
 
 window.toggleAI = toggleAI;
-window.hideInteract = hideInteract;
 
 function askAI() {
   const input = document.getElementById('aiInput');
@@ -649,15 +716,16 @@ function askAI() {
   
   setTimeout(() => {
     const q = question.toLowerCase();
-    let answer = "I can explain quantum computing, AI, circuits, DNA, neural interfaces, nanotechnology, fusion, and space systems. What interests you?";
+    let answer = "I can provide detailed explanations about quantum computing, AI/neural networks, electronic circuits, DNA/CRISPR gene editing, neural interfaces, nanotechnology, fusion energy, and space systems. What would you like to learn about?";
+    
     if (q.includes('quantum')) answer = aiKnowledge.quantum;
-    else if (q.includes('ai') || q.includes('neural network')) answer = aiKnowledge.ai;
-    else if (q.includes('circuit') || q.includes('electronic')) answer = aiKnowledge.circuit;
+    else if (q.includes('ai') || q.includes('neural network') || q.includes('machine learning')) answer = aiKnowledge.ai;
+    else if (q.includes('circuit') || q.includes('electronic') || q.includes('resistor') || q.includes('ohm')) answer = aiKnowledge.circuit;
     else if (q.includes('dna') || q.includes('gene') || q.includes('crispr')) answer = aiKnowledge.dna;
-    else if (q.includes('brain') || q.includes('neural interface')) answer = aiKnowledge.neural;
+    else if (q.includes('brain') || q.includes('neural interface') || q.includes('bci')) answer = aiKnowledge.neural;
     else if (q.includes('nano')) answer = aiKnowledge.nano;
-    else if (q.includes('fusion')) answer = aiKnowledge.fusion;
-    else if (q.includes('space') || q.includes('rocket')) answer = aiKnowledge.space;
+    else if (q.includes('fusion') || q.includes('nuclear')) answer = aiKnowledge.fusion;
+    else if (q.includes('space') || q.includes('rocket') || q.includes('orbit')) answer = aiKnowledge.space;
     
     chat.innerHTML += `<div class="aiMsg ai"><strong>AI:</strong> ${answer}</div>`;
     chat.scrollTop = chat.scrollHeight;
@@ -678,7 +746,7 @@ function notify(msg) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 3500);
+  setTimeout(() => n.classList.remove('show'), 4000);
 }
 
 let selChar = null;
@@ -688,7 +756,7 @@ document.querySelectorAll('.charCard').forEach(card => {
     card.classList.add('selected');
     selChar = card.dataset.char;
     document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').textContent = 'START';
+    document.getElementById('startBtn').textContent = 'START EXPERIENCE';
   });
 });
 
@@ -698,18 +766,34 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Building city...', 'Creating NPCs...', 'Adding vehicles...', 'Initializing AI...', 'Ready!'];
+  const msgs = [
+    'Initializing Babylon.js engine...',
+    'Loading PBR materials...',
+    'Building photorealistic city...',
+    'Creating realistic lighting...',
+    'Spawning AI experts...',
+    'Adding vehicles and NPCs...',
+    'Applying post-processing effects...',
+    'Finalizing scene...',
+    'Ready to explore!'
+  ];
+  
   let i = 0;
   const interval = setInterval(() => {
-    document.getElementById('loadText').textContent = msgs[i++];
+    document.getElementById('loadText').textContent = msgs[i];
+    document.getElementById('loadBar').style.width = ((i + 1) / msgs.length * 100) + '%';
+    i++;
+    
     if (i >= msgs.length) {
       clearInterval(interval);
-      document.getElementById('loading').classList.add('hide');
-      document.getElementById('hud').classList.remove('hide');
-      document.getElementById('controls').classList.remove('hide');
-      init();
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('hide');
+        document.getElementById('hud').classList.remove('hide');
+        document.getElementById('controls').classList.remove('hide');
+        initBabylon();
+      }, 500);
     }
-  }, 600);
+  }, 700);
 });
 </script>
 </body>
