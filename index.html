@@ -3,428 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Ultimate Interactive Experience</title>
+<title>TechVerse: Immersive Labs</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
+body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
 #renderCanvas { width: 100vw; height: 100vh; display: block; touch-action: none; cursor: crosshair; }
 
-/* RESPONSIVE Character Selection */
-#charSelect { 
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); 
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  z-index: 10000; overflow-y: auto; padding: 20px;
-}
-#charSelect h1 { 
-  font-size: clamp(1.8em, 6vw, 4em); color: #fff; 
-  text-shadow: 0 0 40px rgba(0, 212, 255, 1); 
-  margin: 20px 0 10px 0; font-weight: 900; letter-spacing: 3px; 
-  animation: glow 2s ease-in-out infinite; text-align: center;
-}
-@keyframes glow { 
-  0%, 100% { text-shadow: 0 0 40px rgba(0, 212, 255, 1); } 
-  50% { text-shadow: 0 0 60px rgba(0, 212, 255, 1), 0 0 100px rgba(0, 212, 255, 0.8); } 
-}
-.subtitle { 
-  font-size: clamp(0.85em, 2vw, 1.1em); color: #bdc3c7; 
-  margin-bottom: 20px; text-align: center; max-width: 95%; 
-  line-height: 1.6; padding: 0 10px;
-}
-.features { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-  gap: 10px; max-width: 900px; width: 95%; margin-bottom: 20px; 
-}
-.feature { 
-  background: rgba(52, 152, 219, 0.15); padding: 8px 12px; 
-  border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); 
-  text-align: center; font-size: clamp(0.75em, 1.5vw, 0.9em); 
-}
-.charGrid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
-  gap: 15px; max-width: 900px; width: 95%; margin-bottom: 25px; 
-}
-.charCard { 
-  background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); 
-  border: 3px solid #3498db; border-radius: 12px; padding: 20px; 
-  cursor: pointer; transition: all 0.4s; text-align: center; 
-  backdrop-filter: blur(15px); position: relative; overflow: hidden;
-  min-height: 180px; display: flex; flex-direction: column; justify-content: center;
-}
-.charCard:hover { 
-  transform: translateY(-8px) scale(1.03); 
-  border-color: #00d4ff; 
-  box-shadow: 0 12px 40px rgba(0, 212, 255, 0.5); 
-}
-.charCard.selected { 
-  background: linear-gradient(135deg, rgba(39, 174, 96, 0.4), rgba(46, 204, 113, 0.4)); 
-  border-color: #27ae60; 
-  box-shadow: 0 0 40px rgba(39, 174, 96, 0.7); 
-}
+#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; z-index: 10000; overflow-y: auto; padding: 20px; }
+#charSelect h1 { font-size: clamp(2em, 6vw, 4em); color: #fff; text-shadow: 0 0 40px rgba(0, 212, 255, 1); margin: 20px 0 10px 0; font-weight: 900; animation: glow 2s ease-in-out infinite; text-align: center; }
+@keyframes glow { 0%, 100% { text-shadow: 0 0 40px rgba(0, 212, 255, 1); } 50% { text-shadow: 0 0 60px rgba(0, 212, 255, 1); } }
+.subtitle { font-size: clamp(0.9em, 2vw, 1.1em); color: #bdc3c7; margin-bottom: 20px; text-align: center; max-width: 95%; line-height: 1.6; }
+.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; max-width: 900px; width: 95%; margin-bottom: 25px; }
+.charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 3px solid #3498db; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.4s; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; }
+.charCard:hover { transform: translateY(-8px); border-color: #00d4ff; box-shadow: 0 12px 40px rgba(0, 212, 255, 0.5); }
+.charCard.selected { background: linear-gradient(135deg, rgba(39, 174, 96, 0.4), rgba(46, 204, 113, 0.4)); border-color: #27ae60; box-shadow: 0 0 40px rgba(39, 174, 96, 0.7); }
 .charCard .icon { font-size: clamp(2.5em, 5vw, 3.5em); margin-bottom: 10px; }
 .charCard h3 { color: #ecf0f1; font-size: clamp(1.1em, 2.5vw, 1.3em); margin: 8px 0; font-weight: 800; }
-.charCard p { color: #95a5a6; font-size: clamp(0.8em, 1.8vw, 0.95em); line-height: 1.4; }
-#startBtn { 
-  padding: clamp(12px, 3vw, 18px) clamp(40px, 8vw, 70px); 
-  font-size: clamp(1.1em, 2.5vw, 1.4em); 
-  background: linear-gradient(135deg, #27ae60, #229954); 
-  border: none; border-radius: 50px; color: #fff; font-weight: 900; 
-  cursor: pointer; text-transform: uppercase; letter-spacing: 2px; 
-  box-shadow: 0 8px 30px rgba(39, 174, 96, 0.6); 
-  transition: all 0.4s; margin: 10px 0;
-}
-#startBtn:hover:not(:disabled) { 
-  transform: translateY(-4px); 
-  box-shadow: 0 12px 40px rgba(39, 174, 96, 0.8); 
-}
+.charCard p { color: #95a5a6; font-size: clamp(0.8em, 1.8vw, 0.95em); }
+#startBtn { padding: clamp(12px, 3vw, 18px) clamp(40px, 8vw, 70px); font-size: clamp(1.1em, 2.5vw, 1.4em); background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 50px; color: #fff; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px 30px rgba(39, 174, 96, 0.6); transition: all 0.4s; margin: 10px 0; }
+#startBtn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(39, 174, 96, 0.8); }
 #startBtn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-/* Loading */
-#loading { 
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); 
-  display: flex; flex-direction: column; align-items: center; justify-content: center; 
-  z-index: 9999; 
-}
-#loading h2 { 
-  color: #00d4ff; font-size: clamp(1.8em, 4vw, 2.5em); 
-  margin-bottom: 25px; font-weight: 900; 
-  text-shadow: 0 0 30px rgba(0, 212, 255, 0.9); 
-  animation: pulse 1.5s ease-in-out infinite; 
-}
+#loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+#loading h2 { color: #00d4ff; font-size: clamp(1.8em, 4vw, 2.5em); margin-bottom: 25px; font-weight: 900; animation: pulse 1.5s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-.spinner { 
-  border: 6px solid rgba(0, 212, 255, 0.2); 
-  border-top: 6px solid #00d4ff; border-radius: 50%; 
-  width: clamp(60px, 10vw, 90px); height: clamp(60px, 10vw, 90px); 
-  animation: spin 1s linear infinite; 
-  box-shadow: 0 0 40px rgba(0, 212, 255, 0.5); 
-}
+.spinner { border: 6px solid rgba(0, 212, 255, 0.2); border-top: 6px solid #00d4ff; border-radius: 50%; width: clamp(60px, 10vw, 90px); height: clamp(60px, 10vw, 90px); animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-#loadText { 
-  color: #bdc3c7; font-size: clamp(1em, 2vw, 1.2em); 
-  margin-top: 20px; text-align: center; padding: 0 20px; 
-}
-#loadProgress { 
-  width: clamp(250px, 70vw, 450px); height: 8px; 
-  background: rgba(255, 255, 255, 0.1); border-radius: 10px; 
-  margin-top: 20px; overflow: hidden; 
-}
-#loadBar { 
-  width: 0%; height: 100%; 
-  background: linear-gradient(90deg, #00d4ff, #27ae60, #f39c12); 
-  transition: width 0.3s; border-radius: 10px; 
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.7); 
-}
+#loadText { color: #bdc3c7; font-size: clamp(1em, 2vw, 1.2em); margin-top: 20px; text-align: center; padding: 0 20px; }
+#loadProgress { width: clamp(250px, 70vw, 450px); height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
+#loadBar { width: 0%; height: 100%; background: linear-gradient(90deg, #00d4ff, #27ae60, #f39c12); transition: width 0.3s; border-radius: 10px; }
 
-/* HUD - Responsive */
-#hud { 
-  position: fixed; top: 10px; left: 10px; 
-  background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); 
-  padding: clamp(12px, 2vw, 20px); border-radius: 12px; 
-  border: 2px solid rgba(0, 212, 255, 0.6); 
-  min-width: clamp(180px, 25vw, 260px); 
-  z-index: 1000; backdrop-filter: blur(20px); 
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); 
-}
-#hud h3 { 
-  color: #00d4ff; font-size: clamp(1em, 2vw, 1.3em); 
-  margin-bottom: 10px; border-bottom: 2px solid rgba(0, 212, 255, 0.4); 
-  padding-bottom: 8px; font-weight: 900; 
-}
-.hudStat { 
-  display: flex; justify-content: space-between; 
-  margin: 8px 0; font-size: clamp(0.8em, 1.5vw, 1em); 
-  color: #bdc3c7; 
-}
+#hud { position: fixed; top: 10px; left: 10px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(12px, 2vw, 20px); border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.6); min-width: clamp(180px, 25vw, 260px); z-index: 1000; backdrop-filter: blur(20px); }
+#hud h3 { color: #00d4ff; font-size: clamp(1em, 2vw, 1.3em); margin-bottom: 10px; border-bottom: 2px solid rgba(0, 212, 255, 0.4); padding-bottom: 8px; font-weight: 900; }
+.hudStat { display: flex; justify-content: space-between; margin: 8px 0; font-size: clamp(0.8em, 1.5vw, 1em); color: #bdc3c7; }
 .hudStat .val { color: #27ae60; font-weight: 900; }
-.xpBar { 
-  width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); 
-  border-radius: 10px; margin-top: 6px; overflow: hidden; 
-}
-.xpFill { 
-  height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); 
-  border-radius: 10px; transition: width 0.3s; 
-}
 
-/* AI Assistant - Responsive */
-#aiAssistant { 
-  position: fixed; top: 10px; right: 10px; 
-  width: clamp(280px, 40vw, 380px); 
-  background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); 
-  border-radius: 12px; border: 2px solid rgba(155, 89, 182, 0.6); 
-  z-index: 1000; backdrop-filter: blur(20px); 
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); 
-}
-#aiHeader { 
-  background: linear-gradient(135deg, #9b59b6, #8e44ad); 
-  padding: clamp(12px, 2vw, 18px); border-radius: 10px 10px 0 0; 
-  display: flex; justify-content: space-between; align-items: center; 
-  cursor: pointer; 
-}
-#aiHeader h3 { 
-  color: #fff; font-size: clamp(1em, 2vw, 1.2em); 
-  font-weight: 900; display: flex; align-items: center; gap: 8px; 
-}
-#aiToggle { 
-  background: none; border: none; color: #fff; 
-  font-size: clamp(1.1em, 2vw, 1.3em); cursor: pointer; 
-}
-#aiBody { 
-  max-height: clamp(300px, 50vh, 550px); 
-  overflow-y: auto; padding: clamp(12px, 2vw, 18px); 
-  display: none; 
-}
-#aiBody.open { display: block; }
-#aiChat { 
-  margin-bottom: 15px; 
-  max-height: clamp(250px, 40vh, 400px); 
-  overflow-y: auto; 
-}
-.aiMsg { 
-  margin: 12px 0; padding: clamp(10px, 2vw, 14px); 
-  border-radius: 10px; line-height: 1.7; 
-  font-size: clamp(0.85em, 1.5vw, 0.95em); 
-  animation: slideIn 0.3s ease-out; 
-}
-@keyframes slideIn { 
-  from { opacity: 0; transform: translateY(10px); } 
-  to { opacity: 1; transform: translateY(0); } 
-}
-.aiMsg.ai { 
-  background: linear-gradient(135deg, rgba(155, 89, 182, 0.25), rgba(142, 68, 173, 0.25)); 
-  border-left: 4px solid #9b59b6; 
-}
-.aiMsg.user { 
-  background: linear-gradient(135deg, rgba(52, 152, 219, 0.25), rgba(41, 128, 185, 0.25)); 
-  border-left: 4px solid #3498db; text-align: right; 
-}
-.aiMsg strong { color: #9b59b6; font-weight: 800; }
-#aiInputArea { display: flex; gap: 8px; }
-#aiInput { 
-  flex: 1; padding: clamp(10px, 2vw, 13px); 
-  background: rgba(52, 73, 94, 0.6); 
-  border: 2px solid rgba(127, 140, 141, 0.5); 
-  border-radius: 8px; color: #ecf0f1; 
-  font-size: clamp(0.85em, 1.5vw, 0.95em); 
-}
-#aiInput:focus { outline: none; border-color: #9b59b6; }
-#aiSend { 
-  padding: clamp(10px, 2vw, 13px) clamp(18px, 3vw, 24px); 
-  background: linear-gradient(135deg, #9b59b6, #8e44ad); 
-  border: none; border-radius: 8px; color: #fff; 
-  font-weight: 900; cursor: pointer; 
-  font-size: clamp(0.85em, 1.5vw, 0.95em); 
-}
+#locationInfo { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 15px 30px; border-radius: 12px; border: 2px solid rgba(243, 156, 18, 0.6); z-index: 1000; backdrop-filter: blur(20px); text-align: center; }
+#locationInfo h3 { color: #f39c12; font-size: clamp(1.2em, 2.5vw, 1.5em); font-weight: 900; }
 
-/* Mini-Game Panel */
-#miniGame { 
-  position: fixed; top: 50%; left: 50%; 
-  transform: translate(-50%, -50%); 
-  width: clamp(300px, 90vw, 900px); 
-  max-height: 90vh; overflow-y: auto; 
-  background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); 
-  padding: clamp(20px, 4vw, 40px); border-radius: 20px; 
-  border: 3px solid rgba(243, 156, 18, 0.6); 
-  z-index: 5000; backdrop-filter: blur(25px); 
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9); 
-}
-#miniGame h2 { 
-  color: #f39c12; font-size: clamp(1.5em, 4vw, 2.5em); 
-  margin-bottom: 20px; text-align: center; font-weight: 900; 
-  text-shadow: 0 0 25px rgba(243, 156, 18, 0.6); 
-}
-.gameSection { 
-  background: rgba(52, 73, 94, 0.5); padding: clamp(15px, 3vw, 25px); 
-  margin: 15px 0; border-radius: 12px; 
-  border-left: 4px solid #3498db; 
-}
-.gameSection h3 { 
-  color: #3498db; font-size: clamp(1.2em, 2.5vw, 1.6em); 
-  margin-bottom: 12px; font-weight: 700; 
-}
-.gameSection p { 
-  color: #ecf0f1; font-size: clamp(0.9em, 1.8vw, 1.05em); 
-  line-height: 1.8; margin: 10px 0; 
-}
-.gameBtn { 
-  padding: clamp(10px, 2vw, 14px) clamp(25px, 4vw, 35px); 
-  background: linear-gradient(135deg, #3498db, #2980b9); 
-  border: none; border-radius: 10px; color: #fff; 
-  font-weight: 900; cursor: pointer; 
-  margin: 10px 5px; font-size: clamp(0.9em, 1.8vw, 1.05em); 
-  transition: all 0.3s; 
-  box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4); 
-}
-.gameBtn:hover { 
-  transform: translateY(-3px); 
-  box-shadow: 0 8px 30px rgba(52, 152, 219, 0.6); 
-}
-.gameBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
-.gameBtn.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-
-/* Circuit Builder */
-#circuitBuilder { 
-  background: #1e1e1e; padding: 20px; border-radius: 12px; 
-  margin: 15px 0; border: 2px solid #3498db; 
-}
-.component { 
-  display: inline-block; background: rgba(52, 152, 219, 0.2); 
-  padding: 10px 20px; margin: 5px; border-radius: 8px; 
-  border: 2px solid #3498db; cursor: pointer; 
-  transition: all 0.3s; font-size: clamp(0.85em, 1.5vw, 0.95em); 
-}
-.component:hover { 
-  background: rgba(52, 152, 219, 0.4); 
-  transform: scale(1.05); 
-}
-#circuitCanvas { 
-  width: 100%; height: clamp(200px, 30vh, 300px); 
-  background: #2c3e50; border-radius: 8px; 
-  margin: 15px 0; border: 2px solid #34495e; 
-}
-
-/* Quantum Simulator */
-#quantumSim { 
-  background: #1a1a2e; padding: 20px; border-radius: 12px; 
-  margin: 15px 0; border: 2px solid #9b59b6; 
-}
-.qubit { 
-  display: inline-block; width: clamp(40px, 8vw, 60px); 
-  height: clamp(40px, 8vw, 60px); background: rgba(155, 89, 182, 0.3); 
-  border: 3px solid #9b59b6; border-radius: 50%; 
-  margin: 10px; text-align: center; line-height: clamp(40px, 8vw, 60px); 
-  font-weight: 900; font-size: clamp(1em, 2vw, 1.3em); 
-  cursor: pointer; transition: all 0.3s; 
-}
-.qubit:hover { 
-  background: rgba(155, 89, 182, 0.6); 
-  transform: scale(1.1); 
-}
-.gate { 
-  display: inline-block; background: rgba(52, 152, 219, 0.3); 
-  padding: clamp(8px, 1.5vw, 12px) clamp(15px, 3vw, 20px); 
-  margin: 5px; border-radius: 8px; border: 2px solid #3498db; 
-  cursor: pointer; transition: all 0.3s; 
-  font-size: clamp(0.85em, 1.5vw, 0.95em); 
-}
-.gate:hover { 
-  background: rgba(52, 152, 219, 0.6); 
-  transform: scale(1.05); 
-}
-
-/* Interaction Panel - Responsive */
-#interact { 
-  position: fixed; bottom: clamp(20px, 4vh, 40px); 
-  left: 50%; transform: translateX(-50%); 
-  background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); 
-  padding: clamp(20px, 4vw, 35px) clamp(25px, 5vw, 50px); 
-  border-radius: 15px; border: 3px solid rgba(52, 152, 219, 0.6); 
-  max-width: clamp(300px, 90vw, 800px); width: 92%; 
-  text-align: center; z-index: 1000; backdrop-filter: blur(25px); 
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8); 
-}
-#interact h4 { 
-  color: #3498db; font-size: clamp(1.5em, 4vw, 2em); 
-  margin-bottom: 15px; font-weight: 900; 
-}
-#interact p { 
-  color: #bdc3c7; font-size: clamp(0.9em, 2vw, 1.1em); 
-  margin-bottom: 20px; line-height: 1.8; 
-}
-.actBtn { 
-  padding: clamp(12px, 2.5vw, 15px) clamp(25px, 4vw, 35px); 
-  background: linear-gradient(135deg, #3498db, #2980b9); 
-  border: none; border-radius: 10px; color: #fff; 
-  font-weight: 900; cursor: pointer; 
-  margin: clamp(8px, 1.5vw, 12px); 
-  font-size: clamp(0.9em, 1.8vw, 1.05em); 
-  transition: all 0.3s; 
-  box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4); 
-}
-.actBtn:hover { 
-  transform: translateY(-3px); 
-  box-shadow: 0 8px 30px rgba(52, 152, 219, 0.6); 
-}
-.actBtn.secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+#interact { position: fixed; bottom: clamp(20px, 4vh, 40px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: clamp(20px, 4vw, 35px) clamp(25px, 5vw, 50px); border-radius: 15px; border: 3px solid rgba(52, 152, 219, 0.6); max-width: clamp(300px, 90vw, 800px); width: 92%; text-align: center; z-index: 1000; backdrop-filter: blur(25px); }
+#interact h4 { color: #3498db; font-size: clamp(1.5em, 4vw, 2em); margin-bottom: 15px; font-weight: 900; }
+#interact p { color: #bdc3c7; font-size: clamp(0.9em, 2vw, 1.1em); margin-bottom: 20px; line-height: 1.8; }
+.actBtn { padding: clamp(12px, 2.5vw, 15px) clamp(25px, 4vw, 35px); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: 900; cursor: pointer; margin: clamp(8px, 1.5vw, 12px); font-size: clamp(0.9em, 1.8vw, 1.05em); transition: all 0.3s; }
+.actBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52, 152, 219, 0.6); }
 .actBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
+.actBtn.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
 
-/* Controls - Responsive */
-#controls { 
-  position: fixed; bottom: clamp(20px, 4vh, 40px); 
-  left: clamp(10px, 2vw, 40px); 
-  background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); 
-  padding: clamp(15px, 2.5vw, 22px); border-radius: 12px; 
-  border: 2px solid rgba(0, 212, 255, 0.4); 
-  z-index: 1000; backdrop-filter: blur(20px); 
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); 
-}
-#controls h4 { 
-  color: #00d4ff; margin-bottom: 12px; 
-  font-size: clamp(0.95em, 1.8vw, 1.15em); 
-  font-weight: 900; 
-}
-.ctrl { 
-  color: #bdc3c7; margin: 8px 0; 
-  font-size: clamp(0.8em, 1.5vw, 0.95em); 
-}
-.key { 
-  color: #27ae60; font-weight: 900; 
-  background: linear-gradient(135deg, rgba(39, 174, 96, 0.25), rgba(46, 204, 113, 0.25)); 
-  padding: clamp(3px, 0.8vw, 5px) clamp(8px, 1.5vw, 12px); 
-  border-radius: 6px; margin-right: 8px; 
-  border: 1px solid rgba(39, 174, 96, 0.4); 
-  display: inline-block; 
-  font-size: clamp(0.75em, 1.4vw, 0.9em); 
-}
+#controls { position: fixed; bottom: clamp(20px, 4vh, 40px); left: clamp(10px, 2vw, 40px); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(15px, 2.5vw, 22px); border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.4); z-index: 1000; backdrop-filter: blur(20px); }
+#controls h4 { color: #00d4ff; margin-bottom: 12px; font-size: clamp(0.95em, 1.8vw, 1.15em); font-weight: 900; }
+.ctrl { color: #bdc3c7; margin: 8px 0; font-size: clamp(0.8em, 1.5vw, 0.95em); }
+.key { color: #27ae60; font-weight: 900; background: linear-gradient(135deg, rgba(39, 174, 96, 0.25), rgba(46, 204, 113, 0.25)); padding: clamp(3px, 0.8vw, 5px) clamp(8px, 1.5vw, 12px); border-radius: 6px; margin-right: 8px; border: 1px solid rgba(39, 174, 96, 0.4); display: inline-block; }
 
-/* Notification - Responsive */
-#notif { 
-  position: fixed; top: clamp(100px, 15vh, 150px); 
-  left: 50%; transform: translateX(-50%); 
-  background: linear-gradient(135deg, #27ae60, #229954); 
-  color: #fff; padding: clamp(15px, 3vw, 20px) clamp(30px, 6vw, 50px); 
-  border-radius: 50px; font-weight: 900; 
-  font-size: clamp(1em, 2vw, 1.15em); 
-  opacity: 0; transition: opacity 0.4s; 
-  max-width: 92%; text-align: center; z-index: 2000; 
-  box-shadow: 0 10px 40px rgba(39, 174, 96, 0.7); 
-}
-#notif.show { opacity: 1; animation: notifBounce 0.5s ease-out; }
-@keyframes notifBounce { 
-  0% { transform: translateX(-50%) translateY(-20px); } 
-  50% { transform: translateX(-50%) translateY(5px); } 
-  100% { transform: translateX(-50%) translateY(0); } 
-}
+#notif { position: fixed; top: clamp(100px, 15vh, 150px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: clamp(15px, 3vw, 20px) clamp(30px, 6vw, 50px); border-radius: 50px; font-weight: 900; font-size: clamp(1em, 2vw, 1.15em); opacity: 0; transition: opacity 0.4s; max-width: 92%; text-align: center; z-index: 2000; }
+#notif.show { opacity: 1; }
 
-/* Crosshair */
-#crosshair { 
-  position: fixed; top: 50%; left: 50%; 
-  transform: translate(-50%, -50%); 
-  width: 20px; height: 20px; pointer-events: none; z-index: 999; 
-}
-#crosshair::before, #crosshair::after { 
-  content: ''; position: absolute; 
-  background: rgba(255, 255, 255, 0.8); 
-}
+#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; pointer-events: none; z-index: 999; }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.8); }
 #crosshair::before { width: 2px; height: 20px; left: 9px; }
 #crosshair::after { width: 20px; height: 2px; top: 9px; }
 
-/* Utility */
 .hide { display: none !important; }
 ::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); border-radius: 5px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
 ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
-
-/* Mobile Optimizations */
-@media (max-width: 768px) {
-  #hud, #aiAssistant { font-size: 0.85em; }
-  #controls { font-size: 0.8em; }
-  .charGrid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-  .features { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
-}
 </style>
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
 </head>
@@ -433,51 +74,22 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 <div id="crosshair"></div>
 
 <div id="charSelect">
-  <h1>🌆 TECHVERSE</h1>
-  <p class="subtitle">Ultimate Interactive Learning - Master 15+ technologies through fun mini-games, practical simulations, and real projects</p>
-  
-  <div class="features">
-    <div class="feature">✅ 15+ Technologies</div>
-    <div class="feature">✅ Mini-Games</div>
-    <div class="feature">✅ Circuit Builder</div>
-    <div class="feature">✅ Quantum Simulator</div>
-    <div class="feature">✅ Gene Editor</div>
-    <div class="feature">✅ Code Playground</div>
-    <div class="feature">✅ Challenges</div>
-    <div class="feature">✅ Achievements</div>
-    <div class="feature">✅ Leaderboard</div>
-    <div class="feature">✅ AI Mentor</div>
-  </div>
+  <h1>🌆 TECHVERSE: IMMERSIVE LABS</h1>
+  <p class="subtitle">Enter futuristic labs, interact with advanced equipment, conduct real experiments in lavish high-tech environments</p>
   
   <div class="charGrid">
-    <div class="charCard" data-char="Tech Explorer">
-      <div class="icon">🚀</div>
-      <h3>Tech Explorer</h3>
-      <p>Discover all technologies</p>
-    </div>
-    <div class="charCard" data-char="AI Specialist">
-      <div class="icon">🤖</div>
-      <h3>AI Specialist</h3>
-      <p>Master machine learning</p>
-    </div>
-    <div class="charCard" data-char="Quantum Researcher">
-      <div class="icon">⚛️</div>
-      <h3>Quantum Researcher</h3>
-      <p>Explore quantum computing</p>
-    </div>
-    <div class="charCard" data-char="Biotech Innovator">
-      <div class="icon">🧬</div>
-      <h3>Biotech Innovator</h3>
-      <p>Gene editing & biology</p>
-    </div>
+    <div class="charCard" data-char="Tech Explorer"><div class="icon">🚀</div><h3>Tech Explorer</h3><p>Explore all labs</p></div>
+    <div class="charCard" data-char="AI Specialist"><div class="icon">🤖</div><h3>AI Specialist</h3><p>Master AI labs</p></div>
+    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Quantum computing</p></div>
+    <div class="charCard" data-char="Biotech Innovator"><div class="icon">🧬</div><h3>Biotech Innovator</h3><p>Gene editing labs</p></div>
   </div>
   <button id="startBtn" disabled>SELECT YOUR PATH</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building TechVerse...</h2>
+  <h2>Building Immersive Labs...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Initializing...</p>
+  <p id="loadText">Creating futuristic interiors...</p>
   <div id="loadProgress"><div id="loadBar"></div></div>
 </div>
 
@@ -486,24 +98,11 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div class="hudStat"><span>Path:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="xpBar"><div class="xpFill" id="xpBar" style="width: 0%"></div></div>
   <div class="hudStat"><span>Score:</span><span class="val" id="score">0</span></div>
 </div>
 
-<div id="aiAssistant">
-  <div id="aiHeader" onclick="toggleAI()">
-    <h3>🤖 AI MENTOR</h3>
-    <button id="aiToggle">▼</button>
-  </div>
-  <div id="aiBody">
-    <div id="aiChat">
-      <div class="aiMsg ai"><strong>AI:</strong> Welcome! Ask me about any technology, or try the mini-games to learn by doing!</div>
-    </div>
-    <div id="aiInputArea">
-      <input type="text" id="aiInput" placeholder="Ask anything..." onkeypress="if(event.key==='Enter') askAI()">
-      <button id="aiSend" onclick="askAI()">Send</button>
-    </div>
-  </div>
+<div id="locationInfo" class="hide">
+  <h3 id="currentLocation">Outside</h3>
 </div>
 
 <div id="interact" class="hide">
@@ -512,262 +111,534 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div id="intBtns"></div>
 </div>
 
-<div id="miniGame" class="hide">
-  <h2 id="gameTitle">🎮 MINI-GAME</h2>
-  <div id="gameContent"></div>
-</div>
-
 <div id="controls" class="hide">
   <h4>🎮 CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
-  <div class="ctrl"><span class="key">MOUSE</span> Look</div>
-  <div class="ctrl"><span class="key">E</span> Interact</div>
-  <div class="ctrl"><span class="key">T</span> AI</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look (Click)</div>
+  <div class="ctrl"><span class="key">E</span> Interact/Enter</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
+  <div class="ctrl"><span class="key">ESC</span> Exit Lab</div>
 </div>
 
 <div id="notif"></div>
 
 <script>
-// GAME STATE
 const state = {
   char: null, lvl: 1, xp: 0, xpMax: 1000, score: 0,
-  aiOpen: false, pointerLocked: false,
-  circuit: [], qubits: [0, 0, 0], dna: 'ATGCGATCG'
+  pointerLocked: false, insideLab: false, currentLab: null
 };
 
-// AI KNOWLEDGE (Simplified for space)
-const aiKnowledge = {
-  quantum: "⚛️ Quantum computing uses qubits in superposition (0 AND 1). Gates: Hadamard (H) creates superposition, CNOT creates entanglement. Try the quantum simulator!",
-  ai: "🤖 Neural networks learn through backpropagation. Forward pass → Loss → Backward pass → Update weights. Try building a simple network!",
-  circuit: "⚡ Ohm's Law: V=I×R. Build circuits with resistors, LEDs, batteries. Try the circuit builder!",
-  dna: "🧬 CRISPR-Cas9 edits genes. Guide RNA + Cas9 cuts DNA at specific location. Try the gene editor!",
-  blockchain: "⛓️ Distributed ledger with cryptographic linking. Consensus: PoW (mining) or PoS (staking).",
-  robotics: "🤖 Sensors + Actuators + Control (PID). Path planning with A* algorithm.",
-  fusion: "⚡ D+T → He+n+17.6MeV. Tokamak uses magnetic confinement at 150M°C.",
-  space: "🚀 Rocket equation: Δv=ve×ln(m₀/mf). Orbital mechanics: Hohmann transfer.",
-  nano: "🔬 1-100nm scale. Carbon nanotubes, quantum dots, graphene applications.",
-  neural: "🧠 Brain-computer interfaces decode neural signals for prosthetics.",
-  iot: "🌐 Connected devices with sensors. MQTT protocol for communication.",
-  cyber: "🔐 Cryptography: AES (symmetric), RSA (asymmetric), SHA-256 (hash).",
-  drug: "💊 Molecular docking simulates drug-protein binding. AI predicts efficacy.",
-  renewable: "🌊 Solar PV, wind turbines, batteries for storage. Smart grid integration.",
-  vr: "🎮 HMD with stereoscopic display. Inside-out tracking. Low latency <20ms."
-};
-
-// BABYLON.JS SETUP
 let canvas, engine, scene, camera;
-let buildings = [], npcs = [], interactables = [];
+let buildings = [], doors = [], equipment = [];
+let outsideScene, labScenes = {};
 
 function initBabylon() {
   canvas = document.getElementById('renderCanvas');
   engine = new BABYLON.Engine(canvas, true);
   
-  scene = new BABYLON.Scene(engine);
-  scene.clearColor = new BABYLON.Color3(0.53, 0.81, 0.92);
+  createOutsideScene();
+  createLabScenes();
   
-  camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, 30), scene);
+  scene = outsideScene;
+  
+  engine.runRenderLoop(() => scene.render());
+  window.addEventListener('resize', () => engine.resize());
+  
+  setupControls();
+  updateHUD();
+  updateLocation();
+  notify('🌆 Welcome! Walk to buildings and press E to enter labs!');
+}
+
+function createOutsideScene() {
+  outsideScene = new BABYLON.Scene(engine);
+  outsideScene.clearColor = new BABYLON.Color3(0.53, 0.81, 0.92);
+  
+  camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, 30), outsideScene);
   camera.speed = 0.5;
   camera.angularSensibility = 1000;
   camera.keysUp = [87]; camera.keysDown = [83]; camera.keysLeft = [65]; camera.keysRight = [68];
   
-  // POINTER LOCK
-  canvas.addEventListener('click', () => {
-    if (canvas.requestPointerLock) canvas.requestPointerLock();
-  });
-  
-  document.addEventListener('pointerlockchange', () => {
-    state.pointerLocked = document.pointerLockElement === canvas;
-    if (state.pointerLocked) camera.attachControl(canvas, true);
-  });
-  
-  // KEYBOARD
-  let sprint = false;
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && state.pointerLocked) document.exitPointerLock();
-    if (e.key === 't' || e.key === 'T') toggleAI();
-    if (e.key === 'Shift') { sprint = true; camera.speed = 1.0; }
-    if (e.key === 'e' || e.key === 'E') checkInteraction();
-  });
-  
-  document.addEventListener('keyup', (e) => {
-    if (e.key === 'Shift') { sprint = false; camera.speed = 0.5; }
-  });
-  
-  // LIGHTING
-  const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+  const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), outsideScene);
   hemiLight.intensity = 0.6;
   
-  const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
+  const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), outsideScene);
   sun.position = new BABYLON.Vector3(200, 400, 200);
   sun.intensity = 1.5;
   
   const shadowGenerator = new BABYLON.ShadowGenerator(2048, sun);
   shadowGenerator.useBlurExponentialShadowMap = true;
   
-  scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
-  scene.fogDensity = 0.0015;
-  scene.fogColor = new BABYLON.Color3(0.53, 0.81, 0.92);
+  outsideScene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
+  outsideScene.fogDensity = 0.0015;
+  outsideScene.fogColor = new BABYLON.Color3(0.53, 0.81, 0.92);
   
-  createWorld(shadowGenerator);
-  
-  engine.runRenderLoop(() => scene.render());
-  window.addEventListener('resize', () => engine.resize());
-  
-  updateHUD();
-  notify('🌆 Welcome! Click to lock mouse, WASD to move, E to interact, T for AI!');
-}
-
-function createWorld(shadowGenerator) {
   // GROUND
-  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 2000, height: 2000 }, scene);
-  const groundMat = new BABYLON.PBRMaterial("groundMat", scene);
+  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 2000, height: 2000 }, outsideScene);
+  const groundMat = new BABYLON.PBRMaterial("groundMat", outsideScene);
   groundMat.albedoColor = new BABYLON.Color3(0.24, 0.35, 0.24);
   groundMat.roughness = 0.95;
   ground.material = groundMat;
   ground.receiveShadows = true;
   
-  // LABS
+  // BUILDINGS with DOORS
   const labs = [
-    { name: 'Quantum Lab', pos: [-150, 0, -150], color: [0.35, 0.42, 0.49], height: 70, tech: 'quantum' },
-    { name: 'AI Center', pos: [150, 0, -150], color: [0.42, 0.56, 0.50], height: 68, tech: 'ai' },
-    { name: 'Circuit Workshop', pos: [-150, 0, 150], color: [0.49, 0.42, 0.35], height: 65, tech: 'circuit' },
-    { name: 'Biotech Lab', pos: [150, 0, 150], color: [0.35, 0.49, 0.56], height: 72, tech: 'dna' },
-    { name: 'Game Arena', pos: [0, 0, 0], color: [0.56, 0.43, 0.35], height: 85, tech: 'games' }
+    { name: 'Quantum Computing Lab', pos: [-100, 0, -100], color: [0.35, 0.42, 0.49], height: 70, tech: 'quantum' },
+    { name: 'AI Research Center', pos: [100, 0, -100], color: [0.42, 0.56, 0.50], height: 68, tech: 'ai' },
+    { name: 'Circuit Workshop', pos: [-100, 0, 100], color: [0.49, 0.42, 0.35], height: 65, tech: 'circuit' },
+    { name: 'Biotech Laboratory', pos: [100, 0, 100], color: [0.35, 0.49, 0.56], height: 72, tech: 'dna' }
   ];
   
   labs.forEach(lab => {
-    createBuilding(lab.name, lab.pos, 45, lab.height, lab.color, lab.tech, shadowGenerator);
+    createBuildingWithDoor(lab, shadowGenerator);
   });
-  
-  // NPCs
-  for (let i = 0; i < 10; i++) {
-    const angle = (i / 10) * Math.PI * 2;
-    const x = Math.cos(angle) * 100;
-    const z = Math.sin(angle) * 100;
-    createNPC(`Expert ${i+1}`, [x, 0, z], shadowGenerator);
-  }
 }
 
-function createBuilding(name, pos, size, height, color, tech, shadowGenerator) {
-  const building = BABYLON.MeshBuilder.CreateBox("building", { width: size, height: height, depth: size }, scene);
-  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
+function createBuildingWithDoor(lab, shadowGenerator) {
+  const building = BABYLON.MeshBuilder.CreateBox("building", { width: 45, height: lab.height, depth: 45 }, outsideScene);
+  building.position = new BABYLON.Vector3(lab.pos[0], lab.height / 2, lab.pos[2]);
   
-  const mat = new BABYLON.PBRMaterial("bmat", scene);
-  mat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  const mat = new BABYLON.PBRMaterial("bmat", outsideScene);
+  mat.albedoColor = new BABYLON.Color3(lab.color[0], lab.color[1], lab.color[2]);
   mat.roughness = 0.7;
   mat.metallic = 0.3;
   building.material = mat;
   building.receiveShadows = true;
   shadowGenerator.addShadowCaster(building);
   
-  building.metadata = { type: 'building', name: name, tech: tech };
+  building.metadata = { type: 'building', name: lab.name, tech: lab.tech };
   buildings.push(building);
-  interactables.push(building);
   
-  createLabel(name, pos[0], height + 15, pos[2]);
+  // DOOR
+  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 8, height: 12, depth: 1 }, outsideScene);
+  door.position = new BABYLON.Vector3(lab.pos[0], 6, lab.pos[2] + 22.5);
+  const doorMat = new BABYLON.PBRMaterial("doorMat", outsideScene);
+  doorMat.albedoColor = new BABYLON.Color3(0.2, 0.3, 0.4);
+  doorMat.roughness = 0.5;
+  doorMat.metallic = 0.8;
+  doorMat.emissiveColor = new BABYLON.Color3(0, 0.5, 1);
+  doorMat.emissiveIntensity = 0.3;
+  door.material = doorMat;
+  door.metadata = { type: 'door', tech: lab.tech, building: lab.name };
+  doors.push(door);
+  
+  createLabel(lab.name, lab.pos[0], lab.height + 15, lab.pos[2]);
+  createLabel('🚪 PRESS E TO ENTER', lab.pos[0], 15, lab.pos[2] + 22.5);
 }
 
-function createNPC(name, pos, shadowGenerator) {
-  const npc = BABYLON.MeshBuilder.CreateCapsule("npc", { radius: 1.2, height: 5 }, scene);
-  npc.position = new BABYLON.Vector3(pos[0], 2.5, pos[2]);
-  const npcMat = new BABYLON.PBRMaterial("npcMat", scene);
-  npcMat.albedoColor = new BABYLON.Color3(0.29, 0.33, 0.41);
-  npcMat.roughness = 0.8;
-  npc.material = npcMat;
-  npc.receiveShadows = true;
-  shadowGenerator.addShadowCaster(npc);
+function createLabScenes() {
+  // QUANTUM LAB
+  labScenes.quantum = createQuantumLab();
   
-  npc.metadata = { type: 'npc', name: name };
-  npcs.push(npc);
-  interactables.push(npc);
+  // AI LAB
+  labScenes.ai = createAILab();
   
-  createLabel(name, pos[0], 7, pos[2]);
+  // CIRCUIT LAB
+  labScenes.circuit = createCircuitLab();
+  
+  // BIOTECH LAB
+  labScenes.dna = createBiotechLab();
+}
+
+function createQuantumLab() {
+  const labScene = new BABYLON.Scene(engine);
+  labScene.clearColor = new BABYLON.Color3(0.05, 0.05, 0.15);
+  
+  const labCamera = new BABYLON.UniversalCamera("labCamera", new BABYLON.Vector3(0, 5, -20), labScene);
+  labCamera.speed = 0.5;
+  labCamera.angularSensibility = 1000;
+  labCamera.keysUp = [87]; labCamera.keysDown = [83]; labCamera.keysLeft = [65]; labCamera.keysRight = [68];
+  
+  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), labScene);
+  light.intensity = 0.4;
+  
+  // FLOOR
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 80, height: 80 }, labScene);
+  const floorMat = new BABYLON.PBRMaterial("floorMat", labScene);
+  floorMat.albedoColor = new BABYLON.Color3(0.1, 0.1, 0.2);
+  floorMat.roughness = 0.3;
+  floorMat.metallic = 0.8;
+  floor.material = floorMat;
+  
+  // WALLS
+  createWalls(labScene, [0.15, 0.15, 0.25]);
+  
+  // QUANTUM COMPUTER (Center)
+  const qComputer = BABYLON.MeshBuilder.CreateBox("qComputer", { width: 10, height: 15, depth: 10 }, labScene);
+  qComputer.position = new BABYLON.Vector3(0, 7.5, 0);
+  const qMat = new BABYLON.PBRMaterial("qMat", labScene);
+  qMat.albedoColor = new BABYLON.Color3(0.2, 0.3, 0.5);
+  qMat.roughness = 0.2;
+  qMat.metallic = 0.9;
+  qMat.emissiveColor = new BABYLON.Color3(0, 0.5, 1);
+  qMat.emissiveIntensity = 0.5;
+  qComputer.material = qMat;
+  qComputer.metadata = { type: 'equipment', name: 'Quantum Computer', action: 'quantum' };
+  equipment.push(qComputer);
+  
+  // HOLOGRAPHIC DISPLAYS
+  for (let i = 0; i < 4; i++) {
+    const angle = (i / 4) * Math.PI * 2;
+    const x = Math.cos(angle) * 20;
+    const z = Math.sin(angle) * 20;
+    
+    const holo = BABYLON.MeshBuilder.CreatePlane("holo", { width: 8, height: 6 }, labScene);
+    holo.position = new BABYLON.Vector3(x, 8, z);
+    holo.rotation.y = -angle;
+    const holoMat = new BABYLON.StandardMaterial("holoMat", labScene);
+    holoMat.emissiveColor = new BABYLON.Color3(0, 1, 1);
+    holoMat.alpha = 0.7;
+    holo.material = holoMat;
+  }
+  
+  // WORKSTATIONS
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    const x = Math.cos(angle) * 30;
+    const z = Math.sin(angle) * 30;
+    
+    const desk = BABYLON.MeshBuilder.CreateBox("desk", { width: 6, height: 3, depth: 4 }, labScene);
+    desk.position = new BABYLON.Vector3(x, 1.5, z);
+    const deskMat = new BABYLON.PBRMaterial("deskMat", labScene);
+    deskMat.albedoColor = new BABYLON.Color3(0.3, 0.3, 0.4);
+    deskMat.roughness = 0.6;
+    desk.material = deskMat;
+  }
+  
+  // CEILING LIGHTS
+  for (let i = -20; i <= 20; i += 20) {
+    for (let j = -20; j <= 20; j += 20) {
+      const cLight = new BABYLON.PointLight("cLight", new BABYLON.Vector3(i, 18, j), labScene);
+      cLight.intensity = 0.5;
+      cLight.diffuse = new BABYLON.Color3(0, 0.5, 1);
+    }
+  }
+  
+  // EXIT DOOR
+  const exit = BABYLON.MeshBuilder.CreateBox("exit", { width: 6, height: 10, depth: 1 }, labScene);
+  exit.position = new BABYLON.Vector3(0, 5, -39);
+  const exitMat = new BABYLON.PBRMaterial("exitMat", labScene);
+  exitMat.albedoColor = new BABYLON.Color3(0.8, 0.2, 0.2);
+  exitMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+  exitMat.emissiveIntensity = 0.3;
+  exit.material = exitMat;
+  exit.metadata = { type: 'exit' };
+  equipment.push(exit);
+  
+  return labScene;
+}
+
+function createAILab() {
+  const labScene = new BABYLON.Scene(engine);
+  labScene.clearColor = new BABYLON.Color3(0.05, 0.15, 0.05);
+  
+  const labCamera = new BABYLON.UniversalCamera("labCamera", new BABYLON.Vector3(0, 5, -20), labScene);
+  labCamera.speed = 0.5;
+  labCamera.angularSensibility = 1000;
+  labCamera.keysUp = [87]; labCamera.keysDown = [83]; labCamera.keysLeft = [65]; labCamera.keysRight = [68];
+  
+  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), labScene);
+  light.intensity = 0.4;
+  
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 80, height: 80 }, labScene);
+  const floorMat = new BABYLON.PBRMaterial("floorMat", labScene);
+  floorMat.albedoColor = new BABYLON.Color3(0.1, 0.2, 0.1);
+  floorMat.roughness = 0.3;
+  floorMat.metallic = 0.8;
+  floor.material = floorMat;
+  
+  createWalls(labScene, [0.15, 0.25, 0.15]);
+  
+  // AI SERVER RACKS
+  for (let i = -25; i <= 25; i += 15) {
+    const rack = BABYLON.MeshBuilder.CreateBox("rack", { width: 8, height: 18, depth: 4 }, labScene);
+    rack.position = new BABYLON.Vector3(i, 9, 15);
+    const rackMat = new BABYLON.PBRMaterial("rackMat", labScene);
+    rackMat.albedoColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    rackMat.emissiveColor = new BABYLON.Color3(0, 1, 0);
+    rackMat.emissiveIntensity = 0.4;
+    rack.material = rackMat;
+    rack.metadata = { type: 'equipment', name: 'AI Server', action: 'ai' };
+    equipment.push(rack);
+  }
+  
+  // NEURAL NETWORK VISUALIZATION
+  const nnViz = BABYLON.MeshBuilder.CreateSphere("nnViz", { diameter: 12 }, labScene);
+  nnViz.position = new BABYLON.Vector3(0, 10, 0);
+  const nnMat = new BABYLON.PBRMaterial("nnMat", labScene);
+  nnMat.albedoColor = new BABYLON.Color3(0.3, 0.5, 0.3);
+  nnMat.emissiveColor = new BABYLON.Color3(0, 1, 0);
+  nnMat.emissiveIntensity = 0.6;
+  nnMat.alpha = 0.5;
+  nnViz.material = nnMat;
+  
+  // EXIT
+  const exit = BABYLON.MeshBuilder.CreateBox("exit", { width: 6, height: 10, depth: 1 }, labScene);
+  exit.position = new BABYLON.Vector3(0, 5, -39);
+  const exitMat = new BABYLON.PBRMaterial("exitMat", labScene);
+  exitMat.albedoColor = new BABYLON.Color3(0.8, 0.2, 0.2);
+  exitMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+  exitMat.emissiveIntensity = 0.3;
+  exit.material = exitMat;
+  exit.metadata = { type: 'exit' };
+  equipment.push(exit);
+  
+  return labScene;
+}
+
+function createCircuitLab() {
+  const labScene = new BABYLON.Scene(engine);
+  labScene.clearColor = new BABYLON.Color3(0.15, 0.1, 0.05);
+  
+  const labCamera = new BABYLON.UniversalCamera("labCamera", new BABYLON.Vector3(0, 5, -20), labScene);
+  labCamera.speed = 0.5;
+  labCamera.angularSensibility = 1000;
+  labCamera.keysUp = [87]; labCamera.keysDown = [83]; labCamera.keysLeft = [65]; labCamera.keysRight = [68];
+  
+  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), labScene);
+  light.intensity = 0.5;
+  
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 80, height: 80 }, labScene);
+  const floorMat = new BABYLON.PBRMaterial("floorMat", labScene);
+  floorMat.albedoColor = new BABYLON.Color3(0.2, 0.15, 0.1);
+  floorMat.roughness = 0.4;
+  floor.material = floorMat;
+  
+  createWalls(labScene, [0.25, 0.2, 0.15]);
+  
+  // WORKBENCHES with EQUIPMENT
+  for (let i = -20; i <= 20; i += 20) {
+    for (let j = -10; j <= 10; j += 20) {
+      const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 12, height: 4, depth: 8 }, labScene);
+      bench.position = new BABYLON.Vector3(i, 2, j);
+      const benchMat = new BABYLON.PBRMaterial("benchMat", labScene);
+      benchMat.albedoColor = new BABYLON.Color3(0.4, 0.3, 0.2);
+      bench.material = benchMat;
+      bench.metadata = { type: 'equipment', name: 'Circuit Workbench', action: 'circuit' };
+      equipment.push(bench);
+      
+      // OSCILLOSCOPE
+      const scope = BABYLON.MeshBuilder.CreateBox("scope", { width: 4, height: 3, depth: 3 }, labScene);
+      scope.position = new BABYLON.Vector3(i, 5.5, j);
+      const scopeMat = new BABYLON.PBRMaterial("scopeMat", labScene);
+      scopeMat.albedoColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+      scopeMat.emissiveColor = new BABYLON.Color3(1, 0.5, 0);
+      scopeMat.emissiveIntensity = 0.4;
+      scope.material = scopeMat;
+    }
+  }
+  
+  // EXIT
+  const exit = BABYLON.MeshBuilder.CreateBox("exit", { width: 6, height: 10, depth: 1 }, labScene);
+  exit.position = new BABYLON.Vector3(0, 5, -39);
+  const exitMat = new BABYLON.PBRMaterial("exitMat", labScene);
+  exitMat.albedoColor = new BABYLON.Color3(0.8, 0.2, 0.2);
+  exitMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+  exitMat.emissiveIntensity = 0.3;
+  exit.material = exitMat;
+  exit.metadata = { type: 'exit' };
+  equipment.push(exit);
+  
+  return labScene;
+}
+
+function createBiotechLab() {
+  const labScene = new BABYLON.Scene(engine);
+  labScene.clearColor = new BABYLON.Color3(0.05, 0.15, 0.15);
+  
+  const labCamera = new BABYLON.UniversalCamera("labCamera", new BABYLON.Vector3(0, 5, -20), labScene);
+  labCamera.speed = 0.5;
+  labCamera.angularSensibility = 1000;
+  labCamera.keysUp = [87]; labCamera.keysDown = [83]; labCamera.keysLeft = [65]; labCamera.keysRight = [68];
+  
+  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), labScene);
+  light.intensity = 0.4;
+  
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 80, height: 80 }, labScene);
+  const floorMat = new BABYLON.PBRMaterial("floorMat", labScene);
+  floorMat.albedoColor = new BABYLON.Color3(0.1, 0.2, 0.2);
+  floorMat.roughness = 0.2;
+  floorMat.metallic = 0.9;
+  floor.material = floorMat;
+  
+  createWalls(labScene, [0.15, 0.25, 0.25]);
+  
+  // DNA SEQUENCER (Center)
+  const sequencer = BABYLON.MeshBuilder.CreateCylinder("sequencer", { diameter: 8, height: 12 }, labScene);
+  sequencer.position = new BABYLON.Vector3(0, 6, 0);
+  const seqMat = new BABYLON.PBRMaterial("seqMat", labScene);
+  seqMat.albedoColor = new BABYLON.Color3(0.2, 0.4, 0.4);
+  seqMat.emissiveColor = new BABYLON.Color3(0, 1, 1);
+  seqMat.emissiveIntensity = 0.5;
+  sequencer.material = seqMat;
+  sequencer.metadata = { type: 'equipment', name: 'DNA Sequencer', action: 'dna' };
+  equipment.push(sequencer);
+  
+  // INCUBATORS
+  for (let i = -25; i <= 25; i += 25) {
+    const incubator = BABYLON.MeshBuilder.CreateBox("incubator", { width: 8, height: 10, depth: 6 }, labScene);
+    incubator.position = new BABYLON.Vector3(i, 5, 20);
+    const incMat = new BABYLON.PBRMaterial("incMat", labScene);
+    incMat.albedoColor = new BABYLON.Color3(0.3, 0.4, 0.4);
+    incMat.emissiveColor = new BABYLON.Color3(0, 0.8, 0.8);
+    incMat.emissiveIntensity = 0.3;
+    incubator.material = incMat;
+  }
+  
+  // EXIT
+  const exit = BABYLON.MeshBuilder.CreateBox("exit", { width: 6, height: 10, depth: 1 }, labScene);
+  exit.position = new BABYLON.Vector3(0, 5, -39);
+  const exitMat = new BABYLON.PBRMaterial("exitMat", labScene);
+  exitMat.albedoColor = new BABYLON.Color3(0.8, 0.2, 0.2);
+  exitMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+  exitMat.emissiveIntensity = 0.3;
+  exit.material = exitMat;
+  exit.metadata = { type: 'exit' };
+  equipment.push(exit);
+  
+  return labScene;
+}
+
+function createWalls(labScene, color) {
+  const wallHeight = 20;
+  const wallMat = new BABYLON.PBRMaterial("wallMat", labScene);
+  wallMat.albedoColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  wallMat.roughness = 0.8;
+  wallMat.metallic = 0.2;
+  
+  // 4 walls
+  const walls = [
+    { pos: [0, wallHeight/2, 40], size: [80, wallHeight, 1] },
+    { pos: [0, wallHeight/2, -40], size: [80, wallHeight, 1] },
+    { pos: [40, wallHeight/2, 0], size: [1, wallHeight, 80] },
+    { pos: [-40, wallHeight/2, 0], size: [1, wallHeight, 80] }
+  ];
+  
+  walls.forEach(w => {
+    const wall = BABYLON.MeshBuilder.CreateBox("wall", { width: w.size[0], height: w.size[1], depth: w.size[2] }, labScene);
+    wall.position = new BABYLON.Vector3(w.pos[0], w.pos[1], w.pos[2]);
+    wall.material = wallMat;
+  });
 }
 
 function createLabel(text, x, y, z) {
-  const plane = BABYLON.MeshBuilder.CreatePlane("label", { width: 35, height: 8 }, scene);
+  const plane = BABYLON.MeshBuilder.CreatePlane("label", { width: 35, height: 8 }, outsideScene);
   plane.position = new BABYLON.Vector3(x, y, z);
   plane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
   
-  const texture = new BABYLON.DynamicTexture("labelTexture", { width: 1024, height: 256 }, scene);
+  const texture = new BABYLON.DynamicTexture("labelTexture", { width: 1024, height: 256 }, outsideScene);
   const ctx = texture.getContext();
   ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
   ctx.fillRect(0, 0, 1024, 256);
-  ctx.font = 'Bold 65px Arial';
+  ctx.font = 'Bold 60px Arial';
   ctx.fillStyle = '#ecf0f1';
   ctx.textAlign = 'center';
   ctx.fillText(text, 512, 140);
   texture.update();
   
-  const mat = new BABYLON.StandardMaterial("labelMat", scene);
+  const mat = new BABYLON.StandardMaterial("labelMat", outsideScene);
   mat.diffuseTexture = texture;
   mat.emissiveTexture = texture;
   plane.material = mat;
 }
 
-function checkInteraction() {
-  let nearest = null, minDist = 50;
-  
-  interactables.forEach(obj => {
-    const dist = BABYLON.Vector3.Distance(camera.position, obj.position);
-    if (dist < minDist) { minDist = dist; nearest = obj; }
+function setupControls() {
+  canvas.addEventListener('click', () => {
+    if (canvas.requestPointerLock) canvas.requestPointerLock();
   });
   
-  if (nearest && nearest.metadata) {
-    if (nearest.metadata.type === 'building') showBuildingInteract(nearest.metadata);
-    else if (nearest.metadata.type === 'npc') showNPCInteract(nearest.metadata);
+  document.addEventListener('pointerlockchange', () => {
+    state.pointerLocked = document.pointerLockElement === canvas;
+    if (state.pointerLocked && camera) camera.attachControl(canvas, true);
+  });
+  
+  let sprint = false;
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (state.pointerLocked) document.exitPointerLock();
+      else if (state.insideLab) exitLab();
+    }
+    if (e.key === 'Shift') { sprint = true; if (camera) camera.speed = 1.0; }
+    if (e.key === 'e' || e.key === 'E') checkInteraction();
+  });
+  
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Shift') { sprint = false; if (camera) camera.speed = 0.5; }
+  });
+}
+
+function checkInteraction() {
+  if (!camera) return;
+  
+  if (state.insideLab) {
+    // Check equipment
+    let nearest = null, minDist = 15;
+    equipment.forEach(eq => {
+      if (eq.getScene() === scene) {
+        const dist = BABYLON.Vector3.Distance(camera.position, eq.position);
+        if (dist < minDist) { minDist = dist; nearest = eq; }
+      }
+    });
+    
+    if (nearest && nearest.metadata) {
+      if (nearest.metadata.type === 'exit') {
+        exitLab();
+      } else if (nearest.metadata.type === 'equipment') {
+        useEquipment(nearest.metadata);
+      }
+    }
+  } else {
+    // Check doors
+    let nearest = null, minDist = 20;
+    doors.forEach(door => {
+      const dist = BABYLON.Vector3.Distance(camera.position, door.position);
+      if (dist < minDist) { minDist = dist; nearest = door; }
+    });
+    
+    if (nearest && nearest.metadata && nearest.metadata.type === 'door') {
+      enterLab(nearest.metadata.tech, nearest.metadata.building);
+    }
   }
 }
 
-function showBuildingInteract(meta) {
-  document.getElementById('intTitle').textContent = meta.name;
-  document.getElementById('intDesc').textContent = `Learn ${meta.tech} through interactive mini-games and simulations!`;
+function enterLab(tech, buildingName) {
+  if (!labScenes[tech]) return;
   
-  const btns = document.getElementById('intBtns');
-  btns.innerHTML = '';
+  state.insideLab = true;
+  state.currentLab = tech;
   
-  if (meta.tech === 'quantum') {
-    const btn = document.createElement('button');
-    btn.className = 'actBtn success';
-    btn.textContent = '⚛️ QUANTUM SIMULATOR';
-    btn.onclick = () => { hideInteract(); showQuantumGame(); };
-    btns.appendChild(btn);
-  } else if (meta.tech === 'circuit') {
-    const btn = document.createElement('button');
-    btn.className = 'actBtn success';
-    btn.textContent = '⚡ CIRCUIT BUILDER';
-    btn.onclick = () => { hideInteract(); showCircuitGame(); };
-    btns.appendChild(btn);
-  } else if (meta.tech === 'dna') {
-    const btn = document.createElement('button');
-    btn.className = 'actBtn success';
-    btn.textContent = '🧬 GENE EDITOR';
-    btn.onclick = () => { hideInteract(); showGeneGame(); };
-    btns.appendChild(btn);
-  } else if (meta.tech === 'games') {
-    const btn = document.createElement('button');
-    btn.className = 'actBtn success';
-    btn.textContent = '🎮 PLAY MINI-GAMES';
-    btn.onclick = () => { hideInteract(); showAllGames(); };
-    btns.appendChild(btn);
-  }
+  scene = labScenes[tech];
+  camera = scene.getCameraByName("labCamera");
   
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'actBtn secondary';
-  closeBtn.textContent = 'EXIT';
-  closeBtn.onclick = hideInteract;
-  btns.appendChild(closeBtn);
-  
-  document.getElementById('interact').classList.remove('hide');
+  updateLocation();
+  notify(`🚪 Entered ${buildingName}! Press ESC to exit.`);
+  addXP(50);
 }
 
-function showNPCInteract(meta) {
-  document.getElementById('intTitle').textContent = meta.name;
-  document.getElementById('intDesc').textContent = 'Expert ready to help you learn!';
+function exitLab() {
+  state.insideLab = false;
+  state.currentLab = null;
+  
+  scene = outsideScene;
+  camera = scene.getCameraByName("camera");
+  
+  updateLocation();
+  notify('🚪 Exited lab. Back outside!');
+}
+
+function useEquipment(meta) {
+  notify(`🔬 Using ${meta.name}! +30 XP`);
+  addXP(30);
+  
+  showInteract(meta.name, `Advanced ${meta.action} equipment. Conduct experiments and learn!`);
+}
+
+function showInteract(title, desc) {
+  document.getElementById('intTitle').textContent = title;
+  document.getElementById('intDesc').textContent = desc;
   
   const btns = document.getElementById('intBtns');
-  btns.innerHTML = '<button class="actBtn secondary" onclick="hideInteract()">LEAVE</button>';
+  btns.innerHTML = '<button class="actBtn" onclick="hideInteract()">CLOSE</button>';
   document.getElementById('interact').classList.remove('hide');
 }
 
@@ -775,140 +646,24 @@ function hideInteract() {
   document.getElementById('interact').classList.add('hide');
 }
 
-// MINI-GAMES
-function showQuantumGame() {
-  document.getElementById('gameTitle').textContent = '⚛️ QUANTUM SIMULATOR';
-  const content = document.getElementById('gameContent');
-  content.innerHTML = `
-    <div class="gameSection">
-      <h3>Build Quantum Circuit</h3>
-      <p>Create superposition and entanglement!</p>
-      <div id="quantumSim">
-        <div>Qubits:</div>
-        <div class="qubit" onclick="flipQubit(0)">|${state.qubits[0]}⟩</div>
-        <div class="qubit" onclick="flipQubit(1)">|${state.qubits[1]}⟩</div>
-        <div class="qubit" onclick="flipQubit(2)">|${state.qubits[2]}⟩</div>
-        <div style="margin-top:20px">Gates:</div>
-        <div class="gate" onclick="applyGate('H')">Hadamard (H)</div>
-        <div class="gate" onclick="applyGate('X')">Pauli-X</div>
-        <div class="gate" onclick="applyGate('CNOT')">CNOT</div>
-      </div>
-    </div>
-    <button class="gameBtn danger" onclick="closeMiniGame()">CLOSE</button>
-  `;
-  document.getElementById('miniGame').classList.remove('hide');
-}
-
-function showCircuitGame() {
-  document.getElementById('gameTitle').textContent = '⚡ CIRCUIT BUILDER';
-  const content = document.getElementById('gameContent');
-  content.innerHTML = `
-    <div class="gameSection">
-      <h3>Build LED Circuit</h3>
-      <p>Add components to light up the LED!</p>
-      <div id="circuitBuilder">
-        <div>Components:</div>
-        <div class="component" onclick="addComponent('Battery')">🔋 Battery (9V)</div>
-        <div class="component" onclick="addComponent('Resistor')">⚡ Resistor (470Ω)</div>
-        <div class="component" onclick="addComponent('LED')">💡 LED</div>
-        <div style="margin-top:20px">Your Circuit:</div>
-        <div id="circuitCanvas" style="padding:20px;color:#ecf0f1;">
-          ${state.circuit.join(' → ') || 'Empty circuit'}
-        </div>
-        <button class="gameBtn" onclick="testCircuit()">TEST CIRCUIT</button>
-        <button class="gameBtn danger" onclick="state.circuit=[]; showCircuitGame();">RESET</button>
-      </div>
-    </div>
-    <button class="gameBtn danger" onclick="closeMiniGame()">CLOSE</button>
-  `;
-  document.getElementById('miniGame').classList.remove('hide');
-}
-
-function showGeneGame() {
-  document.getElementById('gameTitle').textContent = '🧬 GENE EDITOR';
-  const content = document.getElementById('gameContent');
-  content.innerHTML = `
-    <div class="gameSection">
-      <h3>CRISPR Gene Editing</h3>
-      <p>Edit DNA sequence using CRISPR-Cas9!</p>
-      <div style="background:#1e1e1e;padding:20px;border-radius:10px;margin:15px 0;">
-        <div style="color:#ecf0f1;font-family:monospace;font-size:1.2em;letter-spacing:3px;">
-          ${state.dna}
-        </div>
-        <div style="margin-top:20px;">
-          <button class="gameBtn" onclick="editDNA('A')">Insert A</button>
-          <button class="gameBtn" onclick="editDNA('T')">Insert T</button>
-          <button class="gameBtn" onclick="editDNA('G')">Insert G</button>
-          <button class="gameBtn" onclick="editDNA('C')">Insert C</button>
-          <button class="gameBtn danger" onclick="editDNA('DEL')">Delete</button>
-        </div>
-      </div>
-    </div>
-    <button class="gameBtn danger" onclick="closeMiniGame()">CLOSE</button>
-  `;
-  document.getElementById('miniGame').classList.remove('hide');
-}
-
-function showAllGames() {
-  document.getElementById('gameTitle').textContent = '🎮 MINI-GAMES ARENA';
-  const content = document.getElementById('gameContent');
-  content.innerHTML = `
-    <div class="gameSection">
-      <h3>Choose Your Challenge</h3>
-      <button class="gameBtn success" onclick="showQuantumGame()">⚛️ Quantum Simulator</button>
-      <button class="gameBtn success" onclick="showCircuitGame()">⚡ Circuit Builder</button>
-      <button class="gameBtn success" onclick="showGeneGame()">🧬 Gene Editor</button>
-      <button class="gameBtn success" onclick="showAIGame()">🤖 Neural Network Builder</button>
-    </div>
-    <button class="gameBtn danger" onclick="closeMiniGame()">CLOSE</button>
-  `;
-  document.getElementById('miniGame').classList.remove('hide');
-}
-
-function showAIGame() {
-  notify('🤖 Neural Network Builder coming soon!');
-}
-
-function closeMiniGame() {
-  document.getElementById('miniGame').classList.add('hide');
-}
-
-// GAME FUNCTIONS
-window.flipQubit = function(index) {
-  state.qubits[index] = state.qubits[index] === 0 ? 1 : 0;
-  showQuantumGame();
-  addXP(10);
-};
-
-window.applyGate = function(gate) {
-  notify(`Applied ${gate} gate! +20 XP`);
-  addXP(20);
-};
-
-window.addComponent = function(comp) {
-  state.circuit.push(comp);
-  showCircuitGame();
-  addXP(15);
-};
-
-window.testCircuit = function() {
-  if (state.circuit.includes('Battery') && state.circuit.includes('Resistor') && state.circuit.includes('LED')) {
-    notify('✅ Circuit works! LED is ON! +100 XP');
-    addXP(100);
+function updateLocation() {
+  const locInfo = document.getElementById('locationInfo');
+  const locText = document.getElementById('currentLocation');
+  
+  if (state.insideLab) {
+    const labNames = {
+      quantum: 'Quantum Computing Lab',
+      ai: 'AI Research Center',
+      circuit: 'Circuit Workshop',
+      dna: 'Biotech Laboratory'
+    };
+    locText.textContent = `📍 ${labNames[state.currentLab] || 'Lab'}`;
+    locInfo.classList.remove('hide');
   } else {
-    notify('❌ Circuit incomplete! Add all components.');
+    locText.textContent = '📍 Outside - City';
+    locInfo.classList.remove('hide');
   }
-};
-
-window.editDNA = function(base) {
-  if (base === 'DEL') {
-    state.dna = state.dna.slice(0, -1);
-  } else {
-    state.dna += base;
-  }
-  showGeneGame();
-  addXP(10);
-};
+}
 
 function addXP(amount) {
   state.xp += amount;
@@ -922,45 +677,10 @@ function addXP(amount) {
   updateHUD();
 }
 
-function toggleAI() {
-  state.aiOpen = !state.aiOpen;
-  const body = document.getElementById('aiBody');
-  const toggle = document.getElementById('aiToggle');
-  if (state.aiOpen) { body.classList.add('open'); toggle.textContent = '▲'; }
-  else { body.classList.remove('open'); toggle.textContent = '▼'; }
-}
-
-window.toggleAI = toggleAI;
-
-function askAI() {
-  const input = document.getElementById('aiInput');
-  const question = input.value.trim();
-  if (!question) return;
-  
-  const chat = document.getElementById('aiChat');
-  chat.innerHTML += `<div class="aiMsg user"><strong>You:</strong> ${question}</div>`;
-  input.value = '';
-  
-  setTimeout(() => {
-    const q = question.toLowerCase();
-    let answer = "I can explain 15+ technologies! Ask about quantum, AI, circuits, DNA, blockchain, robotics, fusion, space, nano, neural interfaces, IoT, cybersecurity, drugs, renewable energy, or VR!";
-    
-    Object.keys(aiKnowledge).forEach(key => {
-      if (q.includes(key)) answer = aiKnowledge[key];
-    });
-    
-    chat.innerHTML += `<div class="aiMsg ai"><strong>AI:</strong> ${answer}</div>`;
-    chat.scrollTop = chat.scrollHeight;
-  }, 500);
-}
-
-window.askAI = askAI;
-
 function updateHUD() {
   document.getElementById('role').textContent = state.char || '-';
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('xpBar').style.width = (state.xp / state.xpMax * 100) + '%';
   document.getElementById('score').textContent = state.score;
 }
 
@@ -989,7 +709,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Building world...', 'Loading mini-games...', 'Preparing simulations...', 'Ready!'];
+  const msgs = ['Creating outside world...', 'Building Quantum Lab...', 'Building AI Lab...', 'Building Circuit Lab...', 'Building Biotech Lab...', 'Adding equipment...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i];
@@ -1005,7 +725,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
         initBabylon();
       }, 500);
     }
-  }, 700);
+  }, 800);
 });
 </script>
 </body>
