@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: AI-Powered Collaboration Platform</title>
+<title>TechVerse: Complete AI-Powered City</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #1a1a1a; color: #e0e0e0; }
@@ -39,14 +39,13 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 #aiBody { max-height: 500px; overflow-y: auto; padding: 15px; display: none; }
 #aiBody.open { display: block; }
 #aiChat { margin-bottom: 15px; max-height: 350px; overflow-y: auto; }
-.aiMsg { margin: 10px 0; padding: 12px; border-radius: 8px; line-height: 1.6; }
+.aiMsg { margin: 10px 0; padding: 12px; border-radius: 8px; line-height: 1.6; font-size: 0.9em; }
 .aiMsg.ai { background: rgba(155, 89, 182, 0.2); border-left: 3px solid #9b59b6; }
 .aiMsg.user { background: rgba(52, 152, 219, 0.2); border-left: 3px solid #3498db; text-align: right; }
 .aiMsg strong { color: #9b59b6; }
 #aiInputArea { display: flex; gap: 8px; }
 #aiInput { flex: 1; padding: 10px; background: rgba(52, 73, 94, 0.6); border: 2px solid #7f8c8d; border-radius: 6px; color: #ecf0f1; font-size: 0.95em; }
 #aiSend { padding: 10px 20px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; }
-#aiSend:hover { transform: translateY(-2px); }
 
 #interact { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(44, 62, 80, 0.98); padding: 30px 40px; border-radius: 10px; border: 2px solid #3498db; max-width: 750px; width: 90%; text-align: center; z-index: 1000; }
 #interact h4 { color: #3498db; font-size: 1.8em; margin-bottom: 15px; }
@@ -63,27 +62,22 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 .collabPanel p { color: #ecf0f1; line-height: 1.7; margin: 8px 0; }
 .expertTag { display: inline-block; background: rgba(155, 89, 182, 0.3); padding: 4px 12px; border-radius: 15px; margin: 4px; font-size: 0.85em; color: #9b59b6; border: 1px solid #9b59b6; }
 #projectArea { background: rgba(26, 26, 26, 0.8); padding: 25px; border-radius: 10px; margin: 20px 0; border: 2px solid #27ae60; }
-#projectArea h3 { color: #27ae60; margin-bottom: 15px; }
 .taskItem { background: rgba(52, 73, 94, 0.6); padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #3498db; display: flex; justify-content: space-between; align-items: center; }
 .taskItem.completed { border-left-color: #27ae60; opacity: 0.7; }
 .taskItem h4 { color: #ecf0f1; margin-bottom: 5px; }
 .taskItem p { color: #95a5a6; font-size: 0.9em; }
 .taskBtn { padding: 8px 20px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; font-size: 0.9em; }
-.taskBtn:hover { transform: translateY(-2px); }
 .taskBtn.complete { background: linear-gradient(135deg, #27ae60, #229954); }
-#codeEditor { background: #1e1e1e; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; color: #d4d4d4; font-size: 0.95em; line-height: 1.6; margin: 15px 0; border: 2px solid #3498db; min-height: 200px; }
-.codeLine { margin: 5px 0; }
+#codeEditor { background: #1e1e1e; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; color: #d4d4d4; font-size: 0.9em; line-height: 1.6; margin: 15px 0; border: 2px solid #3498db; }
 .keyword { color: #569cd6; }
 .string { color: #ce9178; }
 .comment { color: #6a9955; }
 .function { color: #dcdcaa; }
 #collabChat { background: rgba(52, 73, 94, 0.6); padding: 20px; border-radius: 8px; max-height: 300px; overflow-y: auto; margin: 20px 0; }
-.collabMsg { margin: 10px 0; padding: 10px; border-radius: 6px; }
+.collabMsg { margin: 10px 0; padding: 10px; border-radius: 6px; font-size: 0.95em; }
 .collabMsg.npc { background: rgba(155, 89, 182, 0.2); border-left: 3px solid #9b59b6; }
 .collabMsg.you { background: rgba(52, 152, 219, 0.2); border-left: 3px solid #3498db; }
-.collabMsg strong { color: #3498db; }
 .collabBtn { padding: 12px 30px; background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 6px; color: #fff; font-weight: 600; cursor: pointer; margin: 10px 5px; font-size: 1em; }
-.collabBtn:hover { transform: translateY(-2px); }
 .collabBtn.secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
 
 #controls { position: fixed; bottom: 30px; left: 30px; background: rgba(44, 62, 80, 0.95); padding: 18px; border-radius: 8px; border: 2px solid #7f8c8d; z-index: 1000; }
@@ -95,7 +89,6 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 #notif.show { opacity: 1; }
 
 .hide { display: none !important; }
-
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
 ::-webkit-scrollbar-thumb { background: #7f8c8d; border-radius: 4px; }
@@ -105,8 +98,8 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 <canvas id="canvas"></canvas>
 
 <div id="charSelect">
-  <h1>TechVerse: AI-Powered Collaboration</h1>
-  <p class="subtitle">Work on real projects with AI experts and smart collaborators</p>
+  <h1>🌆 TechVerse: Complete AI-Powered City</h1>
+  <p class="subtitle">Explore a full city, collaborate with AI experts, learn real technology</p>
   <div class="charGrid">
     <div class="charCard" data-char="Developer"><div class="icon">💻</div><h3>Developer</h3><p>Code & build systems</p></div>
     <div class="charCard" data-char="Researcher"><div class="icon">🔬</div><h3>Researcher</h3><p>Explore & discover</p></div>
@@ -117,9 +110,9 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 </div>
 
 <div id="loading" class="hide">
-  <h2>Loading Platform...</h2>
+  <h2>Building Complete City...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Initializing AI...</p>
+  <p id="loadText">Initializing...</p>
 </div>
 
 <div id="hud" class="hide">
@@ -138,12 +131,10 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   </div>
   <div id="aiBody">
     <div id="aiChat">
-      <div class="aiMsg ai">
-        <strong>AI:</strong> Hi! I'm your AI assistant. Ask me anything about technology - quantum computing, AI, circuits, DNA, or any tech topic!
-      </div>
+      <div class="aiMsg ai"><strong>AI:</strong> Hi! Ask me about quantum computing, AI, circuits, DNA, or any technology!</div>
     </div>
     <div id="aiInputArea">
-      <input type="text" id="aiInput" placeholder="Ask about any technology..." onkeypress="if(event.key==='Enter') askAI()">
+      <input type="text" id="aiInput" placeholder="Ask about technology..." onkeypress="if(event.key==='Enter') askAI()">
       <button id="aiSend" onclick="askAI()">Send</button>
     </div>
   </div>
@@ -165,6 +156,7 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
   <div class="ctrl"><span class="key">MOUSE</span> Look</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">T</span> Toggle AI</div>
+  <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
 </div>
 
 <div id="notif"></div>
@@ -173,121 +165,82 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background
 <script type="module">
 import * as THREE from 'three';
 
-const state = {
-  char: null,
-  lvl: 1,
-  projectsCompleted: 0,
-  collabs: 0,
-  rep: 0,
-  currentCollab: null,
-  aiOpen: false
-};
+const state = { char: null, lvl: 1, projectsCompleted: 0, collabs: 0, rep: 0, currentCollab: null, aiOpen: false };
 
 const aiKnowledge = {
-  quantum: "Quantum computing uses qubits that can be in superposition (0 AND 1 simultaneously). Key concepts: Superposition allows parallel processing, Entanglement creates correlated qubits, Quantum gates (Hadamard, CNOT) manipulate states. Applications: cryptography, optimization, drug discovery. Example: Shor's algorithm can factor large numbers exponentially faster than classical computers.",
-  
-  ai: "Neural networks mimic brain structure with layers of neurons. Training process: 1) Forward pass - data flows through network, 2) Loss calculation - measure error, 3) Backpropagation - calculate gradients, 4) Weight update - adjust using optimizer (Adam, SGD). Key architectures: CNN for images, RNN for sequences, Transformers for language. Deep learning requires large datasets and GPU computing.",
-  
-  circuit: "Electronic circuits follow Ohm's Law: V=I×R. Components: Resistors limit current (measured in Ohms), Capacitors store charge, LEDs emit light (need current-limiting resistor), Transistors act as switches. Series circuits: same current, voltages add. Parallel circuits: same voltage, currents add. Always calculate power: P=V×I to avoid overheating.",
-  
-  dna: "DNA is double helix with base pairs: A-T and G-C. CRISPR-Cas9 gene editing: 1) Guide RNA designed for target sequence, 2) Cas9 enzyme cuts DNA at precise location, 3) Cell repairs cut, allowing insertion/deletion. Applications: cure genetic diseases (sickle cell), improve crops, create disease models. Ethical considerations: germline editing affects future generations.",
-  
-  neural: "Brain-computer interfaces read neural signals using electrodes. Signal processing: 1) Record electrical activity, 2) Filter noise, 3) Extract features, 4) Decode intent using ML. Applications: control prosthetics, restore communication for paralyzed patients, enhance cognition. Challenges: signal quality, biocompatibility, long-term stability.",
-  
-  nano: "Nanotechnology manipulates matter at 1-100nm scale. Techniques: Electron microscopy for imaging, Atomic force microscopy for manipulation, Self-assembly for fabrication. Applications: Drug delivery (target specific cells), Materials (carbon nanotubes stronger than steel), Electronics (quantum dots for displays). Bottom-up vs top-down approaches.",
-  
-  fusion: "Nuclear fusion combines light atoms (hydrogen) to release energy. Requirements: Temperature >100 million°C, Pressure to overcome electrostatic repulsion, Confinement (magnetic or inertial). Tokamak design: toroidal magnetic field confines plasma. Challenges: achieving net energy gain (Q>1), materials that withstand neutron bombardment, tritium breeding.",
-  
-  space: "Spacecraft design considers: Propulsion (chemical, ion, nuclear), Life support (oxygen, water recycling), Radiation shielding, Thermal control. Orbital mechanics: Hohmann transfer for efficiency, Gravity assists for deep space. Mars mission challenges: 6-9 month transit, entry/descent/landing, in-situ resource utilization (ISRU)."
+  quantum: "Quantum computing uses qubits in superposition (0 AND 1 simultaneously). Key concepts: Superposition enables parallel processing, Entanglement creates correlated qubits, Quantum gates (Hadamard, CNOT) manipulate states. Applications: cryptography, optimization, drug discovery.",
+  ai: "Neural networks have layers of neurons. Training: 1) Forward pass, 2) Loss calculation, 3) Backpropagation, 4) Weight update. Architectures: CNN for images, RNN for sequences, Transformers for language.",
+  circuit: "Ohm's Law: V=I×R. Components: Resistors limit current, Capacitors store charge, LEDs emit light (need resistor), Transistors switch. Series: same current. Parallel: same voltage.",
+  dna: "DNA has base pairs A-T and G-C. CRISPR-Cas9: 1) Guide RNA targets sequence, 2) Cas9 cuts DNA, 3) Cell repairs with edits. Applications: cure diseases, improve crops.",
+  neural: "Brain-computer interfaces read neural signals. Process: 1) Record activity, 2) Filter noise, 3) Extract features, 4) Decode intent. Applications: control prosthetics, restore communication.",
+  nano: "Nanotechnology at 1-100nm scale. Techniques: Electron microscopy, Atomic force microscopy, Self-assembly. Applications: Drug delivery, Materials, Electronics.",
+  fusion: "Nuclear fusion combines hydrogen atoms. Requirements: >100M°C, High pressure, Confinement. Tokamak uses magnetic fields. Challenge: net energy gain.",
+  space: "Spacecraft design: Propulsion, Life support, Radiation shielding, Thermal control. Orbital mechanics: Hohmann transfer, Gravity assists."
 };
 
 const collaborators = {
-  'Dr. Sarah Chen': {
-    expertise: ['Quantum Computing', 'Cryptography', 'Algorithm Design'],
-    personality: 'analytical and precise',
-    greeting: "Hello! I specialize in quantum algorithms. Let's work on optimizing quantum circuits together.",
-    projects: ['quantum-optimization', 'quantum-crypto']
-  },
-  'Prof. James Rodriguez': {
-    expertise: ['Neural Networks', 'Deep Learning', 'Computer Vision'],
-    personality: 'enthusiastic and creative',
-    greeting: "Hey! I love building AI systems. Want to train a neural network together?",
-    projects: ['image-classifier', 'nlp-model']
-  },
-  'Dr. Emily Patel': {
-    expertise: ['CRISPR', 'Gene Therapy', 'Synthetic Biology'],
-    personality: 'careful and methodical',
-    greeting: "Hi! Gene editing requires precision. Let's design a CRISPR experiment carefully.",
-    projects: ['gene-knockout', 'protein-engineering']
-  },
-  'Dr. Michael Kim': {
-    expertise: ['Circuit Design', 'Embedded Systems', 'IoT'],
-    personality: 'practical and hands-on',
-    greeting: "What's up! Let's build something cool. I'll help you design the circuit.",
-    projects: ['iot-sensor', 'robot-controller']
-  }
+  'Dr. Sarah Chen': { expertise: ['Quantum Computing', 'Cryptography'], greeting: "Let's optimize quantum circuits together!", projects: ['quantum-opt'] },
+  'Prof. James Rodriguez': { expertise: ['Neural Networks', 'Deep Learning'], greeting: "Want to train a neural network?", projects: ['image-classifier'] },
+  'Dr. Emily Patel': { expertise: ['CRISPR', 'Gene Therapy'], greeting: "Let's design a CRISPR experiment.", projects: ['gene-knockout'] },
+  'Dr. Michael Kim': { expertise: ['Circuit Design', 'IoT'], greeting: "Let's build something cool!", projects: ['iot-sensor'] }
 };
 
 const projects = {
-  'quantum-optimization': {
-    title: 'Quantum Optimization Algorithm',
-    description: 'Build a quantum circuit to solve optimization problems using QAOA',
-    collaborator: 'Dr. Sarah Chen',
+  'quantum-opt': {
+    title: 'Quantum Optimization', collaborator: 'Dr. Sarah Chen',
     tasks: [
-      { id: 1, title: 'Design Problem Hamiltonian', desc: 'Define the cost function for optimization', code: 'def hamiltonian(x):\n    return sum(x[i] * x[i+1] for i in range(len(x)-1))' },
-      { id: 2, title: 'Create Mixer Hamiltonian', desc: 'Apply X gates for quantum mixing', code: 'circuit.h(qubits)  # Hadamard for superposition\ncircuit.rx(theta, qubits)  # Rotation for mixing' },
-      { id: 3, title: 'Implement QAOA Layers', desc: 'Alternate between problem and mixer', code: 'for p in range(layers):\n    apply_problem_hamiltonian(beta[p])\n    apply_mixer_hamiltonian(gamma[p])' },
-      { id: 4, title: 'Optimize Parameters', desc: 'Use classical optimizer to find best angles', code: 'result = minimize(cost_function, params, method="COBYLA")' },
-      { id: 5, title: 'Measure and Analyze', desc: 'Get solution from quantum measurements', code: 'counts = circuit.measure_all()\nsolution = max(counts, key=counts.get)' }
+      { title: 'Design Hamiltonian', desc: 'Define cost function', code: 'def hamiltonian(x):\n    return sum(x[i]*x[i+1] for i in range(len(x)-1))' },
+      { title: 'Create Mixer', desc: 'Apply quantum gates', code: 'circuit.h(qubits)\ncircuit.rx(theta, qubits)' },
+      { title: 'QAOA Layers', desc: 'Alternate problem/mixer', code: 'for p in range(layers):\n    apply_problem(beta[p])\n    apply_mixer(gamma[p])' },
+      { title: 'Optimize Parameters', desc: 'Classical optimization', code: 'result = minimize(cost, params, method="COBYLA")' },
+      { title: 'Measure Results', desc: 'Get solution', code: 'counts = circuit.measure_all()\nsolution = max(counts, key=counts.get)' }
     ]
   },
   'image-classifier': {
-    title: 'CNN Image Classifier',
-    description: 'Train a convolutional neural network to classify images',
-    collaborator: 'Prof. James Rodriguez',
+    title: 'CNN Image Classifier', collaborator: 'Prof. James Rodriguez',
     tasks: [
-      { id: 1, title: 'Load and Preprocess Data', desc: 'Prepare image dataset with augmentation', code: 'from tensorflow.keras.preprocessing.image import ImageDataGenerator\ntrain_gen = ImageDataGenerator(rescale=1./255, rotation_range=20)' },
-      { id: 2, title: 'Design CNN Architecture', desc: 'Build convolutional and pooling layers', code: 'model = Sequential([\n    Conv2D(32, (3,3), activation="relu"),\n    MaxPooling2D(2,2),\n    Conv2D(64, (3,3), activation="relu")\n])' },
-      { id: 3, title: 'Add Dense Layers', desc: 'Flatten and add fully connected layers', code: 'model.add(Flatten())\nmodel.add(Dense(128, activation="relu"))\nmodel.add(Dense(10, activation="softmax"))' },
-      { id: 4, title: 'Compile and Train', desc: 'Set optimizer and train on dataset', code: 'model.compile(optimizer="adam", loss="categorical_crossentropy")\nmodel.fit(train_gen, epochs=20, validation_data=val_gen)' },
-      { id: 5, title: 'Evaluate Performance', desc: 'Test accuracy and analyze results', code: 'test_loss, test_acc = model.evaluate(test_data)\nprint(f"Test accuracy: {test_acc:.2%}")' }
+      { title: 'Load Data', desc: 'Prepare images', code: 'train_gen = ImageDataGenerator(rescale=1./255)' },
+      { title: 'Design CNN', desc: 'Build layers', code: 'model = Sequential([\n    Conv2D(32, (3,3), activation="relu"),\n    MaxPooling2D(2,2)\n])' },
+      { title: 'Add Dense Layers', desc: 'Classification', code: 'model.add(Flatten())\nmodel.add(Dense(128, activation="relu"))' },
+      { title: 'Train Model', desc: 'Fit on data', code: 'model.compile(optimizer="adam")\nmodel.fit(train_gen, epochs=20)' },
+      { title: 'Evaluate', desc: 'Test accuracy', code: 'test_acc = model.evaluate(test_data)\nprint(f"Accuracy: {test_acc:.2%}")' }
     ]
   },
   'gene-knockout': {
-    title: 'CRISPR Gene Knockout',
-    description: 'Design CRISPR system to knockout a target gene',
-    collaborator: 'Dr. Emily Patel',
+    title: 'CRISPR Gene Knockout', collaborator: 'Dr. Emily Patel',
     tasks: [
-      { id: 1, title: 'Select Target Gene', desc: 'Identify gene sequence to knockout', code: 'target_gene = "ATGCGATCGATCGATCG"  # Example sequence\ntarget_location = find_gene_location(genome, target_gene)' },
-      { id: 2, title: 'Design Guide RNA', desc: 'Create 20bp guide complementary to target', code: 'guide_rna = target_gene[target_location:target_location+20]\ncheck_off_targets(guide_rna)  # Ensure specificity' },
-      { id: 3, title: 'Prepare Cas9 Complex', desc: 'Combine guide RNA with Cas9 enzyme', code: 'crispr_complex = {\n    "guide_rna": guide_rna,\n    "cas9": "SpCas9",\n    "pam": "NGG"\n}' },
-      { id: 4, title: 'Deliver to Cells', desc: 'Use viral vector or electroporation', code: 'delivery_method = "AAV_vector"  # Adeno-associated virus\ntransfection_efficiency = deliver_crispr(cells, crispr_complex)' },
-      { id: 5, title: 'Verify Knockout', desc: 'Sequence DNA to confirm gene disruption', code: 'edited_cells = sequence_genome(transfected_cells)\nknockout_rate = count_indels(edited_cells) / total_cells' }
+      { title: 'Select Gene', desc: 'Identify target', code: 'target_gene = "ATGCGATCGATCG"\nlocation = find_gene(genome, target)' },
+      { title: 'Design Guide RNA', desc: 'Create 20bp guide', code: 'guide_rna = target[location:location+20]\ncheck_off_targets(guide_rna)' },
+      { title: 'Prepare Cas9', desc: 'Combine RNA+enzyme', code: 'crispr = {"guide": guide_rna, "cas9": "SpCas9", "pam": "NGG"}' },
+      { title: 'Deliver to Cells', desc: 'Use viral vector', code: 'delivery = "AAV_vector"\nefficiency = deliver(cells, crispr)' },
+      { title: 'Verify Knockout', desc: 'Sequence DNA', code: 'edited = sequence_genome(cells)\nrate = count_indels(edited)/total' }
     ]
   },
   'iot-sensor': {
-    title: 'IoT Temperature Sensor',
-    description: 'Build circuit and code for WiFi-enabled temperature sensor',
-    collaborator: 'Dr. Michael Kim',
+    title: 'IoT Temperature Sensor', collaborator: 'Dr. Michael Kim',
     tasks: [
-      { id: 1, title: 'Wire Temperature Sensor', desc: 'Connect DHT22 to microcontroller', code: '// DHT22 connections:\n// VCC -> 3.3V\n// DATA -> GPIO4 (with 10K pullup resistor)\n// GND -> GND' },
-      { id: 2, title: 'Setup WiFi Connection', desc: 'Configure ESP8266 to connect to network', code: '#include <ESP8266WiFi.h>\nWiFi.begin("SSID", "password");\nwhile (WiFi.status() != WL_CONNECTED) { delay(500); }' },
-      { id: 3, title: 'Read Sensor Data', desc: 'Get temperature and humidity readings', code: '#include <DHT.h>\nDHT dht(4, DHT22);\nfloat temp = dht.readTemperature();\nfloat humidity = dht.readHumidity();' },
-      { id: 4, title: 'Send Data to Server', desc: 'POST readings to cloud API', code: 'HTTPClient http;\nhttp.begin("http://api.example.com/data");\nhttp.addHeader("Content-Type", "application/json");\nhttp.POST(json_data);' },
-      { id: 5, title: 'Add Sleep Mode', desc: 'Optimize power consumption', code: 'ESP.deepSleep(60e6);  // Sleep for 60 seconds\n// Device will wake up and repeat cycle' }
+      { title: 'Wire Sensor', desc: 'Connect DHT22', code: '// VCC->3.3V, DATA->GPIO4, GND->GND' },
+      { title: 'Setup WiFi', desc: 'Configure ESP8266', code: 'WiFi.begin("SSID", "pass");\nwhile(WiFi.status()!=WL_CONNECTED) delay(500);' },
+      { title: 'Read Data', desc: 'Get temperature', code: 'DHT dht(4, DHT22);\nfloat temp = dht.readTemperature();' },
+      { title: 'Send to Server', desc: 'POST to API', code: 'http.begin("http://api.com/data");\nhttp.POST(json_data);' },
+      { title: 'Add Sleep', desc: 'Save power', code: 'ESP.deepSleep(60e6); // 60 seconds' }
     ]
   }
 };
 
-let scene, camera, renderer, buildings = [], npcs = [], curInteract = null;
-let moveF = false, moveB = false, moveL = false, moveR = false;
+let scene, camera, renderer, buildings = [], npcs = [], cars = [], curInteract = null;
+let moveF = false, moveB = false, moveL = false, moveR = false, sprint = false;
 const vel = new THREE.Vector3(), dir = new THREE.Vector3(), clock = new THREE.Clock();
 
 const locations = {
-  quantum: { name: 'Quantum Computing Lab', pos: [-100, 0, -100], color: 0x5a6c7d, size: 40, height: 70 },
-  ai: { name: 'AI Research Center', pos: [100, 0, -100], color: 0x6b8e7f, size: 40, height: 68 },
-  biotech: { name: 'Biotech Laboratory', pos: [-100, 0, 100], color: 0x7d6b5a, size: 40, height: 65 },
-  electronics: { name: 'Electronics Workshop', pos: [100, 0, 100], color: 0x5a7d8e, size: 40, height: 72 }
+  quantum: { name: 'Quantum Computing Lab', pos: [-100, 0, -120], color: 0x5a6c7d, size: 35, height: 65 },
+  bio: { name: 'Biotech Research Center', pos: [100, 0, -120], color: 0x6b8e7f, size: 35, height: 60 },
+  ai: { name: 'AI Research Institute', pos: [-100, 0, 120], color: 0x7d6b5a, size: 35, height: 63 },
+  space: { name: 'Space Systems Lab', pos: [0, 0, -150], color: 0x5a7d8e, size: 40, height: 80 },
+  hybrid: { name: 'Innovation Center', pos: [0, 0, 0], color: 0x6d7d8e, size: 50, height: 85 },
+  arena: { name: 'Tech Gaming Arena', pos: [-80, 0, 50], color: 0x8e6d5a, size: 45, height: 68 },
+  store: { name: 'Tech Equipment Store', pos: [50, 0, 80], color: 0x7d7d8e, size: 28, height: 42 },
+  cafe: { name: 'Tech Cafe & Lounge', pos: [80, 0, -50], color: 0x8e7d6d, size: 30, height: 35 }
 };
 
 function init() {
@@ -312,37 +265,88 @@ function init() {
 
   createWorld();
   createNPCs();
+  createCars();
   setupControls();
   animate();
   updateHUD();
 
-  notify('Welcome! Ask AI assistant anything (press T) or collaborate with experts on real projects!');
+  notify('🌆 Welcome to TechVerse! Explore the city, ask AI (press T), collaborate with experts!');
 }
 
 function createWorld() {
-  const groundGeo = new THREE.PlaneGeometry(1000, 1000);
+  const groundGeo = new THREE.PlaneGeometry(1500, 1500);
   const groundMat = new THREE.MeshStandardMaterial({ color: 0x3d5a3d, roughness: 0.9 });
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
 
+  for (let i = -350; i <= 350; i += 70) {
+    createRoad(i, 0, 0, 1500, 14);
+    createRoad(0, 0, i, 14, 1500);
+  }
+
+  const grid = new THREE.GridHelper(1500, 300, 0xcccc99, 0x444444);
+  grid.position.y = 0.1;
+  scene.add(grid);
+
   Object.entries(locations).forEach(([id, loc]) => {
     createBuilding(loc.pos[0], loc.pos[1], loc.pos[2], loc.size, loc.height, loc.size, loc.color, loc.name, id);
   });
+
+  const buildingColors = [0x6d7d8e, 0x7d6d5a, 0x5a6c7d, 0x6b8e7f, 0x8e7d6d, 0x7d8e8e];
+  for (let i = 0; i < 80; i++) {
+    const x = (Math.random() - 0.5) * 650;
+    const z = (Math.random() - 0.5) * 650;
+    const w = 18 + Math.random() * 25;
+    const h = 35 + Math.random() * 70;
+    const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
+    createSimpleBuilding(x, 0, z, w, h, w, color);
+  }
+}
+
+function createRoad(x, y, z, w, d) {
+  const road = new THREE.Mesh(
+    new THREE.PlaneGeometry(w, d),
+    new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.95 })
+  );
+  road.rotation.x = -Math.PI / 2;
+  road.position.set(x, y + 0.1, z);
+  road.receiveShadow = true;
+  scene.add(road);
 }
 
 function createBuilding(x, y, z, w, h, d, color, name, id) {
-  const bldgGeo = new THREE.BoxGeometry(w, h, d);
-  const bldgMat = new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.3 });
-  const bldg = new THREE.Mesh(bldgGeo, bldgMat);
+  const bldg = new THREE.Mesh(
+    new THREE.BoxGeometry(w, h, d),
+    new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.3 })
+  );
   bldg.position.set(x, h / 2, z);
   bldg.castShadow = true;
   bldg.userData = { type: 'building', id, name };
   scene.add(bldg);
   buildings.push(bldg);
 
+  for (let i = 0; i < 12; i++) {
+    const window = new THREE.Mesh(
+      new THREE.PlaneGeometry(w * 0.7, h / 14),
+      new THREE.MeshStandardMaterial({ color: 0xffd699, emissive: 0xffd699, emissiveIntensity: 0.3, transparent: true, opacity: 0.7 })
+    );
+    window.position.set(0, -h / 2 + (i + 1) * (h / 13), d / 2 + 0.1);
+    bldg.add(window);
+  }
+
   createLabel(name, x, h + 12, z, 2.5);
+}
+
+function createSimpleBuilding(x, y, z, w, h, d, color) {
+  const bldg = new THREE.Mesh(
+    new THREE.BoxGeometry(w, h, d),
+    new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.3 })
+  );
+  bldg.position.set(x, h / 2, z);
+  bldg.castShadow = true;
+  scene.add(bldg);
 }
 
 function createLabel(text, x, y, z, scale = 1) {
@@ -368,23 +372,42 @@ function createLabel(text, x, y, z, scale = 1) {
 }
 
 function createNPCs() {
-  const npcList = Object.keys(collaborators);
-  npcList.forEach((name, i) => {
-    const angle = (i / npcList.length) * Math.PI * 2;
+  Object.keys(collaborators).forEach((name, i) => {
+    const angle = (i / 4) * Math.PI * 2;
     const x = Math.cos(angle) * 80;
     const z = Math.sin(angle) * 80;
     
-    const npcGeo = new THREE.CapsuleGeometry(1.2, 3.5, 8, 16);
-    const npcMat = new THREE.MeshStandardMaterial({ color: 0x4a5568, roughness: 0.8, metalness: 0.2 });
-    const npc = new THREE.Mesh(npcGeo, npcMat);
+    const npc = new THREE.Mesh(
+      new THREE.CapsuleGeometry(1.2, 3.5, 8, 16),
+      new THREE.MeshStandardMaterial({ color: 0x4a5568, roughness: 0.8, metalness: 0.2 })
+    );
     npc.position.set(x, 2.5, z);
     npc.castShadow = true;
-    npc.userData = { type: 'npc', name };
+    npc.userData = { type: 'npc', name, speed: 0.7, direction: Math.random() * Math.PI * 2, walkTime: 0 };
     scene.add(npc);
     npcs.push(npc);
     
     createLabel(name, x, 7, z, 0.6);
   });
+}
+
+function createCars() {
+  const carColors = [0x1a1a1a, 0x2c3e50, 0x34495e, 0x7f8c8d, 0x95a5a6, 0xecf0f1];
+  for (let i = 0; i < 30; i++) {
+    const x = (Math.random() - 0.5) * 600;
+    const y = 25 + Math.random() * 30;
+    const z = (Math.random() - 0.5) * 600;
+    
+    const car = new THREE.Mesh(
+      new THREE.BoxGeometry(6, 3, 9),
+      new THREE.MeshStandardMaterial({ color: carColors[i % carColors.length], roughness: 0.3, metalness: 0.7 })
+    );
+    car.position.set(x, y, z);
+    car.castShadow = true;
+    car.userData = { speed: 2 + Math.random() * 2.5, direction: Math.random() * Math.PI * 2, height: y };
+    scene.add(car);
+    cars.push(car);
+  }
 }
 
 function setupControls() {
@@ -399,6 +422,7 @@ function setupControls() {
     if (e.code === 'KeyS') moveB = true;
     if (e.code === 'KeyA') moveL = true;
     if (e.code === 'KeyD') moveR = true;
+    if (e.code === 'ShiftLeft') sprint = true;
     if (e.code === 'KeyE' && curInteract) interact();
     if (e.code === 'KeyT') toggleAI();
   });
@@ -408,6 +432,7 @@ function setupControls() {
     if (e.code === 'KeyS') moveB = false;
     if (e.code === 'KeyA') moveL = false;
     if (e.code === 'KeyD') moveR = false;
+    if (e.code === 'ShiftLeft') sprint = false;
   });
 
   addEventListener('mousemove', e => {
@@ -427,6 +452,7 @@ function setupControls() {
 function animate() {
   requestAnimationFrame(animate);
   const delta = clock.getDelta();
+  const speed = sprint ? 100 : 70;
 
   vel.x -= vel.x * 10 * delta;
   vel.z -= vel.z * 10 * delta;
@@ -434,11 +460,36 @@ function animate() {
   dir.x = Number(moveR) - Number(moveL);
   dir.normalize();
 
-  if (moveF || moveB) vel.z -= dir.z * 70 * delta;
-  if (moveL || moveR) vel.x -= dir.x * 70 * delta;
+  if (moveF || moveB) vel.z -= dir.z * speed * delta;
+  if (moveL || moveR) vel.x -= dir.x * speed * delta;
 
   camera.position.x += vel.x * delta;
   camera.position.z += vel.z * delta;
+
+  npcs.forEach(npc => {
+    npc.userData.walkTime += delta;
+    if (npc.userData.walkTime > 5) {
+      npc.userData.direction = Math.random() * Math.PI * 2;
+      npc.userData.walkTime = 0;
+    }
+    npc.position.x += Math.sin(npc.userData.direction) * npc.userData.speed * delta;
+    npc.position.z += Math.cos(npc.userData.direction) * npc.userData.speed * delta;
+    npc.position.x = Math.max(-300, Math.min(300, npc.position.x));
+    npc.position.z = Math.max(-300, Math.min(300, npc.position.z));
+    npc.rotation.y = npc.userData.direction;
+    npc.position.y = 2.5 + Math.sin(Date.now() * 0.005 + npc.position.x) * 0.3;
+  });
+
+  cars.forEach(car => {
+    car.position.x += Math.sin(car.userData.direction) * car.userData.speed * delta;
+    car.position.z += Math.cos(car.userData.direction) * car.userData.speed * delta;
+    if (car.position.x > 350) car.position.x = -350;
+    if (car.position.x < -350) car.position.x = 350;
+    if (car.position.z > 350) car.position.z = -350;
+    if (car.position.z < -350) car.position.z = 350;
+    car.position.y = car.userData.height + Math.sin(Date.now() * 0.002 + car.position.x) * 2;
+    car.rotation.y = car.userData.direction;
+  });
 
   checkNearby();
   renderer.render(scene, camera);
@@ -447,13 +498,33 @@ function animate() {
 function checkNearby() {
   let nearest = null, minDist = 35;
   
+  buildings.forEach(bldg => {
+    const dist = camera.position.distanceTo(bldg.position);
+    if (dist < minDist) { minDist = dist; nearest = bldg; }
+  });
+
   npcs.forEach(npc => {
     const dist = camera.position.distanceTo(npc.position);
     if (dist < 15 && dist < minDist) { minDist = dist; nearest = npc; }
   });
 
-  if (nearest && nearest !== curInteract) { curInteract = nearest; showNPCInteract(); }
+  if (nearest && nearest !== curInteract) { 
+    curInteract = nearest; 
+    if (nearest.userData.type === 'npc') showNPCInteract();
+    else showBuildingInteract();
+  }
   else if (!nearest && curInteract) { curInteract = null; hideInteract(); }
+}
+
+function showBuildingInteract() {
+  const loc = locations[curInteract.userData.id];
+  if (!loc) return;
+  document.getElementById('intTitle').textContent = loc.name;
+  document.getElementById('intDesc').textContent = 'Research facility with advanced technology.';
+  
+  const btns = document.getElementById('intBtns');
+  btns.innerHTML = '<button class="actBtn" onclick="window.hideInteract()">EXIT</button>';
+  document.getElementById('interact').classList.remove('hide');
 }
 
 function showNPCInteract() {
@@ -466,7 +537,7 @@ function showNPCInteract() {
   
   const collabBtn = document.createElement('button');
   collabBtn.className = 'actBtn';
-  collabBtn.textContent = 'START PROJECT COLLABORATION';
+  collabBtn.textContent = 'START PROJECT';
   collabBtn.onclick = () => startCollaboration(curInteract.userData.name);
   btns.appendChild(collabBtn);
   
@@ -489,52 +560,25 @@ function interact() {}
 function startCollaboration(npcName) {
   hideInteract();
   const collab = collaborators[npcName];
-  const projectId = collab.projects[Math.floor(Math.random() * collab.projects.length)];
+  const projectId = collab.projects[0];
   const project = projects[projectId];
   
   state.currentCollab = { npc: npcName, project: projectId, completedTasks: [] };
   
-  let html = `<h2>🤝 Collaboration: ${project.title}</h2>`;
+  let html = `<h2>🤝 ${project.title}</h2>`;
+  html += `<div id="collabInfo"><div class="collabPanel"><h3>Collaborator</h3><p><strong>${npcName}</strong></p><p>"${collab.greeting}"</p>`;
+  collab.expertise.forEach(exp => html += `<span class="expertTag">${exp}</span>`);
+  html += `</div><div class="collabPanel"><h3>Project</h3><p>${project.tasks.length} tasks to complete</p></div></div>`;
   
-  html += `<div id="collabInfo">`;
-  html += `<div class="collabPanel">`;
-  html += `<h3>Collaborator</h3>`;
-  html += `<p><strong>${npcName}</strong></p>`;
-  html += `<p style="font-style: italic; color: #95a5a6;">"${collab.greeting}"</p>`;
-  html += `<p><strong>Expertise:</strong></p>`;
-  collab.expertise.forEach(exp => {
-    html += `<span class="expertTag">${exp}</span>`;
-  });
-  html += `</div>`;
-  
-  html += `<div class="collabPanel">`;
-  html += `<h3>Project Details</h3>`;
-  html += `<p><strong>Goal:</strong> ${project.description}</p>`;
-  html += `<p><strong>Tasks:</strong> ${project.tasks.length} steps</p>`;
-  html += `<p><strong>Difficulty:</strong> Intermediate</p>`;
-  html += `</div>`;
-  html += `</div>`;
-  
-  html += `<div id="projectArea">`;
-  html += `<h3>Project Tasks</h3>`;
+  html += `<div id="projectArea"><h3>Tasks</h3>`;
   project.tasks.forEach((task, i) => {
-    html += `<div class="taskItem" id="task${i}">`;
-    html += `<div>`;
-    html += `<h4>${i + 1}. ${task.title}</h4>`;
-    html += `<p>${task.desc}</p>`;
-    html += `</div>`;
-    html += `<button class="taskBtn" onclick="window.workOnTask(${i})">Work On This</button>`;
-    html += `</div>`;
+    html += `<div class="taskItem" id="task${i}"><div><h4>${i+1}. ${task.title}</h4><p>${task.desc}</p></div>`;
+    html += `<button class="taskBtn" onclick="window.workOnTask(${i})">Work</button></div>`;
   });
   html += `</div>`;
   
-  html += `<div id="collabChat">`;
-  html += `<div class="collabMsg npc"><strong>${npcName}:</strong> Let's start with the first task. I'll guide you through it!</div>`;
-  html += `</div>`;
-  
-  html += `<div style="text-align: center; margin-top: 20px;">`;
-  html += `<button class="collabBtn secondary" onclick="window.closeCollaboration()">END COLLABORATION</button>`;
-  html += `</div>`;
+  html += `<div id="collabChat"><div class="collabMsg npc"><strong>${npcName}:</strong> Let's start!</div></div>`;
+  html += `<div style="text-align:center;margin-top:20px;"><button class="collabBtn secondary" onclick="window.closeCollaboration()">END</button></div>`;
   
   document.getElementById('collabContent').innerHTML = html;
   document.getElementById('collaboration').classList.remove('hide');
@@ -544,54 +588,16 @@ window.workOnTask = function(taskIndex) {
   const project = projects[state.currentCollab.project];
   const task = project.tasks[taskIndex];
   const npcName = state.currentCollab.npc;
-  
   const chat = document.getElementById('collabChat');
   
-  chat.innerHTML += `<div class="collabMsg you"><strong>You:</strong> Let's work on "${task.title}"</div>`;
-  
+  chat.innerHTML += `<div class="collabMsg you"><strong>You:</strong> Working on "${task.title}"</div>`;
   setTimeout(() => {
-    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Great! ${task.desc}. Here's the code we need:</div>`;
-    chat.innerHTML += `<div id="codeEditor">${formatCode(task.code)}</div>`;
-    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> This code ${explainCode(task.title)}. Ready to implement it?</div>`;
-    chat.innerHTML += `<div style="text-align: center; margin: 15px 0;"><button class="taskBtn complete" onclick="window.completeTask(${taskIndex})">✓ Complete Task</button></div>`;
+    chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> ${task.desc}. Here's the code:</div>`;
+    chat.innerHTML += `<div id="codeEditor">${task.code.replace(/\n/g, '<br>')}</div>`;
+    chat.innerHTML += `<div style="text-align:center;margin:15px 0;"><button class="taskBtn complete" onclick="window.completeTask(${taskIndex})">✓ Complete</button></div>`;
     chat.scrollTop = chat.scrollHeight;
   }, 1000);
 };
-
-function formatCode(code) {
-  return code
-    .replace(/\n/g, '<br>')
-    .replace(/(def|class|import|from|for|if|return|while)/g, '<span class="keyword">$1</span>')
-    .replace(/(".*?"|'.*?')/g, '<span class="string">$1</span>')
-    .replace(/(#.*?)(<br>|$)/g, '<span class="comment">$1</span>$2')
-    .replace(/([a-zA-Z_][a-zA-Z0-9_]*)\(/g, '<span class="function">$1</span>(');
-}
-
-function explainCode(title) {
-  const explanations = {
-    'Design Problem Hamiltonian': 'defines the optimization problem we want to solve',
-    'Create Mixer Hamiltonian': 'creates quantum superposition for exploring solutions',
-    'Implement QAOA Layers': 'alternates between problem and mixing to find optimal solution',
-    'Optimize Parameters': 'uses classical optimization to tune quantum circuit parameters',
-    'Measure and Analyze': 'extracts the solution from quantum measurements',
-    'Load and Preprocess Data': 'prepares images for training with augmentation',
-    'Design CNN Architecture': 'builds convolutional layers to extract image features',
-    'Add Dense Layers': 'adds fully connected layers for classification',
-    'Compile and Train': 'trains the network on the dataset',
-    'Evaluate Performance': 'tests the model accuracy on unseen data',
-    'Select Target Gene': 'identifies the specific gene we want to edit',
-    'Design Guide RNA': 'creates RNA sequence that targets our gene',
-    'Prepare Cas9 Complex': 'combines guide RNA with Cas9 cutting enzyme',
-    'Deliver to Cells': 'introduces CRISPR system into target cells',
-    'Verify Knockout': 'confirms the gene was successfully disrupted',
-    'Wire Temperature Sensor': 'connects DHT22 sensor to microcontroller pins',
-    'Setup WiFi Connection': 'configures ESP8266 to connect to network',
-    'Read Sensor Data': 'gets temperature and humidity from sensor',
-    'Send Data to Server': 'transmits readings to cloud API',
-    'Add Sleep Mode': 'reduces power consumption between readings'
-  };
-  return explanations[title] || 'implements this functionality';
-}
 
 window.completeTask = function(taskIndex) {
   state.currentCollab.completedTasks.push(taskIndex);
@@ -601,21 +607,18 @@ window.completeTask = function(taskIndex) {
   const npcName = state.currentCollab.npc;
   const chat = document.getElementById('collabChat');
   
-  chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Excellent work! Task completed successfully. ${state.currentCollab.completedTasks.length}/${project.tasks.length} done.</div>`;
+  chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> Great! ${state.currentCollab.completedTasks.length}/${project.tasks.length} done.</div>`;
   
   if (state.currentCollab.completedTasks.length === project.tasks.length) {
     state.projectsCompleted++;
     state.collabs++;
     state.rep += 500;
     updateHUD();
-    
     setTimeout(() => {
-      chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> 🎉 Amazing! We completed the entire project together! You've learned so much. +500 Rep!</div>`;
-      chat.scrollTop = chat.scrollHeight;
-      notify('🎉 Project completed! +500 Rep, +1 Collaboration');
+      chat.innerHTML += `<div class="collabMsg npc"><strong>${npcName}:</strong> 🎉 Project complete! +500 Rep!</div>`;
+      notify('🎉 Project completed! +500 Rep');
     }, 1000);
   }
-  
   chat.scrollTop = chat.scrollHeight;
 };
 
@@ -628,17 +631,12 @@ function toggleAI() {
   state.aiOpen = !state.aiOpen;
   const body = document.getElementById('aiBody');
   const toggle = document.getElementById('aiToggle');
-  
-  if (state.aiOpen) {
-    body.classList.add('open');
-    toggle.textContent = '▲';
-  } else {
-    body.classList.remove('open');
-    toggle.textContent = '▼';
-  }
+  if (state.aiOpen) { body.classList.add('open'); toggle.textContent = '▲'; }
+  else { body.classList.remove('open'); toggle.textContent = '▼'; }
 }
 
 window.toggleAI = toggleAI;
+window.hideInteract = hideInteract;
 
 function askAI() {
   const input = document.getElementById('aiInput');
@@ -650,28 +648,23 @@ function askAI() {
   input.value = '';
   
   setTimeout(() => {
-    const answer = getAIResponse(question);
+    const q = question.toLowerCase();
+    let answer = "I can explain quantum computing, AI, circuits, DNA, neural interfaces, nanotechnology, fusion, and space systems. What interests you?";
+    if (q.includes('quantum')) answer = aiKnowledge.quantum;
+    else if (q.includes('ai') || q.includes('neural network')) answer = aiKnowledge.ai;
+    else if (q.includes('circuit') || q.includes('electronic')) answer = aiKnowledge.circuit;
+    else if (q.includes('dna') || q.includes('gene') || q.includes('crispr')) answer = aiKnowledge.dna;
+    else if (q.includes('brain') || q.includes('neural interface')) answer = aiKnowledge.neural;
+    else if (q.includes('nano')) answer = aiKnowledge.nano;
+    else if (q.includes('fusion')) answer = aiKnowledge.fusion;
+    else if (q.includes('space') || q.includes('rocket')) answer = aiKnowledge.space;
+    
     chat.innerHTML += `<div class="aiMsg ai"><strong>AI:</strong> ${answer}</div>`;
     chat.scrollTop = chat.scrollHeight;
   }, 500);
 }
 
 window.askAI = askAI;
-
-function getAIResponse(question) {
-  const q = question.toLowerCase();
-  
-  if (q.includes('quantum')) return aiKnowledge.quantum;
-  if (q.includes('ai') || q.includes('neural') || q.includes('machine learning')) return aiKnowledge.ai;
-  if (q.includes('circuit') || q.includes('electronic') || q.includes('resistor')) return aiKnowledge.circuit;
-  if (q.includes('dna') || q.includes('gene') || q.includes('crispr')) return aiKnowledge.dna;
-  if (q.includes('brain') || q.includes('neural interface')) return aiKnowledge.neural;
-  if (q.includes('nano')) return aiKnowledge.nano;
-  if (q.includes('fusion') || q.includes('nuclear')) return aiKnowledge.fusion;
-  if (q.includes('space') || q.includes('rocket') || q.includes('orbit')) return aiKnowledge.space;
-  
-  return "I can explain quantum computing, AI/neural networks, circuits, DNA/CRISPR, brain interfaces, nanotechnology, fusion energy, and space systems. What would you like to know about?";
-}
 
 function updateHUD() {
   document.getElementById('role').textContent = state.char || '-';
@@ -705,7 +698,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Initializing AI assistant...', 'Loading collaborators...', 'Preparing projects...', 'Ready!'];
+  const msgs = ['Building city...', 'Creating NPCs...', 'Adding vehicles...', 'Initializing AI...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i++];
