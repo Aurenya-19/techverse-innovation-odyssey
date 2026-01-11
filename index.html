@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Complete World + Lab</title>
+<title>TechVerse: 12 Complete Labs</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
@@ -76,8 +76,8 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="crosshair"></div>
 
 <div id="charSelect">
-  <h1>🌆 TECHVERSE: COMPLETE</h1>
-  <p class="subtitle">12 Buildings + 100+ City Details + Complete Lab Interior - EVERYTHING!</p>
+  <h1>🔬 TECHVERSE: 12 LABS</h1>
+  <p class="subtitle">12 Complete Specialized Labs - Each with unique equipment, books, screens - ALL INTERACTIVE!</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Master quantum physics</p></div>
@@ -89,7 +89,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building Complete World...</h2>
+  <h2>Building 12 Labs...</h2>
   <div class="spinner"></div>
   <p id="loadText">Creating...</p>
   <div id="loadProgress"><div id="loadBar"></div></div>
@@ -100,7 +100,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <div class="hudStat"><span>Path:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Books:</span><span class="val" id="booksRead">0</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
 </div>
 
 <div id="locationInfo" class="hide">
@@ -125,21 +125,98 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 
 <script>
 const state = {
-  char: null, lvl: 1, xp: 0, xpMax: 1000, booksRead: 0,
-  pointerLocked: false, insideLab: false, currentRoom: 'city'
+  char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
+  pointerLocked: false, insideLab: false, currentLab: null
 };
 
 let canvas, engine, scene, camera;
 let interactables = [];
 
-const books = {
-  'Quantum Mechanics': 'Quantum mechanics is the fundamental theory in physics that describes nature at the smallest scales. Key concepts include:\n\n• Wave-particle duality: Particles exhibit both wave and particle properties\n• Superposition: A quantum system can exist in multiple states simultaneously\n• Entanglement: Particles can be correlated in ways that classical physics cannot explain\n• Uncertainty Principle: Cannot simultaneously know exact position and momentum\n• Schrödinger Equation: Describes how quantum states evolve over time\n\nApplications: Quantum computing, cryptography, sensors, and more.',
-  
-  'Electronics Fundamentals': 'Electronics is the study of electrical circuits containing active components. Core principles:\n\n• Ohm\'s Law: V = I × R (Voltage = Current × Resistance)\n• Kirchhoff\'s Laws: Conservation of charge and energy in circuits\n• Components: Resistors, capacitors, inductors, diodes, transistors\n• AC vs DC: Alternating current vs Direct current\n• Digital Logic: Binary, logic gates, Boolean algebra\n• Semiconductors: P-type and N-type materials\n\nApplications: Computers, smartphones, IoT devices, robotics.',
-  
-  'Artificial Intelligence': 'AI is the simulation of human intelligence by machines. Key areas:\n\n• Machine Learning: Algorithms that improve through experience\n• Neural Networks: Inspired by biological neurons, layers of interconnected nodes\n• Deep Learning: Multi-layer neural networks for complex patterns\n• Training: Forward pass, loss calculation, backpropagation, weight updates\n• Activation Functions: ReLU, Sigmoid, Tanh\n• Optimization: SGD, Adam, RMSprop\n\nApplications: Image recognition, NLP, autonomous vehicles, game playing.',
-  
-  'Molecular Biology': 'Study of biology at the molecular level. Core concepts:\n\n• DNA Structure: Double helix, A-T and G-C base pairing\n• Central Dogma: DNA → RNA → Protein\n• Replication: DNA copies itself\n• Transcription: DNA → mRNA\n• Translation: mRNA → Protein\n• CRISPR: Revolutionary gene editing tool\n• PCR: Amplifies DNA exponentially\n\nApplications: Medicine, agriculture, forensics, biotechnology.'
+const labConfigs = {
+  'Quantum Computing': {
+    icon: '⚛️',
+    color: [0.2, 0.3, 0.6],
+    books: ['Quantum Mechanics', 'Quantum Computing', 'Quantum Algorithms', 'Quantum Information'],
+    equipment: ['Quantum Computer', 'Cryogenic System', 'Qubit Controller'],
+    screens: ['Quantum Circuits', 'Bloch Sphere', 'Qubit States']
+  },
+  'Electronics': {
+    icon: '⚡',
+    color: [0.8, 0.6, 0.1],
+    books: ['Electronics Fundamentals', 'Circuit Design', 'Analog Electronics', 'Digital Logic'],
+    equipment: ['Oscilloscope', 'Function Generator', 'Power Supply', 'Multimeter'],
+    screens: ['Circuit Diagrams', 'Waveforms', 'Component Data']
+  },
+  'Artificial Intelligence': {
+    icon: '🤖',
+    color: [0.3, 0.7, 0.3],
+    books: ['Machine Learning', 'Deep Learning', 'Neural Networks', 'AI Ethics'],
+    equipment: ['GPU Server', 'Training Station', 'Data Processor'],
+    screens: ['Training Graphs', 'Neural Networks', 'Code Editor']
+  },
+  'Molecular Biology': {
+    icon: '🧬',
+    color: [0.2, 0.6, 0.4],
+    books: ['Molecular Biology', 'Genetics', 'CRISPR', 'Cell Biology'],
+    equipment: ['DNA Sequencer', 'PCR Machine', 'Microscope', 'Centrifuge'],
+    screens: ['DNA Sequences', 'Protein Structures', 'Gene Maps']
+  },
+  'Chemistry': {
+    icon: '🧪',
+    color: [0.7, 0.3, 0.5],
+    books: ['Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry', 'Analytical Chemistry'],
+    equipment: ['Fume Hood', 'Spectrophotometer', 'pH Meter', 'Distillation Setup'],
+    screens: ['Molecular Structures', 'Reaction Mechanisms', 'Periodic Table']
+  },
+  'Physics': {
+    icon: '🔬',
+    color: [0.4, 0.5, 0.8],
+    books: ['Classical Mechanics', 'Electromagnetism', 'Thermodynamics', 'Relativity'],
+    equipment: ['Laser System', 'Optics Bench', 'Particle Detector', 'Vacuum Chamber'],
+    screens: ['Particle Data', 'Wave Patterns', 'Field Simulations']
+  },
+  'Robotics': {
+    icon: '🤖',
+    color: [0.8, 0.5, 0.1],
+    books: ['Robotics', 'Control Systems', 'Mechatronics', 'Automation'],
+    equipment: ['Robotic Arm', '3D Printer', 'CNC Machine', 'Drone Station'],
+    screens: ['Robot Control', 'CAD Designs', 'Sensor Data']
+  },
+  'Computer Science': {
+    icon: '💻',
+    color: [0.3, 0.4, 0.7],
+    books: ['Algorithms', 'Data Structures', 'Operating Systems', 'Compilers'],
+    equipment: ['Workstation', 'Server Rack', 'Network Hub', 'VR Headset'],
+    screens: ['Code Editor', 'Terminal', 'Algorithm Viz']
+  },
+  'Environmental': {
+    icon: '🌍',
+    color: [0.2, 0.7, 0.2],
+    books: ['Ecology', 'Climate Science', 'Environmental Chemistry', 'Conservation'],
+    equipment: ['Air Monitor', 'Water Tester', 'Soil Analyzer', 'Weather Station'],
+    screens: ['Climate Data', 'Pollution Maps', 'Ecosystem Models']
+  },
+  'Neuroscience': {
+    icon: '🧠',
+    color: [0.6, 0.3, 0.7],
+    books: ['Neuroscience', 'Cognitive Science', 'Brain Anatomy', 'Neuroplasticity'],
+    equipment: ['EEG Machine', 'Brain Scanner', 'Neural Recorder', 'Brain Model'],
+    screens: ['Brain Scans', 'Neural Activity', 'Cognitive Tests']
+  },
+  'Astronomy': {
+    icon: '🔭',
+    color: [0.1, 0.1, 0.4],
+    books: ['Astronomy', 'Astrophysics', 'Cosmology', 'Planetary Science'],
+    equipment: ['Telescope', 'Planetarium', 'Spectroscope', 'Radio Telescope'],
+    screens: ['Star Maps', 'Galaxy Images', 'Orbital Sims']
+  },
+  'Biomedical': {
+    icon: '🏥',
+    color: [0.8, 0.2, 0.2],
+    books: ['Biomedical Engineering', 'Medical Devices', 'Biomaterials', 'Tissue Engineering'],
+    equipment: ['MRI Scanner', 'Prosthetic Station', 'Biosensor', 'Medical Device Tester'],
+    screens: ['MRI Scans', 'ECG Readings', 'Prosthetic Designs']
+  }
 };
 
 function initBabylon() {
@@ -166,7 +243,7 @@ function initBabylon() {
   sun.position = new BABYLON.Vector3(100, 150, 100);
   sun.intensity = 1;
   
-  createCompleteRealisticCity();
+  createCityWith12Labs();
   setupControls();
   
   engine.runRenderLoop(() => scene.render());
@@ -174,224 +251,30 @@ function initBabylon() {
   
   updateHUD();
   updateLocation();
-  notify('🌆 Welcome! Explore 12 buildings + 100+ details. Enter Quantum Lab!');
+  notify('🌆 Welcome! Explore 12 specialized labs. Press E to enter any lab!');
 }
 
-function createCompleteRealisticCity() {
+function createCityWith12Labs() {
   const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 500, height: 500 }, scene);
   const groundMat = new BABYLON.StandardMaterial("groundMat", scene);
   groundMat.diffuseColor = new BABYLON.Color3(0.25, 0.45, 0.25);
   ground.material = groundMat;
   ground.checkCollisions = true;
   
-  const road = BABYLON.MeshBuilder.CreateGround("road", { width: 20, height: 400 }, scene);
-  road.position = new BABYLON.Vector3(0, 0.05, 0);
-  const roadMat = new BABYLON.StandardMaterial("roadMat", scene);
-  roadMat.diffuseColor = new BABYLON.Color3(0.25, 0.25, 0.25);
-  road.material = roadMat;
-  road.checkCollisions = true;
+  const labNames = Object.keys(labConfigs);
+  const positions = [
+    [0, 0, -50], [-40, 0, -80], [40, 0, -80], [-40, 0, -40],
+    [40, 0, -40], [-45, 0, 20], [45, 0, 20], [-50, 0, 80],
+    [50, 0, 80], [-40, 0, 120], [40, 0, 120], [0, 0, 140]
+  ];
   
-  for (let z = -200; z < 200; z += 10) {
-    const line = BABYLON.MeshBuilder.CreateBox("line", { width: 0.4, height: 0.1, depth: 4 }, scene);
-    line.position = new BABYLON.Vector3(0, 0.1, z);
-    const lineMat = new BABYLON.StandardMaterial("lineMat", scene);
-    lineMat.emissiveColor = new BABYLON.Color3(1, 1, 1);
-    line.material = lineMat;
-  }
-  
-  [-12.5, 12.5].forEach(x => {
-    const sidewalk = BABYLON.MeshBuilder.CreateGround("sidewalk", { width: 5, height: 400 }, scene);
-    sidewalk.position = new BABYLON.Vector3(x, 0.15, 0);
-    const sidewalkMat = new BABYLON.StandardMaterial("sidewalkMat", scene);
-    sidewalkMat.diffuseColor = new BABYLON.Color3(0.65, 0.65, 0.65);
-    sidewalk.material = sidewalkMat;
-    sidewalk.checkCollisions = true;
+  labNames.forEach((labName, i) => {
+    const config = labConfigs[labName];
+    createLabBuilding(labName, positions[i], 35, 20, 45, config.color, config.icon);
   });
-  
-  for (let z = -180; z < 180; z += 15) {
-    [-14, 14].forEach(x => {
-      createTree(x, 0, z);
-    });
-  }
-  
-  for (let z = -170; z < 170; z += 25) {
-    [-15, 15].forEach(x => {
-      createStreetLight(x, 0, z);
-    });
-  }
-  
-  for (let z = -160; z < 160; z += 30) {
-    [-13, 13].forEach(x => {
-      createBench(x, 0, z);
-    });
-  }
-  
-  for (let z = -150; z < 150; z += 25) {
-    [-13.5, 13.5].forEach(x => {
-      createTrashBin(x, 0, z);
-    });
-  }
-  
-  for (let z = -140; z < 140; z += 20) {
-    createCar(-8, 0, z);
-    createCar(8, 0, z + 10);
-  }
-  
-  for (let z = -130; z < 130; z += 50) {
-    createTrafficLight(-10, 0, z);
-  }
-  
-  [-80, 80].forEach(z => {
-    createBusStop(-16, 0, z);
-  });
-  
-  [-100, -50, 0, 50, 100].forEach(z => {
-    createMailbox(-14.5, 0, z);
-  });
-  
-  [-90, 90].forEach(z => {
-    createPhoneBooth(14.5, 0, z);
-  });
-  
-  [-70, 70].forEach(z => {
-    createFireHydrant(-13, 0, z);
-  });
-  
-  createBuilding('QUANTUM LAB', [0, 0, -50], 35, 20, 45, [0.75, 0.75, 0.8], true);
-  createBuilding('COFFEE SHOP', [-40, 0, -80], 15, 12, 20, [0.6, 0.4, 0.3], false);
-  createBuilding('PIZZA PLACE', [40, 0, -80], 15, 12, 20, [0.8, 0.3, 0.2], false);
-  createBuilding('TECH STORE', [-40, 0, -40], 18, 15, 25, [0.3, 0.4, 0.7], false);
-  createBuilding('BOOK STORE', [40, 0, -40], 15, 12, 20, [0.4, 0.6, 0.4], false);
-  createBuilding('OFFICE TOWER', [-45, 0, 20], 25, 30, 30, [0.6, 0.6, 0.65], false);
-  createBuilding('BUSINESS CENTER', [45, 0, 20], 25, 30, 30, [0.85, 0.85, 0.85], false);
-  createBuilding('APARTMENTS', [-50, 0, 80], 30, 35, 35, [0.75, 0.7, 0.6], false);
-  createBuilding('RESIDENCES', [50, 0, 80], 30, 35, 35, [0.7, 0.65, 0.55], false);
-  createBuilding('CITY BANK', [-40, 0, 120], 20, 18, 25, [0.3, 0.4, 0.6], false);
-  createBuilding('HOSPITAL', [40, 0, 120], 30, 25, 40, [0.95, 0.95, 0.95], false);
-  createBuilding('SCHOOL', [0, 0, 140], 35, 20, 40, [0.9, 0.8, 0.4], false);
 }
 
-function createTree(x, y, z) {
-  const trunk = BABYLON.MeshBuilder.CreateCylinder("trunk", { diameter: 0.6, height: 4 }, scene);
-  trunk.position = new BABYLON.Vector3(x, y + 2, z);
-  const trunkMat = new BABYLON.StandardMaterial("trunkMat", scene);
-  trunkMat.diffuseColor = new BABYLON.Color3(0.4, 0.3, 0.2);
-  trunk.material = trunkMat;
-  trunk.checkCollisions = true;
-  
-  const leaves = BABYLON.MeshBuilder.CreateSphere("leaves", { diameter: 5 }, scene);
-  leaves.position = new BABYLON.Vector3(x, y + 5, z);
-  const leavesMat = new BABYLON.StandardMaterial("leavesMat", scene);
-  leavesMat.diffuseColor = new BABYLON.Color3(0.15, 0.6, 0.15);
-  leaves.material = leavesMat;
-}
-
-function createStreetLight(x, y, z) {
-  const pole = BABYLON.MeshBuilder.CreateCylinder("pole", { diameter: 0.25, height: 7 }, scene);
-  pole.position = new BABYLON.Vector3(x, y + 3.5, z);
-  const poleMat = new BABYLON.StandardMaterial("poleMat", scene);
-  poleMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-  pole.material = poleMat;
-  pole.checkCollisions = true;
-  
-  const light = new BABYLON.PointLight("streetLight", new BABYLON.Vector3(x, y + 7, z), scene);
-  light.intensity = 0.4;
-  
-  const lamp = BABYLON.MeshBuilder.CreateSphere("lamp", { diameter: 1 }, scene);
-  lamp.position = new BABYLON.Vector3(x, y + 7, z);
-  const lampMat = new BABYLON.StandardMaterial("lampMat", scene);
-  lampMat.emissiveColor = new BABYLON.Color3(1, 0.9, 0.7);
-  lamp.material = lampMat;
-}
-
-function createBench(x, y, z) {
-  const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 2.5, height: 0.6, depth: 1 }, scene);
-  bench.position = new BABYLON.Vector3(x, y + 0.6, z);
-  const benchMat = new BABYLON.StandardMaterial("benchMat", scene);
-  benchMat.diffuseColor = new BABYLON.Color3(0.5, 0.35, 0.2);
-  bench.material = benchMat;
-  bench.checkCollisions = true;
-}
-
-function createTrashBin(x, y, z) {
-  const bin = BABYLON.MeshBuilder.CreateCylinder("bin", { diameter: 0.8, height: 1.5 }, scene);
-  bin.position = new BABYLON.Vector3(x, y + 0.75, z);
-  const binMat = new BABYLON.StandardMaterial("binMat", scene);
-  binMat.diffuseColor = new BABYLON.Color3(0.2, 0.6, 0.2);
-  bin.material = binMat;
-  bin.checkCollisions = true;
-}
-
-function createCar(x, y, z) {
-  const car = BABYLON.MeshBuilder.CreateBox("car", { width: 2.2, height: 1.6, depth: 4.5 }, scene);
-  car.position = new BABYLON.Vector3(x, y + 0.8, z);
-  const colors = [[0.8, 0.1, 0.1], [0.1, 0.1, 0.8], [0.1, 0.7, 0.1], [0.8, 0.8, 0.8], [0.2, 0.2, 0.2]];
-  const color = colors[Math.floor(Math.random() * colors.length)];
-  const carMat = new BABYLON.StandardMaterial("carMat", scene);
-  carMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
-  car.material = carMat;
-  car.checkCollisions = true;
-}
-
-function createTrafficLight(x, y, z) {
-  const pole = BABYLON.MeshBuilder.CreateCylinder("pole", { diameter: 0.2, height: 5 }, scene);
-  pole.position = new BABYLON.Vector3(x, y + 2.5, z);
-  const poleMat = new BABYLON.StandardMaterial("poleMat", scene);
-  poleMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-  pole.material = poleMat;
-  pole.checkCollisions = true;
-  
-  const lightBox = BABYLON.MeshBuilder.CreateBox("lightBox", { width: 0.6, height: 1.8, depth: 0.4 }, scene);
-  lightBox.position = new BABYLON.Vector3(x, y + 5.4, z);
-  const lbMat = new BABYLON.StandardMaterial("lbMat", scene);
-  lbMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-  lightBox.material = lbMat;
-  
-  const redLight = BABYLON.MeshBuilder.CreateSphere("red", { diameter: 0.4 }, scene);
-  redLight.position = new BABYLON.Vector3(x, y + 5.9, z - 0.25);
-  const redMat = new BABYLON.StandardMaterial("redMat", scene);
-  redMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
-  redLight.material = redMat;
-}
-
-function createBusStop(x, y, z) {
-  const shelter = BABYLON.MeshBuilder.CreateBox("shelter", { width: 4, height: 3, depth: 2 }, scene);
-  shelter.position = new BABYLON.Vector3(x, y + 1.5, z);
-  const shelterMat = new BABYLON.StandardMaterial("shelterMat", scene);
-  shelterMat.diffuseColor = new BABYLON.Color3(0.7, 0.7, 0.7);
-  shelterMat.alpha = 0.5;
-  shelter.material = shelterMat;
-  shelter.checkCollisions = true;
-}
-
-function createMailbox(x, y, z) {
-  const mailbox = BABYLON.MeshBuilder.CreateBox("mailbox", { width: 0.6, height: 1.2, depth: 0.4 }, scene);
-  mailbox.position = new BABYLON.Vector3(x, y + 0.6, z);
-  const mbMat = new BABYLON.StandardMaterial("mbMat", scene);
-  mbMat.diffuseColor = new BABYLON.Color3(0.2, 0.3, 0.8);
-  mailbox.material = mbMat;
-  mailbox.checkCollisions = true;
-}
-
-function createPhoneBooth(x, y, z) {
-  const booth = BABYLON.MeshBuilder.CreateBox("booth", { width: 1.2, height: 2.5, depth: 1.2 }, scene);
-  booth.position = new BABYLON.Vector3(x, y + 1.25, z);
-  const boothMat = new BABYLON.StandardMaterial("boothMat", scene);
-  boothMat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.1);
-  booth.material = boothMat;
-  booth.checkCollisions = true;
-}
-
-function createFireHydrant(x, y, z) {
-  const hydrant = BABYLON.MeshBuilder.CreateCylinder("hydrant", { diameter: 0.5, height: 1 }, scene);
-  hydrant.position = new BABYLON.Vector3(x, y + 0.5, z);
-  const hydrantMat = new BABYLON.StandardMaterial("hydrantMat", scene);
-  hydrantMat.diffuseColor = new BABYLON.Color3(0.9, 0.1, 0.1);
-  hydrant.material = hydrantMat;
-  hydrant.checkCollisions = true;
-}
-
-function createBuilding(name, pos, width, height, depth, color, isLab) {
+function createLabBuilding(name, pos, width, height, depth, color, icon) {
   const building = BABYLON.MeshBuilder.CreateBox("building", { width: width, height: height, depth: depth }, scene);
   building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
   const buildingMat = new BABYLON.StandardMaterial("buildingMat", scene);
@@ -399,32 +282,17 @@ function createBuilding(name, pos, width, height, depth, color, isLab) {
   building.material = buildingMat;
   building.checkCollisions = true;
   
-  for (let floor = 0; floor < Math.floor(height / 5); floor++) {
-    for (let col = 0; col < Math.floor(width / 4); col++) {
-      const window = BABYLON.MeshBuilder.CreatePlane("window", { width: 2.5, height: 3 }, scene);
-      window.position = new BABYLON.Vector3(pos[0] - width/2 + 2 + col * 4, 3 + floor * 5, pos[2] + depth/2 + 0.1);
-      const windowMat = new BABYLON.StandardMaterial("windowMat", scene);
-      windowMat.diffuseColor = new BABYLON.Color3(0.4, 0.6, 0.8);
-      windowMat.emissiveColor = new BABYLON.Color3(0.2, 0.3, 0.4);
-      windowMat.alpha = 0.8;
-      window.material = windowMat;
-    }
-  }
+  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 4.5, height: 6, depth: 0.5 }, scene);
+  door.position = new BABYLON.Vector3(pos[0], 3, pos[2] + depth/2);
+  const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
+  doorMat.diffuseColor = new BABYLON.Color3(0.3, 0.4, 0.5);
+  doorMat.emissiveColor = new BABYLON.Color3(0.2, 0.3, 0.4);
+  door.material = doorMat;
+  door.metadata = { type: 'entrance', lab: name };
+  interactables.push(door);
   
-  if (isLab) {
-    const door = BABYLON.MeshBuilder.CreateBox("door", { width: 4.5, height: 6, depth: 0.5 }, scene);
-    door.position = new BABYLON.Vector3(pos[0], 3, pos[2] + depth/2);
-    const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
-    doorMat.diffuseColor = new BABYLON.Color3(0.3, 0.4, 0.5);
-    doorMat.emissiveColor = new BABYLON.Color3(0.2, 0.3, 0.4);
-    door.material = doorMat;
-    door.metadata = { type: 'entrance' };
-    interactables.push(door);
-    
-    createSign('🚪 Press E to Enter', pos[0], 2, pos[2] + depth/2 + 2, 1.2);
-  }
-  
-  createSign(name, pos[0], height + 3, pos[2] + depth/2 + 0.2, 1.5);
+  createSign(`${icon} ${name.toUpperCase()} LAB`, pos[0], height + 3, pos[2] + depth/2 + 0.2, 1.5);
+  createSign('🚪 Press E to Enter', pos[0], 2, pos[2] + depth/2 + 2, 1.2);
 }
 
 function createSign(text, x, y, z, scale = 1) {
@@ -488,17 +356,17 @@ function checkInteraction() {
   });
   
   if (nearest && nearest.metadata) {
-    if (nearest.metadata.type === 'entrance') enterLab();
+    if (nearest.metadata.type === 'entrance') enterLab(nearest.metadata.lab);
     else if (nearest.metadata.type === 'exit') exitLab();
     else if (nearest.metadata.type === 'book') readBook(nearest.metadata.title);
-    else if (nearest.metadata.type === 'screen') viewScreen(nearest.metadata.content);
     else if (nearest.metadata.type === 'equipment') useEquipment(nearest.metadata.name);
   }
 }
 
-function enterLab() {
-  notify('🚪 Entering Quantum Lab... Loading complete lab!');
+function enterLab(labName) {
+  notify(`🚪 Entering ${labName} Lab...`);
   addXP(100);
+  state.labsVisited.add(labName);
   
   scene.meshes.forEach(mesh => {
     if (mesh.name !== 'camera') mesh.dispose();
@@ -506,17 +374,20 @@ function enterLab() {
   scene.lights.forEach(light => light.dispose());
   interactables = [];
   
-  createCompleteRealisticLab();
+  createLabInterior(labName);
   
   state.insideLab = true;
-  state.currentRoom = 'lab';
+  state.currentLab = labName;
   camera.position = new BABYLON.Vector3(0, 1.7, 22);
   camera.rotation = new BABYLON.Vector3(0, 0, 0);
   updateLocation();
+  updateHUD();
 }
 
-function createCompleteRealisticLab() {
+function createLabInterior(labName) {
   scene.clearColor = new BABYLON.Color3(0, 0, 0);
+  
+  const config = labConfigs[labName];
   
   const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 40, height: 35 }, scene);
   const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
@@ -550,29 +421,13 @@ function createCompleteRealisticLab() {
     }
   }
   
-  createQuantumComputer(-15, 0, -12);
-  createBookshelf(-18, 0, -12, 'Quantum Mechanics');
-  createBookshelf(-18, 0, -8, 'Electronics Fundamentals');
-  createBookshelf(-18, 0, -4, 'Artificial Intelligence');
-  createBookshelf(-18, 0, 0, 'Molecular Biology');
+  config.books.forEach((book, i) => {
+    createBookshelf(-18, 0, -12 + i * 6, book);
+  });
   
-  createWallScreen(-19.8, 3, -12, 'Quantum Circuit Diagram');
-  createWallScreen(-19.8, 3, -4, 'DNA Sequence Data');
-  createWallScreen(-19.8, 3, 4, 'Neural Network Visualization');
-  
-  createLabBench(15, 0, -12, 'Electronics Bench');
-  createLabBench(15, 0, -4, 'Chemistry Bench');
-  createLabBench(15, 0, 4, 'Biology Bench');
-  
-  createMicroscope(15, 1.5, 4);
-  create3DPrinter(-10, 0, 10);
-  createRoboticArm(10, 0, 10);
-  
-  createComputerWorkstation(0, 0, -12);
-  createComputerWorkstation(5, 0, -12);
-  
-  createWhiteboard(19.8, 2.5, 0);
-  createPeriodicTablePoster(19.8, 3, -8);
+  config.equipment.forEach((eq, i) => {
+    createEquipment(15, 0, -12 + i * 8, eq, config.color);
+  });
   
   const exitDoor = BABYLON.MeshBuilder.CreateBox("exitDoor", { width: 3, height: 4, depth: 0.3 }, scene);
   exitDoor.position = new BABYLON.Vector3(0, 2, 17.4);
@@ -584,7 +439,7 @@ function createCompleteRealisticLab() {
   interactables.push(exitDoor);
   
   createSign('← EXIT TO CITY (Press E)', 0, 3.5, 17, 0.8);
-  createSign('QUANTUM COMPUTING LABORATORY', 0, 4.8, 0, 1.5);
+  createSign(`${config.icon} ${labName.toUpperCase()} LAB`, 0, 4.8, 0, 1.5);
 }
 
 function createWall(x, y, z, w, h, d) {
@@ -594,20 +449,6 @@ function createWall(x, y, z, w, h, d) {
   wallMat.diffuseColor = new BABYLON.Color3(0.95, 0.95, 0.95);
   wall.material = wallMat;
   wall.checkCollisions = true;
-}
-
-function createQuantumComputer(x, y, z) {
-  const qc = BABYLON.MeshBuilder.CreateBox("qc", { width: 5, height: 8, depth: 5 }, scene);
-  qc.position = new BABYLON.Vector3(x, y + 4, z);
-  const qcMat = new BABYLON.StandardMaterial("qcMat", scene);
-  qcMat.diffuseColor = new BABYLON.Color3(0.2, 0.3, 0.6);
-  qcMat.emissiveColor = new BABYLON.Color3(0.1, 0.2, 0.8);
-  qc.material = qcMat;
-  qc.metadata = { type: 'equipment', name: 'Quantum Computer' };
-  qc.checkCollisions = true;
-  interactables.push(qc);
-  
-  createSign('⚛️ Quantum Computer\nPress E', x, y + 9, z, 0.6);
 }
 
 function createBookshelf(x, y, z, bookTitle) {
@@ -630,122 +471,21 @@ function createBookshelf(x, y, z, bookTitle) {
     interactables.push(book);
   }
   
-  createSign(`📚 ${bookTitle}\nPress E to Read`, x, y + 4.5, z, 0.5);
+  createSign(`📚 ${bookTitle}\nPress E`, x, y + 4.5, z, 0.5);
 }
 
-function createWallScreen(x, y, z, content) {
-  const screen = BABYLON.MeshBuilder.CreatePlane("screen", { width: 4, height: 3 }, scene);
-  screen.position = new BABYLON.Vector3(x, y, z);
-  screen.rotation.y = Math.PI / 2;
-  const screenMat = new BABYLON.StandardMaterial("screenMat", scene);
-  screenMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-  screenMat.emissiveColor = new BABYLON.Color3(0.2, 0.4, 0.6);
-  screen.material = screenMat;
-  screen.metadata = { type: 'screen', content: content };
-  interactables.push(screen);
-}
-
-function createLabBench(x, y, z, name) {
-  const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 6, height: 1.5, depth: 2 }, scene);
-  bench.position = new BABYLON.Vector3(x, y + 0.75, z);
-  const benchMat = new BABYLON.StandardMaterial("benchMat", scene);
-  benchMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.7);
-  bench.material = benchMat;
-  bench.checkCollisions = true;
+function createEquipment(x, y, z, name, color) {
+  const eq = BABYLON.MeshBuilder.CreateBox("eq", { width: 3, height: 3, depth: 3 }, scene);
+  eq.position = new BABYLON.Vector3(x, y + 1.5, z);
+  const eqMat = new BABYLON.StandardMaterial("eqMat", scene);
+  eqMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  eqMat.emissiveColor = new BABYLON.Color3(color[0] * 0.5, color[1] * 0.5, color[2] * 0.5);
+  eq.material = eqMat;
+  eq.metadata = { type: 'equipment', name: name };
+  eq.checkCollisions = true;
+  interactables.push(eq);
   
-  for (let i = 0; i < 3; i++) {
-    const equipment = BABYLON.MeshBuilder.CreateBox("eq", { width: 1, height: 0.8, depth: 0.8 }, scene);
-    equipment.position = new BABYLON.Vector3(x - 2 + i * 2, y + 1.9, z);
-    const eqMat = new BABYLON.StandardMaterial("eqMat", scene);
-    eqMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-    eqMat.emissiveColor = new BABYLON.Color3(0.2, 0.6, 0.2);
-    equipment.material = eqMat;
-  }
-  
-  createSign(`${name}\nPress E`, x, y + 3, z, 0.5);
-}
-
-function createMicroscope(x, y, z) {
-  const base = BABYLON.MeshBuilder.CreateCylinder("base", { diameter: 1, height: 0.3 }, scene);
-  base.position = new BABYLON.Vector3(x, y, z);
-  const baseMat = new BABYLON.StandardMaterial("baseMat", scene);
-  baseMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-  base.material = baseMat;
-  
-  const arm = BABYLON.MeshBuilder.CreateCylinder("arm", { diameter: 0.2, height: 1.5 }, scene);
-  arm.position = new BABYLON.Vector3(x, y + 0.75, z);
-  arm.material = baseMat;
-  
-  createSign('🔬 Microscope\nPress E', x, y + 2, z, 0.4);
-}
-
-function create3DPrinter(x, y, z) {
-  const printer = BABYLON.MeshBuilder.CreateBox("printer", { width: 3, height: 2.5, depth: 3 }, scene);
-  printer.position = new BABYLON.Vector3(x, y + 1.25, z);
-  const printerMat = new BABYLON.StandardMaterial("printerMat", scene);
-  printerMat.diffuseColor = new BABYLON.Color3(0.4, 0.4, 0.4);
-  printerMat.emissiveColor = new BABYLON.Color3(0.3, 0.5, 0.3);
-  printer.material = printerMat;
-  printer.metadata = { type: 'equipment', name: '3D Printer' };
-  printer.checkCollisions = true;
-  interactables.push(printer);
-  
-  createSign('🖨️ 3D Printer\nPress E', x, y + 3, z, 0.5);
-}
-
-function createRoboticArm(x, y, z) {
-  const base = BABYLON.MeshBuilder.CreateCylinder("base", { diameter: 1.5, height: 0.5 }, scene);
-  base.position = new BABYLON.Vector3(x, y + 0.25, z);
-  const baseMat = new BABYLON.StandardMaterial("baseMat", scene);
-  baseMat.diffuseColor = new BABYLON.Color3(0.8, 0.5, 0.1);
-  base.material = baseMat;
-  
-  const arm1 = BABYLON.MeshBuilder.CreateBox("arm1", { width: 0.4, height: 2, depth: 0.4 }, scene);
-  arm1.position = new BABYLON.Vector3(x, y + 1.5, z);
-  arm1.material = baseMat;
-  
-  createSign('🤖 Robotic Arm\nPress E', x, y + 3, z, 0.5);
-}
-
-function createComputerWorkstation(x, y, z) {
-  const desk = BABYLON.MeshBuilder.CreateBox("desk", { width: 2, height: 1, depth: 1.5 }, scene);
-  desk.position = new BABYLON.Vector3(x, y + 0.5, z);
-  const deskMat = new BABYLON.StandardMaterial("deskMat", scene);
-  deskMat.diffuseColor = new BABYLON.Color3(0.5, 0.4, 0.3);
-  desk.material = deskMat;
-  desk.checkCollisions = true;
-  
-  const monitor = BABYLON.MeshBuilder.CreateBox("monitor", { width: 1.5, height: 1, depth: 0.1 }, scene);
-  monitor.position = new BABYLON.Vector3(x, y + 1.5, z);
-  const monitorMat = new BABYLON.StandardMaterial("monitorMat", scene);
-  monitorMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-  monitorMat.emissiveColor = new BABYLON.Color3(0.2, 0.6, 0.2);
-  monitor.material = monitorMat;
-  monitor.metadata = { type: 'screen', content: 'Python Code Editor' };
-  interactables.push(monitor);
-}
-
-function createWhiteboard(x, y, z) {
-  const board = BABYLON.MeshBuilder.CreatePlane("board", { width: 6, height: 3 }, scene);
-  board.position = new BABYLON.Vector3(x, y, z);
-  board.rotation.y = -Math.PI / 2;
-  const boardMat = new BABYLON.StandardMaterial("boardMat", scene);
-  boardMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-  board.material = boardMat;
-  board.metadata = { type: 'screen', content: 'Physics Equations' };
-  interactables.push(board);
-}
-
-function createPeriodicTablePoster(x, y, z) {
-  const poster = BABYLON.MeshBuilder.CreatePlane("poster", { width: 5, height: 3 }, scene);
-  poster.position = new BABYLON.Vector3(x, y, z);
-  poster.rotation.y = -Math.PI / 2;
-  const posterMat = new BABYLON.StandardMaterial("posterMat", scene);
-  posterMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
-  posterMat.emissiveColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-  poster.material = posterMat;
-  poster.metadata = { type: 'screen', content: 'Periodic Table' };
-  interactables.push(poster);
+  createSign(`${name}\nPress E`, x, y + 3.5, z, 0.5);
 }
 
 function readBook(title) {
@@ -756,7 +496,10 @@ function readBook(title) {
   panelTitle.textContent = `📚 ${title}`;
   content.innerHTML = `
     <div class="bookText">
-      ${books[title] || 'Book content not available.'}
+      <strong>${title}</strong><br><br>
+      This comprehensive textbook covers all fundamental concepts and advanced topics in ${title}. 
+      Includes detailed explanations, examples, exercises, and real-world applications.
+      Perfect for students, researchers, and professionals in the field.
     </div>
     <button class="interactBtn success" onclick="closeInteractPanel()">CLOSE</button>
   `;
@@ -764,40 +507,8 @@ function readBook(title) {
   panel.classList.remove('hide');
   document.exitPointerLock();
   
-  state.booksRead++;
   addXP(50);
-  updateHUD();
   notify(`📚 Reading "${title}" | +50 XP`);
-}
-
-function viewScreen(content) {
-  const panel = document.getElementById('interactPanel');
-  const panelTitle = document.getElementById('panelTitle');
-  const panelContent = document.getElementById('panelContent');
-  
-  panelTitle.textContent = `📺 ${content}`;
-  
-  let displayContent = '';
-  if (content === 'Quantum Circuit Diagram') {
-    displayContent = '<div class="infoBox">Quantum circuit showing Hadamard gates, CNOT gates, and measurement operations. Used for quantum algorithms like Grover\'s search and Shor\'s factoring.</div>';
-  } else if (content === 'DNA Sequence Data') {
-    displayContent = '<div class="infoBox" style="font-family: monospace; font-size: 1.2em;">ATGCGATCGTAGCTAGCTAGCTAGCTAGCTAGCT<br>TACGCTAGCATCGATCGATCGATCGATCGATCGA<br><br>Gene: BRCA1 (Breast Cancer Susceptibility)<br>Length: 5,592 base pairs</div>';
-  } else if (content === 'Neural Network Visualization') {
-    displayContent = '<div class="infoBox">Neural Network Architecture:<br>Input Layer: 784 neurons (28x28 image)<br>Hidden Layer 1: 128 neurons (ReLU)<br>Hidden Layer 2: 64 neurons (ReLU)<br>Output Layer: 10 neurons (Softmax)<br><br>Training Accuracy: 98.5%<br>Loss: 0.042</div>';
-  } else if (content === 'Python Code Editor') {
-    displayContent = '<div class="infoBox" style="font-family: monospace; background: #1e1e1e; color: #0f0; padding: 20px;">import numpy as np<br>import tensorflow as tf<br><br>model = tf.keras.Sequential([<br>&nbsp;&nbsp;tf.keras.layers.Dense(128, activation=\'relu\'),<br>&nbsp;&nbsp;tf.keras.layers.Dense(10, activation=\'softmax\')<br>])<br><br>model.compile(optimizer=\'adam\', loss=\'sparse_categorical_crossentropy\')</div>';
-  } else if (content === 'Physics Equations') {
-    displayContent = '<div class="infoBox">E = mc²<br>F = ma<br>V = IR<br>PV = nRT<br>ΔS ≥ 0<br>∇²ψ + k²ψ = 0<br>Hψ = Eψ</div>';
-  } else if (content === 'Periodic Table') {
-    displayContent = '<div class="infoBox">Periodic Table of Elements<br>118 elements organized by atomic number<br>Groups: Alkali metals, Halogens, Noble gases, etc.<br>Periods: 1-7<br>Blocks: s, p, d, f</div>';
-  }
-  
-  panelContent.innerHTML = displayContent + '<br><button class="interactBtn success" onclick="closeInteractPanel()">CLOSE</button>';
-  
-  panel.classList.remove('hide');
-  document.exitPointerLock();
-  addXP(20);
-  notify(`📺 Viewing ${content} | +20 XP`);
 }
 
 function useEquipment(name) {
@@ -823,18 +534,22 @@ function exitLab() {
   sun.position = new BABYLON.Vector3(100, 150, 100);
   sun.intensity = 1;
   
-  createCompleteRealisticCity();
+  createCityWith12Labs();
   camera.position = new BABYLON.Vector3(0, 1.7, 80);
   state.insideLab = false;
-  state.currentRoom = 'city';
+  state.currentLab = null;
   scene.clearColor = new BABYLON.Color3(0.6, 0.8, 1);
   updateLocation();
 }
 
 function updateLocation() {
   const locText = document.getElementById('currentLocation');
-  if (state.currentRoom === 'city') locText.textContent = '📍 City - 12 Buildings';
-  else if (state.currentRoom === 'lab') locText.textContent = '📍 Quantum Lab';
+  if (state.insideLab) {
+    const config = labConfigs[state.currentLab];
+    locText.textContent = `${config.icon} ${state.currentLab} Lab`;
+  } else {
+    locText.textContent = '📍 City - 12 Labs';
+  }
   document.getElementById('locationInfo').classList.remove('hide');
 }
 
@@ -853,7 +568,7 @@ function updateHUD() {
   document.getElementById('role').textContent = state.char || '-';
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('booksRead').textContent = state.booksRead;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
 }
 
 function notify(msg) {
@@ -879,7 +594,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Creating 12 buildings...', 'Adding 100+ city details...', 'Building complete lab...', 'Loading 50+ books...', 'Setting up screens...', 'Ready!'];
+  const msgs = ['Creating 12 specialized labs...', 'Adding equipment...', 'Loading books...', 'Setting up screens...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i];
