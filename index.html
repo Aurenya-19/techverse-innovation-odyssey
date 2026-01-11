@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Ultimate Educational Experience</title>
+<title>TechVerse: Complete Ultimate Experience</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
@@ -13,7 +13,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 #charSelect h1 { font-size: clamp(2em, 6vw, 4em); color: #fff; text-shadow: 0 0 40px rgba(0, 212, 255, 1); margin: 20px 0 10px 0; font-weight: 900; animation: glow 2s ease-in-out infinite; text-align: center; }
 @keyframes glow { 0%, 100% { text-shadow: 0 0 40px rgba(0, 212, 255, 1); } 50% { text-shadow: 0 0 60px rgba(0, 212, 255, 1); } }
 .subtitle { font-size: clamp(0.9em, 2vw, 1.1em); color: #bdc3c7; margin-bottom: 20px; text-align: center; max-width: 95%; line-height: 1.6; }
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; max-width: 900px; width: 95%; margin-bottom: 20px; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; max-width: 900px; width: 95%; margin-bottom: 20px; }
 .feature { background: rgba(52, 152, 219, 0.15); padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); text-align: center; font-size: clamp(0.7em, 1.4vw, 0.85em); color: #3498db; }
 .charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; max-width: 900px; width: 95%; margin-bottom: 25px; }
 .charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 3px solid #3498db; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.4s; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; }
@@ -43,13 +43,14 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 #locationInfo { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 15px 30px; border-radius: 12px; border: 2px solid rgba(243, 156, 18, 0.6); z-index: 1000; backdrop-filter: blur(20px); text-align: center; }
 #locationInfo h3 { color: #f39c12; font-size: clamp(1.2em, 2.5vw, 1.5em); font-weight: 900; }
 
-#interactPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(300px, 90vw, 800px); max-height: 85vh; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: clamp(20px, 4vw, 40px); border-radius: 20px; border: 3px solid rgba(52, 152, 219, 0.6); z-index: 5000; backdrop-filter: blur(25px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9); }
+#interactPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(300px, 90vw, 900px); max-height: 85vh; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: clamp(20px, 4vw, 40px); border-radius: 20px; border: 3px solid rgba(52, 152, 219, 0.6); z-index: 5000; backdrop-filter: blur(25px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9); }
 #interactPanel h2 { color: #3498db; font-size: clamp(1.5em, 4vw, 2.5em); margin-bottom: 20px; text-align: center; font-weight: 900; }
 #interactPanel p { color: #ecf0f1; font-size: clamp(0.9em, 1.8vw, 1.05em); line-height: 1.8; margin: 15px 0; }
-.interactBtn { padding: clamp(12px, 2.5vw, 15px) clamp(25px, 4vw, 35px); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: 900; cursor: pointer; margin: clamp(8px, 1.5vw, 12px); font-size: clamp(0.9em, 1.8vw, 1.05em); transition: all 0.3s; box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4); }
+.interactBtn { padding: clamp(10px, 2vw, 14px) clamp(20px, 3.5vw, 30px); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: 900; cursor: pointer; margin: clamp(6px, 1.2vw, 10px); font-size: clamp(0.85em, 1.6vw, 1em); transition: all 0.3s; box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4); display: inline-block; }
 .interactBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52, 152, 219, 0.6); }
 .interactBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
 .interactBtn.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.interactBtn.warning { background: linear-gradient(135deg, #f39c12, #e67e22); }
 
 #controls { position: fixed; bottom: clamp(20px, 4vh, 40px); left: clamp(10px, 2vw, 40px); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(15px, 2.5vw, 22px); border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.4); z-index: 1000; backdrop-filter: blur(20px); }
 #controls h4 { color: #00d4ff; margin-bottom: 12px; font-size: clamp(0.95em, 1.8vw, 1.15em); font-weight: 900; }
@@ -64,7 +65,17 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 #crosshair::before { width: 2px; height: 20px; left: 9px; }
 #crosshair::after { width: 20px; height: 2px; top: 9px; }
 
+.infoBox { background: rgba(52, 152, 219, 0.2); padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #3498db; }
+.successBox { background: rgba(39, 174, 96, 0.2); border-left-color: #27ae60; }
+.warningBox { background: rgba(243, 156, 18, 0.2); border-left-color: #f39c12; }
+.formula { font-family: 'Courier New', monospace; font-size: 1.1em; background: rgba(0, 0, 0, 0.3); padding: 10px; border-radius: 5px; margin: 10px 0; text-align: center; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 15px 0; }
+
 .hide { display: none !important; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
 </style>
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
 </head>
@@ -74,30 +85,30 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 
 <div id="charSelect">
   <h1>🌆 TECHVERSE: ULTIMATE</h1>
-  <p class="subtitle">Perfect realistic world + Interactive learning + Fun experiments + Real physics & tech knowledge!</p>
+  <p class="subtitle">Perfect realistic world + Deep interactive learning + Real physics simulations + Comprehensive knowledge!</p>
   
   <div class="features">
-    <div class="feature">✅ Realistic City</div>
     <div class="feature">✅ Perfect Lab</div>
-    <div class="feature">✅ Quantum Simulator</div>
-    <div class="feature">✅ Circuit Builder</div>
-    <div class="feature">✅ DNA Editor</div>
-    <div class="feature">✅ AI Trainer</div>
-    <div class="feature">✅ Physics Experiments</div>
-    <div class="feature">✅ Code Editor</div>
-    <div class="feature">✅ Quests & Challenges</div>
-    <div class="feature">✅ Achievements</div>
+    <div class="feature">✅ Realistic City</div>
+    <div class="feature">✅ Quantum Sim</div>
+    <div class="feature">✅ Electronics</div>
+    <div class="feature">✅ Physics Exp</div>
+    <div class="feature">✅ Chemistry</div>
+    <div class="feature">✅ DNA/Biology</div>
+    <div class="feature">✅ AI/ML</div>
+    <div class="feature">✅ Programming</div>
+    <div class="feature">✅ 3D Printing</div>
+    <div class="feature">✅ Robotics</div>
     <div class="feature">✅ Knowledge Base</div>
-    <div class="feature">✅ Interactive Learning</div>
   </div>
   
   <div class="charGrid">
-    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Master quantum computing</p></div>
+    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Master quantum physics</p></div>
     <div class="charCard" data-char="Tech Explorer"><div class="icon">🚀</div><h3>Tech Explorer</h3><p>Explore everything</p></div>
     <div class="charCard" data-char="Lab Scientist"><div class="icon">🔬</div><h3>Lab Scientist</h3><p>Conduct experiments</p></div>
     <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Build technology</p></div>
   </div>
-  <button id="startBtn" disabled>SELECT YOUR PATH</button>
+  <button id="startBtn" disabled>BEGIN YOUR JOURNEY</button>
 </div>
 
 <div id="loading" class="hide">
@@ -113,6 +124,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
   <div class="hudStat"><span>Experiments:</span><span class="val" id="experiments">0</span></div>
+  <div class="hudStat"><span>Achievements:</span><span class="val" id="achievements">0/20</span></div>
 </div>
 
 <div id="locationInfo" class="hide">
@@ -131,16 +143,19 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
   <div class="ctrl"><span class="key">ESC</span> Close/Exit</div>
-  <div class="ctrl"><span class="key">TAB</span> Knowledge Base</div>
+  <div class="ctrl"><span class="key">TAB</span> Knowledge</div>
+  <div class="ctrl"><span class="key">Q</span> Quests</div>
 </div>
 
 <div id="notif"></div>
 
 <script>
 const state = {
-  char: null, lvl: 1, xp: 0, xpMax: 1000, experiments: 0,
+  char: null, lvl: 1, xp: 0, xpMax: 1000, experiments: 0, achievements: 0,
   pointerLocked: false, insideLab: false, currentRoom: 'city',
-  qubitStates: [0, 0, 0], circuit: [], dnaSequence: 'ATGCGATCG'
+  qubitStates: [0, 0, 0], circuit: [], dnaSequence: 'ATGCGATCG',
+  voltage: 0, current: 0, resistance: 0, pendulumAngle: 30,
+  aiAccuracy: 0, code: '', completedQuests: []
 };
 
 let canvas, engine, scene, camera;
@@ -178,7 +193,7 @@ function initBabylon() {
   
   updateHUD();
   updateLocation();
-  notify('🌆 Welcome! Explore the city. Enter Quantum Lab to start experiments!');
+  notify('🌆 Welcome to TechVerse! Explore the city and enter the Quantum Lab!');
 }
 
 function createRealisticCity() {
@@ -211,6 +226,49 @@ function createRealisticCity() {
     sidewalk.material = sidewalkMat;
     sidewalk.checkCollisions = true;
   });
+  
+  for (let z = -140; z < 140; z += 30) {
+    [-14, 14].forEach(x => {
+      const bin = BABYLON.MeshBuilder.CreateCylinder("bin", { diameter: 0.8, height: 1.5 }, scene);
+      bin.position = new BABYLON.Vector3(x, 0.75, z);
+      const binMat = new BABYLON.StandardMaterial("binMat", scene);
+      binMat.diffuseColor = new BABYLON.Color3(0.2, 0.6, 0.2);
+      bin.material = binMat;
+      bin.checkCollisions = true;
+    });
+  }
+  
+  for (let z = -130; z < 130; z += 40) {
+    [-13, 13].forEach(x => {
+      const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 2.5, height: 0.6, depth: 1 }, scene);
+      bench.position = new BABYLON.Vector3(x, 0.6, z);
+      const benchMat = new BABYLON.StandardMaterial("benchMat", scene);
+      benchMat.diffuseColor = new BABYLON.Color3(0.5, 0.35, 0.2);
+      bench.material = benchMat;
+      bench.checkCollisions = true;
+    });
+  }
+  
+  for (let z = -120; z < 120; z += 50) {
+    const trafficLight = BABYLON.MeshBuilder.CreateCylinder("pole", { diameter: 0.2, height: 5 }, scene);
+    trafficLight.position = new BABYLON.Vector3(-10, 2.5, z);
+    const poleMat = new BABYLON.StandardMaterial("poleMat", scene);
+    poleMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+    trafficLight.material = poleMat;
+    trafficLight.checkCollisions = true;
+    
+    const lightBox = BABYLON.MeshBuilder.CreateBox("lightBox", { width: 0.6, height: 1.8, depth: 0.4 }, scene);
+    lightBox.position = new BABYLON.Vector3(-10, 5.4, z);
+    const lbMat = new BABYLON.StandardMaterial("lbMat", scene);
+    lbMat.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    lightBox.material = lbMat;
+    
+    const redLight = BABYLON.MeshBuilder.CreateSphere("red", { diameter: 0.4 }, scene);
+    redLight.position = new BABYLON.Vector3(-10, 5.9, z - 0.25);
+    const redMat = new BABYLON.StandardMaterial("redMat", scene);
+    redMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+    redLight.material = redMat;
+  }
   
   const building = BABYLON.MeshBuilder.CreateBox("qlab", { width: 35, height: 20, depth: 45 }, scene);
   building.position = new BABYLON.Vector3(0, 10, -40);
@@ -277,6 +335,7 @@ function setupControls() {
     if (e.key === 'Shift') { sprint = true; if (camera) camera.speed = 0.6; }
     if (e.key === 'e' || e.key === 'E') checkInteraction();
     if (e.key === 'Tab') { e.preventDefault(); showKnowledgeBase(); }
+    if (e.key === 'q' || e.key === 'Q') showQuests();
   });
   
   document.addEventListener('keyup', (e) => {
@@ -307,50 +366,46 @@ function enterLab() {
   scene.meshes.forEach(mesh => {
     if (mesh.name !== 'camera') mesh.dispose();
   });
-  scene.lights.forEach(light => {
-    if (light.name !== 'hemi') light.dispose();
-  });
+  scene.lights.forEach(light => light.dispose());
   interactables = [];
   
-  createLabInterior();
+  createPerfectLabInterior();
   
   state.insideLab = true;
   state.currentRoom = 'lab';
-  camera.position = new BABYLON.Vector3(0, 1.7, 15);
+  camera.position = new BABYLON.Vector3(0, 1.7, 18);
   updateLocation();
 }
 
-function createLabInterior() {
-  scene.clearColor = new BABYLON.Color3(0.95, 0.95, 0.95);
+function createPerfectLabInterior() {
+  scene.clearColor = new BABYLON.Color3(0, 0, 0);
   
-  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-  light.intensity = 0.9;
-  
-  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 25, height: 20 }, scene);
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 30, height: 25 }, scene);
   const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
-  floorMat.diffuseColor = new BABYLON.Color3(0.88, 0.88, 0.88);
+  floorMat.diffuseColor = new BABYLON.Color3(0.85, 0.85, 0.85);
   floor.material = floorMat;
   floor.checkCollisions = true;
   
-  createWall(0, 2.5, -10, 25, 5, 0.3);
-  createWall(-12.5, 2.5, 0, 0.3, 5, 20);
-  createWall(12.5, 2.5, 0, 0.3, 5, 20);
-  createWall(0, 2.5, 10, 25, 5, 0.3);
+  createWall(0, 2.5, -12.5, 30, 5, 0.3);
+  createWall(-15, 2.5, 0, 0.3, 5, 25);
+  createWall(15, 2.5, 0, 0.3, 5, 25);
+  createWall(0, 2.5, 12.5, 30, 5, 0.3);
   
-  const ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", { width: 25, height: 0.3, depth: 20 }, scene);
+  const ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", { width: 30, height: 0.3, depth: 25 }, scene);
   ceiling.position = new BABYLON.Vector3(0, 5, 0);
   const ceilingMat = new BABYLON.StandardMaterial("ceilingMat", scene);
   ceilingMat.diffuseColor = new BABYLON.Color3(0.95, 0.95, 0.95);
   ceiling.material = ceilingMat;
   ceiling.checkCollisions = true;
   
-  for (let x = -8; x <= 8; x += 8) {
-    for (let z = -6; z <= 6; z += 6) {
-      const tubeLight = new BABYLON.PointLight("tubeLight", new BABYLON.Vector3(x, 4.7, z), scene);
-      tubeLight.intensity = 0.6;
+  for (let x = -10; x <= 10; x += 10) {
+    for (let z = -8; z <= 8; z += 8) {
+      const spotLight = new BABYLON.SpotLight("spot", new BABYLON.Vector3(x, 4.8, z), new BABYLON.Vector3(0, -1, 0), Math.PI / 3, 2, scene);
+      spotLight.intensity = 0.8;
+      spotLight.diffuse = new BABYLON.Color3(1, 1, 0.95);
       
       const tube = BABYLON.MeshBuilder.CreateBox("tube", { width: 3, height: 0.2, depth: 0.3 }, scene);
-      tube.position = new BABYLON.Vector3(x, 4.8, z);
+      tube.position = new BABYLON.Vector3(x, 4.85, z);
       const tubeMat = new BABYLON.StandardMaterial("tubeMat", scene);
       tubeMat.emissiveColor = new BABYLON.Color3(1, 1, 0.9);
       tube.material = tubeMat;
@@ -358,7 +413,7 @@ function createLabInterior() {
   }
   
   const qComputer = BABYLON.MeshBuilder.CreateBox("qComputer", { width: 5, height: 8, depth: 5 }, scene);
-  qComputer.position = new BABYLON.Vector3(-8, 4, -6);
+  qComputer.position = new BABYLON.Vector3(-10, 4, -8);
   const qMat = new BABYLON.StandardMaterial("qMat", scene);
   qMat.diffuseColor = new BABYLON.Color3(0.2, 0.3, 0.6);
   qMat.emissiveColor = new BABYLON.Color3(0.1, 0.2, 0.8);
@@ -366,22 +421,36 @@ function createLabInterior() {
   qComputer.metadata = { type: 'equipment', equipment: 'quantum' };
   qComputer.checkCollisions = true;
   interactables.push(qComputer);
-  
-  createSign('Quantum Computer\nPress E', -8, 9, -6, 0.7);
+  createSign('⚛️ Quantum Computer\nPress E', -10, 9, -8, 0.6);
   
   const circuitBench = BABYLON.MeshBuilder.CreateBox("circuitBench", { width: 6, height: 1.5, depth: 2 }, scene);
-  circuitBench.position = new BABYLON.Vector3(8, 0.75, -6);
+  circuitBench.position = new BABYLON.Vector3(10, 0.75, -8);
   const benchMat = new BABYLON.StandardMaterial("benchMat", scene);
   benchMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.7);
   circuitBench.material = benchMat;
-  circuitBench.metadata = { type: 'equipment', equipment: 'circuit' };
+  circuitBench.metadata = { type: 'equipment', equipment: 'electronics' };
   circuitBench.checkCollisions = true;
   interactables.push(circuitBench);
+  createSign('⚡ Electronics Lab\nPress E', 10, 3, -8, 0.6);
   
-  createSign('Circuit Builder\nPress E', 8, 3, -6, 0.7);
+  const physicsBench = BABYLON.MeshBuilder.CreateBox("physicsBench", { width: 6, height: 1.5, depth: 2 }, scene);
+  physicsBench.position = new BABYLON.Vector3(-10, 0.75, 0);
+  physicsBench.material = benchMat;
+  physicsBench.metadata = { type: 'equipment', equipment: 'physics' };
+  physicsBench.checkCollisions = true;
+  interactables.push(physicsBench);
+  createSign('🔬 Physics Experiments\nPress E', -10, 3, 0, 0.6);
+  
+  const chemBench = BABYLON.MeshBuilder.CreateBox("chemBench", { width: 6, height: 1.5, depth: 2 }, scene);
+  chemBench.position = new BABYLON.Vector3(10, 0.75, 0);
+  chemBench.material = benchMat;
+  chemBench.metadata = { type: 'equipment', equipment: 'chemistry' };
+  chemBench.checkCollisions = true;
+  interactables.push(chemBench);
+  createSign('🧪 Chemistry Lab\nPress E', 10, 3, 0, 0.6);
   
   const dnaSequencer = BABYLON.MeshBuilder.CreateCylinder("dnaSequencer", { diameter: 3, height: 6 }, scene);
-  dnaSequencer.position = new BABYLON.Vector3(-8, 3, 6);
+  dnaSequencer.position = new BABYLON.Vector3(-10, 3, 8);
   const dnaMat = new BABYLON.StandardMaterial("dnaMat", scene);
   dnaMat.diffuseColor = new BABYLON.Color3(0.2, 0.6, 0.4);
   dnaMat.emissiveColor = new BABYLON.Color3(0.1, 0.8, 0.4);
@@ -389,11 +458,10 @@ function createLabInterior() {
   dnaSequencer.metadata = { type: 'equipment', equipment: 'dna' };
   dnaSequencer.checkCollisions = true;
   interactables.push(dnaSequencer);
-  
-  createSign('DNA Sequencer\nPress E', -8, 7, 6, 0.7);
+  createSign('🧬 DNA Lab\nPress E', -10, 7, 8, 0.6);
   
   const aiWorkstation = BABYLON.MeshBuilder.CreateBox("aiWorkstation", { width: 4, height: 3, depth: 2 }, scene);
-  aiWorkstation.position = new BABYLON.Vector3(8, 1.5, 6);
+  aiWorkstation.position = new BABYLON.Vector3(10, 1.5, 8);
   const aiMat = new BABYLON.StandardMaterial("aiMat", scene);
   aiMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
   aiMat.emissiveColor = new BABYLON.Color3(0.2, 0.8, 0.2);
@@ -401,11 +469,10 @@ function createLabInterior() {
   aiWorkstation.metadata = { type: 'equipment', equipment: 'ai' };
   aiWorkstation.checkCollisions = true;
   interactables.push(aiWorkstation);
-  
-  createSign('AI Trainer\nPress E', 8, 4, 6, 0.7);
+  createSign('🤖 AI/ML Lab\nPress E', 10, 4, 8, 0.6);
   
   const exitDoor = BABYLON.MeshBuilder.CreateBox("exitDoor", { width: 3, height: 4, depth: 0.3 }, scene);
-  exitDoor.position = new BABYLON.Vector3(0, 2, 9.9);
+  exitDoor.position = new BABYLON.Vector3(0, 2, 12.4);
   const exMat = new BABYLON.StandardMaterial("exMat", scene);
   exMat.diffuseColor = new BABYLON.Color3(0.8, 0.2, 0.2);
   exMat.emissiveColor = new BABYLON.Color3(0.4, 0.1, 0.1);
@@ -413,9 +480,9 @@ function createLabInterior() {
   exitDoor.metadata = { type: 'exit' };
   exitDoor.checkCollisions = true;
   interactables.push(exitDoor);
+  createSign('← EXIT TO CITY', 0, 3.5, 12, 0.7);
   
-  createSign('← EXIT', 0, 3.5, 9.5, 0.8);
-  createSign('QUANTUM COMPUTING LAB', 0, 4.8, 0, 1.5);
+  createSign('QUANTUM COMPUTING LAB', 0, 4.8, 0, 1.3);
 }
 
 function createWall(x, y, z, w, h, d) {
@@ -435,72 +502,222 @@ function showEquipmentPanel(equipment) {
   if (equipment === 'quantum') {
     title.textContent = '⚛️ Quantum Computer Simulator';
     content.innerHTML = `
-      <p><strong>Learn:</strong> Quantum superposition, entanglement, quantum gates</p>
-      <p><strong>Current Qubits:</strong> |${state.qubitStates[0]}⟩ |${state.qubitStates[1]}⟩ |${state.qubitStates[2]}⟩</p>
-      <div style="margin: 20px 0;">
-        <button class="interactBtn" onclick="flipQubit(0)">Flip Qubit 0</button>
-        <button class="interactBtn" onclick="flipQubit(1)">Flip Qubit 1</button>
-        <button class="interactBtn" onclick="flipQubit(2)">Flip Qubit 2</button>
+      <div class="infoBox">
+        <strong>🎓 Learn:</strong> Quantum superposition, entanglement, quantum gates, Bloch sphere
       </div>
-      <div style="margin: 20px 0;">
-        <button class="interactBtn success" onclick="applyGate('H')">Hadamard Gate (H)</button>
-        <button class="interactBtn success" onclick="applyGate('X')">Pauli-X Gate</button>
-        <button class="interactBtn success" onclick="applyGate('CNOT')">CNOT Gate</button>
+      
+      <p><strong>Current Qubits:</strong></p>
+      <div class="formula">|${state.qubitStates[0]}⟩ |${state.qubitStates[1]}⟩ |${state.qubitStates[2]}⟩</div>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Qubit Operations:</h3>
+      <div class="grid3">
+        <button class="interactBtn" onclick="flipQubit(0)">Flip Q0</button>
+        <button class="interactBtn" onclick="flipQubit(1)">Flip Q1</button>
+        <button class="interactBtn" onclick="flipQubit(2)">Flip Q2</button>
       </div>
-      <p style="background: rgba(52, 152, 219, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px;">
-        <strong>💡 Tip:</strong> Hadamard gate creates superposition (0 AND 1 simultaneously). CNOT creates entanglement between qubits!
-      </p>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Quantum Gates:</h3>
+      <div class="grid3">
+        <button class="interactBtn success" onclick="applyGate('H')">Hadamard (H)</button>
+        <button class="interactBtn success" onclick="applyGate('X')">Pauli-X</button>
+        <button class="interactBtn success" onclick="applyGate('Y')">Pauli-Y</button>
+        <button class="interactBtn success" onclick="applyGate('Z')">Pauli-Z</button>
+        <button class="interactBtn success" onclick="applyGate('CNOT')">CNOT</button>
+        <button class="interactBtn success" onclick="applyGate('T')">T Gate</button>
+      </div>
+      
+      <div class="infoBox successBox">
+        <strong>💡 Quantum Concepts:</strong><br>
+        • <strong>Superposition:</strong> Qubit can be |0⟩ AND |1⟩ simultaneously<br>
+        • <strong>Hadamard Gate:</strong> Creates equal superposition: (|0⟩ + |1⟩)/√2<br>
+        • <strong>CNOT Gate:</strong> Creates entanglement between two qubits<br>
+        • <strong>Measurement:</strong> Collapses superposition to |0⟩ or |1⟩
+      </div>
+      
+      <div class="formula">
+        Bloch Sphere: |ψ⟩ = cos(θ/2)|0⟩ + e^(iφ)sin(θ/2)|1⟩
+      </div>
+      
       <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
     `;
-  } else if (equipment === 'circuit') {
-    title.textContent = '⚡ Circuit Builder';
+  } else if (equipment === 'electronics') {
+    title.textContent = '⚡ Electronics & Circuit Lab';
     content.innerHTML = `
-      <p><strong>Learn:</strong> Ohm's Law (V=I×R), Kirchhoff's Laws, LED circuits</p>
-      <p><strong>Your Circuit:</strong> ${state.circuit.join(' → ') || 'Empty'}</p>
-      <div style="margin: 20px 0;">
-        <button class="interactBtn" onclick="addComponent('Battery 9V')">🔋 Battery (9V)</button>
-        <button class="interactBtn" onclick="addComponent('Resistor 470Ω')">⚡ Resistor (470Ω)</button>
-        <button class="interactBtn" onclick="addComponent('LED')">💡 LED</button>
+      <div class="infoBox">
+        <strong>🎓 Learn:</strong> Ohm's Law, Kirchhoff's Laws, circuit analysis, oscilloscope, multimeter
       </div>
-      <button class="interactBtn success" onclick="testCircuit()">TEST CIRCUIT</button>
-      <button class="interactBtn" onclick="state.circuit=[]; showEquipmentPanel('circuit');">RESET</button>
-      <p style="background: rgba(52, 152, 219, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px;">
-        <strong>💡 Tip:</strong> For LED to work: Battery → Resistor → LED. Resistor limits current to protect LED!
-      </p>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Build Your Circuit:</h3>
+      <p><strong>Current Circuit:</strong> ${state.circuit.join(' → ') || 'Empty'}</p>
+      
+      <div class="grid3">
+        <button class="interactBtn" onclick="addComponent('Battery 9V')">🔋 Battery 9V</button>
+        <button class="interactBtn" onclick="addComponent('Resistor 470Ω')">⚡ Resistor 470Ω</button>
+        <button class="interactBtn" onclick="addComponent('Resistor 1kΩ')">⚡ Resistor 1kΩ</button>
+        <button class="interactBtn" onclick="addComponent('LED Red')">💡 LED Red</button>
+        <button class="interactBtn" onclick="addComponent('Capacitor 100µF')">⚡ Capacitor 100µF</button>
+        <button class="interactBtn" onclick="addComponent('Switch')">🔘 Switch</button>
+      </div>
+      
+      <div class="grid2">
+        <button class="interactBtn success" onclick="testCircuit()">TEST CIRCUIT</button>
+        <button class="interactBtn warning" onclick="state.circuit=[]; showEquipmentPanel('electronics');">RESET</button>
+      </div>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Measurements:</h3>
+      <div class="grid3">
+        <button class="interactBtn" onclick="measureVoltage()">📊 Voltage</button>
+        <button class="interactBtn" onclick="measureCurrent()">📊 Current</button>
+        <button class="interactBtn" onclick="measureResistance()">📊 Resistance</button>
+      </div>
+      
+      <div class="infoBox successBox">
+        <strong>📐 Ohm's Law:</strong><br>
+        <div class="formula">V = I × R</div>
+        • V = Voltage (Volts)<br>
+        • I = Current (Amperes)<br>
+        • R = Resistance (Ohms)<br><br>
+        <strong>Power:</strong><br>
+        <div class="formula">P = V × I = I²R = V²/R</div>
+      </div>
+      
+      <div class="infoBox warningBox">
+        <strong>💡 Circuit Tips:</strong><br>
+        • LED needs resistor to limit current<br>
+        • For 9V battery and red LED (2V, 20mA): R = (9-2)/0.02 = 350Ω (use 470Ω)<br>
+        • Capacitor stores charge: Q = C × V
+      </div>
+      
+      <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
+    `;
+  } else if (equipment === 'physics') {
+    title.textContent = '🔬 Physics Experiments Lab';
+    content.innerHTML = `
+      <div class="infoBox">
+        <strong>🎓 Learn:</strong> Mechanics, optics, waves, thermodynamics - real physics simulations!
+      </div>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Mechanics Experiments:</h3>
+      <div class="grid2">
+        <button class="interactBtn success" onclick="runPendulum()">🔄 Pendulum</button>
+        <button class="interactBtn success" onclick="runProjectile()">🎯 Projectile Motion</button>
+        <button class="interactBtn success" onclick="runCollision()">💥 Collisions</button>
+        <button class="interactBtn success" onclick="runIncline()">📐 Inclined Plane</button>
+      </div>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Optics Experiments:</h3>
+      <div class="grid2">
+        <button class="interactBtn success" onclick="runRefraction()">🌈 Refraction</button>
+        <button class="interactBtn success" onclick="runDiffraction()">〰️ Diffraction</button>
+      </div>
+      
+      <div class="infoBox successBox">
+        <strong>📐 Key Formulas:</strong><br>
+        <strong>Pendulum Period:</strong><br>
+        <div class="formula">T = 2π√(L/g)</div>
+        <strong>Projectile Range:</strong><br>
+        <div class="formula">R = (v²sin(2θ))/g</div>
+        <strong>Snell's Law:</strong><br>
+        <div class="formula">n₁sin(θ₁) = n₂sin(θ₂)</div>
+      </div>
+      
+      <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
+    `;
+  } else if (equipment === 'chemistry') {
+    title.textContent = '🧪 Chemistry Laboratory';
+    content.innerHTML = `
+      <div class="infoBox">
+        <strong>🎓 Learn:</strong> Periodic table, chemical reactions, stoichiometry, pH, molecular structure
+      </div>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Experiments:</h3>
+      <div class="grid2">
+        <button class="interactBtn success" onclick="showPeriodicTable()">📊 Periodic Table</button>
+        <button class="interactBtn success" onclick="mixChemicals()">🧪 Mix Chemicals</button>
+        <button class="interactBtn success" onclick="measurePH()">📏 Measure pH</button>
+        <button class="interactBtn success" onclick="balanceEquation()">⚖️ Balance Equation</button>
+      </div>
+      
+      <div class="infoBox successBox">
+        <strong>🧪 Chemical Reactions:</strong><br>
+        <strong>Acid + Base → Salt + Water</strong><br>
+        <div class="formula">HCl + NaOH → NaCl + H₂O</div>
+        <strong>Combustion:</strong><br>
+        <div class="formula">CH₄ + 2O₂ → CO₂ + 2H₂O</div>
+      </div>
+      
       <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
     `;
   } else if (equipment === 'dna') {
-    title.textContent = '🧬 DNA Sequencer & CRISPR Editor';
+    title.textContent = '🧬 DNA & Biology Laboratory';
     content.innerHTML = `
-      <p><strong>Learn:</strong> DNA structure, CRISPR-Cas9 gene editing, genetic code</p>
+      <div class="infoBox">
+        <strong>🎓 Learn:</strong> DNA structure, CRISPR gene editing, protein synthesis, PCR, gel electrophoresis
+      </div>
+      
       <p><strong>DNA Sequence:</strong></p>
-      <div style="font-family: monospace; font-size: 1.3em; letter-spacing: 3px; background: #1e1e1e; color: #0f0; padding: 15px; border-radius: 10px; margin: 15px 0;">
+      <div style="font-family: monospace; font-size: 1.2em; letter-spacing: 2px; background: #1e1e1e; color: #0f0; padding: 15px; border-radius: 10px; margin: 15px 0; word-break: break-all;">
         ${state.dnaSequence}
       </div>
-      <div style="margin: 20px 0;">
+      
+      <h3 style="color: #3498db; margin: 20px 0;">CRISPR Gene Editor:</h3>
+      <div class="grid3">
         <button class="interactBtn" onclick="editDNA('A')">Insert A</button>
         <button class="interactBtn" onclick="editDNA('T')">Insert T</button>
         <button class="interactBtn" onclick="editDNA('G')">Insert G</button>
         <button class="interactBtn" onclick="editDNA('C')">Insert C</button>
         <button class="interactBtn danger" onclick="editDNA('DEL')">Delete</button>
+        <button class="interactBtn warning" onclick="state.dnaSequence='ATGCGATCG'; showEquipmentPanel('dna');">Reset</button>
       </div>
-      <p style="background: rgba(52, 152, 219, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px;">
-        <strong>💡 Tip:</strong> DNA bases pair: A-T and G-C. CRISPR can cut and edit specific sequences!
-      </p>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Experiments:</h3>
+      <div class="grid2">
+        <button class="interactBtn success" onclick="runPCR()">🔬 PCR Amplification</button>
+        <button class="interactBtn success" onclick="runGelElectrophoresis()">⚡ Gel Electrophoresis</button>
+        <button class="interactBtn success" onclick="synthesizeProtein()">🧬 Protein Synthesis</button>
+      </div>
+      
+      <div class="infoBox successBox">
+        <strong>🧬 DNA Base Pairing:</strong><br>
+        • Adenine (A) pairs with Thymine (T)<br>
+        • Guanine (G) pairs with Cytosine (C)<br><br>
+        <strong>CRISPR-Cas9:</strong> Cuts DNA at specific sequences for precise gene editing<br>
+        <strong>PCR:</strong> Amplifies DNA exponentially (2ⁿ copies after n cycles)
+      </div>
+      
       <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
     `;
   } else if (equipment === 'ai') {
-    title.textContent = '🤖 AI Neural Network Trainer';
+    title.textContent = '🤖 AI & Machine Learning Lab';
     content.innerHTML = `
-      <p><strong>Learn:</strong> Neural networks, backpropagation, gradient descent, training</p>
-      <p><strong>Network:</strong> Input Layer → Hidden Layer → Output Layer</p>
-      <div style="margin: 20px 0;">
-        <button class="interactBtn success" onclick="trainAI()">TRAIN NETWORK</button>
-        <button class="interactBtn" onclick="testAI()">TEST NETWORK</button>
+      <div class="infoBox">
+        <strong>🎓 Learn:</strong> Neural networks, backpropagation, gradient descent, training, optimization
       </div>
-      <p style="background: rgba(52, 152, 219, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px;">
-        <strong>💡 Tip:</strong> Neural networks learn by adjusting weights through backpropagation. More training = better accuracy!
-      </p>
+      
+      <p><strong>Neural Network Architecture:</strong></p>
+      <div class="formula">Input Layer → Hidden Layer(s) → Output Layer</div>
+      
+      <p><strong>Current Accuracy:</strong> <span style="color: #27ae60; font-weight: 900;">${state.aiAccuracy}%</span></p>
+      
+      <h3 style="color: #3498db; margin: 20px 0;">Training:</h3>
+      <div class="grid2">
+        <button class="interactBtn success" onclick="trainAI()">🎓 Train Network</button>
+        <button class="interactBtn" onclick="testAI()">🧪 Test Network</button>
+        <button class="interactBtn warning" onclick="adjustLearningRate()">⚙️ Adjust Learning Rate</button>
+        <button class="interactBtn" onclick="visualizeNetwork()">📊 Visualize</button>
+      </div>
+      
+      <div class="infoBox successBox">
+        <strong>🤖 Neural Network Training:</strong><br>
+        1. <strong>Forward Pass:</strong> Input → Weights → Activation → Output<br>
+        2. <strong>Calculate Loss:</strong> Compare output with target<br>
+        3. <strong>Backpropagation:</strong> Calculate gradients<br>
+        4. <strong>Update Weights:</strong> w = w - α∇L<br><br>
+        <div class="formula">Loss = (1/n)Σ(y_pred - y_true)²</div>
+        <strong>Activation Functions:</strong> ReLU, Sigmoid, Tanh<br>
+        <strong>Optimizers:</strong> SGD, Adam, RMSprop
+      </div>
+      
       <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
     `;
   }
@@ -519,28 +736,110 @@ window.flipQubit = function(index) {
 };
 
 window.applyGate = function(gate) {
-  addXP(25);
+  addXP(30);
   state.experiments++;
   updateHUD();
-  notify(`Applied ${gate} gate! +25 XP`);
+  notify(`Applied ${gate} gate! Quantum state changed! +30 XP`);
 };
 
 window.addComponent = function(comp) {
   state.circuit.push(comp);
-  showEquipmentPanel('circuit');
+  showEquipmentPanel('electronics');
   addXP(15);
   notify(`Added ${comp}! +15 XP`);
 };
 
 window.testCircuit = function() {
-  if (state.circuit.includes('Battery 9V') && state.circuit.includes('Resistor 470Ω') && state.circuit.includes('LED')) {
-    addXP(100);
+  if (state.circuit.includes('Battery 9V') && state.circuit.includes('Resistor 470Ω') && state.circuit.includes('LED Red')) {
+    addXP(150);
     state.experiments++;
     updateHUD();
-    notify('✅ Circuit works! LED is ON! +100 XP');
+    notify('✅ Circuit works! LED is ON! Voltage: 2V, Current: 15mA | +150 XP');
   } else {
-    notify('❌ Circuit incomplete! Need: Battery → Resistor → LED');
+    notify('❌ Circuit incomplete or incorrect! Need: Battery → Resistor → LED');
   }
+};
+
+window.measureVoltage = function() {
+  state.voltage = 9;
+  addXP(20);
+  notify(`📊 Voltage measured: ${state.voltage}V | +20 XP`);
+};
+
+window.measureCurrent = function() {
+  state.current = 0.015;
+  addXP(20);
+  notify(`📊 Current measured: ${state.current * 1000}mA | +20 XP`);
+};
+
+window.measureResistance = function() {
+  state.resistance = 470;
+  addXP(20);
+  notify(`📊 Resistance measured: ${state.resistance}Ω | +20 XP`);
+};
+
+window.runPendulum = function() {
+  addXP(50);
+  state.experiments++;
+  updateHUD();
+  notify(`🔄 Pendulum: Period T = 2π√(L/g) = 2.0s | Gravity g = 9.8 m/s² | +50 XP`);
+};
+
+window.runProjectile = function() {
+  addXP(50);
+  state.experiments++;
+  updateHUD();
+  notify(`🎯 Projectile: Range = 45m at 45° angle | Max height = 11.25m | +50 XP`);
+};
+
+window.runCollision = function() {
+  addXP(50);
+  state.experiments++;
+  updateHUD();
+  notify(`💥 Elastic collision: Momentum conserved! p₁ + p₂ = p₁' + p₂' | +50 XP`);
+};
+
+window.runIncline = function() {
+  addXP(50);
+  state.experiments++;
+  updateHUD();
+  notify(`📐 Inclined plane: Acceleration a = g·sin(θ) = 4.9 m/s² at 30° | +50 XP`);
+};
+
+window.runRefraction = function() {
+  addXP(50);
+  state.experiments++;
+  updateHUD();
+  notify(`🌈 Refraction: Snell's Law n₁sin(θ₁) = n₂sin(θ₂) | Light bends! | +50 XP`);
+};
+
+window.runDiffraction = function() {
+  addXP(50);
+  state.experiments++;
+  updateHUD();
+  notify(`〰️ Diffraction: Interference pattern observed! λ = d·sin(θ) | +50 XP`);
+};
+
+window.showPeriodicTable = function() {
+  addXP(30);
+  notify(`📊 Periodic Table: 118 elements organized by atomic number! +30 XP`);
+};
+
+window.mixChemicals = function() {
+  addXP(40);
+  state.experiments++;
+  updateHUD();
+  notify(`🧪 Reaction: HCl + NaOH → NaCl + H₂O | Neutralization! | +40 XP`);
+};
+
+window.measurePH = function() {
+  addXP(30);
+  notify(`📏 pH measured: 7.0 (Neutral) | Acidic < 7 < Basic | +30 XP`);
+};
+
+window.balanceEquation = function() {
+  addXP(40);
+  notify(`⚖️ Balanced: CH₄ + 2O₂ → CO₂ + 2H₂O | Atoms conserved! | +40 XP`);
 };
 
 window.editDNA = function(base) {
@@ -553,19 +852,52 @@ window.editDNA = function(base) {
   addXP(10);
   state.experiments++;
   updateHUD();
-  notify(`DNA edited! +10 XP`);
+  notify(`🧬 DNA edited! Sequence length: ${state.dnaSequence.length} | +10 XP`);
+};
+
+window.runPCR = function() {
+  addXP(60);
+  state.experiments++;
+  updateHUD();
+  notify(`🔬 PCR: DNA amplified! 2²⁰ = 1,048,576 copies after 20 cycles! | +60 XP`);
+};
+
+window.runGelElectrophoresis = function() {
+  addXP(60);
+  state.experiments++;
+  updateHUD();
+  notify(`⚡ Gel Electrophoresis: DNA fragments separated by size! | +60 XP`);
+};
+
+window.synthesizeProtein = function() {
+  addXP(60);
+  state.experiments++;
+  updateHUD();
+  notify(`🧬 Protein Synthesis: DNA → mRNA → Protein | Translation complete! | +60 XP`);
 };
 
 window.trainAI = function() {
-  addXP(50);
+  state.aiAccuracy = Math.min(95, state.aiAccuracy + 15);
+  addXP(70);
   state.experiments++;
   updateHUD();
-  notify('🤖 AI trained! Accuracy: 92% | +50 XP');
+  notify(`🤖 AI trained! Accuracy: ${state.aiAccuracy}% | Loss decreased! | +70 XP`);
+  showEquipmentPanel('ai');
 };
 
 window.testAI = function() {
+  addXP(30);
+  notify(`🧪 AI tested! Prediction: Correct! Confidence: ${state.aiAccuracy}% | +30 XP`);
+};
+
+window.adjustLearningRate = function() {
   addXP(20);
-  notify('🤖 AI tested! Prediction correct!');
+  notify(`⚙️ Learning rate adjusted! α = 0.001 | Optimal for convergence | +20 XP`);
+};
+
+window.visualizeNetwork = function() {
+  addXP(25);
+  notify(`📊 Network visualized! 784 → 128 → 64 → 10 neurons | +25 XP`);
 };
 
 window.closeInteractPanel = function() {
@@ -580,17 +912,69 @@ function showKnowledgeBase() {
   title.textContent = '📚 Knowledge Base';
   content.innerHTML = `
     <h3 style="color: #3498db; margin: 20px 0;">⚛️ Quantum Computing</h3>
-    <p>Qubits can be in superposition (0 AND 1). Quantum gates manipulate qubits. Entanglement links qubits.</p>
+    <p>Qubits exist in superposition (|0⟩ AND |1⟩). Quantum gates manipulate qubits. Measurement collapses superposition. Entanglement links qubits across space.</p>
+    <div class="formula">|ψ⟩ = α|0⟩ + β|1⟩ where |α|² + |β|² = 1</div>
     
     <h3 style="color: #3498db; margin: 20px 0;">⚡ Electronics</h3>
-    <p><strong>Ohm's Law:</strong> V = I × R (Voltage = Current × Resistance)</p>
-    <p><strong>Kirchhoff's Laws:</strong> Sum of currents = 0, Sum of voltages = 0</p>
+    <p><strong>Ohm's Law:</strong> V = I × R</p>
+    <p><strong>Kirchhoff's Current Law:</strong> ΣI_in = ΣI_out</p>
+    <p><strong>Kirchhoff's Voltage Law:</strong> ΣV = 0 (around loop)</p>
+    <p><strong>Power:</strong> P = V × I = I²R = V²/R</p>
     
-    <h3 style="color: #3498db; margin: 20px 0;">🧬 DNA & CRISPR</h3>
-    <p>DNA: A-T and G-C base pairs. CRISPR-Cas9 cuts DNA at specific locations for gene editing.</p>
+    <h3 style="color: #3498db; margin: 20px 0;">🔬 Physics</h3>
+    <p><strong>Newton's Laws:</strong> F = ma, Action-Reaction, Inertia</p>
+    <p><strong>Energy Conservation:</strong> KE + PE = constant</p>
+    <p><strong>Momentum:</strong> p = mv (conserved in collisions)</p>
     
-    <h3 style="color: #3498db; margin: 20px 0;">🤖 AI & Neural Networks</h3>
-    <p>Neurons with weights. Forward pass → Loss → Backpropagation → Update weights. Repeat until accurate.</p>
+    <h3 style="color: #3498db; margin: 20px 0;">🧪 Chemistry</h3>
+    <p><strong>Periodic Table:</strong> Elements organized by atomic number</p>
+    <p><strong>Chemical Bonds:</strong> Ionic, Covalent, Metallic</p>
+    <p><strong>pH Scale:</strong> 0-14 (Acidic < 7 < Basic)</p>
+    
+    <h3 style="color: #3498db; margin: 20px 0;">🧬 DNA & Biology</h3>
+    <p><strong>DNA Structure:</strong> Double helix, A-T and G-C base pairs</p>
+    <p><strong>Central Dogma:</strong> DNA → RNA → Protein</p>
+    <p><strong>CRISPR:</strong> Precise gene editing tool</p>
+    
+    <h3 style="color: #3498db; margin: 20px 0;">🤖 AI & Machine Learning</h3>
+    <p><strong>Neural Networks:</strong> Layers of neurons with weights</p>
+    <p><strong>Training:</strong> Forward pass → Loss → Backprop → Update weights</p>
+    <p><strong>Activation Functions:</strong> ReLU, Sigmoid, Tanh</p>
+    
+    <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
+  `;
+  
+  panel.classList.remove('hide');
+  document.exitPointerLock();
+}
+
+function showQuests() {
+  const panel = document.getElementById('interactPanel');
+  const title = document.getElementById('panelTitle');
+  const content = document.getElementById('panelContent');
+  
+  title.textContent = '🎯 Quests & Achievements';
+  content.innerHTML = `
+    <h3 style="color: #3498db; margin: 20px 0;">Daily Quests:</h3>
+    <div class="infoBox">
+      ✅ Enter the lab (+100 XP)<br>
+      ⬜ Complete 5 experiments (0/5)<br>
+      ⬜ Build a working circuit (0/1)<br>
+      ⬜ Train AI to 90% accuracy (${state.aiAccuracy}/90)<br>
+      ⬜ Edit 10 DNA sequences (0/10)
+    </div>
+    
+    <h3 style="color: #3498db; margin: 20px 0;">Achievements:</h3>
+    <div class="infoBox successBox">
+      🏆 <strong>First Steps</strong> - Enter the lab (Unlocked!)<br>
+      🏆 <strong>Quantum Novice</strong> - Apply 10 quantum gates (0/10)<br>
+      🏆 <strong>Circuit Master</strong> - Build 5 working circuits (0/5)<br>
+      🏆 <strong>Physics Pro</strong> - Complete all physics experiments (0/6)<br>
+      🏆 <strong>Gene Editor</strong> - Edit 50 DNA sequences (0/50)<br>
+      🏆 <strong>AI Expert</strong> - Train AI to 95% accuracy (${state.aiAccuracy}/95)<br>
+      🏆 <strong>Knowledge Seeker</strong> - Read all knowledge base entries (0/6)<br>
+      🏆 <strong>Experiment King</strong> - Complete 100 experiments (${state.experiments}/100)
+    </div>
     
     <button class="interactBtn danger" onclick="closeInteractPanel()">CLOSE</button>
   `;
@@ -634,7 +1018,7 @@ function addXP(amount) {
     state.xp -= state.xpMax;
     state.lvl++;
     state.xpMax = Math.floor(state.xpMax * 1.5);
-    notify(`🎉 LEVEL UP! Level ${state.lvl}!`);
+    notify(`🎉 LEVEL UP! Level ${state.lvl}! New experiments unlocked!`);
   }
   updateHUD();
 }
@@ -644,13 +1028,14 @@ function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('experiments').textContent = state.experiments;
+  document.getElementById('achievements').textContent = `${state.achievements}/20`;
 }
 
 function notify(msg) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 3500);
+  setTimeout(() => n.classList.remove('show'), 4000);
 }
 
 let selChar = null;
@@ -660,7 +1045,7 @@ document.querySelectorAll('.charCard').forEach(card => {
     card.classList.add('selected');
     selChar = card.dataset.char;
     document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').textContent = 'BEGIN JOURNEY';
+    document.getElementById('startBtn').textContent = 'BEGIN YOUR JOURNEY';
   });
 });
 
@@ -670,7 +1055,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Creating city...', 'Building lab...', 'Adding equipment...', 'Loading experiments...', 'Ready!'];
+  const msgs = ['Creating realistic city...', 'Building perfect lab...', 'Adding equipment...', 'Loading experiments...', 'Initializing physics engine...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i];
@@ -687,7 +1072,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
         initBabylon();
       }, 500);
     }
-  }, 600);
+  }, 700);
 });
 </script>
 </body>
