@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Real Lab Experience</title>
+<title>TechVerse: Perfect Realistic World</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
@@ -13,6 +13,8 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 #charSelect h1 { font-size: clamp(2em, 6vw, 4em); color: #fff; text-shadow: 0 0 40px rgba(0, 212, 255, 1); margin: 20px 0 10px 0; font-weight: 900; animation: glow 2s ease-in-out infinite; text-align: center; }
 @keyframes glow { 0%, 100% { text-shadow: 0 0 40px rgba(0, 212, 255, 1); } 50% { text-shadow: 0 0 60px rgba(0, 212, 255, 1); } }
 .subtitle { font-size: clamp(0.9em, 2vw, 1.1em); color: #bdc3c7; margin-bottom: 20px; text-align: center; max-width: 95%; line-height: 1.6; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; max-width: 900px; width: 95%; margin-bottom: 20px; }
+.feature { background: rgba(52, 152, 219, 0.15); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(52, 152, 219, 0.3); text-align: center; font-size: clamp(0.75em, 1.5vw, 0.9em); color: #3498db; }
 .charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; max-width: 900px; width: 95%; margin-bottom: 25px; }
 .charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 3px solid #3498db; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.4s; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; }
 .charCard:hover { transform: translateY(-8px); border-color: #00d4ff; box-shadow: 0 12px 40px rgba(0, 212, 255, 0.5); }
@@ -63,22 +65,35 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="crosshair"></div>
 
 <div id="charSelect">
-  <h1>🔬 TECHVERSE: REAL LAB</h1>
-  <p class="subtitle">Experience truly realistic lab with reception, corridors, multiple rooms with nameplates, equipment, and real lab structure</p>
+  <h1>🌆 TECHVERSE: PERFECT WORLD</h1>
+  <p class="subtitle">Fully detailed realistic city + Complete Quantum Computing Lab - NO COMPROMISES!</p>
+  
+  <div class="features">
+    <div class="feature">✅ Realistic City</div>
+    <div class="feature">✅ Roads & Sidewalks</div>
+    <div class="feature">✅ Trees & Benches</div>
+    <div class="feature">✅ Parked Cars</div>
+    <div class="feature">✅ Street Lights</div>
+    <div class="feature">✅ Walking NPCs</div>
+    <div class="feature">✅ Complete Lab</div>
+    <div class="feature">✅ Real Equipment</div>
+    <div class="feature">✅ Multiple Rooms</div>
+    <div class="feature">✅ Nameplates</div>
+  </div>
   
   <div class="charGrid">
-    <div class="charCard" data-char="Tech Explorer"><div class="icon">🚀</div><h3>Tech Explorer</h3><p>Explore real labs</p></div>
-    <div class="charCard" data-char="AI Specialist"><div class="icon">🤖</div><h3>AI Specialist</h3><p>Master AI</p></div>
-    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Quantum computing</p></div>
-    <div class="charCard" data-char="Biotech Innovator"><div class="icon">🧬</div><h3>Biotech Innovator</h3><p>Gene editing</p></div>
+    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Master quantum computing</p></div>
+    <div class="charCard" data-char="Tech Explorer"><div class="icon">🚀</div><h3>Tech Explorer</h3><p>Explore everything</p></div>
+    <div class="charCard" data-char="Lab Scientist"><div class="icon">🔬</div><h3>Lab Scientist</h3><p>Conduct research</p></div>
+    <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Build technology</p></div>
   </div>
   <button id="startBtn" disabled>SELECT YOUR PATH</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building Real Lab...</h2>
+  <h2>Building Perfect World...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Creating...</p>
+  <p id="loadText">Creating realistic city...</p>
   <div id="loadProgress"><div id="loadBar"></div></div>
 </div>
 
@@ -90,14 +105,14 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 </div>
 
 <div id="locationInfo" class="hide">
-  <h3 id="currentLocation">📍 Location</h3>
+  <h3 id="currentLocation">📍 City Street</h3>
 </div>
 
 <div id="controls" class="hide">
   <h4>🎮 CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
-  <div class="ctrl"><span class="key">MOUSE</span> Look</div>
-  <div class="ctrl"><span class="key">E</span> Open Door</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look (Click)</div>
+  <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
   <div class="ctrl"><span class="key">ESC</span> Exit Lab</div>
 </div>
@@ -122,7 +137,7 @@ function initBabylon() {
   scene.gravity = new BABYLON.Vector3(0, -0.5, 0);
   scene.collisionsEnabled = true;
   
-  camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.7, 30), scene);
+  camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.7, 50), scene);
   camera.speed = 0.3;
   camera.angularSensibility = 1500;
   camera.ellipsoid = new BABYLON.Vector3(0.5, 0.85, 0.5);
@@ -131,9 +146,16 @@ function initBabylon() {
   camera.keysUp = [87]; camera.keysDown = [83]; camera.keysLeft = [65]; camera.keysRight = [68];
   
   const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
-  hemiLight.intensity = 0.8;
+  hemiLight.intensity = 0.7;
   
-  createSimpleCity();
+  const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
+  sun.position = new BABYLON.Vector3(100, 150, 100);
+  sun.intensity = 1;
+  
+  const shadowGenerator = new BABYLON.ShadowGenerator(2048, sun);
+  shadowGenerator.useBlurExponentialShadowMap = true;
+  
+  createRealisticCity(shadowGenerator);
   setupControls();
   
   engine.runRenderLoop(() => scene.render());
@@ -141,34 +163,286 @@ function initBabylon() {
   
   updateHUD();
   updateLocation();
-  notify('🏙️ Walk to the lab building and press E to enter!');
+  notify('🌆 Welcome! Explore the realistic city. Walk to Quantum Lab to enter!');
 }
 
-function createSimpleCity() {
-  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 200, height: 200 }, scene);
+function createRealisticCity(shadowGenerator) {
+  // GROUND - Grass
+  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 400, height: 400 }, scene);
   const groundMat = new BABYLON.StandardMaterial("groundMat", scene);
-  groundMat.diffuseColor = new BABYLON.Color3(0.3, 0.6, 0.3);
+  groundMat.diffuseColor = new BABYLON.Color3(0.25, 0.45, 0.25);
   ground.material = groundMat;
   ground.checkCollisions = true;
+  ground.receiveShadows = true;
   
-  const building = BABYLON.MeshBuilder.CreateBox("building", { width: 25, height: 15, depth: 30 }, scene);
-  building.position = new BABYLON.Vector3(0, 7.5, -20);
+  // MAIN ROAD (20m wide)
+  const road = BABYLON.MeshBuilder.CreateGround("road", { width: 20, height: 300 }, scene);
+  road.position = new BABYLON.Vector3(0, 0.05, 0);
+  const roadMat = new BABYLON.StandardMaterial("roadMat", scene);
+  roadMat.diffuseColor = new BABYLON.Color3(0.25, 0.25, 0.25);
+  road.material = roadMat;
+  road.checkCollisions = true;
+  
+  // ROAD MARKINGS (White center lines)
+  for (let z = -150; z < 150; z += 10) {
+    const line = BABYLON.MeshBuilder.CreateBox("line", { width: 0.4, height: 0.1, depth: 4 }, scene);
+    line.position = new BABYLON.Vector3(0, 0.1, z);
+    const lineMat = new BABYLON.StandardMaterial("lineMat", scene);
+    lineMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    lineMat.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    line.material = lineMat;
+  }
+  
+  // SIDEWALKS (Both sides, 5m wide)
+  [-12.5, 12.5].forEach(x => {
+    const sidewalk = BABYLON.MeshBuilder.CreateGround("sidewalk", { width: 5, height: 300 }, scene);
+    sidewalk.position = new BABYLON.Vector3(x, 0.15, 0);
+    const sidewalkMat = new BABYLON.StandardMaterial("sidewalkMat", scene);
+    sidewalkMat.diffuseColor = new BABYLON.Color3(0.65, 0.65, 0.65);
+    sidewalk.material = sidewalkMat;
+    sidewalk.checkCollisions = true;
+  });
+  
+  // TREES along sidewalks (every 15m)
+  for (let z = -140; z < 140; z += 15) {
+    [-14, 14].forEach(x => {
+      createTree(x, 0, z, shadowGenerator);
+    });
+  }
+  
+  // STREET LIGHTS (every 25m)
+  for (let z = -140; z < 140; z += 25) {
+    [-15, 15].forEach(x => {
+      createStreetLight(x, 0, z);
+    });
+  }
+  
+  // BENCHES (every 30m)
+  for (let z = -130; z < 130; z += 30) {
+    [-13, 13].forEach(x => {
+      createBench(x, 0, z, shadowGenerator);
+    });
+  }
+  
+  // PARKED CARS (alternating sides)
+  for (let z = -120; z < 120; z += 20) {
+    createCar(-8, 0, z, shadowGenerator);
+    createCar(8, 0, z + 10, shadowGenerator);
+  }
+  
+  // QUANTUM LAB BUILDING (Main attraction)
+  createQuantumLabBuilding(shadowGenerator);
+  
+  // OTHER BUILDINGS (Shops, offices)
+  createBuilding('Coffee Shop', [-40, 0, -30], 15, 12, [0.6, 0.4, 0.3], shadowGenerator);
+  createBuilding('Tech Store', [40, 0, -30], 15, 12, [0.3, 0.4, 0.6], shadowGenerator);
+  createBuilding('Office Building', [-40, 0, 30], 20, 25, [0.7, 0.7, 0.75], shadowGenerator);
+  createBuilding('Research Center', [40, 0, 30], 20, 25, [0.65, 0.7, 0.7], shadowGenerator);
+  
+  // WALKING NPCs
+  for (let i = 0; i < 10; i++) {
+    const x = (Math.random() - 0.5) * 30 + (Math.random() > 0.5 ? -13 : 13);
+    const z = (Math.random() - 0.5) * 200;
+    createNPC(x, 0, z, shadowGenerator);
+  }
+}
+
+function createTree(x, y, z, shadowGenerator) {
+  const trunk = BABYLON.MeshBuilder.CreateCylinder("trunk", { diameter: 0.6, height: 4 }, scene);
+  trunk.position = new BABYLON.Vector3(x, y + 2, z);
+  const trunkMat = new BABYLON.StandardMaterial("trunkMat", scene);
+  trunkMat.diffuseColor = new BABYLON.Color3(0.4, 0.3, 0.2);
+  trunk.material = trunkMat;
+  trunk.checkCollisions = true;
+  trunk.receiveShadows = true;
+  shadowGenerator.addShadowCaster(trunk);
+  
+  const leaves = BABYLON.MeshBuilder.CreateSphere("leaves", { diameter: 5 }, scene);
+  leaves.position = new BABYLON.Vector3(x, y + 5, z);
+  const leavesMat = new BABYLON.StandardMaterial("leavesMat", scene);
+  leavesMat.diffuseColor = new BABYLON.Color3(0.15, 0.6, 0.15);
+  leaves.material = leavesMat;
+  leaves.receiveShadows = true;
+  shadowGenerator.addShadowCaster(leaves);
+}
+
+function createStreetLight(x, y, z) {
+  const pole = BABYLON.MeshBuilder.CreateCylinder("pole", { diameter: 0.25, height: 7 }, scene);
+  pole.position = new BABYLON.Vector3(x, y + 3.5, z);
+  const poleMat = new BABYLON.StandardMaterial("poleMat", scene);
+  poleMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+  pole.material = poleMat;
+  pole.checkCollisions = true;
+  
+  const light = new BABYLON.PointLight("streetLight", new BABYLON.Vector3(x, y + 7, z), scene);
+  light.intensity = 0.4;
+  light.diffuse = new BABYLON.Color3(1, 0.9, 0.7);
+  
+  const lamp = BABYLON.MeshBuilder.CreateSphere("lamp", { diameter: 1 }, scene);
+  lamp.position = new BABYLON.Vector3(x, y + 7, z);
+  const lampMat = new BABYLON.StandardMaterial("lampMat", scene);
+  lampMat.emissiveColor = new BABYLON.Color3(1, 0.9, 0.7);
+  lamp.material = lampMat;
+}
+
+function createBench(x, y, z, shadowGenerator) {
+  const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 2.5, height: 0.6, depth: 1 }, scene);
+  bench.position = new BABYLON.Vector3(x, y + 0.6, z);
+  const benchMat = new BABYLON.StandardMaterial("benchMat", scene);
+  benchMat.diffuseColor = new BABYLON.Color3(0.5, 0.35, 0.2);
+  bench.material = benchMat;
+  bench.checkCollisions = true;
+  bench.receiveShadows = true;
+  shadowGenerator.addShadowCaster(bench);
+  
+  [-0.9, 0.9].forEach(dx => {
+    const leg = BABYLON.MeshBuilder.CreateBox("leg", { width: 0.15, height: 0.6, depth: 0.15 }, scene);
+    leg.position = new BABYLON.Vector3(x + dx, y + 0.3, z);
+    leg.material = benchMat;
+    leg.checkCollisions = true;
+  });
+}
+
+function createCar(x, y, z, shadowGenerator) {
+  const car = BABYLON.MeshBuilder.CreateBox("car", { width: 2.2, height: 1.6, depth: 4.5 }, scene);
+  car.position = new BABYLON.Vector3(x, y + 0.8, z);
+  const colors = [[0.8, 0.1, 0.1], [0.1, 0.1, 0.8], [0.1, 0.7, 0.1], [0.8, 0.8, 0.8], [0.2, 0.2, 0.2]];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  const carMat = new BABYLON.StandardMaterial("carMat", scene);
+  carMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  carMat.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+  car.material = carMat;
+  car.checkCollisions = true;
+  car.receiveShadows = true;
+  shadowGenerator.addShadowCaster(car);
+  
+  const window = BABYLON.MeshBuilder.CreateBox("window", { width: 2, height: 1, depth: 0.1 }, scene);
+  window.position = new BABYLON.Vector3(x, y + 1.8, z + 1.2);
+  const windowMat = new BABYLON.StandardMaterial("windowMat", scene);
+  windowMat.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.2);
+  windowMat.alpha = 0.7;
+  window.material = windowMat;
+}
+
+function createNPC(x, y, z, shadowGenerator) {
+  const npc = BABYLON.MeshBuilder.CreateCapsule("npc", { radius: 0.4, height: 1.7 }, scene);
+  npc.position = new BABYLON.Vector3(x, y + 0.85, z);
+  const npcMat = new BABYLON.StandardMaterial("npcMat", scene);
+  const colors = [[0.3, 0.3, 0.8], [0.8, 0.3, 0.3], [0.3, 0.8, 0.3], [0.6, 0.4, 0.2]];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  npcMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
+  npc.material = npcMat;
+  npc.checkCollisions = true;
+  npc.receiveShadows = true;
+  shadowGenerator.addShadowCaster(npc);
+  
+  npc.metadata = { speed: 0.02, direction: Math.random() * Math.PI * 2, walkTime: 0 };
+  
+  scene.registerBeforeRender(() => {
+    if (npc.metadata && !state.insideLab) {
+      npc.metadata.walkTime += engine.getDeltaTime() / 1000;
+      if (npc.metadata.walkTime > 8) {
+        npc.metadata.direction = Math.random() * Math.PI * 2;
+        npc.metadata.walkTime = 0;
+      }
+      npc.position.x += Math.sin(npc.metadata.direction) * npc.metadata.speed;
+      npc.position.z += Math.cos(npc.metadata.direction) * npc.metadata.speed;
+      npc.position.x = Math.max(-15, Math.min(15, npc.position.x));
+      npc.position.z = Math.max(-150, Math.min(150, npc.position.z));
+      npc.rotation.y = npc.metadata.direction;
+    }
+  });
+}
+
+function createBuilding(name, pos, width, height, color, shadowGenerator) {
+  const building = BABYLON.MeshBuilder.CreateBox("building", { width: width, height: height, depth: width * 1.2 }, scene);
+  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
   const buildingMat = new BABYLON.StandardMaterial("buildingMat", scene);
-  buildingMat.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.85);
+  buildingMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
   building.material = buildingMat;
   building.checkCollisions = true;
+  building.receiveShadows = true;
+  shadowGenerator.addShadowCaster(building);
   
-  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 3, height: 4, depth: 0.3 }, scene);
-  door.position = new BABYLON.Vector3(0, 2, -5);
+  for (let floor = 0; floor < Math.floor(height / 5); floor++) {
+    for (let col = 0; col < Math.floor(width / 4); col++) {
+      const window = BABYLON.MeshBuilder.CreatePlane("window", { width: 2.5, height: 3 }, scene);
+      window.position = new BABYLON.Vector3(pos[0] - width/2 + 2 + col * 4, 3 + floor * 5, pos[2] + width * 0.6 + 0.1);
+      const windowMat = new BABYLON.StandardMaterial("windowMat", scene);
+      windowMat.diffuseColor = new BABYLON.Color3(0.4, 0.6, 0.8);
+      windowMat.emissiveColor = new BABYLON.Color3(0.2, 0.3, 0.4);
+      windowMat.alpha = 0.8;
+      window.material = windowMat;
+    }
+  }
+  
+  createSign(name, pos[0], height + 3, pos[2] + width * 0.6 + 0.2);
+}
+
+function createQuantumLabBuilding(shadowGenerator) {
+  const building = BABYLON.MeshBuilder.CreateBox("qlab", { width: 35, height: 20, depth: 45 }, scene);
+  building.position = new BABYLON.Vector3(0, 10, -40);
+  const buildingMat = new BABYLON.StandardMaterial("buildingMat", scene);
+  buildingMat.diffuseColor = new BABYLON.Color3(0.75, 0.75, 0.8);
+  building.material = buildingMat;
+  building.checkCollisions = true;
+  building.receiveShadows = true;
+  shadowGenerator.addShadowCaster(building);
+  
+  for (let floor = 0; floor < 3; floor++) {
+    for (let col = 0; col < 6; col++) {
+      const window = BABYLON.MeshBuilder.CreatePlane("window", { width: 3.5, height: 4 }, scene);
+      window.position = new BABYLON.Vector3(-15 + col * 6, 5 + floor * 6, -17.6);
+      const windowMat = new BABYLON.StandardMaterial("windowMat", scene);
+      windowMat.diffuseColor = new BABYLON.Color3(0.4, 0.6, 0.9);
+      windowMat.emissiveColor = new BABYLON.Color3(0.2, 0.4, 0.6);
+      windowMat.alpha = 0.8;
+      window.material = windowMat;
+    }
+  }
+  
+  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 4.5, height: 6, depth: 0.4 }, scene);
+  door.position = new BABYLON.Vector3(0, 3, -17.5);
   const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
   doorMat.diffuseColor = new BABYLON.Color3(0.3, 0.4, 0.5);
+  doorMat.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
   door.material = doorMat;
   door.metadata = { type: 'entrance' };
   door.checkCollisions = true;
   interactables.push(door);
   
-  createNameplate('QUANTUM COMPUTING LAB', 0, 5, -5.2, 1.5);
-  createNameplate('Press E to Enter', 0, 1, -4, 0.8);
+  for (let i = 0; i < 4; i++) {
+    const step = BABYLON.MeshBuilder.CreateBox("step", { width: 7, height: 0.4, depth: 1.8 }, scene);
+    step.position = new BABYLON.Vector3(0, 0.2 + i * 0.4, -16 + i * 0.6);
+    const stepMat = new BABYLON.StandardMaterial("stepMat", scene);
+    stepMat.diffuseColor = new BABYLON.Color3(0.55, 0.55, 0.55);
+    step.material = stepMat;
+    step.checkCollisions = true;
+  }
+  
+  createSign('QUANTUM COMPUTING LAB', 0, 22, -17.7, 2);
+  createSign('Press E to Enter', 0, 2, -15, 1);
+}
+
+function createSign(text, x, y, z, scale = 1) {
+  const sign = BABYLON.MeshBuilder.CreatePlane("sign", { width: 12 * scale, height: 2.5 * scale }, scene);
+  sign.position = new BABYLON.Vector3(x, y, z);
+  sign.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+  
+  const texture = new BABYLON.DynamicTexture("signTexture", { width: 1024, height: 256 }, scene);
+  const ctx = texture.getContext();
+  ctx.fillStyle = '#1a1a2e';
+  ctx.fillRect(0, 0, 1024, 256);
+  ctx.font = `Bold ${60 * scale}px Arial`;
+  ctx.fillStyle = '#00d4ff';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, 512, 140);
+  texture.update();
+  
+  const mat = new BABYLON.StandardMaterial("signMat", scene);
+  mat.diffuseTexture = texture;
+  mat.emissiveTexture = texture;
+  sign.material = mat;
 }
 
 function setupControls() {
@@ -199,7 +473,7 @@ function setupControls() {
 function checkInteraction() {
   if (!camera) return;
   
-  let nearest = null, minDist = 4;
+  let nearest = null, minDist = 5;
   interactables.forEach(obj => {
     const dist = BABYLON.Vector3.Distance(camera.position, obj.position);
     if (dist < minDist) { minDist = dist; nearest = obj; }
@@ -207,65 +481,72 @@ function checkInteraction() {
   
   if (nearest && nearest.metadata) {
     if (nearest.metadata.type === 'entrance') enterLab();
-    else if (nearest.metadata.type === 'door') openDoor(nearest.metadata.room);
     else if (nearest.metadata.type === 'exit') exitLab();
+    else if (nearest.metadata.type === 'door') openDoor(nearest.metadata.room);
   }
 }
 
 function enterLab() {
-  notify('🚪 Entering lab...');
+  notify('🚪 Entering Quantum Computing Lab...');
   addXP(100);
   
   scene.meshes.forEach(mesh => {
     if (mesh.name !== 'camera') mesh.dispose();
   });
+  scene.lights.forEach(light => {
+    if (light.name !== 'hemi') light.dispose();
+  });
   interactables = [];
   
-  createRealisticLab();
+  createLabInterior();
   
   state.insideLab = true;
   state.currentRoom = 'reception';
-  camera.position = new BABYLON.Vector3(0, 1.7, 18);
+  camera.position = new BABYLON.Vector3(0, 1.7, 20);
   updateLocation();
 }
 
-function createRealisticLab() {
+function createLabInterior() {
   scene.clearColor = new BABYLON.Color3(0.95, 0.95, 0.95);
   
   const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
   
-  // RECEPTION (15x12)
-  const recFloor = BABYLON.MeshBuilder.CreateGround("recFloor", { width: 15, height: 12 }, scene);
-  recFloor.position = new BABYLON.Vector3(0, 0, 12);
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 18, height: 15 }, scene);
+  floor.position = new BABYLON.Vector3(0, 0, 14);
   const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
-  floorMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
-  recFloor.material = floorMat;
-  recFloor.checkCollisions = true;
+  floorMat.diffuseColor = new BABYLON.Color3(0.88, 0.88, 0.88);
+  floor.material = floorMat;
+  floor.checkCollisions = true;
   
-  // Reception walls
-  createWall(0, 2.5, 18, 15, 5, 0.3); // Back
-  createWall(-7.5, 2.5, 12, 0.3, 5, 12); // Left
-  createWall(7.5, 2.5, 12, 0.3, 5, 12); // Right
+  createWall(0, 2.5, 21.5, 18, 5, 0.3);
+  createWall(-9, 2.5, 14, 0.3, 5, 15);
+  createWall(9, 2.5, 14, 0.3, 5, 15);
   
-  // Reception desk
-  const desk = BABYLON.MeshBuilder.CreateBox("desk", { width: 5, height: 1.2, depth: 1.5 }, scene);
-  desk.position = new BABYLON.Vector3(0, 0.6, 15);
+  const desk = BABYLON.MeshBuilder.CreateBox("desk", { width: 6, height: 1.4, depth: 2 }, scene);
+  desk.position = new BABYLON.Vector3(0, 0.7, 18);
   const deskMat = new BABYLON.StandardMaterial("deskMat", scene);
   deskMat.diffuseColor = new BABYLON.Color3(0.5, 0.4, 0.3);
   desk.material = deskMat;
   desk.checkCollisions = true;
   
-  // Computer
-  const computer = BABYLON.MeshBuilder.CreateBox("computer", { width: 1, height: 0.7, depth: 0.1 }, scene);
-  computer.position = new BABYLON.Vector3(0, 1.5, 15);
+  const computer = BABYLON.MeshBuilder.CreateBox("computer", { width: 1.2, height: 0.9, depth: 0.1 }, scene);
+  computer.position = new BABYLON.Vector3(0, 1.8, 18);
   const compMat = new BABYLON.StandardMaterial("compMat", scene);
   compMat.emissiveColor = new BABYLON.Color3(0.2, 0.4, 0.6);
   computer.material = compMat;
   
-  // Door to corridor
-  const corrDoor = BABYLON.MeshBuilder.CreateBox("corrDoor", { width: 2.5, height: 3.5, depth: 0.2 }, scene);
-  corrDoor.position = new BABYLON.Vector3(0, 1.75, 6);
+  [-5, 5].forEach(x => {
+    const chair = BABYLON.MeshBuilder.CreateCylinder("chair", { diameter: 1.2, height: 0.8 }, scene);
+    chair.position = new BABYLON.Vector3(x, 0.4, 12);
+    const chairMat = new BABYLON.StandardMaterial("chairMat", scene);
+    chairMat.diffuseColor = new BABYLON.Color3(0.3, 0.4, 0.6);
+    chair.material = chairMat;
+    chair.checkCollisions = true;
+  });
+  
+  const corrDoor = BABYLON.MeshBuilder.CreateBox("corrDoor", { width: 3, height: 4, depth: 0.3 }, scene);
+  corrDoor.position = new BABYLON.Vector3(0, 2, 6.5);
   const cdMat = new BABYLON.StandardMaterial("cdMat", scene);
   cdMat.diffuseColor = new BABYLON.Color3(0.6, 0.5, 0.4);
   corrDoor.material = cdMat;
@@ -273,12 +554,8 @@ function createRealisticLab() {
   corrDoor.checkCollisions = true;
   interactables.push(corrDoor);
   
-  createNameplate('RECEPTION', 0, 4.5, 12, 1);
-  createNameplate('To Corridor →', 0, 3, 6.5, 0.7);
-  
-  // Exit door
-  const exitDoor = BABYLON.MeshBuilder.CreateBox("exitDoor", { width: 2.5, height: 3.5, depth: 0.2 }, scene);
-  exitDoor.position = new BABYLON.Vector3(-5, 1.75, 18);
+  const exitDoor = BABYLON.MeshBuilder.CreateBox("exitDoor", { width: 3, height: 4, depth: 0.3 }, scene);
+  exitDoor.position = new BABYLON.Vector3(-6, 2, 21.4);
   const exMat = new BABYLON.StandardMaterial("exMat", scene);
   exMat.diffuseColor = new BABYLON.Color3(0.8, 0.2, 0.2);
   exMat.emissiveColor = new BABYLON.Color3(0.4, 0.1, 0.1);
@@ -287,38 +564,40 @@ function createRealisticLab() {
   exitDoor.checkCollisions = true;
   interactables.push(exitDoor);
   
-  createNameplate('← EXIT', -5, 3, 17.5, 0.7);
+  createSign('RECEPTION', 0, 4.8, 14, 1.2);
+  createSign('To Corridor →', 0, 3.5, 7, 0.8);
+  createSign('← EXIT', -6, 3.5, 21, 0.8);
   
-  // Ceiling lights
-  for (let x = -5; x <= 5; x += 5) {
-    const cLight = new BABYLON.PointLight("cLight", new BABYLON.Vector3(x, 4.5, 12), scene);
-    cLight.intensity = 0.6;
+  for (let x = -6; x <= 6; x += 6) {
+    const cLight = new BABYLON.PointLight("cLight", new BABYLON.Vector3(x, 4.5, 14), scene);
+    cLight.intensity = 0.7;
   }
 }
 
 function openDoor(room) {
   if (room === 'corridor') {
-    notify('🚪 Entering corridor...');
+    notify('🚪 Entering main corridor...');
     addXP(50);
     
     scene.meshes.forEach(mesh => {
       if (mesh.name !== 'camera') mesh.dispose();
+    });
+    scene.lights.forEach(light => {
+      if (light.name !== 'hemi') light.dispose();
     });
     interactables = [];
     
     createCorridor();
     
     state.currentRoom = 'corridor';
-    camera.position = new BABYLON.Vector3(0, 1.7, 25);
+    camera.position = new BABYLON.Vector3(0, 1.7, 28);
     updateLocation();
-  } else if (room === 'lab101') {
-    createLabRoom('Quantum Computing Lab - Room 101');
-  } else if (room === 'lab102') {
-    createLabRoom('Equipment Storage - Room 102');
-  } else if (room === 'lab103') {
-    createLabRoom('Meeting Room - Room 103');
-  } else if (room === 'lab104') {
-    createLabRoom('Research Area - Room 104');
+  } else if (room === 'quantumlab') {
+    createQuantumLabRoom();
+  } else if (room === 'equipment') {
+    createEquipmentRoom();
+  } else if (room === 'meeting') {
+    createMeetingRoom();
   }
 }
 
@@ -326,32 +605,28 @@ function createCorridor() {
   const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
   
-  // LONG CORRIDOR (5x40)
-  const corrFloor = BABYLON.MeshBuilder.CreateGround("corrFloor", { width: 5, height: 40 }, scene);
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 5.5, height: 45 }, scene);
   const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
   floorMat.diffuseColor = new BABYLON.Color3(0.85, 0.85, 0.85);
-  corrFloor.material = floorMat;
-  corrFloor.checkCollisions = true;
+  floor.material = floorMat;
+  floor.checkCollisions = true;
   
-  // Corridor walls
-  createWall(-2.5, 2.5, 0, 0.3, 5, 40); // Left wall
-  createWall(2.5, 2.5, 0, 0.3, 5, 40); // Right wall
-  createWall(0, 2.5, -20, 5, 5, 0.3); // Front wall
+  createWall(-2.75, 2.5, 0, 0.3, 5, 45);
+  createWall(2.75, 2.5, 0, 0.3, 5, 45);
+  createWall(0, 2.5, -22.5, 5.5, 5, 0.3);
   
-  // DOORS ON BOTH SIDES with NAMEPLATES
   const rooms = [
-    { name: 'Quantum Computing Lab\nRoom 101', x: -2.3, z: 10, room: 'lab101' },
-    { name: 'Equipment Storage\nRoom 102', x: 2.3, z: 10, room: 'lab102' },
-    { name: 'Meeting Room\nRoom 103', x: -2.3, z: 0, room: 'lab103' },
-    { name: 'Research Area\nRoom 104', x: 2.3, z: 0, room: 'lab104' },
-    { name: 'Restroom', x: -2.3, z: -10, room: 'restroom' },
-    { name: 'Office Cabin\nRoom 105', x: 2.3, z: -10, room: 'office' }
+    { name: 'Quantum Computing Lab\nRoom 101', x: -2.6, z: 12, room: 'quantumlab' },
+    { name: 'Equipment Storage\nRoom 102', x: 2.6, z: 12, room: 'equipment' },
+    { name: 'Meeting Room\nRoom 103', x: -2.6, z: 0, room: 'meeting' },
+    { name: 'Research Office\nRoom 104', x: 2.6, z: 0, room: 'office' },
+    { name: 'Restroom', x: -2.6, z: -12, room: 'restroom' },
+    { name: 'Storage\nRoom 105', x: 2.6, z: -12, room: 'storage' }
   ];
   
   rooms.forEach(r => {
-    // Door
-    const door = BABYLON.MeshBuilder.CreateBox("door", { width: 0.2, height: 3, depth: 2 }, scene);
-    door.position = new BABYLON.Vector3(r.x, 1.5, r.z);
+    const door = BABYLON.MeshBuilder.CreateBox("door", { width: 0.25, height: 3.5, depth: 2.5 }, scene);
+    door.position = new BABYLON.Vector3(r.x, 1.75, r.z);
     const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
     doorMat.diffuseColor = new BABYLON.Color3(0.6, 0.5, 0.4);
     door.material = doorMat;
@@ -359,14 +634,12 @@ function createCorridor() {
     door.checkCollisions = true;
     interactables.push(door);
     
-    // Nameplate on door
-    const plateX = r.x > 0 ? r.x - 0.15 : r.x + 0.15;
-    createNameplate(r.name, plateX, 2.5, r.z, 0.6);
+    const plateX = r.x > 0 ? r.x - 0.2 : r.x + 0.2;
+    createSign(r.name, plateX, 2.8, r.z, 0.65);
   });
   
-  // Back door to reception
-  const backDoor = BABYLON.MeshBuilder.CreateBox("backDoor", { width: 2.5, height: 3.5, depth: 0.2 }, scene);
-  backDoor.position = new BABYLON.Vector3(0, 1.75, 20);
+  const backDoor = BABYLON.MeshBuilder.CreateBox("backDoor", { width: 3, height: 4, depth: 0.3 }, scene);
+  backDoor.position = new BABYLON.Vector3(0, 2, 22.4);
   const bdMat = new BABYLON.StandardMaterial("bdMat", scene);
   bdMat.diffuseColor = new BABYLON.Color3(0.6, 0.5, 0.4);
   backDoor.material = bdMat;
@@ -374,108 +647,99 @@ function createCorridor() {
   backDoor.checkCollisions = true;
   interactables.push(backDoor);
   
-  createNameplate('← Back to Reception', 0, 3, 19.5, 0.8);
-  createNameplate('MAIN CORRIDOR', 0, 4.5, 0, 1);
+  createSign('MAIN CORRIDOR', 0, 4.8, 0, 1.2);
+  createSign('← Back to Reception', 0, 3.5, 22, 0.9);
   
-  // Ceiling lights in a line
-  for (let z = -15; z <= 15; z += 6) {
+  for (let z = -18; z <= 18; z += 7) {
     const cLight = new BABYLON.PointLight("cLight", new BABYLON.Vector3(0, 4.5, z), scene);
-    cLight.intensity = 0.5;
+    cLight.intensity = 0.6;
   }
   
-  // Fire extinguisher
-  const extinguisher = BABYLON.MeshBuilder.CreateCylinder("extinguisher", { diameter: 0.3, height: 1 }, scene);
-  extinguisher.position = new BABYLON.Vector3(-2.2, 0.5, 5);
+  const extinguisher = BABYLON.MeshBuilder.CreateCylinder("extinguisher", { diameter: 0.35, height: 1.2 }, scene);
+  extinguisher.position = new BABYLON.Vector3(-2.5, 0.6, 6);
   const extMat = new BABYLON.StandardMaterial("extMat", scene);
   extMat.diffuseColor = new BABYLON.Color3(0.9, 0.1, 0.1);
   extinguisher.material = extMat;
   extinguisher.checkCollisions = true;
 }
 
-function createLabRoom(roomName) {
-  notify(`🚪 Entering ${roomName}...`);
-  addXP(30);
+function createQuantumLabRoom() {
+  notify('🚪 Entering Quantum Computing Lab...');
+  addXP(40);
   
   scene.meshes.forEach(mesh => {
     if (mesh.name !== 'camera') mesh.dispose();
+  });
+  scene.lights.forEach(light => {
+    if (light.name !== 'hemi') light.dispose();
   });
   interactables = [];
   
   const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
   
-  // LAB ROOM (12x10)
-  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 12, height: 10 }, scene);
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 14, height: 12 }, scene);
   const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
-  floorMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+  floorMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.92);
   floor.material = floorMat;
   floor.checkCollisions = true;
   
-  // Walls
-  createWall(0, 2.5, -5, 12, 5, 0.3); // Back
-  createWall(-6, 2.5, 0, 0.3, 5, 10); // Left
-  createWall(6, 2.5, 0, 0.3, 5, 10); // Right
+  createWall(0, 2.5, -6, 14, 5, 0.3);
+  createWall(-7, 2.5, 0, 0.3, 5, 12);
+  createWall(7, 2.5, 0, 0.3, 5, 12);
   
-  // LAB BENCHES along walls
-  [-4, 4].forEach(x => {
-    const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 6, height: 1.5, depth: 1.5 }, scene);
-    bench.position = new BABYLON.Vector3(x, 0.75, -3.5);
+  [-4.5, 4.5].forEach(x => {
+    const bench = BABYLON.MeshBuilder.CreateBox("bench", { width: 7, height: 1.6, depth: 1.8 }, scene);
+    bench.position = new BABYLON.Vector3(x, 0.8, -4);
     const benchMat = new BABYLON.StandardMaterial("benchMat", scene);
     benchMat.diffuseColor = new BABYLON.Color3(0.6, 0.6, 0.7);
     bench.material = benchMat;
     bench.checkCollisions = true;
     
-    // SINK on bench
-    const sink = BABYLON.MeshBuilder.CreateCylinder("sink", { diameter: 0.5, height: 0.3 }, scene);
-    sink.position = new BABYLON.Vector3(x - 2, 1.65, -3.5);
+    const sink = BABYLON.MeshBuilder.CreateCylinder("sink", { diameter: 0.6, height: 0.35 }, scene);
+    sink.position = new BABYLON.Vector3(x - 2.5, 1.75, -4);
     const sinkMat = new BABYLON.StandardMaterial("sinkMat", scene);
-    sinkMat.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.8);
+    sinkMat.diffuseColor = new BABYLON.Color3(0.85, 0.85, 0.85);
     sink.material = sinkMat;
     
-    // TAP
-    const tap = BABYLON.MeshBuilder.CreateCylinder("tap", { diameter: 0.1, height: 0.4 }, scene);
-    tap.position = new BABYLON.Vector3(x - 2, 2, -3.5);
+    const tap = BABYLON.MeshBuilder.CreateCylinder("tap", { diameter: 0.12, height: 0.5 }, scene);
+    tap.position = new BABYLON.Vector3(x - 2.5, 2.15, -4);
     tap.material = sinkMat;
     
-    // EQUIPMENT on bench
-    const equipment = BABYLON.MeshBuilder.CreateBox("equipment", { width: 1.5, height: 0.8, depth: 1 }, scene);
-    equipment.position = new BABYLON.Vector3(x + 1.5, 1.65, -3.5);
+    const equipment = BABYLON.MeshBuilder.CreateBox("equipment", { width: 1.8, height: 1, depth: 1.2 }, scene);
+    equipment.position = new BABYLON.Vector3(x + 2, 1.85, -4);
     const eqMat = new BABYLON.StandardMaterial("eqMat", scene);
     eqMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
     eqMat.emissiveColor = new BABYLON.Color3(0.2, 0.6, 0.2);
     equipment.material = eqMat;
   });
   
-  // CABINETS
-  [-5, 5].forEach(x => {
-    const cabinet = BABYLON.MeshBuilder.CreateBox("cabinet", { width: 2, height: 3, depth: 1 }, scene);
-    cabinet.position = new BABYLON.Vector3(x, 1.5, -4.8);
+  [-5.5, 5.5].forEach(x => {
+    const cabinet = BABYLON.MeshBuilder.CreateBox("cabinet", { width: 2.2, height: 3.5, depth: 1.2 }, scene);
+    cabinet.position = new BABYLON.Vector3(x, 1.75, -5.7);
     const cabMat = new BABYLON.StandardMaterial("cabMat", scene);
     cabMat.diffuseColor = new BABYLON.Color3(0.5, 0.4, 0.3);
     cabinet.material = cabMat;
     cabinet.checkCollisions = true;
   });
   
-  // WHITEBOARD on wall
-  const whiteboard = BABYLON.MeshBuilder.CreatePlane("whiteboard", { width: 4, height: 2 }, scene);
-  whiteboard.position = new BABYLON.Vector3(0, 2.5, -4.9);
+  const whiteboard = BABYLON.MeshBuilder.CreatePlane("whiteboard", { width: 5, height: 2.5 }, scene);
+  whiteboard.position = new BABYLON.Vector3(0, 2.8, -5.95);
   const wbMat = new BABYLON.StandardMaterial("wbMat", scene);
   wbMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
   whiteboard.material = wbMat;
   
-  // STOOLS
-  [-3, 0, 3].forEach(x => {
-    const stool = BABYLON.MeshBuilder.CreateCylinder("stool", { diameter: 0.8, height: 1.2 }, scene);
-    stool.position = new BABYLON.Vector3(x, 0.6, 0);
+  [-3.5, 0, 3.5].forEach(x => {
+    const stool = BABYLON.MeshBuilder.CreateCylinder("stool", { diameter: 0.9, height: 1.3 }, scene);
+    stool.position = new BABYLON.Vector3(x, 0.65, 1);
     const stoolMat = new BABYLON.StandardMaterial("stoolMat", scene);
     stoolMat.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
     stool.material = stoolMat;
     stool.checkCollisions = true;
   });
   
-  // Door back to corridor
-  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 2.5, height: 3.5, depth: 0.2 }, scene);
-  door.position = new BABYLON.Vector3(0, 1.75, 5);
+  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 3, height: 4, depth: 0.3 }, scene);
+  door.position = new BABYLON.Vector3(0, 2, 5.9);
   const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
   doorMat.diffuseColor = new BABYLON.Color3(0.6, 0.5, 0.4);
   door.material = doorMat;
@@ -483,17 +747,70 @@ function createLabRoom(roomName) {
   door.checkCollisions = true;
   interactables.push(door);
   
-  createNameplate(roomName, 0, 4.5, 0, 1.2);
-  createNameplate('← Back to Corridor', 0, 3, 4.5, 0.7);
+  createSign('Quantum Computing Lab - Room 101', 0, 4.8, 0, 1.3);
+  createSign('← Back to Corridor', 0, 3.5, 5.5, 0.85);
   
-  // Ceiling lights
-  for (let x = -4; x <= 4; x += 4) {
+  for (let x = -4.5; x <= 4.5; x += 4.5) {
     const cLight = new BABYLON.PointLight("cLight", new BABYLON.Vector3(x, 4.5, 0), scene);
-    cLight.intensity = 0.6;
+    cLight.intensity = 0.7;
   }
   
-  state.currentRoom = roomName;
-  camera.position = new BABYLON.Vector3(0, 1.7, 8);
+  state.currentRoom = 'Quantum Lab - Room 101';
+  camera.position = new BABYLON.Vector3(0, 1.7, 9);
+  updateLocation();
+}
+
+function createEquipmentRoom() {
+  notify('🚪 Entering Equipment Storage...');
+  createSimpleRoom('Equipment Storage - Room 102', 'storage');
+}
+
+function createMeetingRoom() {
+  notify('🚪 Entering Meeting Room...');
+  createSimpleRoom('Meeting Room - Room 103', 'meeting');
+}
+
+function createSimpleRoom(name, type) {
+  addXP(30);
+  
+  scene.meshes.forEach(mesh => {
+    if (mesh.name !== 'camera') mesh.dispose();
+  });
+  scene.lights.forEach(light => {
+    if (light.name !== 'hemi') light.dispose();
+  });
+  interactables = [];
+  
+  const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+  light.intensity = 1;
+  
+  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 10, height: 10 }, scene);
+  const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
+  floorMat.diffuseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+  floor.material = floorMat;
+  floor.checkCollisions = true;
+  
+  createWall(0, 2.5, -5, 10, 5, 0.3);
+  createWall(-5, 2.5, 0, 0.3, 5, 10);
+  createWall(5, 2.5, 0, 0.3, 5, 10);
+  
+  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 3, height: 4, depth: 0.3 }, scene);
+  door.position = new BABYLON.Vector3(0, 2, 4.9);
+  const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
+  doorMat.diffuseColor = new BABYLON.Color3(0.6, 0.5, 0.4);
+  door.material = doorMat;
+  door.metadata = { type: 'exit' };
+  door.checkCollisions = true;
+  interactables.push(door);
+  
+  createSign(name, 0, 4.5, 0, 1.1);
+  createSign('← Back to Corridor', 0, 3.2, 4.5, 0.8);
+  
+  const cLight = new BABYLON.PointLight("cLight", new BABYLON.Vector3(0, 4.5, 0), scene);
+  cLight.intensity = 0.7;
+  
+  state.currentRoom = name;
+  camera.position = new BABYLON.Vector3(0, 1.7, 7);
   updateLocation();
 }
 
@@ -506,50 +823,32 @@ function createWall(x, y, z, w, h, d) {
   wall.checkCollisions = true;
 }
 
-function createNameplate(text, x, y, z, scale) {
-  const plate = BABYLON.MeshBuilder.CreatePlane("plate", { width: 6 * scale, height: 1.5 * scale }, scene);
-  plate.position = new BABYLON.Vector3(x, y, z);
-  plate.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-  
-  const texture = new BABYLON.DynamicTexture("plateTexture", { width: 512, height: 128 }, scene);
-  const ctx = texture.getContext();
-  ctx.fillStyle = '#1a1a2e';
-  ctx.fillRect(0, 0, 512, 128);
-  ctx.font = 'Bold 35px Arial';
-  ctx.fillStyle = '#ecf0f1';
-  ctx.textAlign = 'center';
-  const lines = text.split('\n');
-  lines.forEach((line, i) => {
-    ctx.fillText(line, 256, 50 + i * 40);
-  });
-  texture.update();
-  
-  const mat = new BABYLON.StandardMaterial("plateMat", scene);
-  mat.diffuseTexture = texture;
-  mat.emissiveTexture = texture;
-  plate.material = mat;
-}
-
 function exitLab() {
-  if (state.currentRoom === 'corridor' || state.currentRoom.includes('Room')) {
-    notify('🚪 Going back...');
-    if (state.currentRoom === 'corridor') {
-      scene.meshes.forEach(mesh => {
-        if (mesh.name !== 'camera') mesh.dispose();
-      });
-      interactables = [];
-      createRealisticLab();
-      state.currentRoom = 'reception';
-      camera.position = new BABYLON.Vector3(0, 1.7, 18);
-    } else {
-      scene.meshes.forEach(mesh => {
-        if (mesh.name !== 'camera') mesh.dispose();
-      });
-      interactables = [];
-      createCorridor();
-      state.currentRoom = 'corridor';
-      camera.position = new BABYLON.Vector3(0, 1.7, 25);
-    }
+  if (state.currentRoom.includes('Room') || state.currentRoom.includes('Lab')) {
+    notify('🚪 Going back to corridor...');
+    scene.meshes.forEach(mesh => {
+      if (mesh.name !== 'camera') mesh.dispose();
+    });
+    scene.lights.forEach(light => {
+      if (light.name !== 'hemi') light.dispose();
+    });
+    interactables = [];
+    createCorridor();
+    state.currentRoom = 'corridor';
+    camera.position = new BABYLON.Vector3(0, 1.7, 28);
+    updateLocation();
+  } else if (state.currentRoom === 'corridor') {
+    notify('🚪 Going back to reception...');
+    scene.meshes.forEach(mesh => {
+      if (mesh.name !== 'camera') mesh.dispose();
+    });
+    scene.lights.forEach(light => {
+      if (light.name !== 'hemi') light.dispose();
+    });
+    interactables = [];
+    createLabInterior();
+    state.currentRoom = 'reception';
+    camera.position = new BABYLON.Vector3(0, 1.7, 20);
     updateLocation();
   } else {
     notify('🚪 Exiting to city...');
@@ -558,17 +857,27 @@ function exitLab() {
     });
     scene.lights.forEach(light => light.dispose());
     interactables = [];
-    createSimpleCity();
-    camera.position = new BABYLON.Vector3(0, 1.7, 30);
+    
+    const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+    hemiLight.intensity = 0.7;
+    const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
+    sun.position = new BABYLON.Vector3(100, 150, 100);
+    sun.intensity = 1;
+    const shadowGenerator = new BABYLON.ShadowGenerator(2048, sun);
+    shadowGenerator.useBlurExponentialShadowMap = true;
+    
+    createRealisticCity(shadowGenerator);
+    camera.position = new BABYLON.Vector3(0, 1.7, 50);
     state.insideLab = false;
     state.currentRoom = 'city';
+    scene.clearColor = new BABYLON.Color3(0.6, 0.8, 1);
     updateLocation();
   }
 }
 
 function updateLocation() {
   const locText = document.getElementById('currentLocation');
-  if (state.currentRoom === 'city') locText.textContent = '📍 City';
+  if (state.currentRoom === 'city') locText.textContent = '📍 City Street';
   else if (state.currentRoom === 'reception') locText.textContent = '📍 Reception';
   else if (state.currentRoom === 'corridor') locText.textContent = '📍 Main Corridor';
   else locText.textContent = `📍 ${state.currentRoom}`;
@@ -616,7 +925,17 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('charSelect').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Creating city...', 'Building lab structure...', 'Adding rooms...', 'Ready!'];
+  const msgs = [
+    'Creating realistic city...',
+    'Building roads & sidewalks...',
+    'Adding trees & street lights...',
+    'Parking cars...',
+    'Placing NPCs...',
+    'Building Quantum Lab...',
+    'Creating lab interior...',
+    'Adding equipment...',
+    'Ready!'
+  ];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i];
@@ -633,7 +952,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
         initBabylon();
       }, 500);
     }
-  }, 600);
+  }, 700);
 });
 </script>
 </body>
