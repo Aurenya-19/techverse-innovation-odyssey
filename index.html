@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Ultra Realistic 3D</title>
+<title>TechVerse: Hybrid Innovation Lab</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
@@ -36,6 +36,16 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 #interactPrompt { position: fixed; bottom: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(39, 174, 96, 0.95), rgba(46, 204, 113, 0.95)); padding: clamp(12px, 2.5vw, 18px) clamp(30px, 6vw, 50px); border-radius: 50px; font-size: clamp(1em, 2vw, 1.2em); font-weight: 900; color: #fff; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 30px rgba(39, 174, 96, 0.8); display: none; animation: bounce 1s ease-in-out infinite; }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
+#innovationPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(350px, 92vw, 1000px); max-height: 88vh; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: clamp(25px, 5vw, 45px); border-radius: 25px; border: 4px solid rgba(52, 152, 219, 0.7); z-index: 6000; backdrop-filter: blur(30px); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95); display: none; }
+#innovationPanel h2 { color: #3498db; font-size: clamp(1.8em, 4.5vw, 2.8em); margin-bottom: 25px; text-align: center; font-weight: 900; text-shadow: 0 0 15px rgba(52, 152, 219, 0.8); }
+#innovationPanel p { color: #ecf0f1; font-size: clamp(0.95em, 1.9vw, 1.15em); line-height: 1.9; margin: 18px 0; }
+.innovationBtn { padding: clamp(12px, 2.5vw, 16px) clamp(25px, 4vw, 35px); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 12px; color: #fff; font-weight: 900; cursor: pointer; margin: clamp(8px, 1.5vw, 12px); font-size: clamp(0.9em, 1.7vw, 1.05em); transition: all 0.3s; box-shadow: 0 6px 25px rgba(52, 152, 219, 0.5); display: inline-block; }
+.innovationBtn:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(52, 152, 219, 0.7); }
+.innovationBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
+.innovationBtn.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.infoBox { background: rgba(52, 152, 219, 0.25); padding: 18px; border-radius: 12px; margin: 18px 0; border-left: 5px solid #3498db; }
+.successBox { background: rgba(39, 174, 96, 0.25); border-left-color: #27ae60; }
+
 #controls { position: fixed; bottom: clamp(25px, 5vh, 50px); left: clamp(15px, 2.5vw, 50px); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(18px, 3vw, 28px); border-radius: 15px; border: 3px solid rgba(0, 212, 255, 0.5); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
 #controls h4 { color: #00d4ff; margin-bottom: 15px; font-size: clamp(1em, 2vw, 1.25em); font-weight: 900; text-shadow: 0 0 10px rgba(0, 212, 255, 0.8); }
 .ctrl { color: #bdc3c7; margin: 10px 0; font-size: clamp(0.85em, 1.6vw, 1em); }
@@ -50,6 +60,10 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 #crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0, 255, 0, 0.9); box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); }
 #crosshair::before { width: 3px; height: 25px; left: 11px; }
 #crosshair::after { width: 25px; height: 3px; top: 11px; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
 </style>
 </head>
 <body>
@@ -57,34 +71,35 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="crosshair"></div>
 
 <div id="startScreen">
-  <h1>🔬 TECHVERSE ULTRA REALISTIC</h1>
-  <p class="subtitle">Experience 12 Labs with Real 3D Models, PBR Materials, Realistic Lighting & Shadows!</p>
+  <h1>🌟 TECHVERSE: HYBRID INNOVATION</h1>
+  <p class="subtitle">Explore 12 Labs + Central Hybrid Innovation Lab where ALL technologies combine to create revolutionary breakthroughs!</p>
   
   <div class="features">
-    <div class="feature">✨ Real 3D Models</div>
-    <div class="feature">🎨 PBR Materials</div>
-    <div class="feature">💡 HDR Lighting</div>
-    <div class="feature">🌟 Soft Shadows</div>
-    <div class="feature">🪞 Reflections</div>
-    <div class="feature">🔬 Detailed Equipment</div>
-    <div class="feature">📚 Individual Books</div>
-    <div class="feature">🎮 Smooth Physics</div>
+    <div class="feature">🌟 Hybrid Innovation Lab</div>
+    <div class="feature">🧬 Quantum-Bio Computing</div>
+    <div class="feature">🧠 Neuro-AI Interface</div>
+    <div class="feature">🌍 Climate Modeling</div>
+    <div class="feature">🤖 Bio-Inspired Robots</div>
+    <div class="feature">⚛️ Quantum Cryptography</div>
+    <div class="feature">💊 Nano-Medical Bots</div>
+    <div class="feature">🎮 Better Physics</div>
   </div>
   
   <button id="startBtn">START EXPLORING</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Loading Ultra Realistic World...</h2>
+  <h2>Building Innovation Hub...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Initializing Three.js...</p>
+  <p id="loadText">Initializing...</p>
 </div>
 
 <div id="hud" class="hide">
   <h3>⚡ PROGRESS</h3>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/13</span></div>
+  <div class="hudStat"><span>Innovations:</span><span class="val" id="innovations">0</span></div>
 </div>
 
 <div id="locationInfo" class="hide">
@@ -93,13 +108,18 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 
 <div id="interactPrompt">Press E to Interact</div>
 
+<div id="innovationPanel">
+  <h2 id="panelTitle">Innovation</h2>
+  <div id="panelContent"></div>
+</div>
+
 <div id="controls" class="hide">
   <h4>🎮 CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
   <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
-  <div class="ctrl"><span class="key">ESC</span> Exit Lab</div>
+  <div class="ctrl"><span class="key">ESC</span> Close/Exit</div>
 </div>
 
 <div id="notif"></div>
@@ -118,7 +138,7 @@ import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 const state = {
-  lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
+  lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), innovations: 0,
   insideLab: false, currentLab: null, nearInteractable: null
 };
 
@@ -129,8 +149,10 @@ let direction = new THREE.Vector3();
 let prevTime = performance.now();
 let raycaster = new THREE.Raycaster();
 let interactables = [];
+let collisionObjects = [];
 
 const labConfigs = {
+  'Hybrid Innovation': { icon: '🌟', color: 0xff00ff, pos: [0, 0, 0], isHybrid: true },
   'Quantum Computing': { icon: '⚛️', color: 0x3366cc, pos: [0, 0, -60] },
   'Electronics': { icon: '⚡', color: 0xcc9933, pos: [-50, 0, -100] },
   'AI': { icon: '🤖', color: 0x33cc66, pos: [50, 0, -100] },
@@ -143,6 +165,49 @@ const labConfigs = {
   'Neuroscience': { icon: '🧠', color: 0x9933cc, pos: [-50, 0, 150] },
   'Astronomy': { icon: '🔭', color: 0x1a1a66, pos: [50, 0, 150] },
   'Biomedical': { icon: '🏥', color: 0xcc3333, pos: [0, 0, 170] }
+};
+
+const innovations = {
+  'Quantum-Bio Computing': {
+    desc: 'Combining quantum computing with DNA sequencing for instant disease detection and personalized medicine. Uses quantum superposition to analyze billions of genetic combinations simultaneously.',
+    tech: ['Quantum Computing', 'Biology'],
+    realStudy: 'IBM Quantum + CRISPR research, Nature 2023'
+  },
+  'Neuro-AI Interface': {
+    desc: 'Brain-computer interface allowing thought-controlled devices. Neural signals decoded by AI in real-time for seamless human-machine interaction.',
+    tech: ['Neuroscience', 'AI', 'Electronics'],
+    realStudy: 'Neuralink, OpenBCI, Nature Neuroscience 2024'
+  },
+  'Quantum Climate Model': {
+    desc: 'Ultra-accurate climate prediction using quantum computing to simulate atmospheric interactions at molecular level. Predicts weather years in advance.',
+    tech: ['Quantum Computing', 'Environmental', 'AI'],
+    realStudy: 'IBM Quantum Climate, Science 2023'
+  },
+  'Bio-Inspired Robots': {
+    desc: 'Self-healing robots using biological materials. Damaged parts regenerate like living tissue, extending operational lifespan indefinitely.',
+    tech: ['Biology', 'Robotics', 'AI'],
+    realStudy: 'MIT Soft Robotics, Science Robotics 2024'
+  },
+  'Quantum Cryptography': {
+    desc: 'Unhackable communication using quantum entanglement. Any interception attempt instantly detected through quantum state collapse.',
+    tech: ['Quantum Computing', 'Computer Science'],
+    realStudy: 'Quantum Key Distribution, Nature Physics 2023'
+  },
+  'CRISPR-AI Gene Therapy': {
+    desc: 'AI designs optimal gene edits using protein folding prediction. CRISPR executes precise modifications to cure genetic diseases.',
+    tech: ['Biology', 'AI', 'Chemistry'],
+    realStudy: 'AlphaFold + CRISPR, Cell 2024'
+  },
+  'Quantum Telescope': {
+    desc: 'Quantum-enhanced imaging sees exoplanets in unprecedented detail. Quantum sensors detect single photons from distant galaxies.',
+    tech: ['Quantum Computing', 'Astronomy', 'Physics'],
+    realStudy: 'Quantum Radar, Physical Review Letters 2023'
+  },
+  'Nano-Medical Robots': {
+    desc: 'DNA origami nanobots deliver drugs directly to cancer cells. Programmable molecular machines navigate bloodstream autonomously.',
+    tech: ['Biomedical', 'Robotics', 'Chemistry'],
+    realStudy: 'DNA Nanobots, Nature Nanotechnology 2024'
+  }
 };
 
 function init() {
@@ -190,12 +255,10 @@ function init() {
   document.getElementById('controls').classList.remove('hide');
   updateHUD();
   updateLocation();
-  notify('🌆 Welcome to Ultra Realistic TechVerse! Explore 12 detailed labs!');
+  notify('🌟 Welcome! Visit the HYBRID INNOVATION LAB at city center!');
 }
 
 function createRealisticCity() {
-  const textureLoader = new THREE.TextureLoader();
-  
   const groundGeometry = new THREE.PlaneGeometry(500, 500, 50, 50);
   const groundMaterial = new THREE.MeshStandardMaterial({ 
     color: 0x3a5f3a,
@@ -219,23 +282,68 @@ function createRealisticCity() {
   road.receiveShadow = true;
   scene.add(road);
   
-  for (let z = -200; z < 200; z += 20) {
-    const lineGeometry = new THREE.BoxGeometry(0.5, 0.05, 5);
-    const lineMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0xffffff,
-      emissive: 0xffffff,
-      emissiveIntensity: 0.8,
-      roughness: 0.3,
-      metalness: 0.7
-    });
-    const line = new THREE.Mesh(lineGeometry, lineMaterial);
-    line.position.set(0, 0.05, z);
-    scene.add(line);
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    if (config.isHybrid) {
+      createHybridLabBuilding(name, config);
+    } else {
+      createDetailedLabBuilding(name, config);
+    }
+  });
+}
+
+function createHybridLabBuilding(name, config) {
+  const buildingGroup = new THREE.Group();
+  
+  const buildingGeometry = new THREE.BoxGeometry(50, 30, 60);
+  const buildingMaterial = new THREE.MeshStandardMaterial({ 
+    color: config.color,
+    roughness: 0.3,
+    metalness: 0.7,
+    emissive: config.color,
+    emissiveIntensity: 0.3
+  });
+  const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+  building.position.y = 15;
+  building.castShadow = true;
+  building.receiveShadow = true;
+  buildingGroup.add(building);
+  collisionObjects.push(building);
+  
+  const domeGeometry = new THREE.SphereGeometry(15, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+  const domeMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x88ccff,
+    roughness: 0.1,
+    metalness: 0.9,
+    transparent: true,
+    opacity: 0.6
+  });
+  const dome = new THREE.Mesh(domeGeometry, domeMaterial);
+  dome.position.y = 30;
+  buildingGroup.add(dome);
+  
+  const doorGeometry = new THREE.BoxGeometry(6, 8, 0.5);
+  const doorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x4a5a6a,
+    roughness: 0.4,
+    metalness: 0.6,
+    emissive: config.color,
+    emissiveIntensity: 0.4
+  });
+  const door = new THREE.Mesh(doorGeometry, doorMaterial);
+  door.position.set(0, 4, 30.3);
+  door.userData = { type: 'entrance', lab: name };
+  buildingGroup.add(door);
+  interactables.push(door);
+  
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2;
+    const light = new THREE.PointLight(config.color, 3, 30);
+    light.position.set(Math.cos(angle) * 20, 20, Math.sin(angle) * 20);
+    buildingGroup.add(light);
   }
   
-  Object.entries(labConfigs).forEach(([name, config]) => {
-    createDetailedLabBuilding(name, config);
-  });
+  buildingGroup.position.set(config.pos[0], config.pos[1], config.pos[2]);
+  scene.add(buildingGroup);
 }
 
 function createDetailedLabBuilding(name, config) {
@@ -245,44 +353,16 @@ function createDetailedLabBuilding(name, config) {
   const buildingMaterial = new THREE.MeshStandardMaterial({ 
     color: config.color,
     roughness: 0.6,
-    metalness: 0.4,
-    envMapIntensity: 1
+    metalness: 0.4
   });
   const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
   building.position.y = 10;
   building.castShadow = true;
   building.receiveShadow = true;
   buildingGroup.add(building);
+  collisionObjects.push(building);
   
-  for (let floor = 0; floor < 3; floor++) {
-    for (let col = 0; col < 6; col++) {
-      const windowGeometry = new THREE.BoxGeometry(3, 3.5, 0.2);
-      const windowMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0x88ccff,
-        roughness: 0.1,
-        metalness: 0.9,
-        emissive: 0x4488cc,
-        emissiveIntensity: 0.3,
-        transparent: true,
-        opacity: 0.7
-      });
-      const window = new THREE.Mesh(windowGeometry, windowMaterial);
-      window.position.set(-15 + col * 6, 4 + floor * 6, 22.6);
-      buildingGroup.add(window);
-    }
-  }
-  
-  const doorFrameGeometry = new THREE.BoxGeometry(5, 7, 0.3);
-  const doorFrameMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x333333,
-    roughness: 0.7,
-    metalness: 0.3
-  });
-  const doorFrame = new THREE.Mesh(doorFrameGeometry, doorFrameMaterial);
-  doorFrame.position.set(0, 3.5, 22.6);
-  buildingGroup.add(doorFrame);
-  
-  const doorGeometry = new THREE.BoxGeometry(4, 6, 0.4);
+  const doorGeometry = new THREE.BoxGeometry(4, 6, 0.5);
   const doorMaterial = new THREE.MeshStandardMaterial({ 
     color: 0x4a5a6a,
     roughness: 0.4,
@@ -296,27 +376,9 @@ function createDetailedLabBuilding(name, config) {
   buildingGroup.add(door);
   interactables.push(door);
   
-  const handleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.8);
-  const handleMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xcccccc,
-    roughness: 0.2,
-    metalness: 0.9
-  });
-  const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-  handle.rotation.z = Math.PI / 2;
-  handle.position.set(-1.5, 3, 22.7);
-  buildingGroup.add(handle);
-  
   const doorLight = new THREE.PointLight(config.color, 2, 15);
   doorLight.position.set(0, 6, 24);
-  doorLight.castShadow = true;
   buildingGroup.add(doorLight);
-  
-  const signLight = new THREE.SpotLight(0xffffff, 1, 20, Math.PI / 6);
-  signLight.position.set(0, 25, 23);
-  signLight.target.position.set(0, 20, 22.5);
-  buildingGroup.add(signLight);
-  buildingGroup.add(signLight.target);
   
   buildingGroup.position.set(config.pos[0], config.pos[1], config.pos[2]);
   scene.add(buildingGroup);
@@ -330,15 +392,20 @@ function enterLab(labName) {
   state.currentLab = labName;
   
   scene.clear();
+  collisionObjects = [];
   scene.background = new THREE.Color(0x2a2a2a);
   scene.fog = null;
   
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
   scene.add(ambientLight);
   
-  createUltraRealisticLabInterior(labName);
+  if (labConfigs[labName].isHybrid) {
+    createHybridLabInterior();
+  } else {
+    createStandardLabInterior(labName);
+  }
   
-  camera.position.set(0, 1.7, 22);
+  camera.position.set(0, 1.7, 28);
   camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   
@@ -346,10 +413,8 @@ function enterLab(labName) {
   updateHUD();
 }
 
-function createUltraRealisticLabInterior(labName) {
-  const config = labConfigs[labName];
-  
-  const floorGeometry = new THREE.PlaneGeometry(40, 35, 20, 20);
+function createHybridLabInterior() {
+  const floorGeometry = new THREE.PlaneGeometry(60, 50);
   const floorMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xd0d0d0,
     roughness: 0.7,
@@ -363,44 +428,151 @@ function createUltraRealisticLabInterior(labName) {
   const wallMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xf0f0f0,
     roughness: 0.85,
-    metalness: 0.15,
-    side: THREE.FrontSide
+    metalness: 0.15
   });
   
-  const backWallGeometry = new THREE.BoxGeometry(40, 5, 0.3);
-  const backWall = new THREE.Mesh(backWallGeometry, wallMaterial);
-  backWall.position.set(0, 2.5, -17.5);
-  backWall.receiveShadow = true;
-  backWall.castShadow = true;
-  scene.add(backWall);
+  const walls = [
+    { pos: [0, 2.5, -25], size: [60, 5, 0.3] },
+    { pos: [-30, 2.5, 0], size: [0.3, 5, 50] },
+    { pos: [30, 2.5, 0], size: [0.3, 5, 50] },
+    { pos: [0, 2.5, 25], size: [60, 5, 0.3] }
+  ];
   
-  const leftWallGeometry = new THREE.BoxGeometry(0.3, 5, 35);
-  const leftWall = new THREE.Mesh(leftWallGeometry, wallMaterial);
-  leftWall.position.set(-20, 2.5, 0);
-  leftWall.receiveShadow = true;
-  leftWall.castShadow = true;
-  scene.add(leftWall);
+  walls.forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(...w.size), wallMaterial);
+    wall.position.set(...w.pos);
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+    scene.add(wall);
+    collisionObjects.push(wall);
+  });
   
-  const rightWallGeometry = new THREE.BoxGeometry(0.3, 5, 35);
-  const rightWall = new THREE.Mesh(rightWallGeometry, wallMaterial);
-  rightWall.position.set(20, 2.5, 0);
-  rightWall.receiveShadow = true;
-  rightWall.castShadow = true;
-  scene.add(rightWall);
+  const ceilingGeometry = new THREE.PlaneGeometry(60, 50);
+  const ceilingMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xfafafa,
+    roughness: 0.8,
+    metalness: 0.2
+  });
+  const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+  ceiling.rotation.x = Math.PI / 2;
+  ceiling.position.y = 5;
+  ceiling.receiveShadow = true;
+  scene.add(ceiling);
   
-  const frontWallGeometry = new THREE.BoxGeometry(40, 5, 0.3);
-  const frontWall = new THREE.Mesh(frontWallGeometry, wallMaterial);
-  frontWall.position.set(0, 2.5, 17.5);
-  frontWall.receiveShadow = true;
-  frontWall.castShadow = true;
-  scene.add(frontWall);
+  for (let x = -20; x <= 20; x += 10) {
+    for (let z = -15; z <= 15; z += 10) {
+      const light = new THREE.PointLight(0xfff8e1, 1.5, 25);
+      light.position.set(x, 4.5, z);
+      light.castShadow = true;
+      scene.add(light);
+    }
+  }
+  
+  const hologramGeometry = new THREE.CylinderGeometry(3, 3, 6);
+  const hologramMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x00ffff,
+    emissive: 0x00ffff,
+    emissiveIntensity: 0.8,
+    transparent: true,
+    opacity: 0.6
+  });
+  const hologram = new THREE.Mesh(hologramGeometry, hologramMaterial);
+  hologram.position.set(0, 3, 0);
+  hologram.userData = { type: 'hologram' };
+  scene.add(hologram);
+  interactables.push(hologram);
+  
+  const innovationNames = Object.keys(innovations);
+  innovationNames.forEach((name, i) => {
+    const angle = (i / innovationNames.length) * Math.PI * 2;
+    const radius = 18;
+    const x = Math.cos(angle) * radius;
+    const z = Math.sin(angle) * radius;
+    createInnovationStation(x, 0, z, name, innovations[name]);
+  });
+  
+  const exitDoorGeometry = new THREE.BoxGeometry(4, 5, 0.4);
+  const exitDoorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xcc3333,
+    emissive: 0x661111,
+    emissiveIntensity: 0.6,
+    roughness: 0.4,
+    metalness: 0.6
+  });
+  const exitDoor = new THREE.Mesh(exitDoorGeometry, exitDoorMaterial);
+  exitDoor.position.set(0, 2.5, 24.8);
+  exitDoor.userData = { type: 'exit' };
+  scene.add(exitDoor);
+  interactables.push(exitDoor);
+}
+
+function createInnovationStation(x, y, z, name, data) {
+  const stationGroup = new THREE.Group();
+  
+  const baseGeometry = new THREE.BoxGeometry(4, 2, 4);
+  const baseMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x3366cc,
+    roughness: 0.4,
+    metalness: 0.6,
+    emissive: 0x3366cc,
+    emissiveIntensity: 0.3
+  });
+  const base = new THREE.Mesh(baseGeometry, baseMaterial);
+  base.position.y = 1;
+  base.castShadow = true;
+  base.userData = { type: 'innovation', name: name, data: data };
+  stationGroup.add(base);
+  interactables.push(base);
+  
+  const light = new THREE.PointLight(0x3366cc, 1, 8);
+  light.position.y = 2.5;
+  stationGroup.add(light);
+  
+  stationGroup.position.set(x, y, z);
+  scene.add(stationGroup);
+}
+
+function createStandardLabInterior(labName) {
+  const config = labConfigs[labName];
+  
+  const floorGeometry = new THREE.PlaneGeometry(40, 35);
+  const floorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xd0d0d0,
+    roughness: 0.7,
+    metalness: 0.3
+  });
+  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  const wallMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xf0f0f0,
+    roughness: 0.85,
+    metalness: 0.15
+  });
+  
+  const walls = [
+    { pos: [0, 2.5, -17.5], size: [40, 5, 0.3] },
+    { pos: [-20, 2.5, 0], size: [0.3, 5, 35] },
+    { pos: [20, 2.5, 0], size: [0.3, 5, 35] },
+    { pos: [0, 2.5, 17.5], size: [40, 5, 0.3] }
+  ];
+  
+  walls.forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(...w.size), wallMaterial);
+    wall.position.set(...w.pos);
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+    scene.add(wall);
+    collisionObjects.push(wall);
+  });
   
   const ceilingGeometry = new THREE.PlaneGeometry(40, 35);
   const ceilingMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xfafafa,
     roughness: 0.8,
-    metalness: 0.2,
-    side: THREE.FrontSide
+    metalness: 0.2
   });
   const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
   ceiling.rotation.x = Math.PI / 2;
@@ -413,35 +585,9 @@ function createUltraRealisticLabInterior(labName) {
       const light = new THREE.PointLight(0xfff8e1, 1.5, 25);
       light.position.set(x, 4.5, z);
       light.castShadow = true;
-      light.shadow.mapSize.width = 1024;
-      light.shadow.mapSize.height = 1024;
       scene.add(light);
-      
-      const lightHousingGeometry = new THREE.BoxGeometry(3.5, 0.3, 0.4);
-      const lightHousingMaterial = new THREE.MeshStandardMaterial({ 
-        color: 0xffffff,
-        emissive: 0xffffcc,
-        emissiveIntensity: 1.2,
-        roughness: 0.3,
-        metalness: 0.7
-      });
-      const lightHousing = new THREE.Mesh(lightHousingGeometry, lightHousingMaterial);
-      lightHousing.position.set(x, 4.85, z);
-      lightHousing.castShadow = true;
-      scene.add(lightHousing);
     }
   }
-  
-  for (let i = 0; i < 4; i++) {
-    createDetailedBookshelf(-17, 0, -12 + i * 6, config.color);
-  }
-  
-  for (let i = 0; i < 3; i++) {
-    createDetailedEquipment(15, 0, -12 + i * 8, config.color, i);
-  }
-  
-  createDetailedDesk(0, 0, -10, config.color);
-  createDetailedDesk(8, 0, -10, config.color);
   
   const exitDoorGeometry = new THREE.BoxGeometry(3.5, 4.5, 0.4);
   const exitDoorMaterial = new THREE.MeshStandardMaterial({ 
@@ -454,199 +600,8 @@ function createUltraRealisticLabInterior(labName) {
   const exitDoor = new THREE.Mesh(exitDoorGeometry, exitDoorMaterial);
   exitDoor.position.set(0, 2.25, 17.3);
   exitDoor.userData = { type: 'exit' };
-  exitDoor.castShadow = true;
   scene.add(exitDoor);
   interactables.push(exitDoor);
-  
-  const exitHandleGeometry = new THREE.CylinderGeometry(0.08, 0.08, 0.6);
-  const exitHandleMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xcccccc,
-    roughness: 0.2,
-    metalness: 0.9
-  });
-  const exitHandle = new THREE.Mesh(exitHandleGeometry, exitHandleMaterial);
-  exitHandle.rotation.z = Math.PI / 2;
-  exitHandle.position.set(-1.2, 2.25, 17.5);
-  scene.add(exitHandle);
-  
-  const exitLight = new THREE.SpotLight(0xff3333, 1, 12, Math.PI / 4);
-  exitLight.position.set(0, 4, 17);
-  exitLight.target.position.set(0, 2, 17.3);
-  exitLight.castShadow = true;
-  scene.add(exitLight);
-  scene.add(exitLight.target);
-}
-
-function createDetailedBookshelf(x, y, z, color) {
-  const shelfGroup = new THREE.Group();
-  
-  const backGeometry = new THREE.BoxGeometry(0.2, 4.5, 3.5);
-  const backMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x6b4423,
-    roughness: 0.8,
-    metalness: 0.2
-  });
-  const back = new THREE.Mesh(backGeometry, backMaterial);
-  back.castShadow = true;
-  back.receiveShadow = true;
-  shelfGroup.add(back);
-  
-  for (let i = 0; i < 5; i++) {
-    const shelfGeometry = new THREE.BoxGeometry(0.5, 0.1, 3.5);
-    const shelfMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x8b6f47,
-      roughness: 0.7,
-      metalness: 0.3
-    });
-    const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
-    shelf.position.set(-0.15, -2 + i * 1, 0);
-    shelf.castShadow = true;
-    shelf.receiveShadow = true;
-    shelfGroup.add(shelf);
-    
-    for (let j = 0; j < 8; j++) {
-      const bookWidth = 0.15 + Math.random() * 0.1;
-      const bookHeight = 0.7 + Math.random() * 0.2;
-      const bookDepth = 0.3;
-      
-      const bookGeometry = new THREE.BoxGeometry(bookWidth, bookHeight, bookDepth);
-      const bookColors = [0xcc3333, 0x3366cc, 0x33cc66, 0xcc9933, 0x9933cc, 0x33cccc];
-      const bookColor = bookColors[Math.floor(Math.random() * bookColors.length)];
-      const bookMaterial = new THREE.MeshStandardMaterial({ 
-        color: bookColor,
-        roughness: 0.7,
-        metalness: 0.3
-      });
-      const book = new THREE.Mesh(bookGeometry, bookMaterial);
-      book.position.set(-0.3, -1.95 + i * 1 + bookHeight / 2, -1.5 + j * 0.4);
-      book.rotation.y = (Math.random() - 0.5) * 0.1;
-      book.castShadow = true;
-      book.userData = { type: 'book' };
-      shelfGroup.add(book);
-      interactables.push(book);
-    }
-  }
-  
-  shelfGroup.position.set(x, y + 2.25, z);
-  scene.add(shelfGroup);
-}
-
-function createDetailedEquipment(x, y, z, color, type) {
-  const equipGroup = new THREE.Group();
-  
-  const baseGeometry = new THREE.BoxGeometry(3.5, 0.3, 3.5);
-  const baseMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x333333,
-    roughness: 0.5,
-    metalness: 0.5
-  });
-  const base = new THREE.Mesh(baseGeometry, baseMaterial);
-  base.position.y = 0.15;
-  base.castShadow = true;
-  base.receiveShadow = true;
-  equipGroup.add(base);
-  
-  const bodyGeometry = new THREE.BoxGeometry(3, 2.5, 3);
-  const bodyMaterial = new THREE.MeshStandardMaterial({ 
-    color: color,
-    roughness: 0.3,
-    metalness: 0.7,
-    emissive: color,
-    emissiveIntensity: 0.4
-  });
-  const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-  body.position.y = 1.65;
-  body.castShadow = true;
-  body.receiveShadow = true;
-  body.userData = { type: 'equipment' };
-  equipGroup.add(body);
-  interactables.push(body);
-  
-  const screenGeometry = new THREE.BoxGeometry(2, 1.5, 0.1);
-  const screenMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x111111,
-    emissive: 0x00ff88,
-    emissiveIntensity: 0.8,
-    roughness: 0.2,
-    metalness: 0.8
-  });
-  const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-  screen.position.set(0, 2, 1.55);
-  screen.castShadow = true;
-  equipGroup.add(screen);
-  
-  const screenLight = new THREE.PointLight(0x00ff88, 0.5, 5);
-  screenLight.position.set(0, 2, 2);
-  equipGroup.add(screenLight);
-  
-  const equipLight = new THREE.PointLight(color, 1, 10);
-  equipLight.position.set(0, 3, 0);
-  equipLight.castShadow = true;
-  equipGroup.add(equipLight);
-  
-  equipGroup.position.set(x, y, z);
-  scene.add(equipGroup);
-}
-
-function createDetailedDesk(x, y, z, color) {
-  const deskGroup = new THREE.Group();
-  
-  const topGeometry = new THREE.BoxGeometry(2.5, 0.1, 2);
-  const topMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x8b6f47,
-    roughness: 0.6,
-    metalness: 0.4
-  });
-  const top = new THREE.Mesh(topGeometry, topMaterial);
-  top.position.y = 1;
-  top.castShadow = true;
-  top.receiveShadow = true;
-  deskGroup.add(top);
-  
-  for (let i = 0; i < 4; i++) {
-    const legGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1);
-    const legMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x555555,
-      roughness: 0.4,
-      metalness: 0.6
-    });
-    const leg = new THREE.Mesh(legGeometry, legMaterial);
-    const xPos = i % 2 === 0 ? -1 : 1;
-    const zPos = i < 2 ? -0.8 : 0.8;
-    leg.position.set(xPos, 0.5, zPos);
-    leg.castShadow = true;
-    deskGroup.add(leg);
-  }
-  
-  const monitorStandGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.3);
-  const monitorStandMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x333333,
-    roughness: 0.5,
-    metalness: 0.5
-  });
-  const monitorStand = new THREE.Mesh(monitorStandGeometry, monitorStandMaterial);
-  monitorStand.position.set(0, 1.25, 0);
-  deskGroup.add(monitorStand);
-  
-  const monitorGeometry = new THREE.BoxGeometry(1.8, 1.2, 0.1);
-  const monitorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x111111,
-    emissive: 0x2266ff,
-    emissiveIntensity: 0.6,
-    roughness: 0.2,
-    metalness: 0.8
-  });
-  const monitor = new THREE.Mesh(monitorGeometry, monitorMaterial);
-  monitor.position.set(0, 1.8, 0);
-  monitor.castShadow = true;
-  deskGroup.add(monitor);
-  
-  const monitorLight = new THREE.PointLight(0x2266ff, 0.5, 4);
-  monitorLight.position.set(0, 1.8, 0.5);
-  deskGroup.add(monitorLight);
-  
-  deskGroup.position.set(x, y, z);
-  scene.add(deskGroup);
 }
 
 function exitLab() {
@@ -655,6 +610,7 @@ function exitLab() {
   state.currentLab = null;
   
   scene.clear();
+  collisionObjects = [];
   scene.background = new THREE.Color(0x87ceeb);
   scene.fog = new THREE.Fog(0x87ceeb, 0, 400);
   
@@ -693,7 +649,13 @@ function setupControls() {
       case 'ShiftLeft': sprint = true; break;
       case 'Space': if (canJump) { velocity.y += 5; canJump = false; } break;
       case 'KeyE': handleInteraction(); break;
-      case 'Escape': if (state.insideLab) exitLab(); break;
+      case 'Escape': 
+        if (document.getElementById('innovationPanel').style.display !== 'none') {
+          document.getElementById('innovationPanel').style.display = 'none';
+        } else if (state.insideLab) {
+          exitLab();
+        }
+        break;
     }
   });
   
@@ -708,7 +670,9 @@ function setupControls() {
   });
   
   document.getElementById('canvas').addEventListener('click', () => {
-    controls.lock();
+    if (document.getElementById('innovationPanel').style.display === 'none' || !document.getElementById('innovationPanel').style.display) {
+      controls.lock();
+    }
   });
 }
 
@@ -719,26 +683,123 @@ function handleInteraction() {
       enterLab(userData.lab);
     } else if (userData.type === 'exit') {
       exitLab();
-    } else if (userData.type === 'book') {
-      notify('📚 Reading detailed book... +50 XP');
-      addXP(50);
-    } else if (userData.type === 'equipment') {
-      notify('🔧 Using advanced equipment... +30 XP');
-      addXP(30);
+    } else if (userData.type === 'innovation') {
+      showInnovationPanel(userData.name, userData.data);
+    } else if (userData.type === 'hologram') {
+      showHologramInfo();
     }
   }
 }
+
+function showInnovationPanel(name, data) {
+  const panel = document.getElementById('innovationPanel');
+  const title = document.getElementById('panelTitle');
+  const content = document.getElementById('panelContent');
+  
+  title.textContent = name;
+  content.innerHTML = `
+    <div class="infoBox">
+      <strong>🔬 Description:</strong><br>
+      ${data.desc}
+    </div>
+    
+    <div class="successBox">
+      <strong>🧬 Technologies Combined:</strong><br>
+      ${data.tech.join(' + ')}
+    </div>
+    
+    <div class="infoBox">
+      <strong>📚 Real Research:</strong><br>
+      ${data.realStudy}
+    </div>
+    
+    <button class="innovationBtn success" onclick="createInnovation('${name}')">CREATE INNOVATION (+200 XP)</button>
+    <button class="innovationBtn danger" onclick="closeInnovationPanel()">CLOSE</button>
+  `;
+  
+  panel.style.display = 'block';
+  controls.unlock();
+}
+
+function showHologramInfo() {
+  const panel = document.getElementById('innovationPanel');
+  const title = document.getElementById('panelTitle');
+  const content = document.getElementById('panelContent');
+  
+  title.textContent = '🌟 Hybrid Innovation Hub';
+  content.innerHTML = `
+    <div class="infoBox">
+      <strong>Welcome to the Hybrid Innovation Lab!</strong><br><br>
+      This is where ALL technologies combine to create revolutionary breakthroughs.
+      Walk to any of the 8 innovation stations around the room to learn about cutting-edge research.
+    </div>
+    
+    <div class="successBox">
+      <strong>Available Innovations:</strong><br>
+      • Quantum-Bio Computing<br>
+      • Neuro-AI Interface<br>
+      • Quantum Climate Modeling<br>
+      • Bio-Inspired Robotics<br>
+      • Quantum Cryptography<br>
+      • CRISPR-AI Gene Therapy<br>
+      • Quantum Telescope<br>
+      • Nano-Medical Robots
+    </div>
+    
+    <button class="innovationBtn danger" onclick="closeInnovationPanel()">CLOSE</button>
+  `;
+  
+  panel.style.display = 'block';
+  controls.unlock();
+}
+
+window.createInnovation = function(name) {
+  state.innovations++;
+  addXP(200);
+  notify(`🌟 Created ${name}! +200 XP`);
+  closeInnovationPanel();
+  updateHUD();
+};
+
+window.closeInnovationPanel = function() {
+  document.getElementById('innovationPanel').style.display = 'none';
+};
 
 function checkNearbyInteractables() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   const intersects = raycaster.intersectObjects(interactables);
   
-  if (intersects.length > 0 && intersects[0].distance < 5) {
+  if (intersects.length > 0 && intersects[0].distance < 6) {
     state.nearInteractable = intersects[0].object;
     document.getElementById('interactPrompt').style.display = 'block';
   } else {
     state.nearInteractable = null;
     document.getElementById('interactPrompt').style.display = 'none';
+  }
+}
+
+function checkCollisions() {
+  const playerBox = new THREE.Box3().setFromCenterAndSize(
+    camera.position,
+    new THREE.Vector3(1, 1.7, 1)
+  );
+  
+  for (let obj of collisionObjects) {
+    const objBox = new THREE.Box3().setFromObject(obj);
+    if (playerBox.intersectsBox(objBox)) {
+      const overlap = new THREE.Vector3();
+      playerBox.getCenter(overlap);
+      objBox.getCenter(new THREE.Vector3());
+      
+      const dx = camera.position.x - obj.position.x;
+      const dz = camera.position.z - obj.position.z;
+      
+      if (Math.abs(dx) > Math.abs(dz)) {
+        camera.position.x += dx > 0 ? 0.1 : -0.1;
+      } else {
+        camera.position.z += dz > 0 ? 0.1 : -0.1;
+      }
+    }
   }
 }
 
@@ -750,8 +811,8 @@ function animate() {
   if (controls.isLocked) {
     const delta = (time - prevTime) / 1000;
     
-    velocity.x -= velocity.x * 10.0 * delta;
-    velocity.z -= velocity.z * 10.0 * delta;
+    velocity.x -= velocity.x * 8.0 * delta;
+    velocity.z -= velocity.z * 8.0 * delta;
     velocity.y -= 9.8 * 10.0 * delta;
     
     direction.z = Number(moveForward) - Number(moveBackward);
@@ -774,6 +835,7 @@ function animate() {
       canJump = true;
     }
     
+    checkCollisions();
     checkNearbyInteractables();
   }
   
@@ -794,7 +856,7 @@ function updateLocation() {
     const config = labConfigs[state.currentLab];
     locText.textContent = `${config.icon} ${state.currentLab} Lab`;
   } else {
-    locText.textContent = '📍 City - 12 Labs';
+    locText.textContent = '📍 City - 13 Labs';
   }
 }
 
@@ -812,7 +874,8 @@ function addXP(amount) {
 function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/13`;
+  document.getElementById('innovations').textContent = state.innovations;
 }
 
 function notify(msg) {
@@ -827,13 +890,12 @@ document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('loading').classList.remove('hide');
   
   const msgs = [
-    'Initializing Three.js Engine...',
-    'Loading PBR Materials...',
-    'Creating Detailed 3D Models...',
-    'Setting up Realistic Lighting...',
-    'Generating Shadows & Reflections...',
-    'Building 12 Ultra Realistic Labs...',
-    'Ready to Explore!'
+    'Initializing Three.js...',
+    'Creating Hybrid Innovation Lab...',
+    'Loading 8 Revolutionary Innovations...',
+    'Setting up Physics Engine...',
+    'Building 12 Specialized Labs...',
+    'Ready to Innovate!'
   ];
   let i = 0;
   const interval = setInterval(() => {
