@@ -3,101 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: 12 Complete Labs</title>
+<title>TechVerse: Realistic 12 Labs</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #e0e0e0; }
-#renderCanvas { width: 100vw; height: 100vh; display: block; touch-action: none; cursor: crosshair; }
+body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
+#canvas { display: block; width: 100vw; height: 100vh; }
 
-#charSelect { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; z-index: 10000; overflow-y: auto; padding: 20px; }
-#charSelect h1 { font-size: clamp(2em, 6vw, 4em); color: #fff; text-shadow: 0 0 40px rgba(0, 212, 255, 1); margin: 20px 0 10px 0; font-weight: 900; animation: glow 2s ease-in-out infinite; text-align: center; }
-@keyframes glow { 0%, 100% { text-shadow: 0 0 40px rgba(0, 212, 255, 1); } 50% { text-shadow: 0 0 60px rgba(0, 212, 255, 1); } }
-.subtitle { font-size: clamp(0.9em, 2vw, 1.1em); color: #bdc3c7; margin-bottom: 20px; text-align: center; max-width: 95%; line-height: 1.6; }
-.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; max-width: 900px; width: 95%; margin-bottom: 25px; }
-.charCard { background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(44, 62, 80, 0.9)); border: 3px solid #3498db; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.4s; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; }
-.charCard:hover { transform: translateY(-8px); border-color: #00d4ff; box-shadow: 0 12px 40px rgba(0, 212, 255, 0.5); }
-.charCard.selected { background: linear-gradient(135deg, rgba(39, 174, 96, 0.4), rgba(46, 204, 113, 0.4)); border-color: #27ae60; box-shadow: 0 0 40px rgba(39, 174, 96, 0.7); }
-.charCard .icon { font-size: clamp(2.5em, 5vw, 3.5em); margin-bottom: 10px; }
-.charCard h3 { color: #ecf0f1; font-size: clamp(1.1em, 2.5vw, 1.3em); margin: 8px 0; font-weight: 800; }
-.charCard p { color: #95a5a6; font-size: clamp(0.8em, 1.8vw, 0.95em); }
-#startBtn { padding: clamp(12px, 3vw, 18px) clamp(40px, 8vw, 70px); font-size: clamp(1.1em, 2.5vw, 1.4em); background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 50px; color: #fff; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px 30px rgba(39, 174, 96, 0.6); transition: all 0.4s; margin: 10px 0; }
-#startBtn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(39, 174, 96, 0.8); }
-#startBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+#startScreen h1 { font-size: clamp(2.5em, 7vw, 5em); color: #fff; text-shadow: 0 0 50px rgba(0, 212, 255, 1); margin-bottom: 20px; font-weight: 900; animation: glow 2s ease-in-out infinite; }
+@keyframes glow { 0%, 100% { text-shadow: 0 0 50px rgba(0, 212, 255, 1); } 50% { text-shadow: 0 0 80px rgba(0, 212, 255, 1); } }
+.subtitle { font-size: clamp(1em, 2.5vw, 1.3em); color: #bdc3c7; margin-bottom: 30px; text-align: center; max-width: 90%; line-height: 1.8; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; max-width: 1000px; width: 90%; margin-bottom: 30px; }
+.feature { background: rgba(52, 152, 219, 0.2); padding: 12px 16px; border-radius: 10px; border: 2px solid rgba(52, 152, 219, 0.4); text-align: center; font-size: clamp(0.85em, 1.6vw, 1em); color: #3498db; font-weight: 700; }
+#startBtn { padding: clamp(15px, 3.5vw, 22px) clamp(50px, 10vw, 90px); font-size: clamp(1.2em, 2.8vw, 1.6em); background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 60px; color: #fff; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 10px 40px rgba(39, 174, 96, 0.7); transition: all 0.4s; }
+#startBtn:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(39, 174, 96, 0.9); }
 
 #loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-#loading h2 { color: #00d4ff; font-size: clamp(1.8em, 4vw, 2.5em); margin-bottom: 25px; font-weight: 900; animation: pulse 1.5s ease-in-out infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-.spinner { border: 6px solid rgba(0, 212, 255, 0.2); border-top: 6px solid #00d4ff; border-radius: 50%; width: clamp(60px, 10vw, 90px); height: clamp(60px, 10vw, 90px); animation: spin 1s linear infinite; }
+#loading h2 { color: #00d4ff; font-size: clamp(2em, 5vw, 3em); margin-bottom: 30px; font-weight: 900; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+.spinner { border: 8px solid rgba(0, 212, 255, 0.2); border-top: 8px solid #00d4ff; border-radius: 50%; width: clamp(70px, 12vw, 100px); height: clamp(70px, 12vw, 100px); animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-#loadText { color: #bdc3c7; font-size: clamp(1em, 2vw, 1.2em); margin-top: 20px; text-align: center; padding: 0 20px; }
-#loadProgress { width: clamp(250px, 70vw, 450px); height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
-#loadBar { width: 0%; height: 100%; background: linear-gradient(90deg, #00d4ff, #27ae60, #f39c12); transition: width 0.3s; border-radius: 10px; }
+#loadText { color: #bdc3c7; font-size: clamp(1.1em, 2.3vw, 1.4em); margin-top: 25px; text-align: center; padding: 0 20px; }
 
-#hud { position: fixed; top: 10px; left: 10px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(12px, 2vw, 20px); border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.6); min-width: clamp(180px, 25vw, 260px); z-index: 1000; backdrop-filter: blur(20px); }
-#hud h3 { color: #00d4ff; font-size: clamp(1em, 2vw, 1.3em); margin-bottom: 10px; border-bottom: 2px solid rgba(0, 212, 255, 0.4); padding-bottom: 8px; font-weight: 900; }
-.hudStat { display: flex; justify-content: space-between; margin: 8px 0; font-size: clamp(0.8em, 1.5vw, 1em); color: #bdc3c7; }
-.hudStat .val { color: #27ae60; font-weight: 900; }
+#hud { position: fixed; top: 15px; left: 15px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(15px, 2.5vw, 25px); border-radius: 15px; border: 3px solid rgba(0, 212, 255, 0.7); min-width: clamp(200px, 28vw, 300px); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
+#hud h3 { color: #00d4ff; font-size: clamp(1.1em, 2.2vw, 1.5em); margin-bottom: 12px; border-bottom: 3px solid rgba(0, 212, 255, 0.5); padding-bottom: 10px; font-weight: 900; text-shadow: 0 0 10px rgba(0, 212, 255, 0.8); }
+.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: clamp(0.9em, 1.7vw, 1.1em); color: #bdc3c7; }
+.hudStat .val { color: #27ae60; font-weight: 900; text-shadow: 0 0 8px rgba(39, 174, 96, 0.6); }
 
-#locationInfo { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 15px 30px; border-radius: 12px; border: 2px solid rgba(243, 156, 18, 0.6); z-index: 1000; backdrop-filter: blur(20px); text-align: center; }
-#locationInfo h3 { color: #f39c12; font-size: clamp(1.2em, 2.5vw, 1.5em); font-weight: 900; }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 18px 40px; border-radius: 15px; border: 3px solid rgba(243, 156, 18, 0.7); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
+#locationInfo h3 { color: #f39c12; font-size: clamp(1.3em, 2.8vw, 1.7em); font-weight: 900; text-shadow: 0 0 10px rgba(243, 156, 18, 0.8); }
 
-#interactPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(300px, 90vw, 900px); max-height: 85vh; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: clamp(20px, 4vw, 40px); border-radius: 20px; border: 3px solid rgba(52, 152, 219, 0.6); z-index: 5000; backdrop-filter: blur(25px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9); }
-#interactPanel h2 { color: #3498db; font-size: clamp(1.5em, 4vw, 2.5em); margin-bottom: 20px; text-align: center; font-weight: 900; }
-#interactPanel p { color: #ecf0f1; font-size: clamp(0.9em, 1.8vw, 1.05em); line-height: 1.8; margin: 15px 0; }
-.interactBtn { padding: clamp(10px, 2vw, 14px) clamp(20px, 3.5vw, 30px); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: 900; cursor: pointer; margin: clamp(6px, 1.2vw, 10px); font-size: clamp(0.85em, 1.6vw, 1em); transition: all 0.3s; box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4); display: inline-block; }
-.interactBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52, 152, 219, 0.6); }
-.interactBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
+#interactPrompt { position: fixed; bottom: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(39, 174, 96, 0.95), rgba(46, 204, 113, 0.95)); padding: clamp(12px, 2.5vw, 18px) clamp(30px, 6vw, 50px); border-radius: 50px; font-size: clamp(1em, 2vw, 1.2em); font-weight: 900; color: #fff; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 30px rgba(39, 174, 96, 0.8); display: none; animation: bounce 1s ease-in-out infinite; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
-#controls { position: fixed; bottom: clamp(20px, 4vh, 40px); left: clamp(10px, 2vw, 40px); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(15px, 2.5vw, 22px); border-radius: 12px; border: 2px solid rgba(0, 212, 255, 0.4); z-index: 1000; backdrop-filter: blur(20px); }
-#controls h4 { color: #00d4ff; margin-bottom: 12px; font-size: clamp(0.95em, 1.8vw, 1.15em); font-weight: 900; }
-.ctrl { color: #bdc3c7; margin: 8px 0; font-size: clamp(0.8em, 1.5vw, 0.95em); }
-.key { color: #27ae60; font-weight: 900; background: linear-gradient(135deg, rgba(39, 174, 96, 0.25), rgba(46, 204, 113, 0.25)); padding: clamp(3px, 0.8vw, 5px) clamp(8px, 1.5vw, 12px); border-radius: 6px; margin-right: 8px; border: 1px solid rgba(39, 174, 96, 0.4); display: inline-block; }
+#controls { position: fixed; bottom: clamp(25px, 5vh, 50px); left: clamp(15px, 2.5vw, 50px); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(18px, 3vw, 28px); border-radius: 15px; border: 3px solid rgba(0, 212, 255, 0.5); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
+#controls h4 { color: #00d4ff; margin-bottom: 15px; font-size: clamp(1em, 2vw, 1.25em); font-weight: 900; text-shadow: 0 0 10px rgba(0, 212, 255, 0.8); }
+.ctrl { color: #bdc3c7; margin: 10px 0; font-size: clamp(0.85em, 1.6vw, 1em); }
+.key { color: #27ae60; font-weight: 900; background: linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(46, 204, 113, 0.3)); padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 15px); border-radius: 8px; margin-right: 10px; border: 2px solid rgba(39, 174, 96, 0.5); display: inline-block; box-shadow: 0 3px 10px rgba(39, 174, 96, 0.4); }
 
-#notif { position: fixed; top: clamp(100px, 15vh, 150px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: clamp(15px, 3vw, 20px) clamp(30px, 6vw, 50px); border-radius: 50px; font-weight: 900; font-size: clamp(1em, 2vw, 1.15em); opacity: 0; transition: opacity 0.4s; max-width: 92%; text-align: center; z-index: 2000; }
+#notif { position: fixed; top: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: clamp(18px, 3.5vw, 25px) clamp(40px, 7vw, 60px); border-radius: 60px; font-weight: 900; font-size: clamp(1.1em, 2.2vw, 1.3em); opacity: 0; transition: opacity 0.5s; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 10px 40px rgba(39, 174, 96, 0.8); }
 #notif.show { opacity: 1; }
 
-#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; pointer-events: none; z-index: 999; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0, 255, 0, 0.8); }
-#crosshair::before { width: 2px; height: 20px; left: 9px; }
-#crosshair::after { width: 20px; height: 2px; top: 9px; }
-
-.infoBox { background: rgba(52, 152, 219, 0.2); padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #3498db; }
-.bookText { background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 10px; margin: 15px 0; max-height: 400px; overflow-y: auto; line-height: 1.8; }
-
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
+
+#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 25px; height: 25px; pointer-events: none; z-index: 999; }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0, 255, 0, 0.9); box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); }
+#crosshair::before { width: 3px; height: 25px; left: 11px; }
+#crosshair::after { width: 25px; height: 3px; top: 11px; }
 </style>
-<script src="https://cdn.babylonjs.com/babylon.js"></script>
 </head>
 <body>
-<canvas id="renderCanvas"></canvas>
+<canvas id="canvas"></canvas>
 <div id="crosshair"></div>
 
-<div id="charSelect">
-  <h1>🔬 TECHVERSE: 12 LABS</h1>
-  <p class="subtitle">12 Complete Specialized Labs - Each with unique equipment, books, screens - ALL INTERACTIVE!</p>
+<div id="startScreen">
+  <h1>🔬 TECHVERSE REALISTIC</h1>
+  <p class="subtitle">Explore 12 Specialized Labs with Realistic Graphics, Detailed Equipment, and Interactive Learning!</p>
   
-  <div class="charGrid">
-    <div class="charCard" data-char="Quantum Researcher"><div class="icon">⚛️</div><h3>Quantum Researcher</h3><p>Master quantum physics</p></div>
-    <div class="charCard" data-char="Lab Scientist"><div class="icon">🔬</div><h3>Lab Scientist</h3><p>Conduct experiments</p></div>
-    <div class="charCard" data-char="Tech Explorer"><div class="icon">🚀</div><h3>Tech Explorer</h3><p>Explore everything</p></div>
-    <div class="charCard" data-char="Engineer"><div class="icon">⚙️</div><h3>Engineer</h3><p>Build technology</p></div>
+  <div class="features">
+    <div class="feature">✨ Realistic 3D Graphics</div>
+    <div class="feature">🏗️ Detailed Models</div>
+    <div class="feature">💡 Real Lighting</div>
+    <div class="feature">🎨 Textures</div>
+    <div class="feature">🔬 12 Specialized Labs</div>
+    <div class="feature">📚 Interactive Books</div>
+    <div class="feature">🔧 Real Equipment</div>
+    <div class="feature">🎮 Smooth Controls</div>
   </div>
-  <button id="startBtn" disabled>BEGIN YOUR JOURNEY</button>
+  
+  <button id="startBtn">START EXPLORING</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building 12 Labs...</h2>
+  <h2>Building Realistic World...</h2>
   <div class="spinner"></div>
-  <p id="loadText">Creating...</p>
-  <div id="loadProgress"><div id="loadBar"></div></div>
+  <p id="loadText">Loading Three.js Engine...</p>
 </div>
 
 <div id="hud" class="hide">
   <h3>⚡ PROGRESS</h3>
-  <div class="hudStat"><span>Path:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
   <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
@@ -107,439 +91,496 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <h3 id="currentLocation">📍 City</h3>
 </div>
 
-<div id="interactPanel" class="hide">
-  <h2 id="panelTitle">Item</h2>
-  <div id="panelContent"></div>
-</div>
+<div id="interactPrompt">Press E to Interact</div>
 
 <div id="controls" class="hide">
   <h4>🎮 CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
-  <div class="ctrl"><span class="key">MOUSE</span> Look</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
-  <div class="ctrl"><span class="key">ESC</span> Close/Exit</div>
+  <div class="ctrl"><span class="key">ESC</span> Exit Lab</div>
 </div>
 
 <div id="notif"></div>
 
-<script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+
 const state = {
-  char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
-  pointerLocked: false, insideLab: false, currentLab: null
+  lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
+  insideLab: false, currentLab: null, nearInteractable: null
 };
 
-let canvas, engine, scene, camera;
+let scene, camera, renderer, controls;
+let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, canJump = false;
+let velocity = new THREE.Vector3();
+let direction = new THREE.Vector3();
+let prevTime = performance.now();
+let raycaster = new THREE.Raycaster();
 let interactables = [];
 
 const labConfigs = {
-  'Quantum Computing': {
-    icon: '⚛️',
-    color: [0.2, 0.3, 0.6],
-    books: ['Quantum Mechanics', 'Quantum Computing', 'Quantum Algorithms', 'Quantum Information'],
-    equipment: ['Quantum Computer', 'Cryogenic System', 'Qubit Controller'],
-    screens: ['Quantum Circuits', 'Bloch Sphere', 'Qubit States']
-  },
-  'Electronics': {
-    icon: '⚡',
-    color: [0.8, 0.6, 0.1],
-    books: ['Electronics Fundamentals', 'Circuit Design', 'Analog Electronics', 'Digital Logic'],
-    equipment: ['Oscilloscope', 'Function Generator', 'Power Supply', 'Multimeter'],
-    screens: ['Circuit Diagrams', 'Waveforms', 'Component Data']
-  },
-  'Artificial Intelligence': {
-    icon: '🤖',
-    color: [0.3, 0.7, 0.3],
-    books: ['Machine Learning', 'Deep Learning', 'Neural Networks', 'AI Ethics'],
-    equipment: ['GPU Server', 'Training Station', 'Data Processor'],
-    screens: ['Training Graphs', 'Neural Networks', 'Code Editor']
-  },
-  'Molecular Biology': {
-    icon: '🧬',
-    color: [0.2, 0.6, 0.4],
-    books: ['Molecular Biology', 'Genetics', 'CRISPR', 'Cell Biology'],
-    equipment: ['DNA Sequencer', 'PCR Machine', 'Microscope', 'Centrifuge'],
-    screens: ['DNA Sequences', 'Protein Structures', 'Gene Maps']
-  },
-  'Chemistry': {
-    icon: '🧪',
-    color: [0.7, 0.3, 0.5],
-    books: ['Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry', 'Analytical Chemistry'],
-    equipment: ['Fume Hood', 'Spectrophotometer', 'pH Meter', 'Distillation Setup'],
-    screens: ['Molecular Structures', 'Reaction Mechanisms', 'Periodic Table']
-  },
-  'Physics': {
-    icon: '🔬',
-    color: [0.4, 0.5, 0.8],
-    books: ['Classical Mechanics', 'Electromagnetism', 'Thermodynamics', 'Relativity'],
-    equipment: ['Laser System', 'Optics Bench', 'Particle Detector', 'Vacuum Chamber'],
-    screens: ['Particle Data', 'Wave Patterns', 'Field Simulations']
-  },
-  'Robotics': {
-    icon: '🤖',
-    color: [0.8, 0.5, 0.1],
-    books: ['Robotics', 'Control Systems', 'Mechatronics', 'Automation'],
-    equipment: ['Robotic Arm', '3D Printer', 'CNC Machine', 'Drone Station'],
-    screens: ['Robot Control', 'CAD Designs', 'Sensor Data']
-  },
-  'Computer Science': {
-    icon: '💻',
-    color: [0.3, 0.4, 0.7],
-    books: ['Algorithms', 'Data Structures', 'Operating Systems', 'Compilers'],
-    equipment: ['Workstation', 'Server Rack', 'Network Hub', 'VR Headset'],
-    screens: ['Code Editor', 'Terminal', 'Algorithm Viz']
-  },
-  'Environmental': {
-    icon: '🌍',
-    color: [0.2, 0.7, 0.2],
-    books: ['Ecology', 'Climate Science', 'Environmental Chemistry', 'Conservation'],
-    equipment: ['Air Monitor', 'Water Tester', 'Soil Analyzer', 'Weather Station'],
-    screens: ['Climate Data', 'Pollution Maps', 'Ecosystem Models']
-  },
-  'Neuroscience': {
-    icon: '🧠',
-    color: [0.6, 0.3, 0.7],
-    books: ['Neuroscience', 'Cognitive Science', 'Brain Anatomy', 'Neuroplasticity'],
-    equipment: ['EEG Machine', 'Brain Scanner', 'Neural Recorder', 'Brain Model'],
-    screens: ['Brain Scans', 'Neural Activity', 'Cognitive Tests']
-  },
-  'Astronomy': {
-    icon: '🔭',
-    color: [0.1, 0.1, 0.4],
-    books: ['Astronomy', 'Astrophysics', 'Cosmology', 'Planetary Science'],
-    equipment: ['Telescope', 'Planetarium', 'Spectroscope', 'Radio Telescope'],
-    screens: ['Star Maps', 'Galaxy Images', 'Orbital Sims']
-  },
-  'Biomedical': {
-    icon: '🏥',
-    color: [0.8, 0.2, 0.2],
-    books: ['Biomedical Engineering', 'Medical Devices', 'Biomaterials', 'Tissue Engineering'],
-    equipment: ['MRI Scanner', 'Prosthetic Station', 'Biosensor', 'Medical Device Tester'],
-    screens: ['MRI Scans', 'ECG Readings', 'Prosthetic Designs']
-  }
+  'Quantum Computing': { icon: '⚛️', color: 0x3366cc, pos: [0, 0, -60] },
+  'Electronics': { icon: '⚡', color: 0xcc9933, pos: [-50, 0, -100] },
+  'AI': { icon: '🤖', color: 0x33cc66, pos: [50, 0, -100] },
+  'Biology': { icon: '🧬', color: 0x33cc99, pos: [-50, 0, -50] },
+  'Chemistry': { icon: '🧪', color: 0xcc3399, pos: [50, 0, -50] },
+  'Physics': { icon: '🔬', color: 0x6699cc, pos: [-60, 0, 30] },
+  'Robotics': { icon: '🤖', color: 0xcc6633, pos: [60, 0, 30] },
+  'Computer Science': { icon: '💻', color: 0x3366cc, pos: [-65, 0, 100] },
+  'Environmental': { icon: '🌍', color: 0x33cc33, pos: [65, 0, 100] },
+  'Neuroscience': { icon: '🧠', color: 0x9933cc, pos: [-50, 0, 150] },
+  'Astronomy': { icon: '🔭', color: 0x1a1a66, pos: [50, 0, 150] },
+  'Biomedical': { icon: '🏥', color: 0xcc3333, pos: [0, 0, 170] }
 };
 
-function initBabylon() {
-  canvas = document.getElementById('renderCanvas');
-  engine = new BABYLON.Engine(canvas, true);
+function init() {
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x87ceeb);
+  scene.fog = new THREE.Fog(0x87ceeb, 0, 400);
   
-  scene = new BABYLON.Scene(engine);
-  scene.clearColor = new BABYLON.Color3(0.6, 0.8, 1);
-  scene.gravity = new BABYLON.Vector3(0, -0.5, 0);
-  scene.collisionsEnabled = true;
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1.7, 100);
   
-  camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 1.7, 80), scene);
-  camera.speed = 0.3;
-  camera.angularSensibility = 1500;
-  camera.ellipsoid = new BABYLON.Vector3(0.5, 0.85, 0.5);
-  camera.checkCollisions = true;
-  camera.applyGravity = true;
-  camera.keysUp = [87]; camera.keysDown = [83]; camera.keysLeft = [65]; camera.keysRight = [68];
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   
-  const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
-  hemiLight.intensity = 0.7;
+  controls = new PointerLockControls(camera, document.body);
   
-  const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
-  sun.position = new BABYLON.Vector3(100, 150, 100);
-  sun.intensity = 1;
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
   
-  createCityWith12Labs();
+  const sunLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  sunLight.position.set(100, 200, 100);
+  sunLight.castShadow = true;
+  sunLight.shadow.camera.left = -200;
+  sunLight.shadow.camera.right = 200;
+  sunLight.shadow.camera.top = 200;
+  sunLight.shadow.camera.bottom = -200;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  scene.add(sunLight);
+  
+  createCity();
   setupControls();
   
-  engine.runRenderLoop(() => scene.render());
-  window.addEventListener('resize', () => engine.resize());
+  window.addEventListener('resize', onWindowResize);
   
+  animate();
+  
+  document.getElementById('hud').classList.remove('hide');
+  document.getElementById('locationInfo').classList.remove('hide');
+  document.getElementById('controls').classList.remove('hide');
   updateHUD();
   updateLocation();
-  notify('🌆 Welcome! Explore 12 specialized labs. Press E to enter any lab!');
+  notify('🌆 Welcome to TechVerse! Walk to any lab and press E to enter!');
 }
 
-function createCityWith12Labs() {
-  const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 500, height: 500 }, scene);
-  const groundMat = new BABYLON.StandardMaterial("groundMat", scene);
-  groundMat.diffuseColor = new BABYLON.Color3(0.25, 0.45, 0.25);
-  ground.material = groundMat;
-  ground.checkCollisions = true;
+function createCity() {
+  const groundGeometry = new THREE.PlaneGeometry(500, 500);
+  const groundMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x3a5f3a,
+    roughness: 0.8,
+    metalness: 0.2
+  });
+  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
   
-  const labNames = Object.keys(labConfigs);
-  const positions = [
-    [0, 0, -50], [-40, 0, -80], [40, 0, -80], [-40, 0, -40],
-    [40, 0, -40], [-45, 0, 20], [45, 0, 20], [-50, 0, 80],
-    [50, 0, 80], [-40, 0, 120], [40, 0, 120], [0, 0, 140]
-  ];
+  const roadGeometry = new THREE.PlaneGeometry(20, 400);
+  const roadMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x333333,
+    roughness: 0.9,
+    metalness: 0.1
+  });
+  const road = new THREE.Mesh(roadGeometry, roadMaterial);
+  road.rotation.x = -Math.PI / 2;
+  road.position.y = 0.01;
+  road.receiveShadow = true;
+  scene.add(road);
   
-  labNames.forEach((labName, i) => {
-    const config = labConfigs[labName];
-    createLabBuilding(labName, positions[i], 35, 20, 45, config.color, config.icon);
+  for (let z = -200; z < 200; z += 20) {
+    const lineGeometry = new THREE.BoxGeometry(0.5, 0.05, 5);
+    const lineMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0xffffff,
+      emissive: 0xffffff,
+      emissiveIntensity: 0.5
+    });
+    const line = new THREE.Mesh(lineGeometry, lineMaterial);
+    line.position.set(0, 0.05, z);
+    scene.add(line);
+  }
+  
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    createLabBuilding(name, config);
   });
 }
 
-function createLabBuilding(name, pos, width, height, depth, color, icon) {
-  const building = BABYLON.MeshBuilder.CreateBox("building", { width: width, height: height, depth: depth }, scene);
-  building.position = new BABYLON.Vector3(pos[0], height / 2, pos[2]);
-  const buildingMat = new BABYLON.StandardMaterial("buildingMat", scene);
-  buildingMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
-  building.material = buildingMat;
-  building.checkCollisions = true;
+function createLabBuilding(name, config) {
+  const buildingGroup = new THREE.Group();
   
-  const door = BABYLON.MeshBuilder.CreateBox("door", { width: 4.5, height: 6, depth: 0.5 }, scene);
-  door.position = new BABYLON.Vector3(pos[0], 3, pos[2] + depth/2);
-  const doorMat = new BABYLON.StandardMaterial("doorMat", scene);
-  doorMat.diffuseColor = new BABYLON.Color3(0.3, 0.4, 0.5);
-  doorMat.emissiveColor = new BABYLON.Color3(0.2, 0.3, 0.4);
-  door.material = doorMat;
-  door.metadata = { type: 'entrance', lab: name };
+  const buildingGeometry = new THREE.BoxGeometry(35, 20, 45);
+  const buildingMaterial = new THREE.MeshStandardMaterial({ 
+    color: config.color,
+    roughness: 0.7,
+    metalness: 0.3
+  });
+  const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+  building.position.y = 10;
+  building.castShadow = true;
+  building.receiveShadow = true;
+  buildingGroup.add(building);
+  
+  const doorGeometry = new THREE.BoxGeometry(4.5, 6, 0.5);
+  const doorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x4a5a6a,
+    roughness: 0.5,
+    metalness: 0.5,
+    emissive: 0x2a3a4a,
+    emissiveIntensity: 0.3
+  });
+  const door = new THREE.Mesh(doorGeometry, doorMaterial);
+  door.position.set(0, 3, 22.5);
+  door.userData = { type: 'entrance', lab: name };
+  buildingGroup.add(door);
   interactables.push(door);
   
-  createSign(`${icon} ${name.toUpperCase()} LAB`, pos[0], height + 3, pos[2] + depth/2 + 0.2, 1.5);
-  createSign('🚪 Press E to Enter', pos[0], 2, pos[2] + depth/2 + 2, 1.2);
-}
-
-function createSign(text, x, y, z, scale = 1) {
-  const sign = BABYLON.MeshBuilder.CreatePlane("sign", { width: 12 * scale, height: 2.5 * scale }, scene);
-  sign.position = new BABYLON.Vector3(x, y, z);
-  sign.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+  const doorLight = new THREE.PointLight(0x00d4ff, 1, 10);
+  doorLight.position.set(0, 5, 23);
+  buildingGroup.add(doorLight);
   
-  const texture = new BABYLON.DynamicTexture("signTexture", { width: 1024, height: 256 }, scene);
-  const ctx = texture.getContext();
-  ctx.fillStyle = '#1a1a2e';
-  ctx.fillRect(0, 0, 1024, 256);
-  ctx.font = `Bold ${50 * scale}px Arial`;
-  ctx.fillStyle = '#00d4ff';
-  ctx.textAlign = 'center';
-  ctx.fillText(text, 512, 140);
-  texture.update();
-  
-  const mat = new BABYLON.StandardMaterial("signMat", scene);
-  mat.diffuseTexture = texture;
-  mat.emissiveTexture = texture;
-  sign.material = mat;
-}
-
-function setupControls() {
-  canvas.addEventListener('click', () => {
-    if (canvas.requestPointerLock) canvas.requestPointerLock();
-  });
-  
-  document.addEventListener('pointerlockchange', () => {
-    state.pointerLocked = document.pointerLockElement === canvas;
-    if (state.pointerLocked && camera) camera.attachControl(canvas, true);
-  });
-  
-  let sprint = false;
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (document.getElementById('interactPanel').classList.contains('hide') === false) {
-        closeInteractPanel();
-      } else if (state.pointerLocked) {
-        document.exitPointerLock();
-      } else if (state.insideLab) {
-        exitLab();
-      }
-    }
-    if (e.key === 'Shift') { sprint = true; if (camera) camera.speed = 0.6; }
-    if (e.key === 'e' || e.key === 'E') checkInteraction();
-  });
-  
-  document.addEventListener('keyup', (e) => {
-    if (e.key === 'Shift') { sprint = false; if (camera) camera.speed = 0.3; }
-  });
-}
-
-function checkInteraction() {
-  if (!camera) return;
-  
-  let nearest = null, minDist = 6;
-  interactables.forEach(obj => {
-    const dist = BABYLON.Vector3.Distance(camera.position, obj.position);
-    if (dist < minDist) { minDist = dist; nearest = obj; }
-  });
-  
-  if (nearest && nearest.metadata) {
-    if (nearest.metadata.type === 'entrance') enterLab(nearest.metadata.lab);
-    else if (nearest.metadata.type === 'exit') exitLab();
-    else if (nearest.metadata.type === 'book') readBook(nearest.metadata.title);
-    else if (nearest.metadata.type === 'equipment') useEquipment(nearest.metadata.name);
-  }
+  buildingGroup.position.set(config.pos[0], config.pos[1], config.pos[2]);
+  scene.add(buildingGroup);
 }
 
 function enterLab(labName) {
   notify(`🚪 Entering ${labName} Lab...`);
   addXP(100);
   state.labsVisited.add(labName);
+  state.insideLab = true;
+  state.currentLab = labName;
   
-  scene.meshes.forEach(mesh => {
-    if (mesh.name !== 'camera') mesh.dispose();
-  });
-  scene.lights.forEach(light => light.dispose());
-  interactables = [];
+  scene.clear();
+  scene.background = new THREE.Color(0x1a1a1a);
+  scene.fog = null;
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambientLight);
   
   createLabInterior(labName);
   
-  state.insideLab = true;
-  state.currentLab = labName;
-  camera.position = new BABYLON.Vector3(0, 1.7, 22);
-  camera.rotation = new BABYLON.Vector3(0, 0, 0);
+  camera.position.set(0, 1.7, 22);
+  camera.rotation.set(0, 0, 0);
+  velocity.set(0, 0, 0);
+  
   updateLocation();
   updateHUD();
 }
 
 function createLabInterior(labName) {
-  scene.clearColor = new BABYLON.Color3(0, 0, 0);
-  
   const config = labConfigs[labName];
   
-  const floor = BABYLON.MeshBuilder.CreateGround("floor", { width: 40, height: 35 }, scene);
-  const floorMat = new BABYLON.StandardMaterial("floorMat", scene);
-  floorMat.diffuseColor = new BABYLON.Color3(0.85, 0.85, 0.85);
-  floor.material = floorMat;
-  floor.checkCollisions = true;
+  const floorGeometry = new THREE.PlaneGeometry(40, 35);
+  const floorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xcccccc,
+    roughness: 0.6,
+    metalness: 0.4
+  });
+  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
   
-  createWall(0, 2.5, -17.5, 40, 5, 0.3);
-  createWall(-20, 2.5, 0, 0.3, 5, 35);
-  createWall(20, 2.5, 0, 0.3, 5, 35);
-  createWall(0, 2.5, 17.5, 40, 5, 0.3);
+  const wallMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xe0e0e0,
+    roughness: 0.8,
+    metalness: 0.2,
+    side: THREE.DoubleSide
+  });
   
-  const ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", { width: 40, height: 0.3, depth: 35 }, scene);
-  ceiling.position = new BABYLON.Vector3(0, 5, 0);
-  const ceilingMat = new BABYLON.StandardMaterial("ceilingMat", scene);
-  ceilingMat.diffuseColor = new BABYLON.Color3(0.95, 0.95, 0.95);
-  ceiling.material = ceilingMat;
-  ceiling.checkCollisions = true;
+  const backWall = new THREE.Mesh(new THREE.PlaneGeometry(40, 5), wallMaterial);
+  backWall.position.set(0, 2.5, -17.5);
+  backWall.receiveShadow = true;
+  scene.add(backWall);
+  
+  const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(35, 5), wallMaterial);
+  leftWall.position.set(-20, 2.5, 0);
+  leftWall.rotation.y = Math.PI / 2;
+  leftWall.receiveShadow = true;
+  scene.add(leftWall);
+  
+  const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(35, 5), wallMaterial);
+  rightWall.position.set(20, 2.5, 0);
+  rightWall.rotation.y = -Math.PI / 2;
+  rightWall.receiveShadow = true;
+  scene.add(rightWall);
+  
+  const frontWall = new THREE.Mesh(new THREE.PlaneGeometry(40, 5), wallMaterial);
+  frontWall.position.set(0, 2.5, 17.5);
+  frontWall.rotation.y = Math.PI;
+  frontWall.receiveShadow = true;
+  scene.add(frontWall);
+  
+  const ceilingGeometry = new THREE.PlaneGeometry(40, 35);
+  const ceilingMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xf5f5f5,
+    roughness: 0.7,
+    metalness: 0.3,
+    side: THREE.DoubleSide
+  });
+  const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+  ceiling.rotation.x = Math.PI / 2;
+  ceiling.position.y = 5;
+  ceiling.receiveShadow = true;
+  scene.add(ceiling);
   
   for (let x = -15; x <= 15; x += 10) {
     for (let z = -12; z <= 12; z += 8) {
-      const spotLight = new BABYLON.SpotLight("spot", new BABYLON.Vector3(x, 4.8, z), new BABYLON.Vector3(0, -1, 0), Math.PI / 3, 2, scene);
-      spotLight.intensity = 0.8;
-      spotLight.diffuse = new BABYLON.Color3(1, 1, 0.95);
+      const light = new THREE.PointLight(0xffffff, 1, 20);
+      light.position.set(x, 4.5, z);
+      light.castShadow = true;
+      scene.add(light);
       
-      const tube = BABYLON.MeshBuilder.CreateBox("tube", { width: 3, height: 0.2, depth: 0.3 }, scene);
-      tube.position = new BABYLON.Vector3(x, 4.85, z);
-      const tubeMat = new BABYLON.StandardMaterial("tubeMat", scene);
-      tubeMat.emissiveColor = new BABYLON.Color3(1, 1, 0.9);
-      tube.material = tubeMat;
+      const lightGeometry = new THREE.BoxGeometry(3, 0.2, 0.3);
+      const lightMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xffffff,
+        emissive: 0xffffaa,
+        emissiveIntensity: 1
+      });
+      const lightFixture = new THREE.Mesh(lightGeometry, lightMaterial);
+      lightFixture.position.set(x, 4.85, z);
+      scene.add(lightFixture);
     }
   }
   
-  config.books.forEach((book, i) => {
-    createBookshelf(-18, 0, -12 + i * 6, book);
-  });
-  
-  config.equipment.forEach((eq, i) => {
-    createEquipment(15, 0, -12 + i * 8, eq, config.color);
-  });
-  
-  const exitDoor = BABYLON.MeshBuilder.CreateBox("exitDoor", { width: 3, height: 4, depth: 0.3 }, scene);
-  exitDoor.position = new BABYLON.Vector3(0, 2, 17.4);
-  const exMat = new BABYLON.StandardMaterial("exMat", scene);
-  exMat.diffuseColor = new BABYLON.Color3(0.8, 0.2, 0.2);
-  exMat.emissiveColor = new BABYLON.Color3(0.4, 0.1, 0.1);
-  exitDoor.material = exMat;
-  exitDoor.metadata = { type: 'exit' };
-  interactables.push(exitDoor);
-  
-  createSign('← EXIT TO CITY (Press E)', 0, 3.5, 17, 0.8);
-  createSign(`${config.icon} ${labName.toUpperCase()} LAB`, 0, 4.8, 0, 1.5);
-}
-
-function createWall(x, y, z, w, h, d) {
-  const wall = BABYLON.MeshBuilder.CreateBox("wall", { width: w, height: h, depth: d }, scene);
-  wall.position = new BABYLON.Vector3(x, y, z);
-  const wallMat = new BABYLON.StandardMaterial("wallMat", scene);
-  wallMat.diffuseColor = new BABYLON.Color3(0.95, 0.95, 0.95);
-  wall.material = wallMat;
-  wall.checkCollisions = true;
-}
-
-function createBookshelf(x, y, z, bookTitle) {
-  const shelf = BABYLON.MeshBuilder.CreateBox("shelf", { width: 0.4, height: 4, depth: 3 }, scene);
-  shelf.position = new BABYLON.Vector3(x, y + 2, z);
-  const shelfMat = new BABYLON.StandardMaterial("shelfMat", scene);
-  shelfMat.diffuseColor = new BABYLON.Color3(0.5, 0.4, 0.3);
-  shelf.material = shelfMat;
-  shelf.checkCollisions = true;
-  
-  for (let i = 0; i < 5; i++) {
-    const book = BABYLON.MeshBuilder.CreateBox("book", { width: 0.3, height: 0.6, depth: 0.4 }, scene);
-    book.position = new BABYLON.Vector3(x - 0.25, y + 0.5 + i * 0.8, z - 1 + i * 0.4);
-    const bookMat = new BABYLON.StandardMaterial("bookMat", scene);
-    const colors = [[0.8, 0.2, 0.2], [0.2, 0.6, 0.8], [0.3, 0.7, 0.3], [0.7, 0.5, 0.2]];
-    const color = colors[i % colors.length];
-    bookMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
-    book.material = bookMat;
-    book.metadata = { type: 'book', title: bookTitle };
-    interactables.push(book);
+  for (let i = 0; i < 4; i++) {
+    createBookshelf(-18, 0, -12 + i * 6, config.color);
   }
   
-  createSign(`📚 ${bookTitle}\nPress E`, x, y + 4.5, z, 0.5);
+  for (let i = 0; i < 3; i++) {
+    createEquipment(15, 0, -12 + i * 8, config.color);
+  }
+  
+  const exitDoorGeometry = new THREE.BoxGeometry(3, 4, 0.3);
+  const exitDoorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xcc3333,
+    emissive: 0x661111,
+    emissiveIntensity: 0.5,
+    roughness: 0.5,
+    metalness: 0.5
+  });
+  const exitDoor = new THREE.Mesh(exitDoorGeometry, exitDoorMaterial);
+  exitDoor.position.set(0, 2, 17.4);
+  exitDoor.userData = { type: 'exit' };
+  scene.add(exitDoor);
+  interactables.push(exitDoor);
+  
+  const exitLight = new THREE.PointLight(0xff3333, 0.5, 8);
+  exitLight.position.set(0, 3, 17);
+  scene.add(exitLight);
 }
 
-function createEquipment(x, y, z, name, color) {
-  const eq = BABYLON.MeshBuilder.CreateBox("eq", { width: 3, height: 3, depth: 3 }, scene);
-  eq.position = new BABYLON.Vector3(x, y + 1.5, z);
-  const eqMat = new BABYLON.StandardMaterial("eqMat", scene);
-  eqMat.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
-  eqMat.emissiveColor = new BABYLON.Color3(color[0] * 0.5, color[1] * 0.5, color[2] * 0.5);
-  eq.material = eqMat;
-  eq.metadata = { type: 'equipment', name: name };
-  eq.checkCollisions = true;
-  interactables.push(eq);
+function createBookshelf(x, y, z, color) {
+  const shelfGeometry = new THREE.BoxGeometry(0.4, 4, 3);
+  const shelfMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x8b6f47,
+    roughness: 0.8,
+    metalness: 0.2
+  });
+  const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
+  shelf.position.set(x, y + 2, z);
+  shelf.castShadow = true;
+  shelf.receiveShadow = true;
+  scene.add(shelf);
   
-  createSign(`${name}\nPress E`, x, y + 3.5, z, 0.5);
+  for (let i = 0; i < 5; i++) {
+    const bookGeometry = new THREE.BoxGeometry(0.3, 0.6, 0.4);
+    const bookColors = [0xcc3333, 0x3366cc, 0x33cc66, 0xcc9933];
+    const bookMaterial = new THREE.MeshStandardMaterial({ 
+      color: bookColors[i % bookColors.length],
+      roughness: 0.7,
+      metalness: 0.3
+    });
+    const book = new THREE.Mesh(bookGeometry, bookMaterial);
+    book.position.set(x - 0.25, y + 0.5 + i * 0.8, z - 1 + i * 0.4);
+    book.castShadow = true;
+    book.userData = { type: 'book' };
+    scene.add(book);
+    interactables.push(book);
+  }
 }
 
-function readBook(title) {
-  const panel = document.getElementById('interactPanel');
-  const panelTitle = document.getElementById('panelTitle');
-  const content = document.getElementById('panelContent');
+function createEquipment(x, y, z, color) {
+  const eqGeometry = new THREE.BoxGeometry(3, 3, 3);
+  const eqMaterial = new THREE.MeshStandardMaterial({ 
+    color: color,
+    roughness: 0.4,
+    metalness: 0.6,
+    emissive: color,
+    emissiveIntensity: 0.3
+  });
+  const equipment = new THREE.Mesh(eqGeometry, eqMaterial);
+  equipment.position.set(x, y + 1.5, z);
+  equipment.castShadow = true;
+  equipment.receiveShadow = true;
+  equipment.userData = { type: 'equipment' };
+  scene.add(equipment);
+  interactables.push(equipment);
   
-  panelTitle.textContent = `📚 ${title}`;
-  content.innerHTML = `
-    <div class="bookText">
-      <strong>${title}</strong><br><br>
-      This comprehensive textbook covers all fundamental concepts and advanced topics in ${title}. 
-      Includes detailed explanations, examples, exercises, and real-world applications.
-      Perfect for students, researchers, and professionals in the field.
-    </div>
-    <button class="interactBtn success" onclick="closeInteractPanel()">CLOSE</button>
-  `;
-  
-  panel.classList.remove('hide');
-  document.exitPointerLock();
-  
-  addXP(50);
-  notify(`📚 Reading "${title}" | +50 XP`);
+  const eqLight = new THREE.PointLight(color, 0.5, 8);
+  eqLight.position.set(x, y + 2, z);
+  scene.add(eqLight);
 }
-
-function useEquipment(name) {
-  notify(`🔧 Using ${name}... +30 XP`);
-  addXP(30);
-}
-
-window.closeInteractPanel = function() {
-  document.getElementById('interactPanel').classList.add('hide');
-};
 
 function exitLab() {
   notify('🚪 Exiting to city...');
-  scene.meshes.forEach(mesh => {
-    if (mesh.name !== 'camera') mesh.dispose();
-  });
-  scene.lights.forEach(light => light.dispose());
-  interactables = [];
-  
-  const hemiLight = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
-  hemiLight.intensity = 0.7;
-  const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-1, -2, -1), scene);
-  sun.position = new BABYLON.Vector3(100, 150, 100);
-  sun.intensity = 1;
-  
-  createCityWith12Labs();
-  camera.position = new BABYLON.Vector3(0, 1.7, 80);
   state.insideLab = false;
   state.currentLab = null;
-  scene.clearColor = new BABYLON.Color3(0.6, 0.8, 1);
+  
+  scene.clear();
+  scene.background = new THREE.Color(0x87ceeb);
+  scene.fog = new THREE.Fog(0x87ceeb, 0, 400);
+  
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+  
+  const sunLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  sunLight.position.set(100, 200, 100);
+  sunLight.castShadow = true;
+  sunLight.shadow.camera.left = -200;
+  sunLight.shadow.camera.right = 200;
+  sunLight.shadow.camera.top = 200;
+  sunLight.shadow.camera.bottom = -200;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  scene.add(sunLight);
+  
+  interactables = [];
+  createCity();
+  
+  camera.position.set(0, 1.7, 100);
+  camera.rotation.set(0, 0, 0);
+  velocity.set(0, 0, 0);
+  
   updateLocation();
+}
+
+function setupControls() {
+  document.addEventListener('keydown', (e) => {
+    switch (e.code) {
+      case 'KeyW': moveForward = true; break;
+      case 'KeyS': moveBackward = true; break;
+      case 'KeyA': moveLeft = true; break;
+      case 'KeyD': moveRight = true; break;
+      case 'Space': if (canJump) velocity.y += 5; canJump = false; break;
+      case 'KeyE': handleInteraction(); break;
+      case 'Escape': if (state.insideLab) exitLab(); break;
+    }
+  });
+  
+  document.addEventListener('keyup', (e) => {
+    switch (e.code) {
+      case 'KeyW': moveForward = false; break;
+      case 'KeyS': moveBackward = false; break;
+      case 'KeyA': moveLeft = false; break;
+      case 'KeyD': moveRight = false; break;
+    }
+  });
+  
+  document.getElementById('canvas').addEventListener('click', () => {
+    controls.lock();
+  });
+}
+
+function handleInteraction() {
+  if (state.nearInteractable) {
+    const userData = state.nearInteractable.userData;
+    if (userData.type === 'entrance') {
+      enterLab(userData.lab);
+    } else if (userData.type === 'exit') {
+      exitLab();
+    } else if (userData.type === 'book') {
+      notify('📚 Reading book... +50 XP');
+      addXP(50);
+    } else if (userData.type === 'equipment') {
+      notify('🔧 Using equipment... +30 XP');
+      addXP(30);
+    }
+  }
+}
+
+function checkNearbyInteractables() {
+  raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+  const intersects = raycaster.intersectObjects(interactables);
+  
+  if (intersects.length > 0 && intersects[0].distance < 5) {
+    state.nearInteractable = intersects[0].object;
+    document.getElementById('interactPrompt').style.display = 'block';
+  } else {
+    state.nearInteractable = null;
+    document.getElementById('interactPrompt').style.display = 'none';
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  
+  const time = performance.now();
+  
+  if (controls.isLocked) {
+    const delta = (time - prevTime) / 1000;
+    
+    velocity.x -= velocity.x * 10.0 * delta;
+    velocity.z -= velocity.z * 10.0 * delta;
+    velocity.y -= 9.8 * 10.0 * delta;
+    
+    direction.z = Number(moveForward) - Number(moveBackward);
+    direction.x = Number(moveRight) - Number(moveLeft);
+    direction.normalize();
+    
+    const speed = 30;
+    
+    if (moveForward || moveBackward) velocity.z -= direction.z * speed * delta;
+    if (moveLeft || moveRight) velocity.x -= direction.x * speed * delta;
+    
+    controls.moveRight(-velocity.x * delta);
+    controls.moveForward(-velocity.z * delta);
+    
+    camera.position.y += velocity.y * delta;
+    
+    if (camera.position.y < 1.7) {
+      velocity.y = 0;
+      camera.position.y = 1.7;
+      canJump = true;
+    }
+    
+    checkNearbyInteractables();
+  }
+  
+  prevTime = time;
+  
+  renderer.render(scene, camera);
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function updateLocation() {
@@ -550,7 +591,6 @@ function updateLocation() {
   } else {
     locText.textContent = '📍 City - 12 Labs';
   }
-  document.getElementById('locationInfo').classList.remove('hide');
 }
 
 function addXP(amount) {
@@ -565,7 +605,6 @@ function addXP(amount) {
 }
 
 function updateHUD() {
-  document.getElementById('role').textContent = state.char || '-';
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
@@ -578,40 +617,24 @@ function notify(msg) {
   setTimeout(() => n.classList.remove('show'), 4000);
 }
 
-let selChar = null;
-document.querySelectorAll('.charCard').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    selChar = card.dataset.char;
-    document.getElementById('startBtn').disabled = false;
-  });
-});
-
 document.getElementById('startBtn').addEventListener('click', () => {
-  if (!selChar) return;
-  state.char = selChar;
-  document.getElementById('charSelect').classList.add('hide');
+  document.getElementById('startScreen').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
-  const msgs = ['Creating 12 specialized labs...', 'Adding equipment...', 'Loading books...', 'Setting up screens...', 'Ready!'];
+  const msgs = ['Loading Three.js Engine...', 'Creating realistic world...', 'Building 12 labs...', 'Adding lighting & shadows...', 'Ready!'];
   let i = 0;
   const interval = setInterval(() => {
     document.getElementById('loadText').textContent = msgs[i];
-    document.getElementById('loadBar').style.width = ((i + 1) / msgs.length * 100) + '%';
     i++;
     
     if (i >= msgs.length) {
       clearInterval(interval);
       setTimeout(() => {
         document.getElementById('loading').classList.add('hide');
-        document.getElementById('hud').classList.remove('hide');
-        document.getElementById('locationInfo').classList.remove('hide');
-        document.getElementById('controls').classList.remove('hide');
-        initBabylon();
+        init();
       }, 500);
     }
-  }, 700);
+  }, 800);
 });
 </script>
 </body>
