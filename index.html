@@ -3,67 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse: Hybrid Innovation Lab</title>
+<title>TechVerse: Underground Tech + Startup Hub</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
+body { font-family: 'Courier New', monospace; overflow: hidden; background: #000; color: #0ff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
-#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-#startScreen h1 { font-size: clamp(2.5em, 7vw, 5em); color: #fff; text-shadow: 0 0 50px rgba(0, 212, 255, 1); margin-bottom: 20px; font-weight: 900; animation: glow 2s ease-in-out infinite; }
-@keyframes glow { 0%, 100% { text-shadow: 0 0 50px rgba(0, 212, 255, 1); } 50% { text-shadow: 0 0 80px rgba(0, 212, 255, 1); } }
-.subtitle { font-size: clamp(1em, 2.5vw, 1.3em); color: #bdc3c7; margin-bottom: 30px; text-align: center; max-width: 90%; line-height: 1.8; }
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; max-width: 1000px; width: 90%; margin-bottom: 30px; }
-.feature { background: rgba(52, 152, 219, 0.2); padding: 12px 16px; border-radius: 10px; border: 2px solid rgba(52, 152, 219, 0.4); text-align: center; font-size: clamp(0.85em, 1.6vw, 1em); color: #3498db; font-weight: 700; }
-#startBtn { padding: clamp(15px, 3.5vw, 22px) clamp(50px, 10vw, 90px); font-size: clamp(1.2em, 2.8vw, 1.6em); background: linear-gradient(135deg, #27ae60, #229954); border: none; border-radius: 60px; color: #fff; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 10px 40px rgba(39, 174, 96, 0.7); transition: all 0.4s; }
-#startBtn:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(39, 174, 96, 0.9); }
+#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0a0a0a, #1a0a2e, #0f0a1e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+#startScreen h1 { font-size: clamp(2.5em, 7vw, 5em); color: #0ff; text-shadow: 0 0 30px #0ff, 0 0 60px #f0f; margin-bottom: 20px; font-weight: 900; animation: glowCyber 2s ease-in-out infinite; letter-spacing: 5px; }
+@keyframes glowCyber { 0%, 100% { text-shadow: 0 0 30px #0ff, 0 0 60px #f0f; } 50% { text-shadow: 0 0 50px #0ff, 0 0 100px #f0f; } }
+.subtitle { font-size: clamp(1em, 2.5vw, 1.3em); color: #f0f; margin-bottom: 30px; text-align: center; max-width: 90%; line-height: 1.8; text-shadow: 0 0 10px #f0f; }
+.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; max-width: 1100px; width: 90%; margin-bottom: 30px; }
+.charCard { background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1)); border: 2px solid #0ff; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s; text-align: center; min-height: 150px; display: flex; flex-direction: column; justify-content: center; }
+.charCard:hover { transform: translateY(-8px); border-color: #f0f; box-shadow: 0 0 30px #0ff, 0 0 60px #f0f; }
+.charCard.selected { background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3)); border-color: #f0f; box-shadow: 0 0 40px #f0f; }
+.charCard .icon { font-size: clamp(2.5em, 5vw, 3.5em); margin-bottom: 10px; }
+.charCard h3 { color: #0ff; font-size: clamp(1.1em, 2.5vw, 1.3em); margin: 8px 0; font-weight: 800; text-shadow: 0 0 10px #0ff; }
+.charCard p { color: #f0f; font-size: clamp(0.8em, 1.8vw, 0.95em); text-shadow: 0 0 5px #f0f; }
+#startBtn { padding: clamp(15px, 3.5vw, 22px) clamp(50px, 10vw, 90px); font-size: clamp(1.2em, 2.8vw, 1.6em); background: linear-gradient(135deg, #0ff, #f0f); border: none; border-radius: 10px; color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 30px #0ff, 0 0 60px #f0f; transition: all 0.4s; }
+#startBtn:hover { transform: scale(1.05); box-shadow: 0 0 50px #0ff, 0 0 100px #f0f; }
 
-#loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-#loading h2 { color: #00d4ff; font-size: clamp(2em, 5vw, 3em); margin-bottom: 30px; font-weight: 900; animation: pulse 1.5s ease-in-out infinite; }
+#loading { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0a0a0a, #1a0a2e, #0f0a1e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+#loading h2 { color: #0ff; font-size: clamp(2em, 5vw, 3em); margin-bottom: 30px; font-weight: 900; animation: pulse 1.5s ease-in-out infinite; text-shadow: 0 0 20px #0ff; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-.spinner { border: 8px solid rgba(0, 212, 255, 0.2); border-top: 8px solid #00d4ff; border-radius: 50%; width: clamp(70px, 12vw, 100px); height: clamp(70px, 12vw, 100px); animation: spin 1s linear infinite; }
+.spinner { border: 8px solid rgba(0, 255, 255, 0.2); border-top: 8px solid #0ff; border-radius: 50%; width: clamp(70px, 12vw, 100px); height: clamp(70px, 12vw, 100px); animation: spin 1s linear infinite; box-shadow: 0 0 30px #0ff; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-#loadText { color: #bdc3c7; font-size: clamp(1.1em, 2.3vw, 1.4em); margin-top: 25px; text-align: center; padding: 0 20px; }
+#loadText { color: #f0f; font-size: clamp(1.1em, 2.3vw, 1.4em); margin-top: 25px; text-align: center; padding: 0 20px; text-shadow: 0 0 10px #f0f; }
 
-#hud { position: fixed; top: 15px; left: 15px; background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(15px, 2.5vw, 25px); border-radius: 15px; border: 3px solid rgba(0, 212, 255, 0.7); min-width: clamp(200px, 28vw, 300px); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
-#hud h3 { color: #00d4ff; font-size: clamp(1.1em, 2.2vw, 1.5em); margin-bottom: 12px; border-bottom: 3px solid rgba(0, 212, 255, 0.5); padding-bottom: 10px; font-weight: 900; text-shadow: 0 0 10px rgba(0, 212, 255, 0.8); }
-.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: clamp(0.9em, 1.7vw, 1.1em); color: #bdc3c7; }
-.hudStat .val { color: #27ae60; font-weight: 900; text-shadow: 0 0 8px rgba(39, 174, 96, 0.6); }
+#hud { position: fixed; top: 15px; left: 15px; background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 10, 46, 0.9)); padding: clamp(15px, 2.5vw, 25px); border-radius: 10px; border: 2px solid #0ff; min-width: clamp(200px, 28vw, 300px); z-index: 1000; backdrop-filter: blur(10px); box-shadow: 0 0 30px #0ff; }
+#hud h3 { color: #0ff; font-size: clamp(1.1em, 2.2vw, 1.5em); margin-bottom: 12px; border-bottom: 2px solid #0ff; padding-bottom: 10px; font-weight: 900; text-shadow: 0 0 10px #0ff; }
+.hudStat { display: flex; justify-content: space-between; margin: 10px 0; font-size: clamp(0.9em, 1.7vw, 1.1em); color: #0ff; }
+.hudStat .val { color: #f0f; font-weight: 900; text-shadow: 0 0 8px #f0f; }
 
-#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: 18px 40px; border-radius: 15px; border: 3px solid rgba(243, 156, 18, 0.7); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
-#locationInfo h3 { color: #f39c12; font-size: clamp(1.3em, 2.8vw, 1.7em); font-weight: 900; text-shadow: 0 0 10px rgba(243, 156, 18, 0.8); }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 10, 46, 0.9)); padding: 18px 40px; border-radius: 10px; border: 2px solid #f0f; z-index: 1000; backdrop-filter: blur(10px); box-shadow: 0 0 30px #f0f; }
+#locationInfo h3 { color: #f0f; font-size: clamp(1.3em, 2.8vw, 1.7em); font-weight: 900; text-shadow: 0 0 10px #f0f; }
 
-#interactPrompt { position: fixed; bottom: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(39, 174, 96, 0.95), rgba(46, 204, 113, 0.95)); padding: clamp(12px, 2.5vw, 18px) clamp(30px, 6vw, 50px); border-radius: 50px; font-size: clamp(1em, 2vw, 1.2em); font-weight: 900; color: #fff; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 8px 30px rgba(39, 174, 96, 0.8); display: none; animation: bounce 1s ease-in-out infinite; }
+#interactPrompt { position: fixed; bottom: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0ff, #f0f); padding: clamp(12px, 2.5vw, 18px) clamp(30px, 6vw, 50px); border-radius: 10px; font-size: clamp(1em, 2vw, 1.2em); font-weight: 900; color: #000; z-index: 1000; box-shadow: 0 0 30px #0ff; display: none; animation: bounce 1s ease-in-out infinite; }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
-#innovationPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(350px, 92vw, 1000px); max-height: 88vh; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 12, 41, 0.98), rgba(36, 36, 62, 0.98)); padding: clamp(25px, 5vw, 45px); border-radius: 25px; border: 4px solid rgba(52, 152, 219, 0.7); z-index: 6000; backdrop-filter: blur(30px); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95); display: none; }
-#innovationPanel h2 { color: #3498db; font-size: clamp(1.8em, 4.5vw, 2.8em); margin-bottom: 25px; text-align: center; font-weight: 900; text-shadow: 0 0 15px rgba(52, 152, 219, 0.8); }
-#innovationPanel p { color: #ecf0f1; font-size: clamp(0.95em, 1.9vw, 1.15em); line-height: 1.9; margin: 18px 0; }
-.innovationBtn { padding: clamp(12px, 2.5vw, 16px) clamp(25px, 4vw, 35px); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 12px; color: #fff; font-weight: 900; cursor: pointer; margin: clamp(8px, 1.5vw, 12px); font-size: clamp(0.9em, 1.7vw, 1.05em); transition: all 0.3s; box-shadow: 0 6px 25px rgba(52, 152, 219, 0.5); display: inline-block; }
-.innovationBtn:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(52, 152, 219, 0.7); }
-.innovationBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
-.innovationBtn.danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-.infoBox { background: rgba(52, 152, 219, 0.25); padding: 18px; border-radius: 12px; margin: 18px 0; border-left: 5px solid #3498db; }
-.successBox { background: rgba(39, 174, 96, 0.25); border-left-color: #27ae60; }
+#infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(350px, 92vw, 1000px); max-height: 88vh; overflow-y: auto; background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 10, 46, 0.95)); padding: clamp(25px, 5vw, 45px); border-radius: 15px; border: 3px solid #0ff; z-index: 6000; backdrop-filter: blur(20px); box-shadow: 0 0 50px #0ff, 0 0 100px #f0f; display: none; }
+#infoPanel h2 { color: #0ff; font-size: clamp(1.8em, 4.5vw, 2.8em); margin-bottom: 25px; text-align: center; font-weight: 900; text-shadow: 0 0 20px #0ff; }
+#infoPanel p { color: #f0f; font-size: clamp(0.95em, 1.9vw, 1.15em); line-height: 1.9; margin: 18px 0; }
+.infoBtn { padding: clamp(12px, 2.5vw, 16px) clamp(25px, 4vw, 35px); background: linear-gradient(135deg, #0ff, #f0f); border: none; border-radius: 10px; color: #000; font-weight: 900; cursor: pointer; margin: clamp(8px, 1.5vw, 12px); font-size: clamp(0.9em, 1.7vw, 1.05em); transition: all 0.3s; box-shadow: 0 0 20px #0ff; display: inline-block; }
+.infoBtn:hover { transform: scale(1.05); box-shadow: 0 0 40px #0ff, 0 0 80px #f0f; }
+.infoBox { background: rgba(0, 255, 255, 0.1); padding: 18px; border-radius: 10px; margin: 18px 0; border-left: 5px solid #0ff; }
+.successBox { background: rgba(255, 0, 255, 0.1); border-left-color: #f0f; }
 
-#controls { position: fixed; bottom: clamp(25px, 5vh, 50px); left: clamp(15px, 2.5vw, 50px); background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(36, 36, 62, 0.95)); padding: clamp(18px, 3vw, 28px); border-radius: 15px; border: 3px solid rgba(0, 212, 255, 0.5); z-index: 1000; backdrop-filter: blur(25px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
-#controls h4 { color: #00d4ff; margin-bottom: 15px; font-size: clamp(1em, 2vw, 1.25em); font-weight: 900; text-shadow: 0 0 10px rgba(0, 212, 255, 0.8); }
-.ctrl { color: #bdc3c7; margin: 10px 0; font-size: clamp(0.85em, 1.6vw, 1em); }
-.key { color: #27ae60; font-weight: 900; background: linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(46, 204, 113, 0.3)); padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 15px); border-radius: 8px; margin-right: 10px; border: 2px solid rgba(39, 174, 96, 0.5); display: inline-block; box-shadow: 0 3px 10px rgba(39, 174, 96, 0.4); }
+#controls { position: fixed; bottom: clamp(25px, 5vh, 50px); left: clamp(15px, 2.5vw, 50px); background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 10, 46, 0.9)); padding: clamp(18px, 3vw, 28px); border-radius: 10px; border: 2px solid #0ff; z-index: 1000; backdrop-filter: blur(10px); box-shadow: 0 0 30px #0ff; }
+#controls h4 { color: #0ff; margin-bottom: 15px; font-size: clamp(1em, 2vw, 1.25em); font-weight: 900; text-shadow: 0 0 10px #0ff; }
+.ctrl { color: #f0f; margin: 10px 0; font-size: clamp(0.85em, 1.6vw, 1em); }
+.key { color: #000; font-weight: 900; background: linear-gradient(135deg, #0ff, #f0f); padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 15px); border-radius: 5px; margin-right: 10px; display: inline-block; box-shadow: 0 0 10px #0ff; }
 
-#notif { position: fixed; top: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: clamp(18px, 3.5vw, 25px) clamp(40px, 7vw, 60px); border-radius: 60px; font-weight: 900; font-size: clamp(1.1em, 2.2vw, 1.3em); opacity: 0; transition: opacity 0.5s; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 10px 40px rgba(39, 174, 96, 0.8); }
+#notif { position: fixed; top: clamp(120px, 18vh, 180px); left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0ff, #f0f); color: #000; padding: clamp(18px, 3.5vw, 25px) clamp(40px, 7vw, 60px); border-radius: 10px; font-weight: 900; font-size: clamp(1.1em, 2.2vw, 1.3em); opacity: 0; transition: opacity 0.5s; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 0 40px #0ff, 0 0 80px #f0f; }
 #notif.show { opacity: 1; }
 
 .hide { display: none !important; }
 
 #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 25px; height: 25px; pointer-events: none; z-index: 999; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0, 255, 0, 0.9); box-shadow: 0 0 10px rgba(0, 255, 0, 0.8); }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: #0ff; box-shadow: 0 0 10px #0ff; }
 #crosshair::before { width: 3px; height: 25px; left: 11px; }
 #crosshair::after { width: 25px; height: 3px; top: 11px; }
 
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0ff, #f0f); border-radius: 5px; }
 </style>
 </head>
 <body>
@@ -71,55 +74,51 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="crosshair"></div>
 
 <div id="startScreen">
-  <h1>🌟 TECHVERSE: HYBRID INNOVATION</h1>
-  <p class="subtitle">Explore 12 Labs + Central Hybrid Innovation Lab where ALL technologies combine to create revolutionary breakthroughs!</p>
+  <h1>⚡ TECHVERSE 2077 ⚡</h1>
+  <p class="subtitle">Underground Tech Labs + Startup Innovation Hub + Cyberpunk Future</p>
   
-  <div class="features">
-    <div class="feature">🌟 Hybrid Innovation Lab</div>
-    <div class="feature">🧬 Quantum-Bio Computing</div>
-    <div class="feature">🧠 Neuro-AI Interface</div>
-    <div class="feature">🌍 Climate Modeling</div>
-    <div class="feature">🤖 Bio-Inspired Robots</div>
-    <div class="feature">⚛️ Quantum Cryptography</div>
-    <div class="feature">💊 Nano-Medical Bots</div>
-    <div class="feature">🎮 Better Physics</div>
+  <div class="charGrid">
+    <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life expert</p></div>
+    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Underground physicist</p></div>
+    <div class="charCard" data-char="Neuro-Engineer"><div class="icon">🧠</div><h3>Neuro-Engineer</h3><p>Brain-tech specialist</p></div>
+    <div class="charCard" data-char="Startup Founder"><div class="icon">🚀</div><h3>Startup Founder</h3><p>Tech entrepreneur</p></div>
   </div>
   
-  <button id="startBtn">START EXPLORING</button>
+  <button id="startBtn">JACK IN</button>
 </div>
 
 <div id="loading" class="hide">
-  <h2>Building Innovation Hub...</h2>
+  <h2>Loading TechVerse...</h2>
   <div class="spinner"></div>
   <p id="loadText">Initializing...</p>
 </div>
 
 <div id="hud" class="hide">
-  <h3>⚡ PROGRESS</h3>
+  <h3>⚡ STATUS</h3>
+  <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/13</span></div>
-  <div class="hudStat"><span>Innovations:</span><span class="val" id="innovations">0</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/11</span></div>
 </div>
 
 <div id="locationInfo" class="hide">
-  <h3 id="currentLocation">📍 City</h3>
+  <h3 id="currentLocation">📍 Neo-City</h3>
 </div>
 
-<div id="interactPrompt">Press E to Interact</div>
+<div id="interactPrompt">Press E to Hack</div>
 
-<div id="innovationPanel">
-  <h2 id="panelTitle">Innovation</h2>
+<div id="infoPanel">
+  <h2 id="panelTitle">Tech</h2>
   <div id="panelContent"></div>
 </div>
 
 <div id="controls" class="hide">
-  <h4>🎮 CONTROLS</h4>
+  <h4>⚡ CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
-  <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
-  <div class="ctrl"><span class="key">ESC</span> Close/Exit</div>
+  <div class="ctrl"><span class="key">ESC</span> Exit</div>
 </div>
 
 <div id="notif"></div>
@@ -138,7 +137,7 @@ import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 const state = {
-  lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), innovations: 0,
+  char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
   insideLab: false, currentLab: null, nearInteractable: null
 };
 
@@ -149,71 +148,27 @@ let direction = new THREE.Vector3();
 let prevTime = performance.now();
 let raycaster = new THREE.Raycaster();
 let interactables = [];
-let collisionObjects = [];
 
 const labConfigs = {
-  'Hybrid Innovation': { icon: '🌟', color: 0xff00ff, pos: [0, 0, 0], isHybrid: true },
-  'Quantum Computing': { icon: '⚛️', color: 0x3366cc, pos: [0, 0, -60] },
-  'Electronics': { icon: '⚡', color: 0xcc9933, pos: [-50, 0, -100] },
-  'AI': { icon: '🤖', color: 0x33cc66, pos: [50, 0, -100] },
-  'Biology': { icon: '🧬', color: 0x33cc99, pos: [-50, 0, -50] },
-  'Chemistry': { icon: '🧪', color: 0xcc3399, pos: [50, 0, -50] },
-  'Physics': { icon: '🔬', color: 0x6699cc, pos: [-60, 0, 30] },
-  'Robotics': { icon: '🤖', color: 0xcc6633, pos: [60, 0, 30] },
-  'Computer Science': { icon: '💻', color: 0x3366cc, pos: [-65, 0, 100] },
-  'Environmental': { icon: '🌍', color: 0x33cc33, pos: [65, 0, 100] },
-  'Neuroscience': { icon: '🧠', color: 0x9933cc, pos: [-50, 0, 150] },
-  'Astronomy': { icon: '🔭', color: 0x1a1a66, pos: [50, 0, 150] },
-  'Biomedical': { icon: '🏥', color: 0xcc3333, pos: [0, 0, 170] }
+  'Startup Hub': { icon: '🚀', color: 0xff00ff, pos: [0, 0, 0], desc: 'Garage-style innovation hub. Pitch ideas, get funding, build prototypes. Raw startup energy.' },
+  'Xenobiology': { icon: '🧬', color: 0x00ff88, pos: [-60, 0, -80], desc: 'Synthetic life with non-natural DNA. XNA research. Create alien organisms. Controversial but revolutionary.' },
+  'OTEC Energy': { icon: '🌊', color: 0x0088ff, pos: [60, 0, -80], desc: 'Ocean Thermal Energy Conversion. Unlimited clean power from ocean temperature differences. Hawaii pilot plant.' },
+  'Optogenetics': { icon: '🧠', color: 0xff0088, pos: [-60, 0, -20], desc: 'Control neurons with light. Cure blindness, Parkinson\'s. Upload skills to brain. Stanford/MIT research.' },
+  'Programmable Matter': { icon: '🔮', color: 0x8800ff, pos: [60, 0, -20], desc: 'Shape-shifting materials. Claytronics - catoms that reconfigure. Carnegie Mellon. Instant manufacturing.' },
+  'Wireless Power': { icon: '⚡', color: 0xffff00, pos: [-60, 0, 40], desc: 'Electricity through air. MIT WiTricity. No more charging. Power anywhere wirelessly.' },
+  'Mycelium Computing': { icon: '🍄', color: 0x88ff00, pos: [60, 0, 40], desc: 'Fungal networks as bio-computers. Living buildings. University of West England. Nature\'s internet.' },
+  'Cryogenics': { icon: '🧊', color: 0x00ffff, pos: [-60, 0, 100], desc: 'Reversible freezing. Organ storage. Space travel. 21st Century Medicine - rabbit kidney revival.' },
+  'Metamaterials': { icon: '👻', color: 0xff00ff, pos: [60, 0, 100], desc: 'Invisibility cloaks. Duke University. Electromagnetic cloaking. Military classified. Perfect lenses.' },
+  'Acoustic Levitation': { icon: '🔊', color: 0xff8800, pos: [-60, 0, 160], desc: 'Levitate objects with sound. ETH Zurich. Contactless manufacturing. 3D printing in air.' },
+  'Epigenetics': { icon: '⏳', color: 0x00ff00, pos: [60, 0, 160], desc: 'Reverse aging. Reset cell age markers. Harvard - David Sinclair. Altos Labs. Live 200+ years.' }
 };
 
-const innovations = {
-  'Quantum-Bio Computing': {
-    desc: 'Combining quantum computing with DNA sequencing for instant disease detection and personalized medicine. Uses quantum superposition to analyze billions of genetic combinations simultaneously.',
-    tech: ['Quantum Computing', 'Biology'],
-    realStudy: 'IBM Quantum + CRISPR research, Nature 2023'
-  },
-  'Neuro-AI Interface': {
-    desc: 'Brain-computer interface allowing thought-controlled devices. Neural signals decoded by AI in real-time for seamless human-machine interaction.',
-    tech: ['Neuroscience', 'AI', 'Electronics'],
-    realStudy: 'Neuralink, OpenBCI, Nature Neuroscience 2024'
-  },
-  'Quantum Climate Model': {
-    desc: 'Ultra-accurate climate prediction using quantum computing to simulate atmospheric interactions at molecular level. Predicts weather years in advance.',
-    tech: ['Quantum Computing', 'Environmental', 'AI'],
-    realStudy: 'IBM Quantum Climate, Science 2023'
-  },
-  'Bio-Inspired Robots': {
-    desc: 'Self-healing robots using biological materials. Damaged parts regenerate like living tissue, extending operational lifespan indefinitely.',
-    tech: ['Biology', 'Robotics', 'AI'],
-    realStudy: 'MIT Soft Robotics, Science Robotics 2024'
-  },
-  'Quantum Cryptography': {
-    desc: 'Unhackable communication using quantum entanglement. Any interception attempt instantly detected through quantum state collapse.',
-    tech: ['Quantum Computing', 'Computer Science'],
-    realStudy: 'Quantum Key Distribution, Nature Physics 2023'
-  },
-  'CRISPR-AI Gene Therapy': {
-    desc: 'AI designs optimal gene edits using protein folding prediction. CRISPR executes precise modifications to cure genetic diseases.',
-    tech: ['Biology', 'AI', 'Chemistry'],
-    realStudy: 'AlphaFold + CRISPR, Cell 2024'
-  },
-  'Quantum Telescope': {
-    desc: 'Quantum-enhanced imaging sees exoplanets in unprecedented detail. Quantum sensors detect single photons from distant galaxies.',
-    tech: ['Quantum Computing', 'Astronomy', 'Physics'],
-    realStudy: 'Quantum Radar, Physical Review Letters 2023'
-  },
-  'Nano-Medical Robots': {
-    desc: 'DNA origami nanobots deliver drugs directly to cancer cells. Programmable molecular machines navigate bloodstream autonomously.',
-    tech: ['Biomedical', 'Robotics', 'Chemistry'],
-    realStudy: 'DNA Nanobots, Nature Nanotechnology 2024'
-  }
-};
+let selectedChar = null;
 
 function init() {
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x87ceeb);
-  scene.fog = new THREE.Fog(0x87ceeb, 0, 400);
+  scene.background = new THREE.Color(0x0a0a1a);
+  scene.fog = new THREE.FogExp2(0x0a0a1a, 0.002);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 1.7, 100);
@@ -223,27 +178,13 @@ function init() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
   
   controls = new PointerLockControls(camera, document.body);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0x0088ff, 0.3);
   scene.add(ambientLight);
   
-  const sunLight = new THREE.DirectionalLight(0xffffff, 1);
-  sunLight.position.set(100, 200, 100);
-  sunLight.castShadow = true;
-  sunLight.shadow.camera.left = -200;
-  sunLight.shadow.camera.right = 200;
-  sunLight.shadow.camera.top = 200;
-  sunLight.shadow.camera.bottom = -200;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
-  sunLight.shadow.bias = -0.0001;
-  scene.add(sunLight);
-  
-  createRealisticCity();
+  createCyberpunkCity();
   setupControls();
   
   window.addEventListener('resize', onWindowResize);
@@ -253,15 +194,16 @@ function init() {
   document.getElementById('hud').classList.remove('hide');
   document.getElementById('locationInfo').classList.remove('hide');
   document.getElementById('controls').classList.remove('hide');
+  document.getElementById('role').textContent = state.char;
   updateHUD();
   updateLocation();
-  notify('🌟 Welcome! Visit the HYBRID INNOVATION LAB at city center!');
+  notify('⚡ Welcome to Neo-City 2077! Explore underground tech labs!');
 }
 
-function createRealisticCity() {
-  const groundGeometry = new THREE.PlaneGeometry(500, 500, 50, 50);
+function createCyberpunkCity() {
+  const groundGeometry = new THREE.PlaneGeometry(500, 500);
   const groundMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x3a5f3a,
+    color: 0x0a0a0a,
     roughness: 0.9,
     metalness: 0.1
   });
@@ -270,139 +212,95 @@ function createRealisticCity() {
   ground.receiveShadow = true;
   scene.add(ground);
   
-  const roadGeometry = new THREE.PlaneGeometry(20, 400);
-  const roadMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x2a2a2a,
-    roughness: 0.95,
-    metalness: 0.05
-  });
-  const road = new THREE.Mesh(roadGeometry, roadMaterial);
-  road.rotation.x = -Math.PI / 2;
-  road.position.y = 0.02;
-  road.receiveShadow = true;
-  scene.add(road);
-  
-  Object.entries(labConfigs).forEach(([name, config]) => {
-    if (config.isHybrid) {
-      createHybridLabBuilding(name, config);
-    } else {
-      createDetailedLabBuilding(name, config);
-    }
-  });
-}
-
-function createHybridLabBuilding(name, config) {
-  const buildingGroup = new THREE.Group();
-  
-  const buildingGeometry = new THREE.BoxGeometry(50, 30, 60);
-  const buildingMaterial = new THREE.MeshStandardMaterial({ 
-    color: config.color,
-    roughness: 0.3,
-    metalness: 0.7,
-    emissive: config.color,
-    emissiveIntensity: 0.3
-  });
-  const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
-  building.position.y = 15;
-  building.castShadow = true;
-  building.receiveShadow = true;
-  buildingGroup.add(building);
-  collisionObjects.push(building);
-  
-  const domeGeometry = new THREE.SphereGeometry(15, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-  const domeMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x88ccff,
-    roughness: 0.1,
-    metalness: 0.9,
-    transparent: true,
-    opacity: 0.6
-  });
-  const dome = new THREE.Mesh(domeGeometry, domeMaterial);
-  dome.position.y = 30;
-  buildingGroup.add(dome);
-  
-  const doorGeometry = new THREE.BoxGeometry(6, 8, 0.5);
-  const doorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x4a5a6a,
-    roughness: 0.4,
-    metalness: 0.6,
-    emissive: config.color,
-    emissiveIntensity: 0.4
-  });
-  const door = new THREE.Mesh(doorGeometry, doorMaterial);
-  door.position.set(0, 4, 30.3);
-  door.userData = { type: 'entrance', lab: name };
-  buildingGroup.add(door);
-  interactables.push(door);
-  
-  for (let i = 0; i < 8; i++) {
-    const angle = (i / 8) * Math.PI * 2;
-    const light = new THREE.PointLight(config.color, 3, 30);
-    light.position.set(Math.cos(angle) * 20, 20, Math.sin(angle) * 20);
-    buildingGroup.add(light);
+  for (let i = 0; i < 50; i++) {
+    const x = (Math.random() - 0.5) * 400;
+    const z = (Math.random() - 0.5) * 400;
+    const height = 20 + Math.random() * 80;
+    const neonLight = new THREE.PointLight(
+      Math.random() > 0.5 ? 0x00ffff : 0xff00ff,
+      2,
+      30
+    );
+    neonLight.position.set(x, height, z);
+    scene.add(neonLight);
   }
   
-  buildingGroup.position.set(config.pos[0], config.pos[1], config.pos[2]);
-  scene.add(buildingGroup);
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    createCyberpunkLab(name, config);
+  });
 }
 
-function createDetailedLabBuilding(name, config) {
-  const buildingGroup = new THREE.Group();
+function createCyberpunkLab(name, config) {
+  const labGroup = new THREE.Group();
   
-  const buildingGeometry = new THREE.BoxGeometry(35, 20, 45);
+  const size = name === 'Startup Hub' ? [60, 35, 70] : [40, 25, 50];
+  const buildingGeometry = new THREE.BoxGeometry(...size);
   const buildingMaterial = new THREE.MeshStandardMaterial({ 
-    color: config.color,
-    roughness: 0.6,
-    metalness: 0.4
-  });
-  const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
-  building.position.y = 10;
-  building.castShadow = true;
-  building.receiveShadow = true;
-  buildingGroup.add(building);
-  collisionObjects.push(building);
-  
-  const doorGeometry = new THREE.BoxGeometry(4, 6, 0.5);
-  const doorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x4a5a6a,
-    roughness: 0.4,
-    metalness: 0.6,
+    color: 0x1a1a2e,
+    roughness: 0.7,
+    metalness: 0.3,
     emissive: config.color,
     emissiveIntensity: 0.2
   });
+  const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+  building.position.y = size[1] / 2;
+  building.castShadow = true;
+  building.receiveShadow = true;
+  labGroup.add(building);
+  
+  for (let i = 0; i < 4; i++) {
+    const neonBar = new THREE.Mesh(
+      new THREE.BoxGeometry(size[0] * 0.8, 0.5, 0.5),
+      new THREE.MeshStandardMaterial({ 
+        color: config.color,
+        emissive: config.color,
+        emissiveIntensity: 1
+      })
+    );
+    neonBar.position.set(0, 5 + i * 5, size[2] / 2 + 0.3);
+    labGroup.add(neonBar);
+  }
+  
+  const doorGeometry = new THREE.BoxGeometry(5, 7, 0.5);
+  const doorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x000000,
+    emissive: config.color,
+    emissiveIntensity: 0.5,
+    roughness: 0.3,
+    metalness: 0.7
+  });
   const door = new THREE.Mesh(doorGeometry, doorMaterial);
-  door.position.set(0, 3, 22.5);
-  door.userData = { type: 'entrance', lab: name };
-  buildingGroup.add(door);
+  door.position.set(0, 3.5, size[2] / 2 + 0.3);
+  door.userData = { type: 'entrance', lab: name, desc: config.desc };
+  labGroup.add(door);
   interactables.push(door);
   
-  const doorLight = new THREE.PointLight(config.color, 2, 15);
-  doorLight.position.set(0, 6, 24);
-  buildingGroup.add(doorLight);
+  const doorLight = new THREE.PointLight(config.color, 3, 15);
+  doorLight.position.set(0, 7, size[2] / 2 + 2);
+  labGroup.add(doorLight);
   
-  buildingGroup.position.set(config.pos[0], config.pos[1], config.pos[2]);
-  scene.add(buildingGroup);
+  labGroup.position.set(config.pos[0], config.pos[1], config.pos[2]);
+  scene.add(labGroup);
 }
 
-function enterLab(labName) {
-  notify(`🚪 Entering ${labName} Lab...`);
-  addXP(100);
+function enterLab(labName, desc) {
+  notify(`⚡ Entering ${labName}...`);
+  addXP(150);
   state.labsVisited.add(labName);
   state.insideLab = true;
   state.currentLab = labName;
   
   scene.clear();
-  collisionObjects = [];
-  scene.background = new THREE.Color(0x2a2a2a);
+  scene.background = new THREE.Color(0x0a0a0a);
   scene.fog = null;
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  const ambientLight = new THREE.AmbientLight(0x0088ff, 0.2);
   scene.add(ambientLight);
   
-  if (labConfigs[labName].isHybrid) {
-    createHybridLabInterior();
+  if (labName === 'Startup Hub') {
+    createStartupHub();
   } else {
-    createStandardLabInterior(labName);
+    createUndergroundLab(labName, desc);
   }
   
   camera.position.set(0, 1.7, 28);
@@ -413,12 +311,11 @@ function enterLab(labName) {
   updateHUD();
 }
 
-function createHybridLabInterior() {
-  const floorGeometry = new THREE.PlaneGeometry(60, 50);
+function createStartupHub() {
+  const floorGeometry = new THREE.PlaneGeometry(60, 70);
   const floorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xd0d0d0,
-    roughness: 0.7,
-    metalness: 0.3
+    color: 0x2a2a2a,
+    roughness: 0.9
   });
   const floor = new THREE.Mesh(floorGeometry, floorMaterial);
   floor.rotation.x = -Math.PI / 2;
@@ -426,211 +323,190 @@ function createHybridLabInterior() {
   scene.add(floor);
   
   const wallMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xf0f0f0,
-    roughness: 0.85,
-    metalness: 0.15
+    color: 0x3a3a3a,
+    roughness: 0.9
   });
   
-  const walls = [
-    { pos: [0, 2.5, -25], size: [60, 5, 0.3] },
-    { pos: [-30, 2.5, 0], size: [0.3, 5, 50] },
-    { pos: [30, 2.5, 0], size: [0.3, 5, 50] },
-    { pos: [0, 2.5, 25], size: [60, 5, 0.3] }
-  ];
-  
-  walls.forEach(w => {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(...w.size), wallMaterial);
-    wall.position.set(...w.pos);
+  [
+    [0, 2.5, -35, 60, 5, 0.3],
+    [-30, 2.5, 0, 0.3, 5, 70],
+    [30, 2.5, 0, 0.3, 5, 70],
+    [0, 2.5, 35, 60, 5, 0.3]
+  ].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), wallMaterial);
+    wall.position.set(w[0], w[1], w[2]);
     wall.castShadow = true;
     wall.receiveShadow = true;
     scene.add(wall);
-    collisionObjects.push(wall);
   });
   
-  const ceilingGeometry = new THREE.PlaneGeometry(60, 50);
-  const ceilingMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xfafafa,
-    roughness: 0.8,
-    metalness: 0.2
-  });
-  const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-  ceiling.rotation.x = Math.PI / 2;
-  ceiling.position.y = 5;
-  ceiling.receiveShadow = true;
-  scene.add(ceiling);
-  
-  for (let x = -20; x <= 20; x += 10) {
-    for (let z = -15; z <= 15; z += 10) {
-      const light = new THREE.PointLight(0xfff8e1, 1.5, 25);
-      light.position.set(x, 4.5, z);
-      light.castShadow = true;
-      scene.add(light);
-    }
+  for (let i = 0; i < 10; i++) {
+    const x = -25 + Math.random() * 50;
+    const z = -30 + Math.random() * 60;
+    const light = new THREE.PointLight(
+      Math.random() > 0.5 ? 0x00ffff : 0xff00ff,
+      1.5,
+      20
+    );
+    light.position.set(x, 4, z);
+    scene.add(light);
   }
   
-  const hologramGeometry = new THREE.CylinderGeometry(3, 3, 6);
-  const hologramMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x00ffff,
-    emissive: 0x00ffff,
-    emissiveIntensity: 0.8,
-    transparent: true,
-    opacity: 0.6
-  });
-  const hologram = new THREE.Mesh(hologramGeometry, hologramMaterial);
-  hologram.position.set(0, 3, 0);
-  hologram.userData = { type: 'hologram' };
-  scene.add(hologram);
-  interactables.push(hologram);
+  for (let i = 0; i < 5; i++) {
+    const whiteboard = new THREE.Mesh(
+      new THREE.PlaneGeometry(8, 4),
+      new THREE.MeshStandardMaterial({ 
+        color: 0xffffff,
+        roughness: 0.8
+      })
+    );
+    whiteboard.position.set(-29.8, 2.5, -25 + i * 12);
+    whiteboard.rotation.y = Math.PI / 2;
+    whiteboard.userData = { type: 'whiteboard', id: i };
+    scene.add(whiteboard);
+    interactables.push(whiteboard);
+  }
   
-  const innovationNames = Object.keys(innovations);
-  innovationNames.forEach((name, i) => {
-    const angle = (i / innovationNames.length) * Math.PI * 2;
-    const radius = 18;
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    const radius = 20;
     const x = Math.cos(angle) * radius;
     const z = Math.sin(angle) * radius;
-    createInnovationStation(x, 0, z, name, innovations[name]);
+    
+    const station = new THREE.Mesh(
+      new THREE.BoxGeometry(5, 2, 5),
+      new THREE.MeshStandardMaterial({ 
+        color: 0x1a1a2e,
+        emissive: 0xff00ff,
+        emissiveIntensity: 0.3
+      })
+    );
+    station.position.set(x, 1, z);
+    station.userData = { type: 'prototype', id: i };
+    scene.add(station);
+    interactables.push(station);
+  }
+  
+  const pitchArea = new THREE.Mesh(
+    new THREE.CylinderGeometry(8, 8, 0.2),
+    new THREE.MeshStandardMaterial({ 
+      color: 0x00ffff,
+      emissive: 0x00ffff,
+      emissiveIntensity: 0.5
+    })
+  );
+  pitchArea.position.set(0, 0.1, 0);
+  pitchArea.userData = { type: 'pitch' };
+  scene.add(pitchArea);
+  interactables.push(pitchArea);
+  
+  const exitDoor = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 5, 0.4),
+    new THREE.MeshStandardMaterial({ 
+      color: 0xff0000,
+      emissive: 0xff0000,
+      emissiveIntensity: 0.5
+    })
+  );
+  exitDoor.position.set(0, 2.5, 34.8);
+  exitDoor.userData = { type: 'exit' };
+  scene.add(exitDoor);
+  interactables.push(exitDoor);
+}
+
+function createUndergroundLab(labName, desc) {
+  const floorGeometry = new THREE.PlaneGeometry(40, 50);
+  const floorMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x1a1a1a,
+    roughness: 0.8
+  });
+  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  const wallMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x2a2a2a,
+    roughness: 0.9
   });
   
-  const exitDoorGeometry = new THREE.BoxGeometry(4, 5, 0.4);
-  const exitDoorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xcc3333,
-    emissive: 0x661111,
-    emissiveIntensity: 0.6,
-    roughness: 0.4,
-    metalness: 0.6
+  [
+    [0, 2.5, -25, 40, 5, 0.3],
+    [-20, 2.5, 0, 0.3, 5, 50],
+    [20, 2.5, 0, 0.3, 5, 50],
+    [0, 2.5, 25, 40, 5, 0.3]
+  ].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), wallMaterial);
+    wall.position.set(w[0], w[1], w[2]);
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+    scene.add(wall);
   });
-  const exitDoor = new THREE.Mesh(exitDoorGeometry, exitDoorMaterial);
+  
+  for (let i = 0; i < 8; i++) {
+    const x = -15 + (i % 4) * 10;
+    const z = -15 + Math.floor(i / 4) * 30;
+    const light = new THREE.PointLight(0x00ffff, 1.5, 20);
+    light.position.set(x, 4, z);
+    scene.add(light);
+  }
+  
+  const infoPanel = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 6),
+    new THREE.MeshStandardMaterial({ 
+      color: 0x000000,
+      emissive: 0x00ffff,
+      emissiveIntensity: 0.5
+    })
+  );
+  infoPanel.position.set(0, 3, -24.8);
+  infoPanel.userData = { type: 'info', lab: labName, desc: desc };
+  scene.add(infoPanel);
+  interactables.push(infoPanel);
+  
+  for (let i = 0; i < 4; i++) {
+    const equipment = new THREE.Mesh(
+      new THREE.BoxGeometry(4, 3, 4),
+      new THREE.MeshStandardMaterial({ 
+        color: 0x1a1a2e,
+        emissive: 0xff00ff,
+        emissiveIntensity: 0.4
+      })
+    );
+    equipment.position.set(-12 + i * 8, 1.5, 10);
+    equipment.userData = { type: 'equipment', id: i };
+    scene.add(equipment);
+    interactables.push(equipment);
+  }
+  
+  const exitDoor = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 5, 0.4),
+    new THREE.MeshStandardMaterial({ 
+      color: 0xff0000,
+      emissive: 0xff0000,
+      emissiveIntensity: 0.5
+    })
+  );
   exitDoor.position.set(0, 2.5, 24.8);
   exitDoor.userData = { type: 'exit' };
   scene.add(exitDoor);
   interactables.push(exitDoor);
 }
 
-function createInnovationStation(x, y, z, name, data) {
-  const stationGroup = new THREE.Group();
-  
-  const baseGeometry = new THREE.BoxGeometry(4, 2, 4);
-  const baseMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x3366cc,
-    roughness: 0.4,
-    metalness: 0.6,
-    emissive: 0x3366cc,
-    emissiveIntensity: 0.3
-  });
-  const base = new THREE.Mesh(baseGeometry, baseMaterial);
-  base.position.y = 1;
-  base.castShadow = true;
-  base.userData = { type: 'innovation', name: name, data: data };
-  stationGroup.add(base);
-  interactables.push(base);
-  
-  const light = new THREE.PointLight(0x3366cc, 1, 8);
-  light.position.y = 2.5;
-  stationGroup.add(light);
-  
-  stationGroup.position.set(x, y, z);
-  scene.add(stationGroup);
-}
-
-function createStandardLabInterior(labName) {
-  const config = labConfigs[labName];
-  
-  const floorGeometry = new THREE.PlaneGeometry(40, 35);
-  const floorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xd0d0d0,
-    roughness: 0.7,
-    metalness: 0.3
-  });
-  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-  floor.rotation.x = -Math.PI / 2;
-  floor.receiveShadow = true;
-  scene.add(floor);
-  
-  const wallMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xf0f0f0,
-    roughness: 0.85,
-    metalness: 0.15
-  });
-  
-  const walls = [
-    { pos: [0, 2.5, -17.5], size: [40, 5, 0.3] },
-    { pos: [-20, 2.5, 0], size: [0.3, 5, 35] },
-    { pos: [20, 2.5, 0], size: [0.3, 5, 35] },
-    { pos: [0, 2.5, 17.5], size: [40, 5, 0.3] }
-  ];
-  
-  walls.forEach(w => {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(...w.size), wallMaterial);
-    wall.position.set(...w.pos);
-    wall.castShadow = true;
-    wall.receiveShadow = true;
-    scene.add(wall);
-    collisionObjects.push(wall);
-  });
-  
-  const ceilingGeometry = new THREE.PlaneGeometry(40, 35);
-  const ceilingMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xfafafa,
-    roughness: 0.8,
-    metalness: 0.2
-  });
-  const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-  ceiling.rotation.x = Math.PI / 2;
-  ceiling.position.y = 5;
-  ceiling.receiveShadow = true;
-  scene.add(ceiling);
-  
-  for (let x = -15; x <= 15; x += 10) {
-    for (let z = -12; z <= 12; z += 8) {
-      const light = new THREE.PointLight(0xfff8e1, 1.5, 25);
-      light.position.set(x, 4.5, z);
-      light.castShadow = true;
-      scene.add(light);
-    }
-  }
-  
-  const exitDoorGeometry = new THREE.BoxGeometry(3.5, 4.5, 0.4);
-  const exitDoorMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xcc3333,
-    emissive: 0x661111,
-    emissiveIntensity: 0.6,
-    roughness: 0.4,
-    metalness: 0.6
-  });
-  const exitDoor = new THREE.Mesh(exitDoorGeometry, exitDoorMaterial);
-  exitDoor.position.set(0, 2.25, 17.3);
-  exitDoor.userData = { type: 'exit' };
-  scene.add(exitDoor);
-  interactables.push(exitDoor);
-}
-
 function exitLab() {
-  notify('🚪 Exiting to city...');
+  notify('⚡ Exiting to Neo-City...');
   state.insideLab = false;
   state.currentLab = null;
   
   scene.clear();
-  collisionObjects = [];
-  scene.background = new THREE.Color(0x87ceeb);
-  scene.fog = new THREE.Fog(0x87ceeb, 0, 400);
+  scene.background = new THREE.Color(0x0a0a1a);
+  scene.fog = new THREE.FogExp2(0x0a0a1a, 0.002);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0x0088ff, 0.3);
   scene.add(ambientLight);
   
-  const sunLight = new THREE.DirectionalLight(0xffffff, 1);
-  sunLight.position.set(100, 200, 100);
-  sunLight.castShadow = true;
-  sunLight.shadow.camera.left = -200;
-  sunLight.shadow.camera.right = 200;
-  sunLight.shadow.camera.top = 200;
-  sunLight.shadow.camera.bottom = -200;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
-  sunLight.shadow.bias = -0.0001;
-  scene.add(sunLight);
-  
   interactables = [];
-  createRealisticCity();
+  createCyberpunkCity();
   
   camera.position.set(0, 1.7, 100);
   camera.rotation.set(0, 0, 0);
@@ -650,8 +526,8 @@ function setupControls() {
       case 'Space': if (canJump) { velocity.y += 5; canJump = false; } break;
       case 'KeyE': handleInteraction(); break;
       case 'Escape': 
-        if (document.getElementById('innovationPanel').style.display !== 'none') {
-          document.getElementById('innovationPanel').style.display = 'none';
+        if (document.getElementById('infoPanel').style.display === 'block') {
+          document.getElementById('infoPanel').style.display = 'none';
         } else if (state.insideLab) {
           exitLab();
         }
@@ -670,7 +546,7 @@ function setupControls() {
   });
   
   document.getElementById('canvas').addEventListener('click', () => {
-    if (document.getElementById('innovationPanel').style.display === 'none' || !document.getElementById('innovationPanel').style.display) {
+    if (document.getElementById('infoPanel').style.display !== 'block') {
       controls.lock();
     }
   });
@@ -680,89 +556,111 @@ function handleInteraction() {
   if (state.nearInteractable) {
     const userData = state.nearInteractable.userData;
     if (userData.type === 'entrance') {
-      enterLab(userData.lab);
+      enterLab(userData.lab, userData.desc);
     } else if (userData.type === 'exit') {
       exitLab();
-    } else if (userData.type === 'innovation') {
-      showInnovationPanel(userData.name, userData.data);
-    } else if (userData.type === 'hologram') {
-      showHologramInfo();
+    } else if (userData.type === 'info') {
+      showInfoPanel(userData.lab, userData.desc);
+    } else if (userData.type === 'whiteboard') {
+      showWhiteboardInfo(userData.id);
+    } else if (userData.type === 'prototype') {
+      showPrototypeInfo(userData.id);
+    } else if (userData.type === 'pitch') {
+      showPitchArea();
+    } else if (userData.type === 'equipment') {
+      notify('⚡ Using equipment... +50 XP');
+      addXP(50);
     }
   }
 }
 
-function showInnovationPanel(name, data) {
-  const panel = document.getElementById('innovationPanel');
+function showInfoPanel(lab, desc) {
+  const panel = document.getElementById('infoPanel');
   const title = document.getElementById('panelTitle');
   const content = document.getElementById('panelContent');
   
-  title.textContent = name;
+  title.textContent = lab;
   content.innerHTML = `
     <div class="infoBox">
-      <strong>🔬 Description:</strong><br>
-      ${data.desc}
+      <strong>⚡ UNDERGROUND TECH:</strong><br><br>
+      ${desc}
     </div>
     
     <div class="successBox">
-      <strong>🧬 Technologies Combined:</strong><br>
-      ${data.tech.join(' + ')}
+      <strong>🔬 WHY IT'S HIDDEN:</strong><br>
+      Too controversial, expensive, or ahead of its time. But holds massive potential to change everything.
     </div>
     
-    <div class="infoBox">
-      <strong>📚 Real Research:</strong><br>
-      ${data.realStudy}
-    </div>
-    
-    <button class="innovationBtn success" onclick="createInnovation('${name}')">CREATE INNOVATION (+200 XP)</button>
-    <button class="innovationBtn danger" onclick="closeInnovationPanel()">CLOSE</button>
+    <button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>
   `;
   
   panel.style.display = 'block';
   controls.unlock();
 }
 
-function showHologramInfo() {
-  const panel = document.getElementById('innovationPanel');
+function showWhiteboardInfo(id) {
+  const ideas = [
+    'Synthetic DNA sequences for alien life forms',
+    'Ocean thermal gradient calculations - 100MW output',
+    'Optogenetic neural pathway mapping',
+    'Claytronics reconfiguration algorithms',
+    'Wireless power transmission efficiency curves'
+  ];
+  
+  notify(`📝 Whiteboard: ${ideas[id]}`);
+  addXP(30);
+}
+
+function showPrototypeInfo(id) {
+  const prototypes = [
+    'Bio-reactor for XNA synthesis',
+    'OTEC heat exchanger prototype',
+    'Optogenetic implant v2.3',
+    'Programmable matter demo unit',
+    'Wireless power transmitter array',
+    'Mycelium computing substrate'
+  ];
+  
+  notify(`🔧 Prototype: ${prototypes[id]} | +40 XP`);
+  addXP(40);
+}
+
+function showPitchArea() {
+  const panel = document.getElementById('infoPanel');
   const title = document.getElementById('panelTitle');
   const content = document.getElementById('panelContent');
   
-  title.textContent = '🌟 Hybrid Innovation Hub';
+  title.textContent = '🚀 PITCH YOUR IDEA';
   content.innerHTML = `
     <div class="infoBox">
-      <strong>Welcome to the Hybrid Innovation Lab!</strong><br><br>
-      This is where ALL technologies combine to create revolutionary breakthroughs.
-      Walk to any of the 8 innovation stations around the room to learn about cutting-edge research.
+      <strong>STARTUP PITCH AREA</strong><br><br>
+      This is where founders pitch revolutionary ideas to investors. Present your tech, get funding, change the world.
     </div>
     
     <div class="successBox">
-      <strong>Available Innovations:</strong><br>
-      • Quantum-Bio Computing<br>
-      • Neuro-AI Interface<br>
-      • Quantum Climate Modeling<br>
-      • Bio-Inspired Robotics<br>
-      • Quantum Cryptography<br>
-      • CRISPR-AI Gene Therapy<br>
-      • Quantum Telescope<br>
-      • Nano-Medical Robots
+      <strong>💰 FUNDING AVAILABLE:</strong><br>
+      • Seed: $500K<br>
+      • Series A: $5M<br>
+      • Series B: $20M<br>
+      • IPO: $500M
     </div>
     
-    <button class="innovationBtn danger" onclick="closeInnovationPanel()">CLOSE</button>
+    <button class="infoBtn" onclick="pitchIdea()">PITCH IDEA (+100 XP)</button>
+    <button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>
   `;
   
   panel.style.display = 'block';
   controls.unlock();
 }
 
-window.createInnovation = function(name) {
-  state.innovations++;
-  addXP(200);
-  notify(`🌟 Created ${name}! +200 XP`);
-  closeInnovationPanel();
-  updateHUD();
+window.pitchIdea = function() {
+  addXP(100);
+  notify('🚀 Pitch successful! Investors interested! +100 XP');
+  closeInfoPanel();
 };
 
-window.closeInnovationPanel = function() {
-  document.getElementById('innovationPanel').style.display = 'none';
+window.closeInfoPanel = function() {
+  document.getElementById('infoPanel').style.display = 'none';
 };
 
 function checkNearbyInteractables() {
@@ -775,31 +673,6 @@ function checkNearbyInteractables() {
   } else {
     state.nearInteractable = null;
     document.getElementById('interactPrompt').style.display = 'none';
-  }
-}
-
-function checkCollisions() {
-  const playerBox = new THREE.Box3().setFromCenterAndSize(
-    camera.position,
-    new THREE.Vector3(1, 1.7, 1)
-  );
-  
-  for (let obj of collisionObjects) {
-    const objBox = new THREE.Box3().setFromObject(obj);
-    if (playerBox.intersectsBox(objBox)) {
-      const overlap = new THREE.Vector3();
-      playerBox.getCenter(overlap);
-      objBox.getCenter(new THREE.Vector3());
-      
-      const dx = camera.position.x - obj.position.x;
-      const dz = camera.position.z - obj.position.z;
-      
-      if (Math.abs(dx) > Math.abs(dz)) {
-        camera.position.x += dx > 0 ? 0.1 : -0.1;
-      } else {
-        camera.position.z += dz > 0 ? 0.1 : -0.1;
-      }
-    }
   }
 }
 
@@ -835,7 +708,6 @@ function animate() {
       canJump = true;
     }
     
-    checkCollisions();
     checkNearbyInteractables();
   }
   
@@ -854,9 +726,9 @@ function updateLocation() {
   const locText = document.getElementById('currentLocation');
   if (state.insideLab) {
     const config = labConfigs[state.currentLab];
-    locText.textContent = `${config.icon} ${state.currentLab} Lab`;
+    locText.textContent = `${config.icon} ${state.currentLab}`;
   } else {
-    locText.textContent = '📍 City - 13 Labs';
+    locText.textContent = '📍 Neo-City 2077';
   }
 }
 
@@ -866,7 +738,7 @@ function addXP(amount) {
     state.xp -= state.xpMax;
     state.lvl++;
     state.xpMax = Math.floor(state.xpMax * 1.5);
-    notify(`🎉 LEVEL UP! Level ${state.lvl}!`);
+    notify(`⚡ LEVEL UP! Level ${state.lvl}!`);
   }
   updateHUD();
 }
@@ -874,8 +746,7 @@ function addXP(amount) {
 function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/13`;
-  document.getElementById('innovations').textContent = state.innovations;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/11`;
 }
 
 function notify(msg) {
@@ -885,17 +756,31 @@ function notify(msg) {
   setTimeout(() => n.classList.remove('show'), 4000);
 }
 
+document.querySelectorAll('.charCard').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedChar = card.dataset.char;
+  });
+});
+
 document.getElementById('startBtn').addEventListener('click', () => {
+  if (!selectedChar) {
+    alert('Select a character first!');
+    return;
+  }
+  
+  state.char = selectedChar;
   document.getElementById('startScreen').classList.add('hide');
   document.getElementById('loading').classList.remove('hide');
   
   const msgs = [
-    'Initializing Three.js...',
-    'Creating Hybrid Innovation Lab...',
-    'Loading 8 Revolutionary Innovations...',
-    'Setting up Physics Engine...',
-    'Building 12 Specialized Labs...',
-    'Ready to Innovate!'
+    'Initializing Neural Interface...',
+    'Loading Underground Tech Database...',
+    'Creating Startup Hub...',
+    'Rendering Cyberpunk City...',
+    'Activating Neon Lights...',
+    'Ready to Jack In!'
   ];
   let i = 0;
   const interval = setInterval(() => {
