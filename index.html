@@ -5,7 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TechVerse 2077</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
 body { 
   font-family: Arial, sans-serif; 
   background: linear-gradient(135deg, #0a0a0a, #1a0a2e); 
@@ -56,33 +65,40 @@ h1 {
   cursor: pointer; 
   text-align: center; 
   transition: all 0.3s;
+  position: relative;
 }
 
 .charCard:hover { 
   transform: scale(1.05); 
   box-shadow: 0 0 30px #0ff; 
+  background: rgba(0, 255, 255, 0.2);
 }
 
 .charCard.selected { 
-  background: rgba(255, 0, 255, 0.3); 
-  border-color: #f0f; 
-  box-shadow: 0 0 40px #f0f; 
+  background: rgba(255, 0, 255, 0.4) !important; 
+  border-color: #f0f !important; 
+  border-width: 5px !important;
+  box-shadow: 0 0 50px #f0f !important; 
+  transform: scale(1.1) !important;
 }
 
 .charCard .icon { 
   font-size: 3em; 
   margin-bottom: 15px; 
+  pointer-events: none;
 }
 
 .charCard h3 { 
   color: #0ff; 
   font-size: 1.3em; 
   margin-bottom: 10px; 
+  pointer-events: none;
 }
 
 .charCard p { 
   color: #f0f; 
   font-size: 0.9em; 
+  pointer-events: none;
 }
 
 #startBtn { 
@@ -103,6 +119,11 @@ h1 {
   box-shadow: 0 0 50px #f0f; 
 }
 
+#startBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 #gameCanvas { 
   display: none; 
   width: 100vw; 
@@ -118,6 +139,7 @@ h1 {
   border: 2px solid #0ff; 
   border-radius: 10px; 
   display: none;
+  z-index: 1000;
 }
 
 #info h3 { 
@@ -128,6 +150,21 @@ h1 {
 #info p { 
   color: #f0f; 
   margin: 5px 0; 
+}
+
+#selectedInfo {
+  position: fixed;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 0, 255, 0.9);
+  color: #000;
+  padding: 15px 40px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  display: none;
+  box-shadow: 0 0 30px #f0f;
 }
 
 .hide { display: none !important; }
@@ -165,7 +202,9 @@ h1 {
     </div>
   </div>
   
-  <button id="startBtn">JACK IN</button>
+  <div id="selectedInfo">Selected: None</div>
+  
+  <button id="startBtn" disabled>JACK IN</button>
 </div>
 
 <canvas id="gameCanvas"></canvas>
@@ -188,18 +227,44 @@ let selectedChar = null;
 let scene, camera, renderer, controls;
 let gameStarted = false;
 
-// Character selection
+const selectedInfo = document.getElementById('selectedInfo');
+const startBtn = document.getElementById('startBtn');
+
+// Character selection with better feedback
 document.querySelectorAll('.charCard').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
-    selectedChar = card.dataset.char;
-    console.log('Selected:', selectedChar);
+  card.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Remove selected from all cards
+    document.querySelectorAll('.charCard').forEach(c => {
+      c.classList.remove('selected');
+    });
+    
+    // Add selected to clicked card
+    this.classList.add('selected');
+    
+    // Store selected character
+    selectedChar = this.dataset.char;
+    
+    // Show selection feedback
+    selectedInfo.textContent = `Selected: ${selectedChar}`;
+    selectedInfo.style.display = 'block';
+    
+    // Enable start button
+    startBtn.disabled = false;
+    
+    console.log('Character selected:', selectedChar);
+  });
+  
+  // Prevent text selection on double click
+  card.addEventListener('mousedown', function(e) {
+    e.preventDefault();
   });
 });
 
 // Start button
-document.getElementById('startBtn').addEventListener('click', () => {
+startBtn.addEventListener('click', function() {
   if (!selectedChar) {
     alert('Please select a character first!');
     return;
