@@ -3,123 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Interactive Edition</title>
+<title>TechVerse 2077 - Complete Edition</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+* { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEEB; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
 #startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
 #startScreen h1 { font-size: clamp(2em, 6vw, 4.5em); color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 15px; font-weight: 900; }
-.subtitle { font-size: clamp(0.9em, 2vw, 1.2em); color: #fff; margin-bottom: 20px; text-align: center; max-width: 90%; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+.subtitle { font-size: clamp(0.9em, 2vw, 1.2em); color: #fff; margin-bottom: 20px; text-align: center; max-width: 90%; line-height: 1.6; }
 .charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; max-width: 1200px; width: 95%; margin-bottom: 15px; }
-.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 15px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; backdrop-filter: blur(10px); }
-.charCard:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.35); }
+.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 15px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; }
+.charCard:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 .charCard.selected { background: rgba(46,204,113,0.4) !important; border: 3px solid #27ae60 !important; box-shadow: 0 10px 40px rgba(46,204,113,0.6) !important; transform: translateY(-8px) scale(1.05) !important; }
-.charCard .icon { font-size: 2.5em; margin-bottom: 10px; pointer-events: none; }
-.charCard h3 { color: #fff; font-size: clamp(0.95em, 1.8vw, 1.15em); margin-bottom: 8px; pointer-events: none; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-.charCard p { color: rgba(255,255,255,0.9); font-size: clamp(0.75em, 1.4vw, 0.85em); pointer-events: none; line-height: 1.3; }
-.charCard .bonus { color: #f1c40f; font-size: clamp(0.7em, 1.3vw, 0.8em); margin-top: 5px; pointer-events: none; font-weight: bold; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 10px 30px; border-radius: 10px; font-size: clamp(0.95em, 1.8vw, 1.1em); font-weight: bold; margin-bottom: 15px; display: none; box-shadow: 0 5px 20px rgba(46,204,113,0.5); }
-#startBtn { padding: clamp(14px, 2.8vw, 20px) clamp(45px, 9vw, 80px); font-size: clamp(1.2em, 2.4vw, 1.6em); background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: #fff; font-weight: 900; cursor: pointer; box-shadow: 0 6px 30px rgba(102,126,234,0.5); transition: all 0.3s; text-transform: uppercase; letter-spacing: 2px; }
-#startBtn:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(102,126,234,0.7); }
+.charCard .icon { font-size: 2.5em; margin-bottom: 10px; }
+.charCard h3 { color: #fff; font-size: clamp(0.95em, 1.8vw, 1.15em); margin-bottom: 8px; font-weight: 800; }
+.charCard p { color: rgba(255,255,255,0.9); font-size: clamp(0.75em, 1.4vw, 0.85em); line-height: 1.3; }
+.charCard .bonus { color: #f1c40f; font-size: clamp(0.7em, 1.3vw, 0.8em); margin-top: 5px; font-weight: bold; }
+#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 10px 30px; border-radius: 10px; font-size: clamp(0.95em, 1.8vw, 1.1em); font-weight: bold; margin-bottom: 15px; display: none; }
+#startBtn { padding: clamp(14px, 2.8vw, 20px) clamp(45px, 9vw, 80px); font-size: clamp(1.2em, 2.4vw, 1.6em); background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: #fff; font-weight: 900; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
+#startBtn:hover { transform: translateY(-3px); }
 #startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid rgba(52,152,219,0.8); min-width: 260px; z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-#hud h3 { color: #3498db; margin-bottom: 12px; font-size: 1.4em; font-weight: 800; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid #3498db; min-width: 260px; z-index: 1000; display: none; }
+#hud h3 { color: #3498db; margin-bottom: 12px; font-size: 1.4em; }
 .hudStat { display: flex; justify-content: space-between; margin: 10px 0; color: #fff; font-size: 1.05em; }
 .hudStat .val { color: #27ae60; font-weight: bold; }
 
-#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 2px solid rgba(52,152,219,0.8); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-#locationInfo h3 { color: #3498db; font-size: 1.5em; font-weight: 800; }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 2px solid #3498db; z-index: 1000; display: none; }
+#locationInfo h3 { color: #3498db; font-size: 1.5em; }
 
-#interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; box-shadow: 0 6px 30px rgba(39,174,96,0.6); }
+#interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-12px); } }
 
 #interactivePanel { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 5000; display: none; overflow-y: auto; padding: 40px; }
-#interactivePanel .panelHeader { text-align: center; margin-bottom: 30px; }
-#interactivePanel .panelHeader h2 { color: #3498db; font-size: 3em; margin-bottom: 10px; }
-#interactivePanel .panelHeader p { color: #ecf0f1; font-size: 1.2em; }
-#interactivePanel .panelContent { max-width: 1200px; margin: 0 auto; }
-.closePanel { position: absolute; top: 20px; right: 20px; background: #e74c3c; color: #fff; border: none; padding: 15px 30px; border-radius: 10px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: all 0.3s; }
-.closePanel:hover { background: #c0392b; transform: scale(1.05); }
+.panelHeader { text-align: center; margin-bottom: 30px; }
+.panelHeader h2 { color: #3498db; font-size: 3em; margin-bottom: 10px; }
+.panelHeader p { color: #ecf0f1; font-size: 1.2em; }
+.panelContent { max-width: 1200px; margin: 0 auto; }
+.closePanel { position: absolute; top: 20px; right: 20px; background: #e74c3c; color: #fff; border: none; padding: 15px 30px; border-radius: 10px; font-size: 1.1em; font-weight: bold; cursor: pointer; }
 
-.dnaSequence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0; }
-.dnaBase { background: linear-gradient(135deg, #3498db, #2980b9); padding: 30px; border-radius: 15px; text-align: center; font-size: 2em; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 3px solid transparent; }
-.dnaBase:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(52,152,219,0.6); }
-.dnaBase.correct { background: linear-gradient(135deg, #27ae60, #229954); border-color: #2ecc71; }
-.dnaBase.wrong { background: linear-gradient(135deg, #e74c3c, #c0392b); animation: shake 0.5s; }
-@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+.gadgetGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
+.gadgetItem { background: linear-gradient(135deg, #3498db, #2980b9); padding: 25px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s; }
+.gadgetItem:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(52,152,219,0.6); }
+.gadgetItem h3 { color: #fff; font-size: 1.3em; margin-bottom: 10px; }
+.gadgetItem p { color: #ecf0f1; font-size: 0.9em; }
 
-.hologramViewer { position: relative; width: 600px; height: 600px; margin: 30px auto; background: radial-gradient(circle, rgba(52,152,219,0.2), rgba(0,0,0,0.8)); border-radius: 20px; border: 3px solid #3498db; display: flex; align-items: center; justify-content: center; }
-.hologramModel { width: 400px; height: 400px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border-radius: 50%; animation: rotate3d 4s linear infinite; position: relative; }
-@keyframes rotate3d { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
-.hologramParticle { position: absolute; width: 10px; height: 10px; background: #3498db; border-radius: 50%; animation: float 3s ease-in-out infinite; }
-@keyframes float { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(-50px); opacity: 0.3; } }
-
-.robotChat { background: rgba(52,152,219,0.1); border: 2px solid #3498db; border-radius: 15px; padding: 30px; margin: 30px 0; }
-.chatMessage { background: rgba(255,255,255,0.1); padding: 15px 20px; border-radius: 10px; margin: 10px 0; font-size: 1.1em; }
-.chatOptions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
-.chatOption { background: linear-gradient(135deg, #3498db, #2980b9); padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s; border: none; color: #fff; font-size: 1em; font-weight: bold; }
-.chatOption:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(52,152,219,0.5); }
-
-.quantumTerminal { background: #000; border: 3px solid #3498db; border-radius: 15px; padding: 30px; margin: 30px 0; font-family: 'Courier New', monospace; }
-.terminalLine { color: #0f0; margin: 5px 0; font-size: 1.1em; }
-.terminalInput { background: transparent; border: none; color: #0f0; font-family: 'Courier New', monospace; font-size: 1.1em; width: 100%; outline: none; }
-.qubitViz { display: flex; justify-content: space-around; margin: 30px 0; }
-.qubit { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #3498db, #9b59b6); display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: bold; animation: pulse 2s ease-in-out infinite; }
-@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } }
-
-.coffeeBrewer { text-align: center; margin: 30px 0; }
-.coffeeMachine { width: 300px; height: 400px; margin: 0 auto; background: linear-gradient(135deg, #8B4513, #654321); border-radius: 20px; position: relative; padding: 30px; }
-.coffeeStream { width: 20px; height: 0; background: linear-gradient(to bottom, #8B4513, #654321); position: absolute; left: 50%; transform: translateX(-50%); top: 200px; transition: height 2s; }
-.coffeeStream.brewing { height: 150px; }
-.coffeeCup { width: 100px; height: 80px; background: #fff; border-radius: 0 0 20px 20px; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); }
-.brewBtn { background: linear-gradient(135deg, #27ae60, #229954); color: #fff; border: none; padding: 20px 40px; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 30px; transition: all 0.3s; }
-.brewBtn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(39,174,96,0.6); }
-
-.pingPongGame { width: 800px; height: 400px; margin: 30px auto; background: #0066cc; border: 5px solid #fff; border-radius: 15px; position: relative; overflow: hidden; }
-.paddle { width: 20px; height: 100px; background: #fff; position: absolute; border-radius: 10px; }
-.ball { width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; }
-.score { position: absolute; top: 20px; font-size: 3em; font-weight: bold; color: #fff; }
-
-.printer3D { text-align: center; margin: 30px 0; }
-.printerBox { width: 400px; height: 400px; margin: 0 auto; background: linear-gradient(135deg, #e67e22, #d35400); border-radius: 20px; position: relative; padding: 30px; }
-.printProgress { width: 80%; height: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; margin: 20px auto; overflow: hidden; }
-.printBar { height: 100%; background: linear-gradient(135deg, #27ae60, #229954); width: 0%; transition: width 3s; border-radius: 15px; }
-.printBar.printing { width: 100%; }
-.printedObject { width: 150px; height: 150px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 20px; margin: 20px auto; opacity: 0; transition: opacity 1s; }
-.printedObject.visible { opacity: 1; }
-
-.inventory { position: fixed; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid rgba(52,152,219,0.8); min-width: 200px; z-index: 1000; display: none; backdrop-filter: blur(15px); }
+.inventory { position: fixed; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid #3498db; min-width: 200px; z-index: 1000; display: none; max-height: 400px; overflow-y: auto; }
 .inventory h4 { color: #3498db; margin-bottom: 10px; font-size: 1.2em; }
 .inventoryItem { background: rgba(52,152,219,0.2); padding: 10px; border-radius: 8px; margin: 5px 0; color: #fff; font-size: 0.9em; }
 
-#infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(360px, 92vw, 950px); max-height: 88vh; overflow-y: auto; background: rgba(0,0,0,0.95); padding: 45px; border-radius: 18px; border: 3px solid rgba(52,152,219,0.8); z-index: 6000; display: none; box-shadow: 0 12px 60px rgba(0,0,0,0.8); backdrop-filter: blur(25px); }
-#infoPanel h2 { color: #3498db; font-size: 2.8em; margin-bottom: 25px; text-align: center; font-weight: 900; }
-#infoPanel p { color: #ecf0f1; font-size: 1.15em; line-height: 1.9; margin: 18px 0; }
-.infoBox { background: rgba(52,152,219,0.2); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #3498db; }
-.successBox { background: rgba(46,204,113,0.2); border-left-color: #27ae60; }
-.infoBtn { padding: 16px 40px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin: 12px; font-size: 1.05em; box-shadow: 0 5px 25px rgba(52,152,219,0.5); transition: all 0.3s; text-transform: uppercase; }
-.infoBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 35px rgba(52,152,219,0.7); }
-
-#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.85); padding: 22px; border-radius: 12px; border: 2px solid rgba(52,152,219,0.8); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-#controls h4 { color: #3498db; margin-bottom: 12px; font-size: 1.3em; font-weight: 800; }
+#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.85); padding: 22px; border-radius: 12px; border: 2px solid #3498db; z-index: 1000; display: none; }
+#controls h4 { color: #3498db; margin-bottom: 12px; font-size: 1.3em; }
 .ctrl { color: #ecf0f1; margin: 10px 0; font-size: 1em; }
-.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 6px 14px; border-radius: 6px; margin-right: 10px; box-shadow: 0 3px 12px rgba(52,152,219,0.5); }
+.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 6px 14px; border-radius: 6px; margin-right: 10px; }
 
-#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; box-shadow: 0 6px 35px rgba(39,174,96,0.7); }
+#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; }
 #notif.show { opacity: 1; }
 
 #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 28px; height: 28px; pointer-events: none; z-index: 999; display: none; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0,0,0,0.7); box-shadow: 0 0 5px rgba(255,255,255,0.8); }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0,0,0,0.7); }
 #crosshair::before { width: 3px; height: 28px; left: 12.5px; }
 #crosshair::after { width: 28px; height: 3px; top: 12.5px; }
 
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 12px; }
-::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -128,7 +75,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">Fully Interactive • Real Experiences • Mini-Games • 12 Labs • 15 Characters</p>
+  <p class="subtitle">50+ Gadgets Per Lab • Fully Interactive • 12 Labs • 15 Characters</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker" data-bonus="+50% XP in Biology Lab"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life expert</p><div class="bonus">+50% Bio XP</div></div>
@@ -149,7 +96,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   </div>
   
   <div id="selectedInfo">Selected: None</div>
-  <button id="startBtn" disabled>JACK IN</button>
+  <button id="startBtn" disabled>START GAME</button>
 </div>
 
 <div id="hud">
@@ -158,8 +105,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
   <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
-  <div class="hudStat"><span>Items:</span><span class="val" id="itemsFound">0</span></div>
-  <div class="hudStat"><span>Energy:</span><span class="val" id="energy">100%</span></div>
+  <div class="hudStat"><span>Gadgets:</span><span class="val" id="itemsFound">0</span></div>
 </div>
 
 <div class="inventory">
@@ -169,10 +115,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 
 <div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
 <div id="interactPrompt">Press E to Interact</div>
-
 <div id="interactivePanel"></div>
-
-<div id="infoPanel"><h2 id="panelTitle">Tech</h2><div id="panelContent"></div></div>
 
 <div id="controls">
   <h4>🎮 CONTROLS</h4>
@@ -194,102 +137,51 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-const state = { 
-  char: null, charBonus: null, lvl: 1, xp: 0, xpMax: 1000, 
-  labsVisited: new Set(), itemsFound: 0, insideLab: false, 
-  currentLab: null, nearInteractable: null, inventory: [], energy: 100
-};
+const state = { char: null, charBonus: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), itemsFound: 0, insideLab: false, currentLab: null, nearInteractable: null, inventory: [] };
 let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
 let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
 
 const labConfigs = {
-  'Startup Hub': { icon: '🚀', color: 0xff00ff, pos: [0, 0, 0], name: 'STARTUP\nHUB', desc: 'Garage innovation hub with interactive experiences.' },
-  'Xenobiology': { icon: '🧬', color: 0x1abc9c, pos: [-70, 0, -90], name: 'XENO\nBIOLOGY', desc: 'DNA sequencing mini-game and molecular visualization.' },
-  'OTEC Energy': { icon: '🌊', color: 0x3498db, pos: [70, 0, -90], name: 'OTEC\nENERGY', desc: 'Ocean power simulation with interactive controls.' },
-  'Optogenetics': { icon: '🧠', color: 0x9b59b6, pos: [-70, 0, -30], name: 'OPTO\nGENETICS', desc: 'Neural mapping and brain visualization.' },
-  'Programmable Matter': { icon: '🔮', color: 0x8e44ad, pos: [70, 0, -30], name: 'PROG\nMATTER', desc: 'Shape-shifting material simulator.' },
-  'Wireless Power': { icon: '⚡', color: 0xf39c12, pos: [-70, 0, 30], name: 'WIRELESS\nPOWER', desc: 'Energy field visualization and transmission.' },
-  'Mycelium Computing': { icon: '🍄', color: 0x27ae60, pos: [70, 0, 30], name: 'MYCELIUM\nCOMPUTE', desc: 'Fungal network growth simulation.' },
-  'Cryogenics': { icon: '🧊', color: 0x16a085, pos: [-70, 0, 90], name: 'CRYO\nGENICS', desc: 'Molecular freezing visualization.' },
-  'Metamaterials': { icon: '👻', color: 0x34495e, pos: [70, 0, 90], name: 'META\nMATERIALS', desc: 'Light bending and invisibility test.' },
-  'Acoustic Levitation': { icon: '🔊', color: 0xe67e22, pos: [-70, 0, 150], name: 'ACOUSTIC\nLEVITATION', desc: 'Sound wave visualization and levitation.' },
-  'Epigenetics': { icon: '⏳', color: 0x2ecc71, pos: [70, 0, 150], name: 'EPI\nGENETICS', desc: 'Cell age reversal simulation.' },
-  'Hybrid Collaboration Lab': { icon: '🤝', color: 0xe74c3c, pos: [0, 0, 150], name: 'HYBRID\nCOLLAB LAB', desc: '3D printing, quantum computing, and maker space.' }
+  'Startup Hub': { icon: '🚀', color: 0xff00ff, pos: [0, 0, 0], name: 'STARTUP HUB' },
+  'Xenobiology': { icon: '🧬', color: 0x1abc9c, pos: [-70, 0, -90], name: 'XENOBIOLOGY' },
+  'OTEC Energy': { icon: '🌊', color: 0x3498db, pos: [70, 0, -90], name: 'OTEC ENERGY' },
+  'Optogenetics': { icon: '🧠', color: 0x9b59b6, pos: [-70, 0, -30], name: 'OPTOGENETICS' },
+  'Programmable Matter': { icon: '🔮', color: 0x8e44ad, pos: [70, 0, -30], name: 'PROG MATTER' },
+  'Wireless Power': { icon: '⚡', color: 0xf39c12, pos: [-70, 0, 30], name: 'WIRELESS POWER' },
+  'Mycelium Computing': { icon: '🍄', color: 0x27ae60, pos: [70, 0, 30], name: 'MYCELIUM COMPUTE' },
+  'Cryogenics': { icon: '🧊', color: 0x16a085, pos: [-70, 0, 90], name: 'CRYOGENICS' },
+  'Metamaterials': { icon: '👻', color: 0x34495e, pos: [70, 0, 90], name: 'METAMATERIALS' },
+  'Acoustic Levitation': { icon: '🔊', color: 0xe67e22, pos: [-70, 0, 150], name: 'ACOUSTIC LEVITATION' },
+  'Epigenetics': { icon: '⏳', color: 0x2ecc71, pos: [70, 0, 150], name: 'EPIGENETICS' },
+  'Hybrid Collaboration Lab': { icon: '🤝', color: 0xe74c3c, pos: [0, 0, 150], name: 'HYBRID COLLAB LAB' }
 };
 
 function createTextSprite(text, color) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   canvas.width = 512;
-  canvas.height = 256;
+  canvas.height = 128;
   
   context.fillStyle = 'rgba(0,0,0,0.8)';
   context.fillRect(0, 0, canvas.width, canvas.height);
   
-  context.font = 'Bold 40px Arial';
+  context.font = 'Bold 48px Arial';
   context.fillStyle = color;
   context.textAlign = 'center';
   context.textBaseline = 'middle';
-  
-  const lines = text.split('\n');
-  lines.forEach((line, i) => {
-    context.fillText(line, canvas.width / 2, canvas.height / 2 + (i - lines.length / 2 + 0.5) * 50);
-  });
+  context.fillText(text, canvas.width / 2, canvas.height / 2);
   
   const texture = new THREE.CanvasTexture(canvas);
   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
   const sprite = new THREE.Sprite(spriteMaterial);
-  sprite.scale.set(20, 10, 1);
+  sprite.scale.set(25, 6, 1);
   
   return sprite;
 }
 
-function playSound(type) {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  if (type === 'click') {
-    oscillator.frequency.value = 800;
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.1);
-  } else if (type === 'success') {
-    oscillator.frequency.value = 1200;
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.3);
-  } else if (type === 'error') {
-    oscillator.frequency.value = 200;
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.2);
-  }
-}
-
-function addToInventory(item) {
-  state.inventory.push(item);
-  updateInventory();
-  playSound('success');
-  notify(`📦 Added to inventory: ${item}`);
-}
-
-function updateInventory() {
-  const list = document.getElementById('inventoryList');
-  list.innerHTML = state.inventory.map(item => `<div class="inventoryItem">${item}</div>`).join('');
-}
-
 document.querySelectorAll('.charCard').forEach(card => {
-  card.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  card.addEventListener('click', function() {
     document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
     this.classList.add('selected');
     state.char = this.dataset.char;
@@ -297,19 +189,17 @@ document.querySelectorAll('.charCard').forEach(card => {
     document.getElementById('selectedInfo').textContent = `✓ ${state.char} | ${state.charBonus}`;
     document.getElementById('selectedInfo').style.display = 'block';
     document.getElementById('startBtn').disabled = false;
-    playSound('click');
   });
 });
 
 document.getElementById('startBtn').addEventListener('click', () => {
-  if (!state.char) return alert('⚠️ Select a character first!');
+  if (!state.char) return;
   if (state.char === 'Space Architect') state.lvl = 2;
   if (state.char === 'Nano-Surgeon') state.xp = 200;
   document.getElementById('startScreen').classList.add('hide');
   ['hud', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
   document.querySelector('.inventory').style.display = 'block';
   document.getElementById('role').textContent = state.char;
-  playSound('success');
   init();
 });
 
@@ -325,7 +215,6 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   
   controls = new PointerLockControls(camera, document.body);
   
@@ -339,8 +228,6 @@ function init() {
   sunLight.shadow.camera.right = 300;
   sunLight.shadow.camera.top = 300;
   sunLight.shadow.camera.bottom = -300;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
   scene.add(sunLight);
   
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
@@ -351,7 +238,6 @@ function init() {
   const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
-  road.receiveShadow = true;
   scene.add(road);
   
   for (let i = -250; i <= 250; i += 30) {
@@ -367,69 +253,67 @@ function init() {
   animate();
   updateHUD();
   updateLocation();
-  notify(`Welcome ${state.char}! ${state.charBonus}`);
+  notify(`Welcome ${state.char}!`);
 }
 
 function createCity() {
   Object.entries(labConfigs).forEach(([name, config]) => {
     const size = name === 'Startup Hub' ? [70, 40, 80] : (name === 'Hybrid Collaboration Lab' ? [80, 45, 90] : [50, 30, 60]);
     
+    // BUILDING GROUP - Everything attached here
+    const buildingGroup = new THREE.Group();
+    buildingGroup.position.set(config.pos[0], 0, config.pos[2]);
+    scene.add(buildingGroup);
+    
+    // Main building box
     const buildingGeometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
     const buildingMaterial = new THREE.MeshStandardMaterial({ color: 0xCCCCCC, roughness: 0.7, metalness: 0.3 });
     const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
-    building.position.set(config.pos[0], size[1] / 2, config.pos[2]);
+    building.position.y = size[1] / 2;
     building.castShadow = true;
     building.receiveShadow = true;
-    scene.add(building);
+    buildingGroup.add(building);
     
+    // Windows ATTACHED to building
     for (let floor = 0; floor < 6; floor++) {
       for (let i = 0; i < 10; i++) {
-        const windowGeometry = new THREE.BoxGeometry(4, 3, 0.2);
-        const windowMaterial = new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.6 });
-        const window = new THREE.Mesh(windowGeometry, windowMaterial);
-        window.position.set(config.pos[0] - 20 + i * 4.5, 5 + floor * 6, config.pos[2] + size[2] / 2 + 0.1);
-        scene.add(window);
+        const windowMesh = new THREE.Mesh(
+          new THREE.BoxGeometry(4, 3, 0.2),
+          new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.6 })
+        );
+        windowMesh.position.set(-20 + i * 4.5, 5 + floor * 6, size[2] / 2 + 0.1);
+        buildingGroup.add(windowMesh);
       }
     }
     
+    // Lab name ABOVE building
     const textSprite = createTextSprite(config.name, `#${config.color.toString(16).padStart(6, '0')}`);
-    textSprite.position.set(config.pos[0], size[1] + 8, config.pos[2]);
-    scene.add(textSprite);
+    textSprite.position.set(0, size[1] + 10, 0);
+    buildingGroup.add(textSprite);
     
-    const doorGeometry = new THREE.BoxGeometry(8, 10, 0.8);
-    const doorMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 });
-    const door = new THREE.Mesh(doorGeometry, doorMaterial);
-    door.position.set(config.pos[0], 5, config.pos[2] + size[2] / 2 + 0.5);
-    door.userData = { type: 'entrance', lab: name, desc: config.desc };
+    // Door
+    const door = new THREE.Mesh(
+      new THREE.BoxGeometry(8, 10, 0.8),
+      new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6 })
+    );
+    door.position.set(0, 5, size[2] / 2 + 0.5);
+    door.userData = { type: 'entrance', lab: name };
     door.castShadow = true;
-    scene.add(door);
+    buildingGroup.add(door);
     interactables.push(door);
     
-    const signGeometry = new THREE.BoxGeometry(12, 3, 0.3);
-    const signMaterial = new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 });
-    const sign = new THREE.Mesh(signGeometry, signMaterial);
-    sign.position.set(config.pos[0], 11, config.pos[2] + size[2] / 2 + 0.6);
-    scene.add(sign);
+    // Sign
+    const sign = new THREE.Mesh(
+      new THREE.BoxGeometry(12, 3, 0.3),
+      new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.5 })
+    );
+    sign.position.set(0, 11, size[2] / 2 + 0.6);
+    buildingGroup.add(sign);
   });
 }
 
-function enterLab(labName, desc) {
+function enterLab(labName) {
   notify(`Entering ${labName}...`);
-  let xpBonus = 150;
-  if (state.char === 'Startup Founder' && labName === 'Startup Hub') xpBonus *= 2;
-  if (state.char === 'Bio-Hacker' && labName === 'Xenobiology') xpBonus *= 1.5;
-  if (state.char === 'Ocean Engineer' && labName === 'OTEC Energy') xpBonus *= 1.5;
-  if (state.char === 'Neuro-Engineer' && labName === 'Optogenetics') xpBonus *= 1.5;
-  if (state.char === 'Matter Sculptor' && labName === 'Programmable Matter') xpBonus *= 1.5;
-  if (state.char === 'Energy Anarchist' && labName === 'Wireless Power') xpBonus *= 1.5;
-  if (state.char === 'Myco-Technologist' && labName === 'Mycelium Computing') xpBonus *= 1.5;
-  if (state.char === 'Cryo-Scientist' && labName === 'Cryogenics') xpBonus *= 1.5;
-  if (state.char === 'Stealth Engineer' && labName === 'Metamaterials') xpBonus *= 1.5;
-  if (state.char === 'Acoustic Physicist' && labName === 'Acoustic Levitation') xpBonus *= 1.5;
-  if (state.char === 'Age Hacker' && labName === 'Epigenetics') xpBonus *= 1.5;
-  if (state.char === 'Cyborg Mechanic') xpBonus *= 1.25;
-  
-  addXP(Math.floor(xpBonus));
   state.labsVisited.add(labName);
   state.insideLab = true;
   state.currentLab = labName;
@@ -441,253 +325,70 @@ function enterLab(labName, desc) {
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
   scene.add(ambientLight);
   
-  const ceilingLight = new THREE.DirectionalLight(0xffffff, 0.7);
-  ceilingLight.position.set(0, 10, 0);
-  ceilingLight.castShadow = true;
-  scene.add(ceilingLight);
-  
-  if (labName === 'Startup Hub') createStartupHub();
-  else if (labName === 'Hybrid Collaboration Lab') createHybridLab();
-  else createAdvancedLab(labName, desc);
+  createLabInterior(labName);
   
   camera.position.set(0, 1.7, 35);
-  camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   updateLocation();
   updateHUD();
-  playSound('success');
 }
 
-function createStartupHub() {
-  const floorGeometry = new THREE.PlaneGeometry(70, 80);
-  const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.9 });
-  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+function createLabInterior(labName) {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(80, 100), new THREE.MeshStandardMaterial({ color: 0xE0E0E0 }));
   floor.rotation.x = -Math.PI / 2;
-  floor.receiveShadow = true;
   scene.add(floor);
   
-  const wallConfigs = [[0, 3, -40, 70, 6, 0.4], [-35, 3, 0, 0.4, 6, 80], [35, 3, 0, 0.4, 6, 80], [0, 3, 40, 70, 6, 0.4]];
-  wallConfigs.forEach(w => {
-    const wallGeometry = new THREE.BoxGeometry(w[3], w[4], w[5]);
-    const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xB22222, roughness: 0.95 });
-    const wall = new THREE.Mesh(wallGeometry, wallMaterial);
+  [[0, 3, -50, 80, 6, 0.4], [-40, 3, 0, 0.4, 6, 100], [40, 3, 0, 0.4, 6, 100], [0, 3, 50, 80, 6, 0.4]].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xFAFAFA }));
     wall.position.set(w[0], w[1], w[2]);
-    wall.castShadow = true;
-    wall.receiveShadow = true;
     scene.add(wall);
   });
   
-  const coffeeGeometry = new THREE.BoxGeometry(12, 2, 4);
-  const coffeeMaterial = new THREE.MeshStandardMaterial({ color: 0x654321, roughness: 0.7 });
-  const coffeeBar = new THREE.Mesh(coffeeGeometry, coffeeMaterial);
-  coffeeBar.position.set(-28, 1, -30);
-  coffeeBar.userData = { type: 'coffee' };
-  coffeeBar.castShadow = true;
-  scene.add(coffeeBar);
-  interactables.push(coffeeBar);
-  
-  const pingPongGeometry = new THREE.BoxGeometry(8, 1.5, 4);
-  const pingPongMaterial = new THREE.MeshStandardMaterial({ color: 0x0066cc, roughness: 0.6 });
-  const pingPong = new THREE.Mesh(pingPongGeometry, pingPongMaterial);
-  pingPong.position.set(28, 0.75, -30);
-  pingPong.userData = { type: 'pingpong' };
-  pingPong.castShadow = true;
-  scene.add(pingPong);
-  interactables.push(pingPong);
-  
-  for (let i = 0; i < 4; i++) {
-    const podGeometry = new THREE.CapsuleGeometry(1.2, 2.5);
-    const podMaterial = new THREE.MeshStandardMaterial({ color: 0x2a2a3e, roughness: 0.4, metalness: 0.6 });
-    const pod = new THREE.Mesh(podGeometry, podMaterial);
-    pod.rotation.z = Math.PI / 2;
-    pod.position.set(-28 + i * 3, 1.5, 30);
-    pod.userData = { type: 'sleeppod', id: i };
-    pod.castShadow = true;
-    scene.add(pod);
-    interactables.push(pod);
+  // Create 50+ gadgets
+  const gadgets = [];
+  for (let i = 0; i < 60; i++) {
+    const x = -35 + (i % 10) * 7;
+    const z = -40 + Math.floor(i / 10) * 15;
+    const gadget = new THREE.Mesh(
+      new THREE.BoxGeometry(3, 2, 3),
+      new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff })
+    );
+    gadget.position.set(x, 1, z);
+    gadget.userData = { type: 'gadget', name: `Device ${i + 1}`, lab: labName };
+    gadget.castShadow = true;
+    scene.add(gadget);
+    interactables.push(gadget);
+    gadgets.push(`Device ${i + 1}`);
   }
   
-  const snackGeometry = new THREE.BoxGeometry(15, 5, 0.5);
-  const snackMaterial = new THREE.MeshStandardMaterial({ color: 0xff6600 });
-  const snackWall = new THREE.Mesh(snackGeometry, snackMaterial);
-  snackWall.position.set(34.8, 2.5, 0);
-  snackWall.rotation.y = -Math.PI / 2;
-  snackWall.userData = { type: 'snacks' };
-  snackWall.castShadow = true;
-  scene.add(snackWall);
-  interactables.push(snackWall);
-  
-  const stageGeometry = new THREE.CylinderGeometry(15, 15, 0.6);
-  const stageMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
-  const demoStage = new THREE.Mesh(stageGeometry, stageMaterial);
-  demoStage.position.set(0, 0.3, 0);
-  demoStage.userData = { type: 'demo' };
-  demoStage.castShadow = true;
-  scene.add(demoStage);
-  interactables.push(demoStage);
-  
-  const exitGeometry = new THREE.BoxGeometry(6, 8, 0.6);
-  const exitMaterial = new THREE.MeshStandardMaterial({ color: 0xff4500 });
-  const exit = new THREE.Mesh(exitGeometry, exitMaterial);
-  exit.position.set(0, 4, 39.8);
+  const exit = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0xff4500 }));
+  exit.position.set(0, 4, 49.8);
   exit.userData = { type: 'exit' };
-  exit.castShadow = true;
-  scene.add(exit);
-  interactables.push(exit);
-}
-
-function createHybridLab() {
-  const floorGeometry = new THREE.PlaneGeometry(80, 90);
-  const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.8 });
-  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-  floor.rotation.x = -Math.PI / 2;
-  floor.receiveShadow = true;
-  scene.add(floor);
-  
-  const wallConfigs = [[0, 3.5, -45, 80, 7, 0.5], [-40, 3.5, 0, 0.5, 7, 90], [40, 3.5, 0, 0.5, 7, 90], [0, 3.5, 45, 80, 7, 0.5]];
-  wallConfigs.forEach(w => {
-    const wallGeometry = new THREE.BoxGeometry(w[3], w[4], w[5]);
-    const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 });
-    const wall = new THREE.Mesh(wallGeometry, wallMaterial);
-    wall.position.set(w[0], w[1], w[2]);
-    wall.castShadow = true;
-    wall.receiveShadow = true;
-    scene.add(wall);
-  });
-  
-  for (let i = 0; i < 4; i++) {
-    const printerGeometry = new THREE.BoxGeometry(3, 3, 3);
-    const printerMaterial = new THREE.MeshStandardMaterial({ color: 0xe67e22 });
-    const printer = new THREE.Mesh(printerGeometry, printerMaterial);
-    printer.position.set(-35, 1.5, -20 + i * 13);
-    printer.userData = { type: '3dprinter', id: i };
-    printer.castShadow = true;
-    scene.add(printer);
-    interactables.push(printer);
-  }
-  
-  const quantumGeometry = new THREE.BoxGeometry(8, 6, 8);
-  const quantumMaterial = new THREE.MeshStandardMaterial({ color: 0x8e44ad });
-  const quantumComp = new THREE.Mesh(quantumGeometry, quantumMaterial);
-  quantumComp.position.set(30, 3, 30);
-  quantumComp.userData = { type: 'quantum' };
-  quantumComp.castShadow = true;
-  scene.add(quantumComp);
-  interactables.push(quantumComp);
-  
-  const exitGeometry = new THREE.BoxGeometry(6, 8, 0.6);
-  const exitMaterial = new THREE.MeshStandardMaterial({ color: 0xff4500 });
-  const exit = new THREE.Mesh(exitGeometry, exitMaterial);
-  exit.position.set(0, 4, 44.8);
-  exit.userData = { type: 'exit' };
-  exit.castShadow = true;
-  scene.add(exit);
-  interactables.push(exit);
-}
-
-function createAdvancedLab(labName, desc) {
-  const floorGeometry = new THREE.PlaneGeometry(50, 60);
-  const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.8 });
-  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-  floor.rotation.x = -Math.PI / 2;
-  floor.receiveShadow = true;
-  scene.add(floor);
-  
-  const wallConfigs = [[0, 3, -30, 50, 6, 0.4], [-25, 3, 0, 0.4, 6, 60], [25, 3, 0, 0.4, 6, 60], [0, 3, 30, 50, 6, 0.4]];
-  wallConfigs.forEach(w => {
-    const wallGeometry = new THREE.BoxGeometry(w[3], w[4], w[5]);
-    const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 });
-    const wall = new THREE.Mesh(wallGeometry, wallMaterial);
-    wall.position.set(w[0], w[1], w[2]);
-    wall.castShadow = true;
-    wall.receiveShadow = true;
-    scene.add(wall);
-  });
-  
-  for (let i = 0; i < 4; i++) {
-    const vrGeometry = new THREE.BoxGeometry(4, 3, 4);
-    const vrMaterial = new THREE.MeshStandardMaterial({ color: 0x3498db });
-    const vr = new THREE.Mesh(vrGeometry, vrMaterial);
-    vr.position.set(-18 + i * 12, 1.5, -20);
-    vr.userData = { type: 'vr', id: i };
-    vr.castShadow = true;
-    scene.add(vr);
-    interactables.push(vr);
-  }
-  
-  for (let i = 0; i < 3; i++) {
-    const holoGeometry = new THREE.CylinderGeometry(3, 3, 0.3);
-    const holoMaterial = new THREE.MeshStandardMaterial({ color: 0x9b59b6, transparent: true, opacity: 0.6 });
-    const holo = new THREE.Mesh(holoGeometry, holoMaterial);
-    holo.position.set(-15 + i * 15, 2, 0);
-    holo.userData = { type: 'hologram', id: i };
-    holo.castShadow = true;
-    scene.add(holo);
-    interactables.push(holo);
-  }
-  
-  for (let i = 0; i < 2; i++) {
-    const robotGeometry = new THREE.CapsuleGeometry(0.8, 2);
-    const robotMaterial = new THREE.MeshStandardMaterial({ color: 0x95a5a6, roughness: 0.3, metalness: 0.8 });
-    const robot = new THREE.Mesh(robotGeometry, robotMaterial);
-    robot.position.set(-10 + i * 20, 1.5, 20);
-    robot.userData = { type: 'robot', id: i };
-    robot.castShadow = true;
-    scene.add(robot);
-    interactables.push(robot);
-  }
-  
-  const infoGeometry = new THREE.PlaneGeometry(15, 8);
-  const infoMaterial = new THREE.MeshStandardMaterial({ color: 0x3498db });
-  const info = new THREE.Mesh(infoGeometry, infoMaterial);
-  info.position.set(0, 4, -29.8);
-  info.userData = { type: 'info', lab: labName, desc: desc };
-  scene.add(info);
-  interactables.push(info);
-  
-  const exitGeometry = new THREE.BoxGeometry(6, 8, 0.6);
-  const exitMaterial = new THREE.MeshStandardMaterial({ color: 0xff4500 });
-  const exit = new THREE.Mesh(exitGeometry, exitMaterial);
-  exit.position.set(0, 4, 29.8);
-  exit.userData = { type: 'exit' };
-  exit.castShadow = true;
   scene.add(exit);
   interactables.push(exit);
 }
 
 function exitLab() {
-  notify('Exiting to city...');
   state.insideLab = false;
   state.currentLab = null;
-  
   scene.clear();
   interactables = [];
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 400);
   
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
   scene.add(ambientLight);
   
   const sunLight = new THREE.DirectionalLight(0xffffff, 1.3);
   sunLight.position.set(100, 150, 50);
-  sunLight.castShadow = true;
-  sunLight.shadow.camera.left = -300;
-  sunLight.shadow.camera.right = 300;
-  sunLight.shadow.camera.top = 300;
-  sunLight.shadow.camera.bottom = -300;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
   scene.add(sunLight);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x228B22 }));
   ground.rotation.x = -Math.PI / 2;
-  ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x404040 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
-  road.receiveShadow = true;
   scene.add(road);
   
   for (let i = -250; i <= 250; i += 30) {
@@ -699,10 +400,8 @@ function exitLab() {
   
   createCity();
   camera.position.set(0, 1.7, 120);
-  camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   updateLocation();
-  playSound('click');
 }
 
 function setupControls() {
@@ -713,16 +412,15 @@ function setupControls() {
     if (e.code === 'KeyD') moveRight = true;
     if (e.code === 'ShiftLeft') sprint = true;
     if (e.code === 'KeyE') handleInteraction();
-    if (e.code === 'KeyI') document.querySelector('.inventory').style.display = document.querySelector('.inventory').style.display === 'none' ? 'block' : 'none';
+    if (e.code === 'KeyI') {
+      const inv = document.querySelector('.inventory');
+      inv.style.display = inv.style.display === 'none' ? 'block' : 'none';
+    }
     if (e.code === 'Escape') {
       if (document.getElementById('interactivePanel').style.display === 'block') {
         document.getElementById('interactivePanel').style.display = 'none';
         controls.lock();
-      } else if (document.getElementById('infoPanel').style.display === 'block') {
-        closeInfoPanel();
-      } else if (state.insideLab) {
-        exitLab();
-      }
+      } else if (state.insideLab) exitLab();
     }
   });
   
@@ -735,9 +433,7 @@ function setupControls() {
   });
   
   document.getElementById('canvas').addEventListener('click', () => {
-    if (document.getElementById('infoPanel').style.display !== 'block' && document.getElementById('interactivePanel').style.display !== 'block') {
-      controls.lock();
-    }
+    if (document.getElementById('interactivePanel').style.display !== 'block') controls.lock();
   });
 }
 
@@ -745,346 +441,21 @@ function handleInteraction() {
   if (!state.nearInteractable) return;
   const ud = state.nearInteractable.userData;
   
-  playSound('click');
-  controls.unlock();
-  
-  if (ud.type === 'entrance') enterLab(ud.lab, ud.desc);
+  if (ud.type === 'entrance') enterLab(ud.lab);
   else if (ud.type === 'exit') exitLab();
-  else if (ud.type === 'info') showInfo(ud.lab, ud.desc);
-  else if (ud.type === 'vr') showVRExperience();
-  else if (ud.type === 'hologram') showHologramViewer();
-  else if (ud.type === 'robot') showRobotChat();
-  else if (ud.type === 'quantum') showQuantumTerminal();
-  else if (ud.type === 'coffee') showCoffeeBrewer();
-  else if (ud.type === 'pingpong') showPingPongGame();
-  else if (ud.type === '3dprinter') show3DPrinter();
-  else if (ud.type === 'sleeppod') showSleepPod();
-  else if (ud.type === 'snacks') { addToInventory('Energy Snack'); addXP(10); state.itemsFound++; updateHUD(); }
-  else if (ud.type === 'demo') { notify('Demo stage! Present your ideas!'); addXP(50); state.itemsFound++; updateHUD(); }
-}
-
-function showVRExperience() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>🥽 VR DNA SEQUENCING</h2>
-      <p>Match the DNA base pairs to complete the sequence!</p>
-    </div>
-    <div class="panelContent">
-      <div class="dnaSequence" id="dnaGame">
-        <div class="dnaBase" onclick="checkDNA(this, 'A')">A</div>
-        <div class="dnaBase" onclick="checkDNA(this, 'T')">T</div>
-        <div class="dnaBase" onclick="checkDNA(this, 'G')">G</div>
-        <div class="dnaBase" onclick="checkDNA(this, 'C')">C</div>
-      </div>
-      <p style="text-align: center; font-size: 1.5em; color: #3498db;">Target: <span id="dnaTarget">A</span></p>
-      <p style="text-align: center; font-size: 1.2em; color: #27ae60;">Score: <span id="dnaScore">0</span>/10</p>
-    </div>
-  `;
-  panel.style.display = 'block';
-  
-  window.dnaTargets = ['A', 'T', 'G', 'C'];
-  window.dnaCurrentTarget = window.dnaTargets[Math.floor(Math.random() * 4)];
-  window.dnaScore = 0;
-  document.getElementById('dnaTarget').textContent = window.dnaCurrentTarget;
-}
-
-window.checkDNA = function(element, base) {
-  if (base === window.dnaCurrentTarget) {
-    element.classList.add('correct');
-    playSound('success');
-    window.dnaScore++;
-    document.getElementById('dnaScore').textContent = window.dnaScore;
-    
-    if (window.dnaScore >= 10) {
-      setTimeout(() => {
-        addToInventory('DNA Sequence Data');
-        addXP(100);
-        state.itemsFound++;
-        updateHUD();
-        notify('🎉 DNA Sequencing Complete!');
-        closeInteractivePanel();
-      }, 500);
-    } else {
-      setTimeout(() => {
-        element.classList.remove('correct');
-        window.dnaCurrentTarget = window.dnaTargets[Math.floor(Math.random() * 4)];
-        document.getElementById('dnaTarget').textContent = window.dnaCurrentTarget;
-      }, 300);
-    }
-  } else {
-    element.classList.add('wrong');
-    playSound('error');
-    setTimeout(() => element.classList.remove('wrong'), 500);
+  else if (ud.type === 'gadget') {
+    controls.unlock();
+    state.inventory.push(ud.name);
+    state.itemsFound++;
+    updateInventory();
+    addXP(50);
+    notify(`✓ Used ${ud.name}!`);
   }
-};
-
-function showHologramViewer() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>🔮 HOLOGRAPHIC VIEWER</h2>
-      <p>3D molecular visualization with particle effects</p>
-    </div>
-    <div class="panelContent">
-      <div class="hologramViewer">
-        <div class="hologramModel"></div>
-        ${Array(20).fill(0).map((_, i) => `<div class="hologramParticle" style="left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation-delay: ${Math.random() * 3}s;"></div>`).join('')}
-      </div>
-      <p style="text-align: center; font-size: 1.3em; color: #9b59b6; margin-top: 20px;">Rotating 3D Molecular Structure</p>
-      <button class="brewBtn" onclick="captureHologram()">📸 CAPTURE HOLOGRAM</button>
-    </div>
-  `;
-  panel.style.display = 'block';
 }
 
-window.captureHologram = function() {
-  playSound('success');
-  addToInventory('Hologram Capture');
-  addXP(75);
-  state.itemsFound++;
-  updateHUD();
-  notify('📸 Hologram captured!');
-  setTimeout(closeInteractivePanel, 1000);
-};
-
-function showRobotChat() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>🤖 AI ASSISTANT</h2>
-      <p>How can I help you today?</p>
-    </div>
-    <div class="panelContent">
-      <div class="robotChat">
-        <div class="chatMessage">🤖 Hello! I'm your AI lab assistant. What would you like to do?</div>
-        <div class="chatOptions">
-          <button class="chatOption" onclick="robotTask('analyze')">🔬 Analyze Data</button>
-          <button class="chatOption" onclick="robotTask('research')">📚 Research Papers</button>
-          <button class="chatOption" onclick="robotTask('simulate')">⚡ Run Simulation</button>
-          <button class="chatOption" onclick="robotTask('report')">📊 Generate Report</button>
-        </div>
-      </div>
-    </div>
-  `;
-  panel.style.display = 'block';
+function updateInventory() {
+  document.getElementById('inventoryList').innerHTML = state.inventory.map(item => `<div class="inventoryItem">${item}</div>`).join('');
 }
-
-window.robotTask = function(task) {
-  playSound('success');
-  const tasks = {
-    analyze: { item: 'Data Analysis', xp: 60 },
-    research: { item: 'Research Summary', xp: 50 },
-    simulate: { item: 'Simulation Results', xp: 80 },
-    report: { item: 'Lab Report', xp: 70 }
-  };
-  const selected = tasks[task];
-  addToInventory(selected.item);
-  addXP(selected.xp);
-  state.itemsFound++;
-  updateHUD();
-  notify(`🤖 Task complete: ${selected.item}`);
-  setTimeout(closeInteractivePanel, 1500);
-};
-
-function showQuantumTerminal() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>⚛️ QUANTUM COMPUTER</h2>
-      <p>Advanced quantum simulation terminal</p>
-    </div>
-    <div class="panelContent">
-      <div class="quantumTerminal">
-        <div class="terminalLine">> Quantum Computer v2077</div>
-        <div class="terminalLine">> Initializing qubits...</div>
-        <div class="terminalLine">> Ready for input</div>
-        <div class="terminalLine">> <input type="text" class="terminalInput" placeholder="Type 'run simulation' and press Enter" onkeypress="if(event.key==='Enter') runQuantumSim()"></div>
-      </div>
-      <div class="qubitViz">
-        <div class="qubit">|0⟩</div>
-        <div class="qubit">|1⟩</div>
-        <div class="qubit">|+⟩</div>
-        <div class="qubit">|-⟩</div>
-      </div>
-    </div>
-  `;
-  panel.style.display = 'block';
-}
-
-window.runQuantumSim = function() {
-  playSound('success');
-  addToInventory('Quantum Simulation Data');
-  addXP(150);
-  state.itemsFound++;
-  updateHUD();
-  notify('⚛️ Quantum simulation complete!');
-  setTimeout(closeInteractivePanel, 1500);
-};
-
-function showCoffeeBrewer() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>☕ COFFEE MACHINE</h2>
-      <p>Brew fresh coffee for energy boost!</p>
-    </div>
-    <div class="panelContent">
-      <div class="coffeeBrewer">
-        <div class="coffeeMachine">
-          <div class="coffeeStream" id="coffeeStream"></div>
-          <div class="coffeeCup"></div>
-        </div>
-        <button class="brewBtn" onclick="brewCoffee()">☕ BREW COFFEE</button>
-      </div>
-    </div>
-  `;
-  panel.style.display = 'block';
-}
-
-window.brewCoffee = function() {
-  playSound('click');
-  document.getElementById('coffeeStream').classList.add('brewing');
-  setTimeout(() => {
-    playSound('success');
-    state.energy = Math.min(100, state.energy + 25);
-    document.getElementById('energy').textContent = state.energy + '%';
-    addToInventory('Fresh Coffee');
-    addXP(30);
-    state.itemsFound++;
-    updateHUD();
-    notify('☕ Coffee ready! +25% Energy!');
-    setTimeout(closeInteractivePanel, 1000);
-  }, 2000);
-};
-
-function showPingPongGame() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>🏓 PING PONG</h2>
-      <p>Take a break and play!</p>
-    </div>
-    <div class="panelContent">
-      <div class="pingPongGame">
-        <div class="score" style="left: 100px;">0</div>
-        <div class="score" style="right: 100px;">0</div>
-        <div class="paddle" style="left: 20px; top: 150px;"></div>
-        <div class="paddle" style="right: 20px; top: 150px;"></div>
-        <div class="ball" style="left: 390px; top: 190px;"></div>
-      </div>
-      <p style="text-align: center; margin-top: 20px; font-size: 1.2em; color: #fff;">Move mouse to control paddle!</p>
-      <button class="brewBtn" onclick="finishPingPong()">✓ FINISH GAME</button>
-    </div>
-  `;
-  panel.style.display = 'block';
-}
-
-window.finishPingPong = function() {
-  playSound('success');
-  addXP(25);
-  state.itemsFound++;
-  updateHUD();
-  notify('🏓 Good game! Refreshed!');
-  closeInteractivePanel();
-};
-
-function show3DPrinter() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>🖨️ 3D PRINTER</h2>
-      <p>Print custom objects!</p>
-    </div>
-    <div class="panelContent">
-      <div class="printer3D">
-        <div class="printerBox">
-          <div class="printProgress">
-            <div class="printBar" id="printBar"></div>
-          </div>
-          <div class="printedObject" id="printedObject"></div>
-        </div>
-        <button class="brewBtn" onclick="startPrinting()">🖨️ START PRINTING</button>
-      </div>
-    </div>
-  `;
-  panel.style.display = 'block';
-}
-
-window.startPrinting = function() {
-  playSound('click');
-  document.getElementById('printBar').classList.add('printing');
-  setTimeout(() => {
-    document.getElementById('printedObject').classList.add('visible');
-    playSound('success');
-    addToInventory('3D Printed Object');
-    addXP(75);
-    state.itemsFound++;
-    updateHUD();
-    notify('🖨️ Object printed successfully!');
-    setTimeout(closeInteractivePanel, 1500);
-  }, 3000);
-};
-
-function showSleepPod() {
-  const panel = document.getElementById('interactivePanel');
-  panel.innerHTML = `
-    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
-    <div class="panelHeader">
-      <h2>😴 SLEEP POD</h2>
-      <p>Take a power nap to restore energy</p>
-    </div>
-    <div class="panelContent">
-      <div style="text-align: center; padding: 50px;">
-        <div style="font-size: 5em; margin: 30px 0;">😴</div>
-        <p style="font-size: 1.5em; color: #3498db; margin: 20px 0;">Resting...</p>
-        <div style="width: 300px; height: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; margin: 30px auto; overflow: hidden;">
-          <div style="height: 100%; background: linear-gradient(135deg, #27ae60, #229954); width: 0%; transition: width 2s;" id="sleepBar"></div>
-        </div>
-        <button class="brewBtn" onclick="startSleep()">😴 SLEEP</button>
-      </div>
-    </div>
-  `;
-  panel.style.display = 'block';
-}
-
-window.startSleep = function() {
-  playSound('click');
-  document.getElementById('sleepBar').style.width = '100%';
-  setTimeout(() => {
-    playSound('success');
-    state.energy = 100;
-    document.getElementById('energy').textContent = '100%';
-    addXP(40);
-    state.itemsFound++;
-    updateHUD();
-    notify('😴 Fully rested! Energy restored!');
-    setTimeout(closeInteractivePanel, 1000);
-  }, 2000);
-};
-
-function showInfo(lab, desc) {
-  document.getElementById('panelTitle').textContent = lab;
-  document.getElementById('panelContent').innerHTML = `<div class="infoBox"><strong>FUTURISTIC TECH LAB:</strong><br><br>${desc}</div><div class="successBox"><strong>INTERACTIVE EXPERIENCES:</strong><br>VR stations, holographic displays, AI assistants, live demos. Experience the future!</div><button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>`;
-  document.getElementById('infoPanel').style.display = 'block';
-}
-
-window.closeInfoPanel = () => { 
-  document.getElementById('infoPanel').style.display = 'none'; 
-  controls.lock();
-};
-
-window.closeInteractivePanel = () => { 
-  document.getElementById('interactivePanel').style.display = 'none'; 
-  controls.lock();
-};
 
 function checkNearby() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
@@ -1130,7 +501,6 @@ function addXP(amount) {
     state.lvl++; 
     state.xpMax = Math.floor(state.xpMax * 1.5); 
     notify(`LEVEL UP! Level ${state.lvl}!`); 
-    playSound('success');
   }
   updateHUD();
 }
@@ -1140,14 +510,13 @@ function updateHUD() {
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
   document.getElementById('itemsFound').textContent = state.itemsFound;
-  document.getElementById('energy').textContent = state.energy + '%';
 }
 
 function notify(msg) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 4000);
+  setTimeout(() => n.classList.remove('show'), 3000);
 }
 </script>
 </body>
