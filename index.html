@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Complete Structure</title>
+<title>TechVerse 2077 - Interactive Edition</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEEB; color: #fff; }
@@ -35,6 +35,65 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 
 #interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; box-shadow: 0 6px 30px rgba(39,174,96,0.6); }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-12px); } }
+
+#interactivePanel { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 5000; display: none; overflow-y: auto; padding: 40px; }
+#interactivePanel .panelHeader { text-align: center; margin-bottom: 30px; }
+#interactivePanel .panelHeader h2 { color: #3498db; font-size: 3em; margin-bottom: 10px; }
+#interactivePanel .panelHeader p { color: #ecf0f1; font-size: 1.2em; }
+#interactivePanel .panelContent { max-width: 1200px; margin: 0 auto; }
+.closePanel { position: absolute; top: 20px; right: 20px; background: #e74c3c; color: #fff; border: none; padding: 15px 30px; border-radius: 10px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+.closePanel:hover { background: #c0392b; transform: scale(1.05); }
+
+.dnaSequence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0; }
+.dnaBase { background: linear-gradient(135deg, #3498db, #2980b9); padding: 30px; border-radius: 15px; text-align: center; font-size: 2em; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 3px solid transparent; }
+.dnaBase:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(52,152,219,0.6); }
+.dnaBase.correct { background: linear-gradient(135deg, #27ae60, #229954); border-color: #2ecc71; }
+.dnaBase.wrong { background: linear-gradient(135deg, #e74c3c, #c0392b); animation: shake 0.5s; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+.hologramViewer { position: relative; width: 600px; height: 600px; margin: 30px auto; background: radial-gradient(circle, rgba(52,152,219,0.2), rgba(0,0,0,0.8)); border-radius: 20px; border: 3px solid #3498db; display: flex; align-items: center; justify-content: center; }
+.hologramModel { width: 400px; height: 400px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border-radius: 50%; animation: rotate3d 4s linear infinite; position: relative; }
+@keyframes rotate3d { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+.hologramParticle { position: absolute; width: 10px; height: 10px; background: #3498db; border-radius: 50%; animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(-50px); opacity: 0.3; } }
+
+.robotChat { background: rgba(52,152,219,0.1); border: 2px solid #3498db; border-radius: 15px; padding: 30px; margin: 30px 0; }
+.chatMessage { background: rgba(255,255,255,0.1); padding: 15px 20px; border-radius: 10px; margin: 10px 0; font-size: 1.1em; }
+.chatOptions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+.chatOption { background: linear-gradient(135deg, #3498db, #2980b9); padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s; border: none; color: #fff; font-size: 1em; font-weight: bold; }
+.chatOption:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(52,152,219,0.5); }
+
+.quantumTerminal { background: #000; border: 3px solid #3498db; border-radius: 15px; padding: 30px; margin: 30px 0; font-family: 'Courier New', monospace; }
+.terminalLine { color: #0f0; margin: 5px 0; font-size: 1.1em; }
+.terminalInput { background: transparent; border: none; color: #0f0; font-family: 'Courier New', monospace; font-size: 1.1em; width: 100%; outline: none; }
+.qubitViz { display: flex; justify-content: space-around; margin: 30px 0; }
+.qubit { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #3498db, #9b59b6); display: flex; align-items: center; justify-content: center; font-size: 2em; font-weight: bold; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } }
+
+.coffeeBrewer { text-align: center; margin: 30px 0; }
+.coffeeMachine { width: 300px; height: 400px; margin: 0 auto; background: linear-gradient(135deg, #8B4513, #654321); border-radius: 20px; position: relative; padding: 30px; }
+.coffeeStream { width: 20px; height: 0; background: linear-gradient(to bottom, #8B4513, #654321); position: absolute; left: 50%; transform: translateX(-50%); top: 200px; transition: height 2s; }
+.coffeeStream.brewing { height: 150px; }
+.coffeeCup { width: 100px; height: 80px; background: #fff; border-radius: 0 0 20px 20px; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); }
+.brewBtn { background: linear-gradient(135deg, #27ae60, #229954); color: #fff; border: none; padding: 20px 40px; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 30px; transition: all 0.3s; }
+.brewBtn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(39,174,96,0.6); }
+
+.pingPongGame { width: 800px; height: 400px; margin: 30px auto; background: #0066cc; border: 5px solid #fff; border-radius: 15px; position: relative; overflow: hidden; }
+.paddle { width: 20px; height: 100px; background: #fff; position: absolute; border-radius: 10px; }
+.ball { width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; }
+.score { position: absolute; top: 20px; font-size: 3em; font-weight: bold; color: #fff; }
+
+.printer3D { text-align: center; margin: 30px 0; }
+.printerBox { width: 400px; height: 400px; margin: 0 auto; background: linear-gradient(135deg, #e67e22, #d35400); border-radius: 20px; position: relative; padding: 30px; }
+.printProgress { width: 80%; height: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; margin: 20px auto; overflow: hidden; }
+.printBar { height: 100%; background: linear-gradient(135deg, #27ae60, #229954); width: 0%; transition: width 3s; border-radius: 15px; }
+.printBar.printing { width: 100%; }
+.printedObject { width: 150px; height: 150px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 20px; margin: 20px auto; opacity: 0; transition: opacity 1s; }
+.printedObject.visible { opacity: 1; }
+
+.inventory { position: fixed; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid rgba(52,152,219,0.8); min-width: 200px; z-index: 1000; display: none; backdrop-filter: blur(15px); }
+.inventory h4 { color: #3498db; margin-bottom: 10px; font-size: 1.2em; }
+.inventoryItem { background: rgba(52,152,219,0.2); padding: 10px; border-radius: 8px; margin: 5px 0; color: #fff; font-size: 0.9em; }
 
 #infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(360px, 92vw, 950px); max-height: 88vh; overflow-y: auto; background: rgba(0,0,0,0.95); padding: 45px; border-radius: 18px; border: 3px solid rgba(52,152,219,0.8); z-index: 6000; display: none; box-shadow: 0 12px 60px rgba(0,0,0,0.8); backdrop-filter: blur(25px); }
 #infoPanel h2 { color: #3498db; font-size: 2.8em; margin-bottom: 25px; text-align: center; font-weight: 900; }
@@ -69,7 +128,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">12 Labs • VR/Holograms/AI/Robots • Startup Hub • Hybrid Collaboration Lab • 15 Characters</p>
+  <p class="subtitle">Fully Interactive • Real Experiences • Mini-Games • 12 Labs • 15 Characters</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker" data-bonus="+50% XP in Biology Lab"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life expert</p><div class="bonus">+50% Bio XP</div></div>
@@ -100,10 +159,19 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
   <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
   <div class="hudStat"><span>Items:</span><span class="val" id="itemsFound">0</span></div>
+  <div class="hudStat"><span>Energy:</span><span class="val" id="energy">100%</span></div>
+</div>
+
+<div class="inventory">
+  <h4>📦 INVENTORY</h4>
+  <div id="inventoryList"></div>
 </div>
 
 <div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
 <div id="interactPrompt">Press E to Interact</div>
+
+<div id="interactivePanel"></div>
+
 <div id="infoPanel"><h2 id="panelTitle">Tech</h2><div id="panelContent"></div></div>
 
 <div id="controls">
@@ -113,6 +181,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
   <div class="ctrl"><span class="key">ESC</span> Exit/Close</div>
+  <div class="ctrl"><span class="key">I</span> Inventory</div>
 </div>
 
 <div id="notif"></div>
@@ -125,24 +194,28 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-const state = { char: null, charBonus: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), itemsFound: 0, insideLab: false, currentLab: null, nearInteractable: null };
+const state = { 
+  char: null, charBonus: null, lvl: 1, xp: 0, xpMax: 1000, 
+  labsVisited: new Set(), itemsFound: 0, insideLab: false, 
+  currentLab: null, nearInteractable: null, inventory: [], energy: 100
+};
 let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
 let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
 
 const labConfigs = {
-  'Startup Hub': { icon: '🚀', color: 0xff00ff, pos: [0, 0, 0], name: 'STARTUP\nHUB', desc: 'Garage innovation hub. Coffee bar, ping pong, sleeping pods, snack wall, demo stage. Where unicorns are born.' },
-  'Xenobiology': { icon: '🧬', color: 0x1abc9c, pos: [-70, 0, -90], name: 'XENO\nBIOLOGY', desc: 'Synthetic life with XNA. VR DNA sequencing, holographic cell visualization, AI gene editor, bio-reactor robots.' },
-  'OTEC Energy': { icon: '🌊', color: 0x3498db, pos: [70, 0, -90], name: 'OTEC\nENERGY', desc: 'Ocean power. VR ocean simulation, holographic turbine models, AI power optimizer, energy field visualizer.' },
-  'Optogenetics': { icon: '🧠', color: 0x9b59b6, pos: [-70, 0, -30], name: 'OPTO\nGENETICS', desc: 'Neural control with light. VR brain mapping, holographic neuron networks, AI neural interface, mind-upload station.' },
-  'Programmable Matter': { icon: '🔮', color: 0x8e44ad, pos: [70, 0, -30], name: 'PROG\nMATTER', desc: 'Shape-shifting materials. VR catom simulation, holographic matter transformation, AI shape designer, live demo chamber.' },
-  'Wireless Power': { icon: '⚡', color: 0xf39c12, pos: [-70, 0, 30], name: 'WIRELESS\nPOWER', desc: 'Electricity through air. VR field visualization, holographic coil design, AI transmission optimizer, live power demo.' },
-  'Mycelium Computing': { icon: '🍄', color: 0x27ae60, pos: [70, 0, 30], name: 'MYCELIUM\nCOMPUTE', desc: 'Fungal bio-computers. VR mycelium network, holographic growth patterns, AI substrate designer, living computer demo.' },
-  'Cryogenics': { icon: '🧊', color: 0x16a085, pos: [-70, 0, 90], name: 'CRYO\nGENICS', desc: 'Reversible freezing. VR molecular visualization, holographic freeze process, AI revival protocol, live cryo chamber.' },
-  'Metamaterials': { icon: '👻', color: 0x34495e, pos: [70, 0, 90], name: 'META\nMATERIALS', desc: 'Invisibility cloaks. VR light bending, holographic cloak design, AI material optimizer, live invisibility test.' },
-  'Acoustic Levitation': { icon: '🔊', color: 0xe67e22, pos: [-70, 0, 150], name: 'ACOUSTIC\nLEVITATION', desc: 'Sound levitation. VR wave visualization, holographic frequency patterns, AI levitator designer, live floating demo.' },
-  'Epigenetics': { icon: '⏳', color: 0x2ecc71, pos: [70, 0, 150], name: 'EPI\nGENETICS', desc: 'Reverse aging. VR cell age visualization, holographic DNA methylation, AI age reversal protocol, live cell demo.' },
-  'Hybrid Collaboration Lab': { icon: '🤝', color: 0xe74c3c, pos: [0, 0, 150], name: 'HYBRID\nCOLLAB LAB', desc: 'Cross-discipline innovation. Collaboration pods, shared equipment, innovation wall, 3D printers, bio-tech corner, quantum computers, maker space.' }
+  'Startup Hub': { icon: '🚀', color: 0xff00ff, pos: [0, 0, 0], name: 'STARTUP\nHUB', desc: 'Garage innovation hub with interactive experiences.' },
+  'Xenobiology': { icon: '🧬', color: 0x1abc9c, pos: [-70, 0, -90], name: 'XENO\nBIOLOGY', desc: 'DNA sequencing mini-game and molecular visualization.' },
+  'OTEC Energy': { icon: '🌊', color: 0x3498db, pos: [70, 0, -90], name: 'OTEC\nENERGY', desc: 'Ocean power simulation with interactive controls.' },
+  'Optogenetics': { icon: '🧠', color: 0x9b59b6, pos: [-70, 0, -30], name: 'OPTO\nGENETICS', desc: 'Neural mapping and brain visualization.' },
+  'Programmable Matter': { icon: '🔮', color: 0x8e44ad, pos: [70, 0, -30], name: 'PROG\nMATTER', desc: 'Shape-shifting material simulator.' },
+  'Wireless Power': { icon: '⚡', color: 0xf39c12, pos: [-70, 0, 30], name: 'WIRELESS\nPOWER', desc: 'Energy field visualization and transmission.' },
+  'Mycelium Computing': { icon: '🍄', color: 0x27ae60, pos: [70, 0, 30], name: 'MYCELIUM\nCOMPUTE', desc: 'Fungal network growth simulation.' },
+  'Cryogenics': { icon: '🧊', color: 0x16a085, pos: [-70, 0, 90], name: 'CRYO\nGENICS', desc: 'Molecular freezing visualization.' },
+  'Metamaterials': { icon: '👻', color: 0x34495e, pos: [70, 0, 90], name: 'META\nMATERIALS', desc: 'Light bending and invisibility test.' },
+  'Acoustic Levitation': { icon: '🔊', color: 0xe67e22, pos: [-70, 0, 150], name: 'ACOUSTIC\nLEVITATION', desc: 'Sound wave visualization and levitation.' },
+  'Epigenetics': { icon: '⏳', color: 0x2ecc71, pos: [70, 0, 150], name: 'EPI\nGENETICS', desc: 'Cell age reversal simulation.' },
+  'Hybrid Collaboration Lab': { icon: '🤝', color: 0xe74c3c, pos: [0, 0, 150], name: 'HYBRID\nCOLLAB LAB', desc: '3D printing, quantum computing, and maker space.' }
 };
 
 function createTextSprite(text, color) {
@@ -172,6 +245,47 @@ function createTextSprite(text, color) {
   return sprite;
 }
 
+function playSound(type) {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  if (type === 'click') {
+    oscillator.frequency.value = 800;
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  } else if (type === 'success') {
+    oscillator.frequency.value = 1200;
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+  } else if (type === 'error') {
+    oscillator.frequency.value = 200;
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.2);
+  }
+}
+
+function addToInventory(item) {
+  state.inventory.push(item);
+  updateInventory();
+  playSound('success');
+  notify(`📦 Added to inventory: ${item}`);
+}
+
+function updateInventory() {
+  const list = document.getElementById('inventoryList');
+  list.innerHTML = state.inventory.map(item => `<div class="inventoryItem">${item}</div>`).join('');
+}
+
 document.querySelectorAll('.charCard').forEach(card => {
   card.addEventListener('click', function(e) {
     e.preventDefault();
@@ -183,8 +297,8 @@ document.querySelectorAll('.charCard').forEach(card => {
     document.getElementById('selectedInfo').textContent = `✓ ${state.char} | ${state.charBonus}`;
     document.getElementById('selectedInfo').style.display = 'block';
     document.getElementById('startBtn').disabled = false;
+    playSound('click');
   });
-  card.addEventListener('mousedown', e => e.preventDefault());
 });
 
 document.getElementById('startBtn').addEventListener('click', () => {
@@ -193,7 +307,9 @@ document.getElementById('startBtn').addEventListener('click', () => {
   if (state.char === 'Nano-Surgeon') state.xp = 200;
   document.getElementById('startScreen').classList.add('hide');
   ['hud', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
+  document.querySelector('.inventory').style.display = 'block';
   document.getElementById('role').textContent = state.char;
+  playSound('success');
   init();
 });
 
@@ -258,52 +374,30 @@ function createCity() {
   Object.entries(labConfigs).forEach(([name, config]) => {
     const size = name === 'Startup Hub' ? [70, 40, 80] : (name === 'Hybrid Collaboration Lab' ? [80, 45, 90] : [50, 30, 60]);
     
-    // MAIN BUILDING BOX - THIS IS THE KEY!
     const buildingGeometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
-    const buildingMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0xCCCCCC, 
-      roughness: 0.7, 
-      metalness: 0.3 
-    });
+    const buildingMaterial = new THREE.MeshStandardMaterial({ color: 0xCCCCCC, roughness: 0.7, metalness: 0.3 });
     const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
     building.position.set(config.pos[0], size[1] / 2, config.pos[2]);
     building.castShadow = true;
     building.receiveShadow = true;
     scene.add(building);
     
-    // Windows ON the building
     for (let floor = 0; floor < 6; floor++) {
       for (let i = 0; i < 10; i++) {
         const windowGeometry = new THREE.BoxGeometry(4, 3, 0.2);
-        const windowMaterial = new THREE.MeshStandardMaterial({ 
-          color: 0x87CEEB, 
-          roughness: 0.1, 
-          metalness: 0.9, 
-          transparent: true, 
-          opacity: 0.6 
-        });
+        const windowMaterial = new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.6 });
         const window = new THREE.Mesh(windowGeometry, windowMaterial);
-        window.position.set(
-          config.pos[0] - 20 + i * 4.5, 
-          5 + floor * 6, 
-          config.pos[2] + size[2] / 2 + 0.1
-        );
+        window.position.set(config.pos[0] - 20 + i * 4.5, 5 + floor * 6, config.pos[2] + size[2] / 2 + 0.1);
         scene.add(window);
       }
     }
     
-    // Text label
     const textSprite = createTextSprite(config.name, `#${config.color.toString(16).padStart(6, '0')}`);
     textSprite.position.set(config.pos[0], size[1] + 8, config.pos[2]);
     scene.add(textSprite);
     
-    // Door
     const doorGeometry = new THREE.BoxGeometry(8, 10, 0.8);
-    const doorMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x8B4513, 
-      roughness: 0.6, 
-      metalness: 0.4 
-    });
+    const doorMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 });
     const door = new THREE.Mesh(doorGeometry, doorMaterial);
     door.position.set(config.pos[0], 5, config.pos[2] + size[2] / 2 + 0.5);
     door.userData = { type: 'entrance', lab: name, desc: config.desc };
@@ -311,15 +405,8 @@ function createCity() {
     scene.add(door);
     interactables.push(door);
     
-    // Sign
     const signGeometry = new THREE.BoxGeometry(12, 3, 0.3);
-    const signMaterial = new THREE.MeshStandardMaterial({ 
-      color: config.color, 
-      emissive: config.color, 
-      emissiveIntensity: 0.5, 
-      roughness: 0.4, 
-      metalness: 0.6 
-    });
+    const signMaterial = new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 });
     const sign = new THREE.Mesh(signGeometry, signMaterial);
     sign.position.set(config.pos[0], 11, config.pos[2] + size[2] / 2 + 0.6);
     scene.add(sign);
@@ -368,10 +455,10 @@ function enterLab(labName, desc) {
   velocity.set(0, 0, 0);
   updateLocation();
   updateHUD();
+  playSound('success');
 }
 
 function createStartupHub() {
-  // FLOOR
   const floorGeometry = new THREE.PlaneGeometry(70, 80);
   const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.9 });
   const floor = new THREE.Mesh(floorGeometry, floorMaterial);
@@ -379,14 +466,7 @@ function createStartupHub() {
   floor.receiveShadow = true;
   scene.add(floor);
   
-  // WALLS
-  const wallConfigs = [
-    [0, 3, -40, 70, 6, 0.4],
-    [-35, 3, 0, 0.4, 6, 80],
-    [35, 3, 0, 0.4, 6, 80],
-    [0, 3, 40, 70, 6, 0.4]
-  ];
-  
+  const wallConfigs = [[0, 3, -40, 70, 6, 0.4], [-35, 3, 0, 0.4, 6, 80], [35, 3, 0, 0.4, 6, 80], [0, 3, 40, 70, 6, 0.4]];
   wallConfigs.forEach(w => {
     const wallGeometry = new THREE.BoxGeometry(w[3], w[4], w[5]);
     const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xB22222, roughness: 0.95 });
@@ -397,7 +477,6 @@ function createStartupHub() {
     scene.add(wall);
   });
   
-  // Coffee Bar
   const coffeeGeometry = new THREE.BoxGeometry(12, 2, 4);
   const coffeeMaterial = new THREE.MeshStandardMaterial({ color: 0x654321, roughness: 0.7 });
   const coffeeBar = new THREE.Mesh(coffeeGeometry, coffeeMaterial);
@@ -407,7 +486,6 @@ function createStartupHub() {
   scene.add(coffeeBar);
   interactables.push(coffeeBar);
   
-  // Ping Pong
   const pingPongGeometry = new THREE.BoxGeometry(8, 1.5, 4);
   const pingPongMaterial = new THREE.MeshStandardMaterial({ color: 0x0066cc, roughness: 0.6 });
   const pingPong = new THREE.Mesh(pingPongGeometry, pingPongMaterial);
@@ -417,7 +495,6 @@ function createStartupHub() {
   scene.add(pingPong);
   interactables.push(pingPong);
   
-  // Sleeping Pods
   for (let i = 0; i < 4; i++) {
     const podGeometry = new THREE.CapsuleGeometry(1.2, 2.5);
     const podMaterial = new THREE.MeshStandardMaterial({ color: 0x2a2a3e, roughness: 0.4, metalness: 0.6 });
@@ -430,7 +507,6 @@ function createStartupHub() {
     interactables.push(pod);
   }
   
-  // Snack Wall
   const snackGeometry = new THREE.BoxGeometry(15, 5, 0.5);
   const snackMaterial = new THREE.MeshStandardMaterial({ color: 0xff6600 });
   const snackWall = new THREE.Mesh(snackGeometry, snackMaterial);
@@ -441,7 +517,6 @@ function createStartupHub() {
   scene.add(snackWall);
   interactables.push(snackWall);
   
-  // Demo Stage
   const stageGeometry = new THREE.CylinderGeometry(15, 15, 0.6);
   const stageMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
   const demoStage = new THREE.Mesh(stageGeometry, stageMaterial);
@@ -451,7 +526,6 @@ function createStartupHub() {
   scene.add(demoStage);
   interactables.push(demoStage);
   
-  // Exit Door
   const exitGeometry = new THREE.BoxGeometry(6, 8, 0.6);
   const exitMaterial = new THREE.MeshStandardMaterial({ color: 0xff4500 });
   const exit = new THREE.Mesh(exitGeometry, exitMaterial);
@@ -463,7 +537,6 @@ function createStartupHub() {
 }
 
 function createHybridLab() {
-  // FLOOR
   const floorGeometry = new THREE.PlaneGeometry(80, 90);
   const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.8 });
   const floor = new THREE.Mesh(floorGeometry, floorMaterial);
@@ -471,14 +544,7 @@ function createHybridLab() {
   floor.receiveShadow = true;
   scene.add(floor);
   
-  // WALLS
-  const wallConfigs = [
-    [0, 3.5, -45, 80, 7, 0.5],
-    [-40, 3.5, 0, 0.5, 7, 90],
-    [40, 3.5, 0, 0.5, 7, 90],
-    [0, 3.5, 45, 80, 7, 0.5]
-  ];
-  
+  const wallConfigs = [[0, 3.5, -45, 80, 7, 0.5], [-40, 3.5, 0, 0.5, 7, 90], [40, 3.5, 0, 0.5, 7, 90], [0, 3.5, 45, 80, 7, 0.5]];
   wallConfigs.forEach(w => {
     const wallGeometry = new THREE.BoxGeometry(w[3], w[4], w[5]);
     const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 });
@@ -489,28 +555,6 @@ function createHybridLab() {
     scene.add(wall);
   });
   
-  // Collaboration Pods
-  for (let i = 0; i < 6; i++) {
-    const podGeometry = new THREE.CylinderGeometry(4, 4, 3);
-    const podMaterial = new THREE.MeshStandardMaterial({ color: 0x3498db, transparent: true, opacity: 0.7 });
-    const pod = new THREE.Mesh(podGeometry, podMaterial);
-    pod.position.set(-30 + (i % 3) * 30, 1.5, -30 + Math.floor(i / 3) * 60);
-    pod.userData = { type: 'collabpod', id: i };
-    pod.castShadow = true;
-    scene.add(pod);
-    interactables.push(pod);
-  }
-  
-  // Innovation Wall
-  const innovationGeometry = new THREE.PlaneGeometry(20, 10);
-  const innovationMaterial = new THREE.MeshStandardMaterial({ color: 0x27ae60 });
-  const innovationWall = new THREE.Mesh(innovationGeometry, innovationMaterial);
-  innovationWall.position.set(0, 5, -44.8);
-  innovationWall.userData = { type: 'innovation' };
-  scene.add(innovationWall);
-  interactables.push(innovationWall);
-  
-  // 3D Printers
   for (let i = 0; i < 4; i++) {
     const printerGeometry = new THREE.BoxGeometry(3, 3, 3);
     const printerMaterial = new THREE.MeshStandardMaterial({ color: 0xe67e22 });
@@ -522,17 +566,6 @@ function createHybridLab() {
     interactables.push(printer);
   }
   
-  // Bio-Tech Corner
-  const bioGeometry = new THREE.BoxGeometry(15, 4, 15);
-  const bioMaterial = new THREE.MeshStandardMaterial({ color: 0x1abc9c });
-  const bioCorner = new THREE.Mesh(bioGeometry, bioMaterial);
-  bioCorner.position.set(30, 2, -30);
-  bioCorner.userData = { type: 'biotech' };
-  bioCorner.castShadow = true;
-  scene.add(bioCorner);
-  interactables.push(bioCorner);
-  
-  // Quantum Computer
   const quantumGeometry = new THREE.BoxGeometry(8, 6, 8);
   const quantumMaterial = new THREE.MeshStandardMaterial({ color: 0x8e44ad });
   const quantumComp = new THREE.Mesh(quantumGeometry, quantumMaterial);
@@ -542,17 +575,6 @@ function createHybridLab() {
   scene.add(quantumComp);
   interactables.push(quantumComp);
   
-  // Maker Space
-  const makerGeometry = new THREE.BoxGeometry(20, 2, 20);
-  const makerMaterial = new THREE.MeshStandardMaterial({ color: 0xf39c12 });
-  const makerSpace = new THREE.Mesh(makerGeometry, makerMaterial);
-  makerSpace.position.set(-25, 1, 30);
-  makerSpace.userData = { type: 'maker' };
-  makerSpace.castShadow = true;
-  scene.add(makerSpace);
-  interactables.push(makerSpace);
-  
-  // Exit Door
   const exitGeometry = new THREE.BoxGeometry(6, 8, 0.6);
   const exitMaterial = new THREE.MeshStandardMaterial({ color: 0xff4500 });
   const exit = new THREE.Mesh(exitGeometry, exitMaterial);
@@ -564,7 +586,6 @@ function createHybridLab() {
 }
 
 function createAdvancedLab(labName, desc) {
-  // FLOOR
   const floorGeometry = new THREE.PlaneGeometry(50, 60);
   const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.8 });
   const floor = new THREE.Mesh(floorGeometry, floorMaterial);
@@ -572,14 +593,7 @@ function createAdvancedLab(labName, desc) {
   floor.receiveShadow = true;
   scene.add(floor);
   
-  // WALLS
-  const wallConfigs = [
-    [0, 3, -30, 50, 6, 0.4],
-    [-25, 3, 0, 0.4, 6, 60],
-    [25, 3, 0, 0.4, 6, 60],
-    [0, 3, 30, 50, 6, 0.4]
-  ];
-  
+  const wallConfigs = [[0, 3, -30, 50, 6, 0.4], [-25, 3, 0, 0.4, 6, 60], [25, 3, 0, 0.4, 6, 60], [0, 3, 30, 50, 6, 0.4]];
   wallConfigs.forEach(w => {
     const wallGeometry = new THREE.BoxGeometry(w[3], w[4], w[5]);
     const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 });
@@ -590,7 +604,6 @@ function createAdvancedLab(labName, desc) {
     scene.add(wall);
   });
   
-  // VR Stations
   for (let i = 0; i < 4; i++) {
     const vrGeometry = new THREE.BoxGeometry(4, 3, 4);
     const vrMaterial = new THREE.MeshStandardMaterial({ color: 0x3498db });
@@ -602,7 +615,6 @@ function createAdvancedLab(labName, desc) {
     interactables.push(vr);
   }
   
-  // Holograms
   for (let i = 0; i < 3; i++) {
     const holoGeometry = new THREE.CylinderGeometry(3, 3, 0.3);
     const holoMaterial = new THREE.MeshStandardMaterial({ color: 0x9b59b6, transparent: true, opacity: 0.6 });
@@ -614,7 +626,6 @@ function createAdvancedLab(labName, desc) {
     interactables.push(holo);
   }
   
-  // AI Robots
   for (let i = 0; i < 2; i++) {
     const robotGeometry = new THREE.CapsuleGeometry(0.8, 2);
     const robotMaterial = new THREE.MeshStandardMaterial({ color: 0x95a5a6, roughness: 0.3, metalness: 0.8 });
@@ -626,17 +637,6 @@ function createAdvancedLab(labName, desc) {
     interactables.push(robot);
   }
   
-  // Demo Area
-  const demoGeometry = new THREE.CylinderGeometry(6, 6, 0.4);
-  const demoMaterial = new THREE.MeshStandardMaterial({ color: labConfigs[state.currentLab].color });
-  const demoArea = new THREE.Mesh(demoGeometry, demoMaterial);
-  demoArea.position.set(0, 0.2, 15);
-  demoArea.userData = { type: 'demo' };
-  demoArea.castShadow = true;
-  scene.add(demoArea);
-  interactables.push(demoArea);
-  
-  // Info Panel
   const infoGeometry = new THREE.PlaneGeometry(15, 8);
   const infoMaterial = new THREE.MeshStandardMaterial({ color: 0x3498db });
   const info = new THREE.Mesh(infoGeometry, infoMaterial);
@@ -645,7 +645,6 @@ function createAdvancedLab(labName, desc) {
   scene.add(info);
   interactables.push(info);
   
-  // Exit Door
   const exitGeometry = new THREE.BoxGeometry(6, 8, 0.6);
   const exitMaterial = new THREE.MeshStandardMaterial({ color: 0xff4500 });
   const exit = new THREE.Mesh(exitGeometry, exitMaterial);
@@ -661,7 +660,6 @@ function exitLab() {
   state.insideLab = false;
   state.currentLab = null;
   
-  // Clear and rebuild
   scene.clear();
   interactables = [];
   scene.background = new THREE.Color(0x87CEEB);
@@ -704,6 +702,7 @@ function exitLab() {
   camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   updateLocation();
+  playSound('click');
 }
 
 function setupControls() {
@@ -714,9 +713,16 @@ function setupControls() {
     if (e.code === 'KeyD') moveRight = true;
     if (e.code === 'ShiftLeft') sprint = true;
     if (e.code === 'KeyE') handleInteraction();
+    if (e.code === 'KeyI') document.querySelector('.inventory').style.display = document.querySelector('.inventory').style.display === 'none' ? 'block' : 'none';
     if (e.code === 'Escape') {
-      if (document.getElementById('infoPanel').style.display === 'block') closeInfoPanel();
-      else if (state.insideLab) exitLab();
+      if (document.getElementById('interactivePanel').style.display === 'block') {
+        document.getElementById('interactivePanel').style.display = 'none';
+        controls.lock();
+      } else if (document.getElementById('infoPanel').style.display === 'block') {
+        closeInfoPanel();
+      } else if (state.insideLab) {
+        exitLab();
+      }
     }
   });
   
@@ -729,43 +735,356 @@ function setupControls() {
   });
   
   document.getElementById('canvas').addEventListener('click', () => {
-    if (document.getElementById('infoPanel').style.display !== 'block') controls.lock();
+    if (document.getElementById('infoPanel').style.display !== 'block' && document.getElementById('interactivePanel').style.display !== 'block') {
+      controls.lock();
+    }
   });
 }
 
 function handleInteraction() {
   if (!state.nearInteractable) return;
   const ud = state.nearInteractable.userData;
-  let xpBonus = state.char === 'Cyborg Mechanic' ? 1.25 : 1;
+  
+  playSound('click');
+  controls.unlock();
   
   if (ud.type === 'entrance') enterLab(ud.lab, ud.desc);
   else if (ud.type === 'exit') exitLab();
   else if (ud.type === 'info') showInfo(ud.lab, ud.desc);
-  else if (ud.type === 'vr') { notify(`🥽 VR Station | +${Math.floor(60 * xpBonus)} XP`); addXP(Math.floor(60 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'hologram') { notify(`🔮 Hologram | +${Math.floor(50 * xpBonus)} XP`); addXP(Math.floor(50 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'robot') { notify(`🤖 AI Robot | +${Math.floor(40 * xpBonus)} XP`); addXP(Math.floor(40 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'demo') { notify(`⚡ Live Demo | +${Math.floor(80 * xpBonus)} XP`); addXP(Math.floor(80 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'coffee') { notify(`☕ Coffee Bar | +${Math.floor(20 * xpBonus)} XP`); addXP(Math.floor(20 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'pingpong') { notify(`🏓 Ping Pong | +${Math.floor(15 * xpBonus)} XP`); addXP(Math.floor(15 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'sleeppod') { notify(`😴 Sleep Pod | +${Math.floor(25 * xpBonus)} XP`); addXP(Math.floor(25 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'snacks') { notify(`🍕 Snacks | +${Math.floor(10 * xpBonus)} XP`); addXP(Math.floor(10 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'collabpod') { notify(`🤝 Collab Pod | +${Math.floor(45 * xpBonus)} XP`); addXP(Math.floor(45 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'innovation') { notify(`💡 Innovation Wall | +${Math.floor(35 * xpBonus)} XP`); addXP(Math.floor(35 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === '3dprinter') { notify(`🖨️ 3D Printer | +${Math.floor(50 * xpBonus)} XP`); addXP(Math.floor(50 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'biotech') { notify(`🧬 Bio-Tech | +${Math.floor(70 * xpBonus)} XP`); addXP(Math.floor(70 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'quantum') { notify(`⚛️ Quantum Computer | +${Math.floor(100 * xpBonus)} XP`); addXP(Math.floor(100 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'maker') { notify(`🔨 Maker Space | +${Math.floor(55 * xpBonus)} XP`); addXP(Math.floor(55 * xpBonus)); state.itemsFound++; }
-  updateHUD();
+  else if (ud.type === 'vr') showVRExperience();
+  else if (ud.type === 'hologram') showHologramViewer();
+  else if (ud.type === 'robot') showRobotChat();
+  else if (ud.type === 'quantum') showQuantumTerminal();
+  else if (ud.type === 'coffee') showCoffeeBrewer();
+  else if (ud.type === 'pingpong') showPingPongGame();
+  else if (ud.type === '3dprinter') show3DPrinter();
+  else if (ud.type === 'sleeppod') showSleepPod();
+  else if (ud.type === 'snacks') { addToInventory('Energy Snack'); addXP(10); state.itemsFound++; updateHUD(); }
+  else if (ud.type === 'demo') { notify('Demo stage! Present your ideas!'); addXP(50); state.itemsFound++; updateHUD(); }
 }
+
+function showVRExperience() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>🥽 VR DNA SEQUENCING</h2>
+      <p>Match the DNA base pairs to complete the sequence!</p>
+    </div>
+    <div class="panelContent">
+      <div class="dnaSequence" id="dnaGame">
+        <div class="dnaBase" onclick="checkDNA(this, 'A')">A</div>
+        <div class="dnaBase" onclick="checkDNA(this, 'T')">T</div>
+        <div class="dnaBase" onclick="checkDNA(this, 'G')">G</div>
+        <div class="dnaBase" onclick="checkDNA(this, 'C')">C</div>
+      </div>
+      <p style="text-align: center; font-size: 1.5em; color: #3498db;">Target: <span id="dnaTarget">A</span></p>
+      <p style="text-align: center; font-size: 1.2em; color: #27ae60;">Score: <span id="dnaScore">0</span>/10</p>
+    </div>
+  `;
+  panel.style.display = 'block';
+  
+  window.dnaTargets = ['A', 'T', 'G', 'C'];
+  window.dnaCurrentTarget = window.dnaTargets[Math.floor(Math.random() * 4)];
+  window.dnaScore = 0;
+  document.getElementById('dnaTarget').textContent = window.dnaCurrentTarget;
+}
+
+window.checkDNA = function(element, base) {
+  if (base === window.dnaCurrentTarget) {
+    element.classList.add('correct');
+    playSound('success');
+    window.dnaScore++;
+    document.getElementById('dnaScore').textContent = window.dnaScore;
+    
+    if (window.dnaScore >= 10) {
+      setTimeout(() => {
+        addToInventory('DNA Sequence Data');
+        addXP(100);
+        state.itemsFound++;
+        updateHUD();
+        notify('🎉 DNA Sequencing Complete!');
+        closeInteractivePanel();
+      }, 500);
+    } else {
+      setTimeout(() => {
+        element.classList.remove('correct');
+        window.dnaCurrentTarget = window.dnaTargets[Math.floor(Math.random() * 4)];
+        document.getElementById('dnaTarget').textContent = window.dnaCurrentTarget;
+      }, 300);
+    }
+  } else {
+    element.classList.add('wrong');
+    playSound('error');
+    setTimeout(() => element.classList.remove('wrong'), 500);
+  }
+};
+
+function showHologramViewer() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>🔮 HOLOGRAPHIC VIEWER</h2>
+      <p>3D molecular visualization with particle effects</p>
+    </div>
+    <div class="panelContent">
+      <div class="hologramViewer">
+        <div class="hologramModel"></div>
+        ${Array(20).fill(0).map((_, i) => `<div class="hologramParticle" style="left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation-delay: ${Math.random() * 3}s;"></div>`).join('')}
+      </div>
+      <p style="text-align: center; font-size: 1.3em; color: #9b59b6; margin-top: 20px;">Rotating 3D Molecular Structure</p>
+      <button class="brewBtn" onclick="captureHologram()">📸 CAPTURE HOLOGRAM</button>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.captureHologram = function() {
+  playSound('success');
+  addToInventory('Hologram Capture');
+  addXP(75);
+  state.itemsFound++;
+  updateHUD();
+  notify('📸 Hologram captured!');
+  setTimeout(closeInteractivePanel, 1000);
+};
+
+function showRobotChat() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>🤖 AI ASSISTANT</h2>
+      <p>How can I help you today?</p>
+    </div>
+    <div class="panelContent">
+      <div class="robotChat">
+        <div class="chatMessage">🤖 Hello! I'm your AI lab assistant. What would you like to do?</div>
+        <div class="chatOptions">
+          <button class="chatOption" onclick="robotTask('analyze')">🔬 Analyze Data</button>
+          <button class="chatOption" onclick="robotTask('research')">📚 Research Papers</button>
+          <button class="chatOption" onclick="robotTask('simulate')">⚡ Run Simulation</button>
+          <button class="chatOption" onclick="robotTask('report')">📊 Generate Report</button>
+        </div>
+      </div>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.robotTask = function(task) {
+  playSound('success');
+  const tasks = {
+    analyze: { item: 'Data Analysis', xp: 60 },
+    research: { item: 'Research Summary', xp: 50 },
+    simulate: { item: 'Simulation Results', xp: 80 },
+    report: { item: 'Lab Report', xp: 70 }
+  };
+  const selected = tasks[task];
+  addToInventory(selected.item);
+  addXP(selected.xp);
+  state.itemsFound++;
+  updateHUD();
+  notify(`🤖 Task complete: ${selected.item}`);
+  setTimeout(closeInteractivePanel, 1500);
+};
+
+function showQuantumTerminal() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>⚛️ QUANTUM COMPUTER</h2>
+      <p>Advanced quantum simulation terminal</p>
+    </div>
+    <div class="panelContent">
+      <div class="quantumTerminal">
+        <div class="terminalLine">> Quantum Computer v2077</div>
+        <div class="terminalLine">> Initializing qubits...</div>
+        <div class="terminalLine">> Ready for input</div>
+        <div class="terminalLine">> <input type="text" class="terminalInput" placeholder="Type 'run simulation' and press Enter" onkeypress="if(event.key==='Enter') runQuantumSim()"></div>
+      </div>
+      <div class="qubitViz">
+        <div class="qubit">|0⟩</div>
+        <div class="qubit">|1⟩</div>
+        <div class="qubit">|+⟩</div>
+        <div class="qubit">|-⟩</div>
+      </div>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.runQuantumSim = function() {
+  playSound('success');
+  addToInventory('Quantum Simulation Data');
+  addXP(150);
+  state.itemsFound++;
+  updateHUD();
+  notify('⚛️ Quantum simulation complete!');
+  setTimeout(closeInteractivePanel, 1500);
+};
+
+function showCoffeeBrewer() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>☕ COFFEE MACHINE</h2>
+      <p>Brew fresh coffee for energy boost!</p>
+    </div>
+    <div class="panelContent">
+      <div class="coffeeBrewer">
+        <div class="coffeeMachine">
+          <div class="coffeeStream" id="coffeeStream"></div>
+          <div class="coffeeCup"></div>
+        </div>
+        <button class="brewBtn" onclick="brewCoffee()">☕ BREW COFFEE</button>
+      </div>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.brewCoffee = function() {
+  playSound('click');
+  document.getElementById('coffeeStream').classList.add('brewing');
+  setTimeout(() => {
+    playSound('success');
+    state.energy = Math.min(100, state.energy + 25);
+    document.getElementById('energy').textContent = state.energy + '%';
+    addToInventory('Fresh Coffee');
+    addXP(30);
+    state.itemsFound++;
+    updateHUD();
+    notify('☕ Coffee ready! +25% Energy!');
+    setTimeout(closeInteractivePanel, 1000);
+  }, 2000);
+};
+
+function showPingPongGame() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>🏓 PING PONG</h2>
+      <p>Take a break and play!</p>
+    </div>
+    <div class="panelContent">
+      <div class="pingPongGame">
+        <div class="score" style="left: 100px;">0</div>
+        <div class="score" style="right: 100px;">0</div>
+        <div class="paddle" style="left: 20px; top: 150px;"></div>
+        <div class="paddle" style="right: 20px; top: 150px;"></div>
+        <div class="ball" style="left: 390px; top: 190px;"></div>
+      </div>
+      <p style="text-align: center; margin-top: 20px; font-size: 1.2em; color: #fff;">Move mouse to control paddle!</p>
+      <button class="brewBtn" onclick="finishPingPong()">✓ FINISH GAME</button>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.finishPingPong = function() {
+  playSound('success');
+  addXP(25);
+  state.itemsFound++;
+  updateHUD();
+  notify('🏓 Good game! Refreshed!');
+  closeInteractivePanel();
+};
+
+function show3DPrinter() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>🖨️ 3D PRINTER</h2>
+      <p>Print custom objects!</p>
+    </div>
+    <div class="panelContent">
+      <div class="printer3D">
+        <div class="printerBox">
+          <div class="printProgress">
+            <div class="printBar" id="printBar"></div>
+          </div>
+          <div class="printedObject" id="printedObject"></div>
+        </div>
+        <button class="brewBtn" onclick="startPrinting()">🖨️ START PRINTING</button>
+      </div>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.startPrinting = function() {
+  playSound('click');
+  document.getElementById('printBar').classList.add('printing');
+  setTimeout(() => {
+    document.getElementById('printedObject').classList.add('visible');
+    playSound('success');
+    addToInventory('3D Printed Object');
+    addXP(75);
+    state.itemsFound++;
+    updateHUD();
+    notify('🖨️ Object printed successfully!');
+    setTimeout(closeInteractivePanel, 1500);
+  }, 3000);
+};
+
+function showSleepPod() {
+  const panel = document.getElementById('interactivePanel');
+  panel.innerHTML = `
+    <button class="closePanel" onclick="closeInteractivePanel()">✕ CLOSE</button>
+    <div class="panelHeader">
+      <h2>😴 SLEEP POD</h2>
+      <p>Take a power nap to restore energy</p>
+    </div>
+    <div class="panelContent">
+      <div style="text-align: center; padding: 50px;">
+        <div style="font-size: 5em; margin: 30px 0;">😴</div>
+        <p style="font-size: 1.5em; color: #3498db; margin: 20px 0;">Resting...</p>
+        <div style="width: 300px; height: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; margin: 30px auto; overflow: hidden;">
+          <div style="height: 100%; background: linear-gradient(135deg, #27ae60, #229954); width: 0%; transition: width 2s;" id="sleepBar"></div>
+        </div>
+        <button class="brewBtn" onclick="startSleep()">😴 SLEEP</button>
+      </div>
+    </div>
+  `;
+  panel.style.display = 'block';
+}
+
+window.startSleep = function() {
+  playSound('click');
+  document.getElementById('sleepBar').style.width = '100%';
+  setTimeout(() => {
+    playSound('success');
+    state.energy = 100;
+    document.getElementById('energy').textContent = '100%';
+    addXP(40);
+    state.itemsFound++;
+    updateHUD();
+    notify('😴 Fully rested! Energy restored!');
+    setTimeout(closeInteractivePanel, 1000);
+  }, 2000);
+};
 
 function showInfo(lab, desc) {
   document.getElementById('panelTitle').textContent = lab;
   document.getElementById('panelContent').innerHTML = `<div class="infoBox"><strong>FUTURISTIC TECH LAB:</strong><br><br>${desc}</div><div class="successBox"><strong>INTERACTIVE EXPERIENCES:</strong><br>VR stations, holographic displays, AI assistants, live demos. Experience the future!</div><button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>`;
   document.getElementById('infoPanel').style.display = 'block';
-  controls.unlock();
 }
 
-window.closeInfoPanel = () => { document.getElementById('infoPanel').style.display = 'none'; };
+window.closeInfoPanel = () => { 
+  document.getElementById('infoPanel').style.display = 'none'; 
+  controls.lock();
+};
+
+window.closeInteractivePanel = () => { 
+  document.getElementById('interactivePanel').style.display = 'none'; 
+  controls.lock();
+};
 
 function checkNearby() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
@@ -806,7 +1125,13 @@ function updateLocation() {
 
 function addXP(amount) {
   state.xp += amount;
-  while (state.xp >= state.xpMax) { state.xp -= state.xpMax; state.lvl++; state.xpMax = Math.floor(state.xpMax * 1.5); notify(`LEVEL UP! Level ${state.lvl}!`); }
+  while (state.xp >= state.xpMax) { 
+    state.xp -= state.xpMax; 
+    state.lvl++; 
+    state.xpMax = Math.floor(state.xpMax * 1.5); 
+    notify(`LEVEL UP! Level ${state.lvl}!`); 
+    playSound('success');
+  }
   updateHUD();
 }
 
@@ -815,6 +1140,7 @@ function updateHUD() {
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
   document.getElementById('itemsFound').textContent = state.itemsFound;
+  document.getElementById('energy').textContent = state.energy + '%';
 }
 
 function notify(msg) {
