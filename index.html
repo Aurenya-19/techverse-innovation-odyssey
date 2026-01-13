@@ -3,64 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Realistic Edition</title>
+<title>TechVerse 2077 - Complete Bright Edition</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
+body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEEB; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
-#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
-#startScreen h1 { font-size: clamp(2em, 6vw, 4em); color: #fff; text-shadow: 0 0 20px rgba(52, 152, 219, 0.8); margin-bottom: 15px; font-weight: 900; }
-.subtitle { font-size: clamp(0.9em, 2vw, 1.1em); color: #bdc3c7; margin-bottom: 20px; text-align: center; max-width: 90%; line-height: 1.5; }
+#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
+#startScreen h1 { font-size: clamp(2em, 6vw, 4.5em); color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 15px; font-weight: 900; }
+.subtitle { font-size: clamp(0.9em, 2vw, 1.2em); color: #fff; margin-bottom: 20px; text-align: center; max-width: 90%; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 .charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; max-width: 1200px; width: 95%; margin-bottom: 15px; }
-.charCard { background: rgba(52, 152, 219, 0.15); border: 2px solid rgba(52, 152, 219, 0.4); border-radius: 12px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; backdrop-filter: blur(10px); }
-.charCard:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4); border-color: rgba(52, 152, 219, 0.8); }
-.charCard.selected { background: rgba(46, 204, 113, 0.25) !important; border: 3px solid rgba(46, 204, 113, 0.8) !important; box-shadow: 0 10px 40px rgba(46, 204, 113, 0.6) !important; transform: translateY(-8px) !important; }
+.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 15px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; backdrop-filter: blur(10px); }
+.charCard:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.35); }
+.charCard.selected { background: rgba(46,204,113,0.4) !important; border: 3px solid #27ae60 !important; box-shadow: 0 10px 40px rgba(46,204,113,0.6) !important; transform: translateY(-8px) scale(1.05) !important; }
 .charCard .icon { font-size: 2.5em; margin-bottom: 10px; pointer-events: none; }
-.charCard h3 { color: #3498db; font-size: clamp(0.95em, 1.8vw, 1.15em); margin-bottom: 8px; pointer-events: none; font-weight: 800; }
-.charCard p { color: #95a5a6; font-size: clamp(0.75em, 1.4vw, 0.85em); pointer-events: none; line-height: 1.3; }
-.charCard .bonus { color: #27ae60; font-size: clamp(0.7em, 1.3vw, 0.8em); margin-top: 5px; pointer-events: none; font-weight: bold; }
-#selectedInfo { background: rgba(46, 204, 113, 0.9); color: #fff; padding: 8px 25px; border-radius: 8px; font-size: clamp(0.95em, 1.8vw, 1.05em); font-weight: bold; margin-bottom: 15px; display: none; box-shadow: 0 5px 20px rgba(46, 204, 113, 0.5); }
-#startBtn { padding: clamp(12px, 2.5vw, 18px) clamp(40px, 8vw, 70px); font-size: clamp(1.1em, 2.2vw, 1.4em); background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; box-shadow: 0 5px 25px rgba(52, 152, 219, 0.5); transition: all 0.3s; text-transform: uppercase; }
-#startBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 35px rgba(52, 152, 219, 0.7); }
+.charCard h3 { color: #fff; font-size: clamp(0.95em, 1.8vw, 1.15em); margin-bottom: 8px; pointer-events: none; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.charCard p { color: rgba(255,255,255,0.9); font-size: clamp(0.75em, 1.4vw, 0.85em); pointer-events: none; line-height: 1.3; }
+.charCard .bonus { color: #f1c40f; font-size: clamp(0.7em, 1.3vw, 0.8em); margin-top: 5px; pointer-events: none; font-weight: bold; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 10px 30px; border-radius: 10px; font-size: clamp(0.95em, 1.8vw, 1.1em); font-weight: bold; margin-bottom: 15px; display: none; box-shadow: 0 5px 20px rgba(46,204,113,0.5); }
+#startBtn { padding: clamp(14px, 2.8vw, 20px) clamp(45px, 9vw, 80px); font-size: clamp(1.2em, 2.4vw, 1.6em); background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: #fff; font-weight: 900; cursor: pointer; box-shadow: 0 6px 30px rgba(102,126,234,0.5); transition: all 0.3s; text-transform: uppercase; letter-spacing: 2px; }
+#startBtn:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(102,126,234,0.7); }
 #startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(26, 26, 46, 0.95); padding: 20px; border-radius: 10px; border: 2px solid rgba(52, 152, 219, 0.5); min-width: 250px; z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5); }
-#hud h3 { color: #3498db; margin-bottom: 10px; font-size: 1.3em; font-weight: 800; }
-.hudStat { display: flex; justify-content: space-between; margin: 8px 0; color: #ecf0f1; font-size: 1em; }
-.hudStat .val { color: #27ae60; font-weight: bold; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.75); padding: 20px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); min-width: 260px; z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
+#hud h3 { color: #fff; margin-bottom: 12px; font-size: 1.4em; font-weight: 800; }
+.hudStat { display: flex; justify-content: space-between; margin: 10px 0; color: #fff; font-size: 1.05em; }
+.hudStat .val { color: #f1c40f; font-weight: bold; }
 
-#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(26, 26, 46, 0.95); padding: 15px 35px; border-radius: 10px; border: 2px solid rgba(52, 152, 219, 0.5); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5); }
-#locationInfo h3 { color: #3498db; font-size: 1.4em; font-weight: 800; }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); padding: 15px 40px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
+#locationInfo h3 { color: #fff; font-size: 1.5em; font-weight: 800; }
 
-#interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 15px 40px; border-radius: 10px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.1em; box-shadow: 0 5px 25px rgba(39, 174, 96, 0.6); }
-@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
+#interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; box-shadow: 0 6px 30px rgba(39,174,96,0.6); }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-12px); } }
 
-#infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(350px, 90vw, 900px); max-height: 85vh; overflow-y: auto; background: rgba(26, 26, 46, 0.98); padding: 40px; border-radius: 15px; border: 3px solid rgba(52, 152, 219, 0.6); z-index: 6000; display: none; box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); }
-#infoPanel h2 { color: #3498db; font-size: 2.5em; margin-bottom: 20px; text-align: center; font-weight: 900; }
-#infoPanel p { color: #ecf0f1; font-size: 1.1em; line-height: 1.8; margin: 15px 0; }
-.infoBox { background: rgba(52, 152, 219, 0.15); padding: 18px; border-radius: 10px; margin: 18px 0; border-left: 5px solid #3498db; }
-.successBox { background: rgba(46, 204, 113, 0.15); border-left-color: #27ae60; }
-.infoBtn { padding: 15px 35px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; margin: 10px; font-size: 1em; box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4); transition: all 0.3s; text-transform: uppercase; }
-.infoBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(52, 152, 219, 0.6); }
+#infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(360px, 92vw, 950px); max-height: 88vh; overflow-y: auto; background: rgba(0,0,0,0.92); padding: 45px; border-radius: 18px; border: 3px solid rgba(255,255,255,0.4); z-index: 6000; display: none; box-shadow: 0 12px 60px rgba(0,0,0,0.8); backdrop-filter: blur(25px); }
+#infoPanel h2 { color: #fff; font-size: 2.8em; margin-bottom: 25px; text-align: center; font-weight: 900; }
+#infoPanel p { color: #ecf0f1; font-size: 1.15em; line-height: 1.9; margin: 18px 0; }
+.infoBox { background: rgba(52,152,219,0.2); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #3498db; }
+.successBox { background: rgba(46,204,113,0.2); border-left-color: #27ae60; }
+.infoBtn { padding: 16px 40px; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin: 12px; font-size: 1.05em; box-shadow: 0 5px 25px rgba(102,126,234,0.5); transition: all 0.3s; text-transform: uppercase; }
+.infoBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 35px rgba(102,126,234,0.7); }
 
-#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(26, 26, 46, 0.95); padding: 20px; border-radius: 10px; border: 2px solid rgba(52, 152, 219, 0.5); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5); }
-#controls h4 { color: #3498db; margin-bottom: 10px; font-size: 1.2em; font-weight: 800; }
-.ctrl { color: #ecf0f1; margin: 8px 0; font-size: 0.95em; }
-.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 5px 12px; border-radius: 5px; margin-right: 8px; box-shadow: 0 3px 10px rgba(52, 152, 219, 0.4); }
+#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.75); padding: 22px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
+#controls h4 { color: #fff; margin-bottom: 12px; font-size: 1.3em; font-weight: 800; }
+.ctrl { color: #ecf0f1; margin: 10px 0; font-size: 1em; }
+.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #667eea, #764ba2); padding: 6px 14px; border-radius: 6px; margin-right: 10px; box-shadow: 0 3px 12px rgba(102,126,234,0.5); }
 
-#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 20px 50px; border-radius: 10px; font-weight: bold; font-size: 1.2em; opacity: 0; transition: opacity 0.5s; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 5px 30px rgba(39, 174, 96, 0.6); }
+#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; box-shadow: 0 6px 35px rgba(39,174,96,0.7); }
 #notif.show { opacity: 1; }
 
-#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 25px; height: 25px; pointer-events: none; z-index: 999; display: none; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.8); box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
-#crosshair::before { width: 2px; height: 25px; left: 11.5px; }
-#crosshair::after { width: 25px; height: 2px; top: 11.5px; }
+#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 28px; height: 28px; pointer-events: none; z-index: 999; display: none; }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.9); box-shadow: 0 0 8px rgba(0,0,0,0.6); }
+#crosshair::before { width: 3px; height: 28px; left: 12.5px; }
+#crosshair::after { width: 28px; height: 3px; top: 12.5px; }
 
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -68,8 +68,8 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="crosshair"></div>
 
 <div id="startScreen">
-  <h1>🌆 TECHVERSE 2077 🌆</h1>
-  <p class="subtitle">Realistic Cyberpunk City • 15 Unique Characters • Ultra-Detailed Labs</p>
+  <h1>🌟 TECHVERSE 2077 🌟</h1>
+  <p class="subtitle">Complete Edition • 15 Characters • Ultra-Detailed Labs • Startup Hub • Bright & Visible</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker" data-bonus="+50% XP in Biology Lab"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life expert</p><div class="bonus">+50% Bio XP</div></div>
@@ -131,7 +131,7 @@ let moveForward = false, moveBackward = false, moveLeft = false, moveRight = fal
 let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
 
 const labConfigs = {
-  'Startup Hub': { icon: '🚀', color: 0xe74c3c, pos: [0, 0, 0], desc: 'Garage-style innovation hub. Exposed brick, whiteboards, prototypes, pitch stage. Where billion-dollar ideas are born.' },
+  'Startup Hub': { icon: '🚀', color: 0xe74c3c, pos: [0, 0, 0], desc: 'Garage-style innovation hub. Whiteboards, prototypes, pitch stage, funding board, patents. Where billion-dollar ideas are born.' },
   'Xenobiology': { icon: '🧬', color: 0x1abc9c, pos: [-60, 0, -80], desc: 'Synthetic life with XNA. Create alien organisms. DNA synthesizers, bio-reactors, gene sequencers.' },
   'OTEC Energy': { icon: '🌊', color: 0x3498db, pos: [60, 0, -80], desc: 'Ocean Thermal Energy. Unlimited clean power. Heat exchangers, turbines, generators.' },
   'Optogenetics': { icon: '🧠', color: 0x9b59b6, pos: [-60, 0, -20], desc: 'Control neurons with light. Cure blindness. Optogenetic implants, neural interfaces.' },
@@ -171,8 +171,8 @@ document.getElementById('startBtn').addEventListener('click', () => {
 
 function init() {
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x1a1a2e);
-  scene.fog = new THREE.Fog(0x1a1a2e, 0, 300);
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 400);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 1.7, 100);
@@ -182,44 +182,42 @@ function init() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
   
   controls = new PointerLockControls(camera, document.body);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
   scene.add(ambientLight);
   
-  const moonLight = new THREE.DirectionalLight(0xb0c4de, 0.6);
-  moonLight.position.set(100, 200, 100);
-  moonLight.castShadow = true;
-  moonLight.shadow.camera.left = -200;
-  moonLight.shadow.camera.right = 200;
-  moonLight.shadow.camera.top = 200;
-  moonLight.shadow.camera.bottom = -200;
-  moonLight.shadow.mapSize.width = 2048;
-  moonLight.shadow.mapSize.height = 2048;
-  scene.add(moonLight);
+  const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  sunLight.position.set(100, 150, 50);
+  sunLight.castShadow = true;
+  sunLight.shadow.camera.left = -250;
+  sunLight.shadow.camera.right = 250;
+  sunLight.shadow.camera.top = 250;
+  sunLight.shadow.camera.bottom = -250;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  scene.add(sunLight);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.9, metalness: 0.1 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(20, 400), new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.95, metalness: 0.05 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(25, 450), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   road.receiveShadow = true;
   scene.add(road);
   
-  for (let i = -200; i <= 200; i += 20) {
-    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 4), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.3 }));
+  for (let i = -225; i <= 225; i += 25) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF }));
     line.rotation.x = -Math.PI / 2;
     line.position.set(0, 0.02, i);
     scene.add(line);
   }
   
-  createRealisticCity();
+  createBrightCity();
   setupControls();
   window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
   animate();
@@ -228,49 +226,39 @@ function init() {
   notify(`Welcome ${state.char}! ${state.charBonus}`);
 }
 
-function createRealisticCity() {
+function createBrightCity() {
   Object.entries(labConfigs).forEach(([name, config]) => {
     const size = name === 'Startup Hub' ? [60, 35, 70] : [40, 25, 50];
     
-    const building = new THREE.Mesh(new THREE.BoxGeometry(...size), new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.8, metalness: 0.2 }));
+    const building = new THREE.Mesh(new THREE.BoxGeometry(...size), new THREE.MeshStandardMaterial({ color: 0xCCCCCC, roughness: 0.7, metalness: 0.3 }));
     building.position.set(config.pos[0], size[1] / 2, config.pos[2]);
     building.castShadow = true;
     building.receiveShadow = true;
     scene.add(building);
     
-    for (let floor = 0; floor < 4; floor++) {
-      for (let i = 0; i < 6; i++) {
-        const window = new THREE.Mesh(new THREE.BoxGeometry(3, 2, 0.1), new THREE.MeshStandardMaterial({ color: 0x87ceeb, emissive: 0xffff99, emissiveIntensity: 0.3, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.7 }));
-        window.position.set(config.pos[0] - 15 + i * 6, 5 + floor * 6, config.pos[2] + size[2] / 2 + 0.05);
+    for (let floor = 0; floor < 5; floor++) {
+      for (let i = 0; i < 8; i++) {
+        const window = new THREE.Mesh(new THREE.BoxGeometry(3.5, 2.5, 0.15), new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.6 }));
+        window.position.set(config.pos[0] - 18 + i * 5, 4 + floor * 5, config.pos[2] + size[2] / 2 + 0.08);
         scene.add(window);
       }
     }
     
-    const door = new THREE.Mesh(new THREE.BoxGeometry(5, 7, 0.5), new THREE.MeshStandardMaterial({ color: 0x2c3e50, roughness: 0.6, metalness: 0.4 }));
-    door.position.set(config.pos[0], 3.5, config.pos[2] + size[2] / 2 + 0.3);
+    const door = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 }));
+    door.position.set(config.pos[0], 4, config.pos[2] + size[2] / 2 + 0.35);
     door.userData = { type: 'entrance', lab: name, desc: config.desc };
     door.castShadow = true;
     scene.add(door);
     interactables.push(door);
     
-    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.8), new THREE.MeshStandardMaterial({ color: 0xbdc3c7, roughness: 0.2, metalness: 0.9 }));
+    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 1), new THREE.MeshStandardMaterial({ color: 0xFFD700, roughness: 0.2, metalness: 0.9 }));
     handle.rotation.z = Math.PI / 2;
-    handle.position.set(config.pos[0] - 1.5, 3.5, config.pos[2] + size[2] / 2 + 0.6);
+    handle.position.set(config.pos[0] - 2, 4, config.pos[2] + size[2] / 2 + 0.7);
     scene.add(handle);
     
-    const sign = new THREE.Mesh(new THREE.BoxGeometry(8, 2, 0.2), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: config.color, emissiveIntensity: 0.6, roughness: 0.4, metalness: 0.6 }));
-    sign.position.set(config.pos[0], 8, config.pos[2] + size[2] / 2 + 0.5);
+    const sign = new THREE.Mesh(new THREE.BoxGeometry(10, 2.5, 0.3), new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 }));
+    sign.position.set(config.pos[0], 9, config.pos[2] + size[2] / 2 + 0.6);
     scene.add(sign);
-    
-    const streetLight = new THREE.PointLight(0xffa500, 2, 25);
-    streetLight.position.set(config.pos[0] + 15, 8, config.pos[2] + size[2] / 2 + 10);
-    streetLight.castShadow = true;
-    scene.add(streetLight);
-    
-    const lampPost = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 8), new THREE.MeshStandardMaterial({ color: 0x34495e, roughness: 0.7, metalness: 0.3 }));
-    lampPost.position.set(config.pos[0] + 15, 4, config.pos[2] + size[2] / 2 + 10);
-    lampPost.castShadow = true;
-    scene.add(lampPost);
   });
 }
 
@@ -297,12 +285,18 @@ function enterLab(labName, desc) {
   
   scene.clear();
   interactables = [];
-  scene.background = new THREE.Color(0x2a2a2a);
+  scene.background = new THREE.Color(0xF5F5F5);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
   scene.add(ambientLight);
   
-  createRealisticLabInterior(labName, desc);
+  const ceilingLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  ceilingLight.position.set(0, 10, 0);
+  ceilingLight.castShadow = true;
+  scene.add(ceilingLight);
+  
+  if (labName === 'Startup Hub') createStartupHub();
+  else createLabInterior(labName, desc);
   
   camera.position.set(0, 1.7, 28);
   camera.rotation.set(0, 0, 0);
@@ -311,21 +305,113 @@ function enterLab(labName, desc) {
   updateHUD();
 }
 
-function createRealisticLabInterior(labName, desc) {
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 50), new THREE.MeshStandardMaterial({ color: 0xd0d0d0, roughness: 0.7, metalness: 0.3 }));
+function createStartupHub() {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 70), new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.9 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
   
-  [[0, 2.5, -25, 40, 5, 0.3], [-20, 2.5, 0, 0.3, 5, 50], [20, 2.5, 0, 0.3, 5, 50], [0, 2.5, 25, 40, 5, 0.3]].forEach(w => {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xf0f0f0, roughness: 0.85, metalness: 0.15 }));
+  [[0, 2.5, -35, 60, 5, 0.3], [-30, 2.5, 0, 0.3, 5, 70], [30, 2.5, 0, 0.3, 5, 70], [0, 2.5, 35, 60, 5, 0.3]].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xB22222, roughness: 0.9 }));
     wall.position.set(w[0], w[1], w[2]);
     wall.castShadow = true;
     wall.receiveShadow = true;
     scene.add(wall);
   });
   
-  const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(40, 50), new THREE.MeshStandardMaterial({ color: 0xfafafa, roughness: 0.8, metalness: 0.2 }));
+  for (let x = -20; x <= 20; x += 13) {
+    for (let z = -25; z <= 25; z += 16) {
+      const light = new THREE.PointLight(0xFFE4B5, 2, 25);
+      light.position.set(x, 4.5, z);
+      light.castShadow = true;
+      scene.add(light);
+      
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshStandardMaterial({ color: 0xFFFFAA, emissive: 0xFFFFAA, emissiveIntensity: 1.5 }));
+      bulb.position.set(x, 4.5, z);
+      scene.add(bulb);
+    }
+  }
+  
+  const wbTopics = ['XNA Synthesis', 'OTEC Calculations', 'Neural Pathways', 'Catom Algorithms', 'Power Transmission', 'Mycelium Networks', 'Cryo Protocols', 'Metamaterial Design', 'Acoustic Waves', 'Epigenetic Markers'];
+  for (let i = 0; i < 10; i++) {
+    const wb = new THREE.Mesh(new THREE.PlaneGeometry(9, 5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.8 }));
+    wb.position.set(-29.8, 2.8, -32 + i * 7);
+    wb.rotation.y = Math.PI / 2;
+    wb.userData = { type: 'whiteboard', topic: wbTopics[i] };
+    scene.add(wb);
+    interactables.push(wb);
+  }
+  
+  const prototypes = ['Bio-Reactor', 'Heat Exchanger', 'Neural Implant', 'Catom Unit', 'Power Coil', 'Fungal Substrate', 'Cryo-Chamber', 'Cloaking Device'];
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2;
+    const radius = 20;
+    
+    const base = new THREE.Mesh(new THREE.BoxGeometry(5, 0.4, 5), new THREE.MeshStandardMaterial({ color: 0x2F4F4F, roughness: 0.5, metalness: 0.5 }));
+    base.position.set(Math.cos(angle) * radius, 0.2, Math.sin(angle) * radius);
+    base.castShadow = true;
+    scene.add(base);
+    
+    const body = new THREE.Mesh(new THREE.BoxGeometry(4, 2.5, 4), new THREE.MeshStandardMaterial({ color: 0x4169E1, roughness: 0.3, metalness: 0.7 }));
+    body.position.set(Math.cos(angle) * radius, 1.45, Math.sin(angle) * radius);
+    body.castShadow = true;
+    body.userData = { type: 'prototype', name: prototypes[i] };
+    scene.add(body);
+    interactables.push(body);
+    
+    const screen = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2, 0.15), new THREE.MeshStandardMaterial({ color: 0x00FF00, emissive: 0x00FF00, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.8 }));
+    screen.position.set(Math.cos(angle) * radius, 2, Math.sin(angle) * radius + 2.1);
+    scene.add(screen);
+  }
+  
+  const stage = new THREE.Mesh(new THREE.CylinderGeometry(12, 12, 0.4), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 }));
+  stage.position.set(0, 0.2, 0);
+  stage.userData = { type: 'pitch' };
+  scene.add(stage);
+  interactables.push(stage);
+  
+  const podium = new THREE.Mesh(new THREE.BoxGeometry(2, 1.5, 1.2), new THREE.MeshStandardMaterial({ color: 0x654321, roughness: 0.7, metalness: 0.3 }));
+  podium.position.set(0, 0.95, 0);
+  scene.add(podium);
+  
+  const fundingBoard = new THREE.Mesh(new THREE.PlaneGeometry(14, 7), new THREE.MeshStandardMaterial({ color: 0x1E90FF, emissive: 0x1E90FF, emissiveIntensity: 0.5 }));
+  fundingBoard.position.set(29.8, 3.5, 0);
+  fundingBoard.rotation.y = -Math.PI / 2;
+  fundingBoard.userData = { type: 'funding' };
+  scene.add(fundingBoard);
+  interactables.push(fundingBoard);
+  
+  for (let i = 0; i < 6; i++) {
+    const patent = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 5), new THREE.MeshStandardMaterial({ color: 0xFFFACD, roughness: 0.8 }));
+    patent.position.set(-14 + i * 5.6, 2.8, -34.8);
+    patent.userData = { type: 'patent', id: i };
+    scene.add(patent);
+    interactables.push(patent);
+  }
+  
+  const exit = new THREE.Mesh(new THREE.BoxGeometry(5, 6, 0.5), new THREE.MeshStandardMaterial({ color: 0xFF4500, roughness: 0.4, metalness: 0.6 }));
+  exit.position.set(0, 3, 34.8);
+  exit.userData = { type: 'exit' };
+  exit.castShadow = true;
+  scene.add(exit);
+  interactables.push(exit);
+}
+
+function createLabInterior(labName, desc) {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 50), new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.7 }));
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  [[0, 2.5, -25, 40, 5, 0.3], [-20, 2.5, 0, 0.3, 5, 50], [20, 2.5, 0, 0.3, 5, 50], [0, 2.5, 25, 40, 5, 0.3]].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 }));
+    wall.position.set(w[0], w[1], w[2]);
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+    scene.add(wall);
+  });
+  
+  const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(40, 50), new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.8 }));
   ceiling.rotation.x = Math.PI / 2;
   ceiling.position.y = 5;
   ceiling.receiveShadow = true;
@@ -333,12 +419,12 @@ function createRealisticLabInterior(labName, desc) {
   
   for (let x = -15; x <= 15; x += 10) {
     for (let z = -15; z <= 15; z += 10) {
-      const light = new THREE.PointLight(0xfff8e1, 1.5, 25);
+      const light = new THREE.PointLight(0xFFFFFF, 2, 30);
       light.position.set(x, 4.5, z);
       light.castShadow = true;
       scene.add(light);
       
-      const tube = new THREE.Mesh(new THREE.BoxGeometry(3.5, 0.3, 0.4), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffcc, emissiveIntensity: 1.2, roughness: 0.3, metalness: 0.7 }));
+      const tube = new THREE.Mesh(new THREE.BoxGeometry(4, 0.4, 0.5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0xFFFFFF, emissiveIntensity: 1.2, roughness: 0.3, metalness: 0.7 }));
       tube.position.set(x, 4.85, z);
       tube.castShadow = true;
       scene.add(tube);
@@ -349,24 +435,24 @@ function createRealisticLabInterior(labName, desc) {
     const shelfX = -17;
     const shelfZ = -15 + shelfNum * 10;
     
-    const back = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4.5, 3.5), new THREE.MeshStandardMaterial({ color: 0x6b4423, roughness: 0.8, metalness: 0.2 }));
-    back.position.set(shelfX, 2.25, shelfZ);
+    const back = new THREE.Mesh(new THREE.BoxGeometry(0.3, 5, 4), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.8 }));
+    back.position.set(shelfX, 2.5, shelfZ);
     back.castShadow = true;
     scene.add(back);
     
     for (let i = 0; i < 5; i++) {
-      const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.1, 3.5), new THREE.MeshStandardMaterial({ color: 0x8b6f47, roughness: 0.7, metalness: 0.3 }));
-      shelf.position.set(shelfX - 0.15, -0.25 + i * 1, shelfZ);
+      const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.15, 4), new THREE.MeshStandardMaterial({ color: 0xA0522D, roughness: 0.7 }));
+      shelf.position.set(shelfX - 0.15, 0.5 + i * 1, shelfZ);
       shelf.castShadow = true;
       scene.add(shelf);
       
       for (let j = 0; j < 8; j++) {
-        const bookWidth = 0.15 + Math.random() * 0.1;
-        const bookHeight = 0.7 + Math.random() * 0.2;
-        const bookColors = [0xcc3333, 0x3366cc, 0x33cc66, 0xcc9933, 0x9933cc, 0x33cccc];
-        const book = new THREE.Mesh(new THREE.BoxGeometry(bookWidth, bookHeight, 0.3), new THREE.MeshStandardMaterial({ color: bookColors[Math.floor(Math.random() * bookColors.length)], roughness: 0.7, metalness: 0.3 }));
-        book.position.set(shelfX - 0.3, -0.2 + i * 1 + bookHeight / 2, shelfZ - 1.5 + j * 0.4);
-        book.rotation.y = (Math.random() - 0.5) * 0.1;
+        const bookWidth = 0.2 + Math.random() * 0.15;
+        const bookHeight = 0.8 + Math.random() * 0.3;
+        const bookColors = [0xDC143C, 0x4169E1, 0x32CD32, 0xFFD700, 0x9370DB, 0x20B2AA];
+        const book = new THREE.Mesh(new THREE.BoxGeometry(bookWidth, bookHeight, 0.35), new THREE.MeshStandardMaterial({ color: bookColors[Math.floor(Math.random() * bookColors.length)], roughness: 0.7 }));
+        book.position.set(shelfX - 0.35, 0.5 + i * 1 + bookHeight / 2, shelfZ - 1.7 + j * 0.45);
+        book.rotation.y = (Math.random() - 0.5) * 0.15;
         book.castShadow = true;
         book.userData = { type: 'book' };
         scene.add(book);
@@ -379,79 +465,61 @@ function createRealisticLabInterior(labName, desc) {
     const eqX = 15;
     const eqZ = -12 + i * 8;
     
-    const base = new THREE.Mesh(new THREE.BoxGeometry(3.5, 0.3, 3.5), new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.5, metalness: 0.5 }));
-    base.position.set(eqX, 0.15, eqZ);
+    const base = new THREE.Mesh(new THREE.BoxGeometry(4, 0.4, 4), new THREE.MeshStandardMaterial({ color: 0x2F4F4F, roughness: 0.5, metalness: 0.5 }));
+    base.position.set(eqX, 0.2, eqZ);
     base.castShadow = true;
     scene.add(base);
     
-    const body = new THREE.Mesh(new THREE.BoxGeometry(3, 2.5, 3), new THREE.MeshStandardMaterial({ color: labConfigs[state.currentLab].color, roughness: 0.3, metalness: 0.7, emissive: labConfigs[state.currentLab].color, emissiveIntensity: 0.4 }));
-    body.position.set(eqX, 1.65, eqZ);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(3.5, 3, 3.5), new THREE.MeshStandardMaterial({ color: labConfigs[state.currentLab].color, roughness: 0.3, metalness: 0.7 }));
+    body.position.set(eqX, 1.9, eqZ);
     body.castShadow = true;
     body.userData = { type: 'equipment', id: i };
     scene.add(body);
     interactables.push(body);
     
-    const screen = new THREE.Mesh(new THREE.BoxGeometry(2, 1.5, 0.1), new THREE.MeshStandardMaterial({ color: 0x111111, emissive: 0x00ff88, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.8 }));
-    screen.position.set(eqX, 2, eqZ + 1.55);
+    const screen = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2, 0.15), new THREE.MeshStandardMaterial({ color: 0x00FF00, emissive: 0x00FF00, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.8 }));
+    screen.position.set(eqX, 2.5, eqZ + 1.85);
     scene.add(screen);
-    
-    const screenLight = new THREE.PointLight(0x00ff88, 0.5, 5);
-    screenLight.position.set(eqX, 2, eqZ + 2);
-    scene.add(screenLight);
-    
-    const eqLight = new THREE.PointLight(labConfigs[state.currentLab].color, 1, 10);
-    eqLight.position.set(eqX, 3, eqZ);
-    eqLight.castShadow = true;
-    scene.add(eqLight);
   }
   
   for (let i = 0; i < 2; i++) {
     const deskX = -5 + i * 10;
     const deskZ = -10;
     
-    const top = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.1, 2), new THREE.MeshStandardMaterial({ color: 0x8b6f47, roughness: 0.6, metalness: 0.4 }));
-    top.position.set(deskX, 1, deskZ);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(3, 0.15, 2.5), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6 }));
+    top.position.set(deskX, 1.075, deskZ);
     top.castShadow = true;
     scene.add(top);
     
     for (let j = 0; j < 4; j++) {
-      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1), new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4, metalness: 0.6 }));
-      leg.position.set(deskX + (j % 2 === 0 ? -1 : 1), 0.5, deskZ + (j < 2 ? -0.8 : 0.8));
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1), new THREE.MeshStandardMaterial({ color: 0x696969, roughness: 0.4, metalness: 0.6 }));
+      leg.position.set(deskX + (j % 2 === 0 ? -1.3 : 1.3), 0.5, deskZ + (j < 2 ? -1 : 1));
       leg.castShadow = true;
       scene.add(leg);
     }
     
-    const monitorStand = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.15, 0.3), new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.5, metalness: 0.5 }));
-    monitorStand.position.set(deskX, 1.25, deskZ);
+    const monitorStand = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 0.35), new THREE.MeshStandardMaterial({ color: 0x2F4F4F, roughness: 0.5 }));
+    monitorStand.position.set(deskX, 1.325, deskZ);
     scene.add(monitorStand);
     
-    const monitor = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.2, 0.1), new THREE.MeshStandardMaterial({ color: 0x111111, emissive: 0x2266ff, emissiveIntensity: 0.6, roughness: 0.2, metalness: 0.8 }));
-    monitor.position.set(deskX, 1.8, deskZ);
+    const monitor = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.5, 0.15), new THREE.MeshStandardMaterial({ color: 0x1E90FF, emissive: 0x1E90FF, emissiveIntensity: 0.6, roughness: 0.2, metalness: 0.8 }));
+    monitor.position.set(deskX, 2, deskZ);
     monitor.castShadow = true;
     scene.add(monitor);
-    
-    const monitorLight = new THREE.PointLight(0x2266ff, 0.5, 4);
-    monitorLight.position.set(deskX, 1.8, deskZ + 0.5);
-    scene.add(monitorLight);
   }
   
-  const info = new THREE.Mesh(new THREE.PlaneGeometry(10, 6), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: 0x3498db, emissiveIntensity: 0.4 }));
-  info.position.set(0, 3, -24.8);
+  const info = new THREE.Mesh(new THREE.PlaneGeometry(12, 7), new THREE.MeshStandardMaterial({ color: 0x1E90FF, emissive: 0x1E90FF, emissiveIntensity: 0.4 }));
+  info.position.set(0, 3.5, -24.8);
   info.userData = { type: 'info', lab: labName, desc: desc };
   scene.add(info);
   interactables.push(info);
   
-  const exit = new THREE.Mesh(new THREE.BoxGeometry(4, 5, 0.4), new THREE.MeshStandardMaterial({ color: 0xe74c3c, emissive: 0xc0392b, emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 }));
-  exit.position.set(0, 2.5, 24.8);
+  const exit = new THREE.Mesh(new THREE.BoxGeometry(5, 6, 0.5), new THREE.MeshStandardMaterial({ color: 0xFF4500, roughness: 0.4, metalness: 0.6 }));
+  exit.position.set(0, 3, 24.8);
   exit.userData = { type: 'exit' };
   exit.castShadow = true;
   scene.add(exit);
   interactables.push(exit);
-  
-  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.6), new THREE.MeshStandardMaterial({ color: 0xbdc3c7, roughness: 0.2, metalness: 0.9 }));
-  handle.rotation.z = Math.PI / 2;
-  handle.position.set(-1.2, 2.5, 25.1);
-  scene.add(handle);
 }
 
 function exitLab() {
@@ -460,42 +528,42 @@ function exitLab() {
   state.currentLab = null;
   scene.clear();
   interactables = [];
-  scene.background = new THREE.Color(0x1a1a2e);
-  scene.fog = new THREE.Fog(0x1a1a2e, 0, 300);
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 400);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
   scene.add(ambientLight);
   
-  const moonLight = new THREE.DirectionalLight(0xb0c4de, 0.6);
-  moonLight.position.set(100, 200, 100);
-  moonLight.castShadow = true;
-  moonLight.shadow.camera.left = -200;
-  moonLight.shadow.camera.right = 200;
-  moonLight.shadow.camera.top = 200;
-  moonLight.shadow.camera.bottom = -200;
-  moonLight.shadow.mapSize.width = 2048;
-  moonLight.shadow.mapSize.height = 2048;
-  scene.add(moonLight);
+  const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  sunLight.position.set(100, 150, 50);
+  sunLight.castShadow = true;
+  sunLight.shadow.camera.left = -250;
+  sunLight.shadow.camera.right = 250;
+  sunLight.shadow.camera.top = 250;
+  sunLight.shadow.camera.bottom = -250;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  scene.add(sunLight);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.9, metalness: 0.1 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(20, 400), new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.95, metalness: 0.05 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(25, 450), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   road.receiveShadow = true;
   scene.add(road);
   
-  for (let i = -200; i <= 200; i += 20) {
-    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 4), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.3 }));
+  for (let i = -225; i <= 225; i += 25) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF }));
     line.rotation.x = -Math.PI / 2;
     line.position.set(0, 0.02, i);
     scene.add(line);
   }
   
-  createRealisticCity();
+  createBrightCity();
   camera.position.set(0, 1.7, 100);
   camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
@@ -537,6 +605,11 @@ function handleInteraction() {
   if (ud.type === 'entrance') enterLab(ud.lab, ud.desc);
   else if (ud.type === 'exit') exitLab();
   else if (ud.type === 'info') showInfo(ud.lab, ud.desc);
+  else if (ud.type === 'whiteboard') { notify(`Whiteboard: ${ud.topic} | +${Math.floor(30 * xpBonus)} XP`); addXP(Math.floor(30 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'prototype') { notify(`Prototype: ${ud.name} | +${Math.floor(40 * xpBonus)} XP`); addXP(Math.floor(40 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'pitch') showPitch();
+  else if (ud.type === 'funding') { notify(`Funding Board | +${Math.floor(25 * xpBonus)} XP`); addXP(Math.floor(25 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'patent') { notify(`Patent #${ud.id + 1} | +${Math.floor(20 * xpBonus)} XP`); addXP(Math.floor(20 * xpBonus)); state.itemsFound++; }
   else if (ud.type === 'equipment') { notify(`Using equipment | +${Math.floor(50 * xpBonus)} XP`); addXP(Math.floor(50 * xpBonus)); state.itemsFound++; }
   else if (ud.type === 'book') { notify(`Reading research | +${Math.floor(15 * xpBonus)} XP`); addXP(Math.floor(15 * xpBonus)); state.itemsFound++; }
   updateHUD();
@@ -549,6 +622,21 @@ function showInfo(lab, desc) {
   controls.unlock();
 }
 
+function showPitch() {
+  document.getElementById('panelTitle').textContent = 'PITCH STAGE';
+  document.getElementById('panelContent').innerHTML = `<div class="infoBox"><strong>STARTUP PITCH AREA</strong><br><br>Present revolutionary ideas to investors. Get funding, build prototypes, change the world. Where billion-dollar companies are born.</div><div class="successBox"><strong>FUNDING ROUNDS:</strong><br>• Seed: $500K<br>• Series A: $5M<br>• Series B: $20M<br>• Series C: $50M<br>• IPO: $500M+</div><button class="infoBtn" onclick="pitchIdea()">PITCH IDEA</button><button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>`;
+  document.getElementById('infoPanel').style.display = 'block';
+  controls.unlock();
+}
+
+window.pitchIdea = () => { 
+  let xpBonus = state.char === 'Startup Founder' ? 2 : (state.char === 'Cyborg Mechanic' ? 1.25 : 1);
+  addXP(Math.floor(100 * xpBonus)); 
+  state.itemsFound++; 
+  notify(`Pitch successful! +${Math.floor(100 * xpBonus)} XP`); 
+  closeInfoPanel(); 
+  updateHUD(); 
+};
 window.closeInfoPanel = () => { document.getElementById('infoPanel').style.display = 'none'; };
 
 function checkNearby() {
