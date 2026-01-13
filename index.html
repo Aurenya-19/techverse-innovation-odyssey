@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Complete Bright Edition</title>
+<title>TechVerse 2077 - Ultimate Futuristic</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEEB; color: #fff; }
+body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
 #startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
@@ -25,42 +25,42 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 #startBtn:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(102,126,234,0.7); }
 #startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.75); padding: 20px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); min-width: 260px; z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
-#hud h3 { color: #fff; margin-bottom: 12px; font-size: 1.4em; font-weight: 800; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid rgba(0,255,255,0.5); min-width: 260px; z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 0 30px rgba(0,255,255,0.3); }
+#hud h3 { color: #0ff; margin-bottom: 12px; font-size: 1.4em; font-weight: 800; text-shadow: 0 0 10px #0ff; }
 .hudStat { display: flex; justify-content: space-between; margin: 10px 0; color: #fff; font-size: 1.05em; }
-.hudStat .val { color: #f1c40f; font-weight: bold; }
+.hudStat .val { color: #0f0; font-weight: bold; text-shadow: 0 0 8px #0f0; }
 
-#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); padding: 15px 40px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
-#locationInfo h3 { color: #fff; font-size: 1.5em; font-weight: 800; }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 2px solid rgba(255,0,255,0.5); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 0 30px rgba(255,0,255,0.3); }
+#locationInfo h3 { color: #f0f; font-size: 1.5em; font-weight: 800; text-shadow: 0 0 10px #f0f; }
 
-#interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; box-shadow: 0 6px 30px rgba(39,174,96,0.6); }
+#interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0ff, #f0f); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #000; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; box-shadow: 0 0 40px rgba(0,255,255,0.8); }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-12px); } }
 
-#infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(360px, 92vw, 950px); max-height: 88vh; overflow-y: auto; background: rgba(0,0,0,0.92); padding: 45px; border-radius: 18px; border: 3px solid rgba(255,255,255,0.4); z-index: 6000; display: none; box-shadow: 0 12px 60px rgba(0,0,0,0.8); backdrop-filter: blur(25px); }
-#infoPanel h2 { color: #fff; font-size: 2.8em; margin-bottom: 25px; text-align: center; font-weight: 900; }
+#infoPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(360px, 92vw, 950px); max-height: 88vh; overflow-y: auto; background: rgba(0,0,0,0.95); padding: 45px; border-radius: 18px; border: 3px solid rgba(0,255,255,0.6); z-index: 6000; display: none; box-shadow: 0 0 60px rgba(0,255,255,0.5); backdrop-filter: blur(25px); }
+#infoPanel h2 { color: #0ff; font-size: 2.8em; margin-bottom: 25px; text-align: center; font-weight: 900; text-shadow: 0 0 20px #0ff; }
 #infoPanel p { color: #ecf0f1; font-size: 1.15em; line-height: 1.9; margin: 18px 0; }
-.infoBox { background: rgba(52,152,219,0.2); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #3498db; }
-.successBox { background: rgba(46,204,113,0.2); border-left-color: #27ae60; }
-.infoBtn { padding: 16px 40px; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; margin: 12px; font-size: 1.05em; box-shadow: 0 5px 25px rgba(102,126,234,0.5); transition: all 0.3s; text-transform: uppercase; }
-.infoBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 35px rgba(102,126,234,0.7); }
+.infoBox { background: rgba(0,255,255,0.15); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #0ff; }
+.successBox { background: rgba(0,255,0,0.15); border-left-color: #0f0; }
+.infoBtn { padding: 16px 40px; background: linear-gradient(135deg, #0ff, #f0f); border: none; border-radius: 12px; color: #000; font-weight: bold; cursor: pointer; margin: 12px; font-size: 1.05em; box-shadow: 0 0 30px rgba(0,255,255,0.5); transition: all 0.3s; text-transform: uppercase; }
+.infoBtn:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(255,0,255,0.7); }
 
-#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.75); padding: 22px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 5px 25px rgba(0,0,0,0.4); }
-#controls h4 { color: #fff; margin-bottom: 12px; font-size: 1.3em; font-weight: 800; }
+#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.85); padding: 22px; border-radius: 12px; border: 2px solid rgba(0,255,255,0.5); z-index: 1000; display: none; backdrop-filter: blur(15px); box-shadow: 0 0 30px rgba(0,255,255,0.3); }
+#controls h4 { color: #0ff; margin-bottom: 12px; font-size: 1.3em; font-weight: 800; text-shadow: 0 0 10px #0ff; }
 .ctrl { color: #ecf0f1; margin: 10px 0; font-size: 1em; }
-.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #667eea, #764ba2); padding: 6px 14px; border-radius: 6px; margin-right: 10px; box-shadow: 0 3px 12px rgba(102,126,234,0.5); }
+.key { color: #000; font-weight: bold; background: linear-gradient(135deg, #0ff, #f0f); padding: 6px 14px; border-radius: 6px; margin-right: 10px; box-shadow: 0 0 15px rgba(0,255,255,0.5); }
 
-#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; box-shadow: 0 6px 35px rgba(39,174,96,0.7); }
+#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0ff, #f0f); color: #000; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; box-shadow: 0 0 50px rgba(0,255,255,0.8); }
 #notif.show { opacity: 1; }
 
 #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 28px; height: 28px; pointer-events: none; z-index: 999; display: none; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.9); box-shadow: 0 0 8px rgba(0,0,0,0.6); }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: #0ff; box-shadow: 0 0 10px #0ff; }
 #crosshair::before { width: 3px; height: 28px; left: 12.5px; }
 #crosshair::after { width: 28px; height: 3px; top: 12.5px; }
 
 .hide { display: none !important; }
 ::-webkit-scrollbar { width: 12px; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 6px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0ff, #f0f); border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -69,7 +69,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">Complete Edition • 15 Characters • Ultra-Detailed Labs • Startup Hub • Bright & Visible</p>
+  <p class="subtitle">Ultimate Futuristic Edition • 12 Labs Including Hybrid Collaboration Lab • VR/Holograms/AI/Robots • 15 Characters</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker" data-bonus="+50% XP in Biology Lab"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life expert</p><div class="bonus">+50% Bio XP</div></div>
@@ -90,7 +90,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   </div>
   
   <div id="selectedInfo">Selected: None</div>
-  <button id="startBtn" disabled>START GAME</button>
+  <button id="startBtn" disabled>JACK IN</button>
 </div>
 
 <div id="hud">
@@ -98,16 +98,16 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/11</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
   <div class="hudStat"><span>Items:</span><span class="val" id="itemsFound">0</span></div>
 </div>
 
-<div id="locationInfo"><h3 id="currentLocation">📍 Neo-City</h3></div>
-<div id="interactPrompt">Press E to Interact</div>
+<div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
+<div id="interactPrompt">Press E to Hack</div>
 <div id="infoPanel"><h2 id="panelTitle">Tech</h2><div id="panelContent"></div></div>
 
 <div id="controls">
-  <h4>🎮 CONTROLS</h4>
+  <h4>⚡ CONTROLS</h4>
   <div class="ctrl"><span class="key">WASD</span> Move</div>
   <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
@@ -124,24 +124,28 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 <script type="module">
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 const state = { char: null, charBonus: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), itemsFound: 0, insideLab: false, currentLab: null, nearInteractable: null };
 let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
 let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
+let font = null;
 
 const labConfigs = {
-  'Startup Hub': { icon: '🚀', color: 0xe74c3c, pos: [0, 0, 0], desc: 'Garage-style innovation hub. Whiteboards, prototypes, pitch stage, funding board, patents. Where billion-dollar ideas are born.' },
-  'Xenobiology': { icon: '🧬', color: 0x1abc9c, pos: [-60, 0, -80], desc: 'Synthetic life with XNA. Create alien organisms. DNA synthesizers, bio-reactors, gene sequencers.' },
-  'OTEC Energy': { icon: '🌊', color: 0x3498db, pos: [60, 0, -80], desc: 'Ocean Thermal Energy. Unlimited clean power. Heat exchangers, turbines, generators.' },
-  'Optogenetics': { icon: '🧠', color: 0x9b59b6, pos: [-60, 0, -20], desc: 'Control neurons with light. Cure blindness. Optogenetic implants, neural interfaces.' },
-  'Programmable Matter': { icon: '🔮', color: 0x8e44ad, pos: [60, 0, -20], desc: 'Shape-shifting materials. Claytronics. Catom assemblers, matter programmers.' },
-  'Wireless Power': { icon: '⚡', color: 0xf39c12, pos: [-60, 0, 40], desc: 'Electricity through air. MIT WiTricity. Resonant coils, power transmitters.' },
-  'Mycelium Computing': { icon: '🍄', color: 0x27ae60, pos: [60, 0, 40], desc: 'Fungal bio-computers. Living buildings. Mycelium substrates, bio-sensors.' },
-  'Cryogenics': { icon: '🧊', color: 0x16a085, pos: [-60, 0, 100], desc: 'Reversible freezing. Space travel. Cryo-chambers, vitrification systems.' },
-  'Metamaterials': { icon: '👻', color: 0x34495e, pos: [60, 0, 100], desc: 'Invisibility cloaks. Duke University. Metamaterial fabricators, cloaking devices.' },
-  'Acoustic Levitation': { icon: '🔊', color: 0xe67e22, pos: [-60, 0, 160], desc: 'Levitate with sound. ETH Zurich. Acoustic levitators, ultrasonic arrays.' },
-  'Epigenetics': { icon: '⏳', color: 0x2ecc71, pos: [60, 0, 160], desc: 'Reverse aging. Live 200+ years. Epigenetic reprogrammers, age reversal chambers.' }
+  'Startup Hub': { icon: '🚀', color: 0xff00ff, pos: [0, 0, 0], name: 'STARTUP\nHUB', desc: 'Garage innovation hub. Coffee bar, ping pong, sleeping pods, snack wall, demo stage, hackathon area. Where unicorns are born.' },
+  'Xenobiology': { icon: '🧬', color: 0x00ff88, pos: [-70, 0, -90], name: 'XENO\nBIOLOGY', desc: 'Synthetic life with XNA. VR DNA sequencing, holographic cell visualization, AI gene editor, bio-reactor robots.' },
+  'OTEC Energy': { icon: '🌊', color: 0x0088ff, pos: [70, 0, -90], name: 'OTEC\nENERGY', desc: 'Ocean power. VR ocean simulation, holographic turbine models, AI power optimizer, energy field visualizer.' },
+  'Optogenetics': { icon: '🧠', color: 0xff0088, pos: [-70, 0, -30], name: 'OPTO\nGENETICS', desc: 'Neural control with light. VR brain mapping, holographic neuron networks, AI neural interface, mind-upload station.' },
+  'Programmable Matter': { icon: '🔮', color: 0x8800ff, pos: [70, 0, -30], name: 'PROG\nMATTER', desc: 'Shape-shifting materials. VR catom simulation, holographic matter transformation, AI shape designer, live demo chamber.' },
+  'Wireless Power': { icon: '⚡', color: 0xffff00, pos: [-70, 0, 30], name: 'WIRELESS\nPOWER', desc: 'Electricity through air. VR field visualization, holographic coil design, AI transmission optimizer, live power demo.' },
+  'Mycelium Computing': { icon: '🍄', color: 0x88ff00, pos: [70, 0, 30], name: 'MYCELIUM\nCOMPUTE', desc: 'Fungal bio-computers. VR mycelium network, holographic growth patterns, AI substrate designer, living computer demo.' },
+  'Cryogenics': { icon: '🧊', color: 0x00ffff, pos: [-70, 0, 90], name: 'CRYO\nGENICS', desc: 'Reversible freezing. VR molecular visualization, holographic freeze process, AI revival protocol, live cryo chamber.' },
+  'Metamaterials': { icon: '👻', color: 0xff00ff, pos: [70, 0, 90], name: 'META\nMATERIALS', desc: 'Invisibility cloaks. VR light bending, holographic cloak design, AI material optimizer, live invisibility test.' },
+  'Acoustic Levitation': { icon: '🔊', color: 0xff8800, pos: [-70, 0, 150], name: 'ACOUSTIC\nLEVITATION', desc: 'Sound levitation. VR wave visualization, holographic frequency patterns, AI levitator designer, live floating demo.' },
+  'Epigenetics': { icon: '⏳', color: 0x00ff00, pos: [70, 0, 150], name: 'EPI\nGENETICS', desc: 'Reverse aging. VR cell age visualization, holographic DNA methylation, AI age reversal protocol, live cell demo.' },
+  'Hybrid Collaboration Lab': { icon: '🤝', color: 0xff6600, pos: [0, 0, 150], name: 'HYBRID\nCOLLAB LAB', desc: 'Cross-discipline innovation. Collaboration pods, shared equipment, innovation wall, 3D printers, bio-tech corner, quantum computers, maker space.' }
 };
 
 document.querySelectorAll('.charCard').forEach(card => {
@@ -171,11 +175,11 @@ document.getElementById('startBtn').addEventListener('click', () => {
 
 function init() {
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 400);
+  scene.background = new THREE.Color(0x0a0a1a);
+  scene.fog = new THREE.FogExp2(0x0a0a1a, 0.0012);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 1.7, 100);
+  camera.position.set(0, 1.7, 120);
   
   renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -185,85 +189,120 @@ function init() {
   
   controls = new PointerLockControls(camera, document.body);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+  const ambientLight = new THREE.AmbientLight(0x404080, 0.6);
   scene.add(ambientLight);
   
-  const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
-  sunLight.position.set(100, 150, 50);
-  sunLight.castShadow = true;
-  sunLight.shadow.camera.left = -250;
-  sunLight.shadow.camera.right = 250;
-  sunLight.shadow.camera.top = 250;
-  sunLight.shadow.camera.bottom = -250;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
-  scene.add(sunLight);
+  const moonLight = new THREE.DirectionalLight(0x8080ff, 0.8);
+  moonLight.position.set(100, 200, 100);
+  moonLight.castShadow = true;
+  moonLight.shadow.camera.left = -300;
+  moonLight.shadow.camera.right = 300;
+  moonLight.shadow.camera.top = 300;
+  moonLight.shadow.camera.bottom = -300;
+  moonLight.shadow.mapSize.width = 2048;
+  moonLight.shadow.mapSize.height = 2048;
+  scene.add(moonLight);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.9, metalness: 0.1 }));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(25, 450), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.95, metalness: 0.05 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   road.receiveShadow = true;
   scene.add(road);
   
-  for (let i = -225; i <= 225; i += 25) {
-    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF }));
+  for (let i = -250; i <= 250; i += 30) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.5 }));
     line.rotation.x = -Math.PI / 2;
     line.position.set(0, 0.02, i);
     scene.add(line);
   }
   
-  createBrightCity();
+  const loader = new FontLoader();
+  loader.load('https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', (loadedFont) => {
+    font = loadedFont;
+    createFuturisticCity();
+  });
+  
   setupControls();
   window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
   animate();
   updateHUD();
   updateLocation();
-  notify(`Welcome ${state.char}! ${state.charBonus}`);
+  notify(`⚡ Welcome ${state.char}! ${state.charBonus}`);
 }
 
-function createBrightCity() {
+function createFuturisticCity() {
   Object.entries(labConfigs).forEach(([name, config]) => {
-    const size = name === 'Startup Hub' ? [60, 35, 70] : [40, 25, 50];
+    const size = name === 'Startup Hub' ? [70, 40, 80] : (name === 'Hybrid Collaboration Lab' ? [80, 45, 90] : [50, 30, 60]);
     
-    const building = new THREE.Mesh(new THREE.BoxGeometry(...size), new THREE.MeshStandardMaterial({ color: 0xCCCCCC, roughness: 0.7, metalness: 0.3 }));
+    const building = new THREE.Mesh(new THREE.BoxGeometry(...size), new THREE.MeshStandardMaterial({ color: 0x2a2a3e, roughness: 0.6, metalness: 0.4, emissive: config.color, emissiveIntensity: 0.1 }));
     building.position.set(config.pos[0], size[1] / 2, config.pos[2]);
     building.castShadow = true;
     building.receiveShadow = true;
     scene.add(building);
     
-    for (let floor = 0; floor < 5; floor++) {
-      for (let i = 0; i < 8; i++) {
-        const window = new THREE.Mesh(new THREE.BoxGeometry(3.5, 2.5, 0.15), new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.6 }));
-        window.position.set(config.pos[0] - 18 + i * 5, 4 + floor * 5, config.pos[2] + size[2] / 2 + 0.08);
+    for (let floor = 0; floor < 6; floor++) {
+      for (let i = 0; i < 10; i++) {
+        const window = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 0.2), new THREE.MeshStandardMaterial({ color: 0x00ffff, emissive: 0x00ffff, emissiveIntensity: 0.6, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.7 }));
+        window.position.set(config.pos[0] - 20 + i * 4.5, 5 + floor * 6, config.pos[2] + size[2] / 2 + 0.1);
         scene.add(window);
       }
     }
     
-    const door = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 }));
-    door.position.set(config.pos[0], 4, config.pos[2] + size[2] / 2 + 0.35);
+    if (font) {
+      const textGeo = new TextGeometry(config.name, { font: font, size: 3, height: 0.5, curveSegments: 12 });
+      textGeo.center();
+      const textMat = new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 1, roughness: 0.3, metalness: 0.7 });
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(config.pos[0], size[1] + 5, config.pos[2]);
+      textMesh.rotation.y = Math.PI;
+      scene.add(textMesh);
+      
+      const textLight = new THREE.PointLight(config.color, 3, 25);
+      textLight.position.set(config.pos[0], size[1] + 5, config.pos[2]);
+      scene.add(textLight);
+    }
+    
+    const door = new THREE.Mesh(new THREE.BoxGeometry(8, 10, 0.8), new THREE.MeshStandardMaterial({ color: 0x1a1a2e, emissive: config.color, emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 }));
+    door.position.set(config.pos[0], 5, config.pos[2] + size[2] / 2 + 0.5);
     door.userData = { type: 'entrance', lab: name, desc: config.desc };
     door.castShadow = true;
     scene.add(door);
     interactables.push(door);
     
-    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 1), new THREE.MeshStandardMaterial({ color: 0xFFD700, roughness: 0.2, metalness: 0.9 }));
-    handle.rotation.z = Math.PI / 2;
-    handle.position.set(config.pos[0] - 2, 4, config.pos[2] + size[2] / 2 + 0.7);
-    scene.add(handle);
+    const doorLight = new THREE.PointLight(config.color, 4, 20);
+    doorLight.position.set(config.pos[0], 8, config.pos[2] + size[2] / 2 + 3);
+    doorLight.castShadow = true;
+    scene.add(doorLight);
     
-    const sign = new THREE.Mesh(new THREE.BoxGeometry(10, 2.5, 0.3), new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.5, roughness: 0.4, metalness: 0.6 }));
-    sign.position.set(config.pos[0], 9, config.pos[2] + size[2] / 2 + 0.6);
-    scene.add(sign);
+    for (let i = 0; i < 8; i++) {
+      const neonBar = new THREE.Mesh(new THREE.BoxGeometry(size[0] * 0.9, 0.6, 0.6), new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 1.2 }));
+      neonBar.position.set(config.pos[0], 6 + i * 4, config.pos[2] + size[2] / 2 + 0.4);
+      scene.add(neonBar);
+    }
+    
+    const floatingPlatform = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 0.5), new THREE.MeshStandardMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.8, transparent: true, opacity: 0.6 }));
+    floatingPlatform.position.set(config.pos[0] + 15, 12, config.pos[2] + 15);
+    scene.add(floatingPlatform);
+    
+    const platformLight = new THREE.PointLight(config.color, 2, 15);
+    platformLight.position.set(config.pos[0] + 15, 12, config.pos[2] + 15);
+    scene.add(platformLight);
   });
+  
+  for (let i = 0; i < 50; i++) {
+    const particle = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshStandardMaterial({ color: Math.random() > 0.5 ? 0x00ffff : 0xff00ff, emissive: Math.random() > 0.5 ? 0x00ffff : 0xff00ff, emissiveIntensity: 1 }));
+    particle.position.set((Math.random() - 0.5) * 500, 5 + Math.random() * 30, (Math.random() - 0.5) * 500);
+    scene.add(particle);
+  }
 }
 
 function enterLab(labName, desc) {
-  notify(`Entering ${labName}...`);
+  notify(`⚡ Entering ${labName}...`);
   let xpBonus = 150;
   if (state.char === 'Startup Founder' && labName === 'Startup Hub') xpBonus *= 2;
   if (state.char === 'Bio-Hacker' && labName === 'Xenobiology') xpBonus *= 1.5;
@@ -285,20 +324,16 @@ function enterLab(labName, desc) {
   
   scene.clear();
   interactables = [];
-  scene.background = new THREE.Color(0xF5F5F5);
+  scene.background = new THREE.Color(0x1a1a2e);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+  const ambientLight = new THREE.AmbientLight(0x6080ff, 0.7);
   scene.add(ambientLight);
   
-  const ceilingLight = new THREE.DirectionalLight(0xffffff, 0.6);
-  ceilingLight.position.set(0, 10, 0);
-  ceilingLight.castShadow = true;
-  scene.add(ceilingLight);
-  
   if (labName === 'Startup Hub') createStartupHub();
-  else createLabInterior(labName, desc);
+  else if (labName === 'Hybrid Collaboration Lab') createHybridLab();
+  else createAdvancedLab(labName, desc);
   
-  camera.position.set(0, 1.7, 28);
+  camera.position.set(0, 1.7, 35);
   camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   updateLocation();
@@ -306,265 +341,241 @@ function enterLab(labName, desc) {
 }
 
 function createStartupHub() {
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 70), new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.9 }));
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(70, 80), new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.9 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
   
-  [[0, 2.5, -35, 60, 5, 0.3], [-30, 2.5, 0, 0.3, 5, 70], [30, 2.5, 0, 0.3, 5, 70], [0, 2.5, 35, 60, 5, 0.3]].forEach(w => {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xB22222, roughness: 0.9 }));
+  [[0, 3, -40, 70, 6, 0.4], [-35, 3, 0, 0.4, 6, 80], [35, 3, 0, 0.4, 6, 80], [0, 3, 40, 70, 6, 0.4]].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.95 }));
     wall.position.set(w[0], w[1], w[2]);
-    wall.castShadow = true;
-    wall.receiveShadow = true;
     scene.add(wall);
   });
   
-  for (let x = -20; x <= 20; x += 13) {
-    for (let z = -25; z <= 25; z += 16) {
-      const light = new THREE.PointLight(0xFFE4B5, 2, 25);
-      light.position.set(x, 4.5, z);
-      light.castShadow = true;
-      scene.add(light);
-      
-      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshStandardMaterial({ color: 0xFFFFAA, emissive: 0xFFFFAA, emissiveIntensity: 1.5 }));
-      bulb.position.set(x, 4.5, z);
-      scene.add(bulb);
-    }
+  for (let i = 0; i < 20; i++) {
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.4), new THREE.MeshStandardMaterial({ color: 0xffff88, emissive: 0xffff88, emissiveIntensity: 1.5 }));
+    bulb.position.set(-30 + (i % 10) * 6, 5.5, -30 + Math.floor(i / 10) * 60);
+    scene.add(bulb);
+    const light = new THREE.PointLight(0xffff88, 2, 20);
+    light.position.copy(bulb.position);
+    scene.add(light);
   }
   
-  const wbTopics = ['XNA Synthesis', 'OTEC Calculations', 'Neural Pathways', 'Catom Algorithms', 'Power Transmission', 'Mycelium Networks', 'Cryo Protocols', 'Metamaterial Design', 'Acoustic Waves', 'Epigenetic Markers'];
+  const coffeeBar = new THREE.Mesh(new THREE.BoxGeometry(12, 2, 4), new THREE.MeshStandardMaterial({ color: 0x654321, roughness: 0.7 }));
+  coffeeBar.position.set(-28, 1, -30);
+  coffeeBar.userData = { type: 'coffee' };
+  scene.add(coffeeBar);
+  interactables.push(coffeeBar);
+  
+  const pingPong = new THREE.Mesh(new THREE.BoxGeometry(8, 1.5, 4), new THREE.MeshStandardMaterial({ color: 0x0066cc, roughness: 0.6 }));
+  pingPong.position.set(28, 0.75, -30);
+  pingPong.userData = { type: 'pingpong' };
+  scene.add(pingPong);
+  interactables.push(pingPong);
+  
+  for (let i = 0; i < 4; i++) {
+    const pod = new THREE.Mesh(new THREE.CapsuleGeometry(1.2, 2.5), new THREE.MeshStandardMaterial({ color: 0x2a2a3e, emissive: 0x0088ff, emissiveIntensity: 0.3, roughness: 0.4, metalness: 0.6 }));
+    pod.rotation.z = Math.PI / 2;
+    pod.position.set(-28 + i * 3, 1.5, 30);
+    pod.userData = { type: 'sleeppod', id: i };
+    scene.add(pod);
+    interactables.push(pod);
+  }
+  
+  const snackWall = new THREE.Mesh(new THREE.BoxGeometry(15, 5, 0.5), new THREE.MeshStandardMaterial({ color: 0xff6600, emissive: 0xff6600, emissiveIntensity: 0.5 }));
+  snackWall.position.set(34.8, 2.5, 0);
+  snackWall.rotation.y = -Math.PI / 2;
+  snackWall.userData = { type: 'snacks' };
+  scene.add(snackWall);
+  interactables.push(snackWall);
+  
+  const demoStage = new THREE.Mesh(new THREE.CylinderGeometry(15, 15, 0.6), new THREE.MeshStandardMaterial({ color: 0x1a1a2e, emissive: 0xff00ff, emissiveIntensity: 0.4 }));
+  demoStage.position.set(0, 0.3, 0);
+  demoStage.userData = { type: 'demo' };
+  scene.add(demoStage);
+  interactables.push(demoStage);
+  
   for (let i = 0; i < 10; i++) {
-    const wb = new THREE.Mesh(new THREE.PlaneGeometry(9, 5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.8 }));
-    wb.position.set(-29.8, 2.8, -32 + i * 7);
+    const wb = new THREE.Mesh(new THREE.PlaneGeometry(10, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 }));
+    wb.position.set(-34.8, 3, -35 + i * 7.5);
     wb.rotation.y = Math.PI / 2;
-    wb.userData = { type: 'whiteboard', topic: wbTopics[i] };
+    wb.userData = { type: 'whiteboard', id: i };
     scene.add(wb);
     interactables.push(wb);
   }
   
-  const prototypes = ['Bio-Reactor', 'Heat Exchanger', 'Neural Implant', 'Catom Unit', 'Power Coil', 'Fungal Substrate', 'Cryo-Chamber', 'Cloaking Device'];
   for (let i = 0; i < 8; i++) {
     const angle = (i / 8) * Math.PI * 2;
-    const radius = 20;
-    
-    const base = new THREE.Mesh(new THREE.BoxGeometry(5, 0.4, 5), new THREE.MeshStandardMaterial({ color: 0x2F4F4F, roughness: 0.5, metalness: 0.5 }));
-    base.position.set(Math.cos(angle) * radius, 0.2, Math.sin(angle) * radius);
-    base.castShadow = true;
-    scene.add(base);
-    
-    const body = new THREE.Mesh(new THREE.BoxGeometry(4, 2.5, 4), new THREE.MeshStandardMaterial({ color: 0x4169E1, roughness: 0.3, metalness: 0.7 }));
-    body.position.set(Math.cos(angle) * radius, 1.45, Math.sin(angle) * radius);
-    body.castShadow = true;
-    body.userData = { type: 'prototype', name: prototypes[i] };
-    scene.add(body);
-    interactables.push(body);
-    
-    const screen = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2, 0.15), new THREE.MeshStandardMaterial({ color: 0x00FF00, emissive: 0x00FF00, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.8 }));
-    screen.position.set(Math.cos(angle) * radius, 2, Math.sin(angle) * radius + 2.1);
-    scene.add(screen);
+    const proto = new THREE.Mesh(new THREE.BoxGeometry(5, 3, 5), new THREE.MeshStandardMaterial({ color: 0x4169E1, emissive: 0x4169E1, emissiveIntensity: 0.5, roughness: 0.3, metalness: 0.7 }));
+    proto.position.set(Math.cos(angle) * 25, 1.5, Math.sin(angle) * 25);
+    proto.userData = { type: 'prototype', id: i };
+    scene.add(proto);
+    interactables.push(proto);
   }
   
-  const stage = new THREE.Mesh(new THREE.CylinderGeometry(12, 12, 0.4), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 }));
-  stage.position.set(0, 0.2, 0);
-  stage.userData = { type: 'pitch' };
-  scene.add(stage);
-  interactables.push(stage);
-  
-  const podium = new THREE.Mesh(new THREE.BoxGeometry(2, 1.5, 1.2), new THREE.MeshStandardMaterial({ color: 0x654321, roughness: 0.7, metalness: 0.3 }));
-  podium.position.set(0, 0.95, 0);
-  scene.add(podium);
-  
-  const fundingBoard = new THREE.Mesh(new THREE.PlaneGeometry(14, 7), new THREE.MeshStandardMaterial({ color: 0x1E90FF, emissive: 0x1E90FF, emissiveIntensity: 0.5 }));
-  fundingBoard.position.set(29.8, 3.5, 0);
-  fundingBoard.rotation.y = -Math.PI / 2;
-  fundingBoard.userData = { type: 'funding' };
-  scene.add(fundingBoard);
-  interactables.push(fundingBoard);
-  
-  for (let i = 0; i < 6; i++) {
-    const patent = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 5), new THREE.MeshStandardMaterial({ color: 0xFFFACD, roughness: 0.8 }));
-    patent.position.set(-14 + i * 5.6, 2.8, -34.8);
-    patent.userData = { type: 'patent', id: i };
-    scene.add(patent);
-    interactables.push(patent);
-  }
-  
-  const exit = new THREE.Mesh(new THREE.BoxGeometry(5, 6, 0.5), new THREE.MeshStandardMaterial({ color: 0xFF4500, roughness: 0.4, metalness: 0.6 }));
-  exit.position.set(0, 3, 34.8);
+  const exit = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0xff4500, emissive: 0xff0000, emissiveIntensity: 0.6 }));
+  exit.position.set(0, 4, 39.8);
   exit.userData = { type: 'exit' };
-  exit.castShadow = true;
   scene.add(exit);
   interactables.push(exit);
 }
 
-function createLabInterior(labName, desc) {
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 50), new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.7 }));
+function createHybridLab() {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(80, 90), new THREE.MeshStandardMaterial({ color: 0x2a2a3e, roughness: 0.8 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
   
-  [[0, 2.5, -25, 40, 5, 0.3], [-20, 2.5, 0, 0.3, 5, 50], [20, 2.5, 0, 0.3, 5, 50], [0, 2.5, 25, 40, 5, 0.3]].forEach(w => {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 }));
+  [[0, 3.5, -45, 80, 7, 0.5], [-40, 3.5, 0, 0.5, 7, 90], [40, 3.5, 0, 0.5, 7, 90], [0, 3.5, 45, 80, 7, 0.5]].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0x3a3a4e, roughness: 0.85 }));
     wall.position.set(w[0], w[1], w[2]);
-    wall.castShadow = true;
-    wall.receiveShadow = true;
     scene.add(wall);
   });
   
-  const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(40, 50), new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.8 }));
-  ceiling.rotation.x = Math.PI / 2;
-  ceiling.position.y = 5;
-  ceiling.receiveShadow = true;
-  scene.add(ceiling);
-  
-  for (let x = -15; x <= 15; x += 10) {
-    for (let z = -15; z <= 15; z += 10) {
-      const light = new THREE.PointLight(0xFFFFFF, 2, 30);
-      light.position.set(x, 4.5, z);
-      light.castShadow = true;
-      scene.add(light);
-      
-      const tube = new THREE.Mesh(new THREE.BoxGeometry(4, 0.4, 0.5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0xFFFFFF, emissiveIntensity: 1.2, roughness: 0.3, metalness: 0.7 }));
-      tube.position.set(x, 4.85, z);
-      tube.castShadow = true;
-      scene.add(tube);
-    }
+  for (let i = 0; i < 6; i++) {
+    const pod = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 3), new THREE.MeshStandardMaterial({ color: 0x1a1a2e, emissive: 0x00ffff, emissiveIntensity: 0.4, transparent: true, opacity: 0.7 }));
+    pod.position.set(-30 + (i % 3) * 30, 1.5, -30 + Math.floor(i / 3) * 60);
+    pod.userData = { type: 'collabpod', id: i };
+    scene.add(pod);
+    interactables.push(pod);
   }
   
-  for (let shelfNum = 0; shelfNum < 4; shelfNum++) {
-    const shelfX = -17;
-    const shelfZ = -15 + shelfNum * 10;
-    
-    const back = new THREE.Mesh(new THREE.BoxGeometry(0.3, 5, 4), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.8 }));
-    back.position.set(shelfX, 2.5, shelfZ);
-    back.castShadow = true;
-    scene.add(back);
-    
-    for (let i = 0; i < 5; i++) {
-      const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.15, 4), new THREE.MeshStandardMaterial({ color: 0xA0522D, roughness: 0.7 }));
-      shelf.position.set(shelfX - 0.15, 0.5 + i * 1, shelfZ);
-      shelf.castShadow = true;
-      scene.add(shelf);
-      
-      for (let j = 0; j < 8; j++) {
-        const bookWidth = 0.2 + Math.random() * 0.15;
-        const bookHeight = 0.8 + Math.random() * 0.3;
-        const bookColors = [0xDC143C, 0x4169E1, 0x32CD32, 0xFFD700, 0x9370DB, 0x20B2AA];
-        const book = new THREE.Mesh(new THREE.BoxGeometry(bookWidth, bookHeight, 0.35), new THREE.MeshStandardMaterial({ color: bookColors[Math.floor(Math.random() * bookColors.length)], roughness: 0.7 }));
-        book.position.set(shelfX - 0.35, 0.5 + i * 1 + bookHeight / 2, shelfZ - 1.7 + j * 0.45);
-        book.rotation.y = (Math.random() - 0.5) * 0.15;
-        book.castShadow = true;
-        book.userData = { type: 'book' };
-        scene.add(book);
-        interactables.push(book);
-      }
-    }
-  }
+  const innovationWall = new THREE.Mesh(new THREE.PlaneGeometry(20, 10), new THREE.MeshStandardMaterial({ color: 0x00ff00, emissive: 0x00ff00, emissiveIntensity: 0.6 }));
+  innovationWall.position.set(0, 5, -44.8);
+  innovationWall.userData = { type: 'innovation' };
+  scene.add(innovationWall);
+  interactables.push(innovationWall);
   
   for (let i = 0; i < 4; i++) {
-    const eqX = 15;
-    const eqZ = -12 + i * 8;
+    const printer = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshStandardMaterial({ color: 0xff6600, emissive: 0xff6600, emissiveIntensity: 0.5 }));
+    printer.position.set(-35, 1.5, -20 + i * 13);
+    printer.userData = { type: '3dprinter', id: i };
+    scene.add(printer);
+    interactables.push(printer);
+  }
+  
+  const bioCorner = new THREE.Mesh(new THREE.BoxGeometry(15, 4, 15), new THREE.MeshStandardMaterial({ color: 0x00ff88, emissive: 0x00ff88, emissiveIntensity: 0.4 }));
+  bioCorner.position.set(30, 2, -30);
+  bioCorner.userData = { type: 'biotech' };
+  scene.add(bioCorner);
+  interactables.push(bioCorner);
+  
+  const quantumComp = new THREE.Mesh(new THREE.BoxGeometry(8, 6, 8), new THREE.MeshStandardMaterial({ color: 0x8800ff, emissive: 0x8800ff, emissiveIntensity: 0.6 }));
+  quantumComp.position.set(30, 3, 30);
+  quantumComp.userData = { type: 'quantum' };
+  scene.add(quantumComp);
+  interactables.push(quantumComp);
+  
+  const makerSpace = new THREE.Mesh(new THREE.BoxGeometry(20, 2, 20), new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xffff00, emissiveIntensity: 0.3 }));
+  makerSpace.position.set(-25, 1, 30);
+  makerSpace.userData = { type: 'maker' };
+  scene.add(makerSpace);
+  interactables.push(makerSpace);
+  
+  const exit = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0xff4500, emissive: 0xff0000, emissiveIntensity: 0.6 }));
+  exit.position.set(0, 4, 44.8);
+  exit.userData = { type: 'exit' };
+  scene.add(exit);
+  interactables.push(exit);
+}
+
+function createAdvancedLab(labName, desc) {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(50, 60), new THREE.MeshStandardMaterial({ color: 0x2a2a3e, roughness: 0.8 }));
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  [[0, 3, -30, 50, 6, 0.4], [-25, 3, 0, 0.4, 6, 60], [25, 3, 0, 0.4, 6, 60], [0, 3, 30, 50, 6, 0.4]].forEach(w => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0x3a3a4e, roughness: 0.85 }));
+    wall.position.set(w[0], w[1], w[2]);
+    scene.add(wall);
+  });
+  
+  for (let i = 0; i < 4; i++) {
+    const vr = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 4), new THREE.MeshStandardMaterial({ color: 0x00ffff, emissive: 0x00ffff, emissiveIntensity: 0.6 }));
+    vr.position.set(-18 + i * 12, 1.5, -20);
+    vr.userData = { type: 'vr', id: i };
+    scene.add(vr);
+    interactables.push(vr);
+  }
+  
+  for (let i = 0; i < 3; i++) {
+    const holo = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 0.3), new THREE.MeshStandardMaterial({ color: 0xff00ff, emissive: 0xff00ff, emissiveIntensity: 0.8, transparent: true, opacity: 0.6 }));
+    holo.position.set(-15 + i * 15, 2, 0);
+    holo.userData = { type: 'hologram', id: i };
+    scene.add(holo);
+    interactables.push(holo);
     
-    const base = new THREE.Mesh(new THREE.BoxGeometry(4, 0.4, 4), new THREE.MeshStandardMaterial({ color: 0x2F4F4F, roughness: 0.5, metalness: 0.5 }));
-    base.position.set(eqX, 0.2, eqZ);
-    base.castShadow = true;
-    scene.add(base);
-    
-    const body = new THREE.Mesh(new THREE.BoxGeometry(3.5, 3, 3.5), new THREE.MeshStandardMaterial({ color: labConfigs[state.currentLab].color, roughness: 0.3, metalness: 0.7 }));
-    body.position.set(eqX, 1.9, eqZ);
-    body.castShadow = true;
-    body.userData = { type: 'equipment', id: i };
-    scene.add(body);
-    interactables.push(body);
-    
-    const screen = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2, 0.15), new THREE.MeshStandardMaterial({ color: 0x00FF00, emissive: 0x00FF00, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.8 }));
-    screen.position.set(eqX, 2.5, eqZ + 1.85);
-    scene.add(screen);
+    for (let j = 0; j < 5; j++) {
+      const particle = new THREE.Mesh(new THREE.SphereGeometry(0.2), new THREE.MeshStandardMaterial({ color: 0xff00ff, emissive: 0xff00ff, emissiveIntensity: 1 }));
+      particle.position.set(-15 + i * 15 + (Math.random() - 0.5) * 4, 2 + j * 0.8, (Math.random() - 0.5) * 4);
+      scene.add(particle);
+    }
   }
   
   for (let i = 0; i < 2; i++) {
-    const deskX = -5 + i * 10;
-    const deskZ = -10;
-    
-    const top = new THREE.Mesh(new THREE.BoxGeometry(3, 0.15, 2.5), new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6 }));
-    top.position.set(deskX, 1.075, deskZ);
-    top.castShadow = true;
-    scene.add(top);
-    
-    for (let j = 0; j < 4; j++) {
-      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1), new THREE.MeshStandardMaterial({ color: 0x696969, roughness: 0.4, metalness: 0.6 }));
-      leg.position.set(deskX + (j % 2 === 0 ? -1.3 : 1.3), 0.5, deskZ + (j < 2 ? -1 : 1));
-      leg.castShadow = true;
-      scene.add(leg);
-    }
-    
-    const monitorStand = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 0.35), new THREE.MeshStandardMaterial({ color: 0x2F4F4F, roughness: 0.5 }));
-    monitorStand.position.set(deskX, 1.325, deskZ);
-    scene.add(monitorStand);
-    
-    const monitor = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.5, 0.15), new THREE.MeshStandardMaterial({ color: 0x1E90FF, emissive: 0x1E90FF, emissiveIntensity: 0.6, roughness: 0.2, metalness: 0.8 }));
-    monitor.position.set(deskX, 2, deskZ);
-    monitor.castShadow = true;
-    scene.add(monitor);
+    const robot = new THREE.Mesh(new THREE.CapsuleGeometry(0.8, 2), new THREE.MeshStandardMaterial({ color: 0xcccccc, emissive: 0x0088ff, emissiveIntensity: 0.4, roughness: 0.3, metalness: 0.8 }));
+    robot.position.set(-10 + i * 20, 1.5, 20);
+    robot.userData = { type: 'robot', id: i };
+    scene.add(robot);
+    interactables.push(robot);
   }
   
-  const info = new THREE.Mesh(new THREE.PlaneGeometry(12, 7), new THREE.MeshStandardMaterial({ color: 0x1E90FF, emissive: 0x1E90FF, emissiveIntensity: 0.4 }));
-  info.position.set(0, 3.5, -24.8);
+  const demoArea = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 0.4), new THREE.MeshStandardMaterial({ color: labConfigs[state.currentLab].color, emissive: labConfigs[state.currentLab].color, emissiveIntensity: 0.7 }));
+  demoArea.position.set(0, 0.2, 15);
+  demoArea.userData = { type: 'demo' };
+  scene.add(demoArea);
+  interactables.push(demoArea);
+  
+  const info = new THREE.Mesh(new THREE.PlaneGeometry(15, 8), new THREE.MeshStandardMaterial({ color: 0x00ffff, emissive: 0x00ffff, emissiveIntensity: 0.5 }));
+  info.position.set(0, 4, -29.8);
   info.userData = { type: 'info', lab: labName, desc: desc };
   scene.add(info);
   interactables.push(info);
   
-  const exit = new THREE.Mesh(new THREE.BoxGeometry(5, 6, 0.5), new THREE.MeshStandardMaterial({ color: 0xFF4500, roughness: 0.4, metalness: 0.6 }));
-  exit.position.set(0, 3, 24.8);
+  const exit = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0xff4500, emissive: 0xff0000, emissiveIntensity: 0.6 }));
+  exit.position.set(0, 4, 29.8);
   exit.userData = { type: 'exit' };
-  exit.castShadow = true;
   scene.add(exit);
   interactables.push(exit);
 }
 
 function exitLab() {
-  notify('Exiting to city...');
+  notify('⚡ Exiting to Neo-City...');
   state.insideLab = false;
   state.currentLab = null;
   scene.clear();
   interactables = [];
-  scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 400);
+  scene.background = new THREE.Color(0x0a0a1a);
+  scene.fog = new THREE.FogExp2(0x0a0a1a, 0.0012);
   
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+  const ambientLight = new THREE.AmbientLight(0x404080, 0.6);
   scene.add(ambientLight);
   
-  const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
-  sunLight.position.set(100, 150, 50);
-  sunLight.castShadow = true;
-  sunLight.shadow.camera.left = -250;
-  sunLight.shadow.camera.right = 250;
-  sunLight.shadow.camera.top = 250;
-  sunLight.shadow.camera.bottom = -250;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
-  scene.add(sunLight);
+  const moonLight = new THREE.DirectionalLight(0x8080ff, 0.8);
+  moonLight.position.set(100, 200, 100);
+  moonLight.castShadow = true;
+  scene.add(moonLight);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.9 }));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(25, 450), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.95 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
-  road.receiveShadow = true;
   scene.add(road);
   
-  for (let i = -225; i <= 225; i += 25) {
-    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 5), new THREE.MeshStandardMaterial({ color: 0xFFFFFF }));
+  for (let i = -250; i <= 250; i += 30) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.5 }));
     line.rotation.x = -Math.PI / 2;
     line.position.set(0, 0.02, i);
     scene.add(line);
   }
   
-  createBrightCity();
-  camera.position.set(0, 1.7, 100);
+  if (font) createFuturisticCity();
+  camera.position.set(0, 1.7, 120);
   camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   updateLocation();
@@ -605,44 +616,38 @@ function handleInteraction() {
   if (ud.type === 'entrance') enterLab(ud.lab, ud.desc);
   else if (ud.type === 'exit') exitLab();
   else if (ud.type === 'info') showInfo(ud.lab, ud.desc);
-  else if (ud.type === 'whiteboard') { notify(`Whiteboard: ${ud.topic} | +${Math.floor(30 * xpBonus)} XP`); addXP(Math.floor(30 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'prototype') { notify(`Prototype: ${ud.name} | +${Math.floor(40 * xpBonus)} XP`); addXP(Math.floor(40 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'pitch') showPitch();
-  else if (ud.type === 'funding') { notify(`Funding Board | +${Math.floor(25 * xpBonus)} XP`); addXP(Math.floor(25 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'patent') { notify(`Patent #${ud.id + 1} | +${Math.floor(20 * xpBonus)} XP`); addXP(Math.floor(20 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'equipment') { notify(`Using equipment | +${Math.floor(50 * xpBonus)} XP`); addXP(Math.floor(50 * xpBonus)); state.itemsFound++; }
-  else if (ud.type === 'book') { notify(`Reading research | +${Math.floor(15 * xpBonus)} XP`); addXP(Math.floor(15 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'vr') { notify(`🥽 VR Station: Immersive simulation | +${Math.floor(60 * xpBonus)} XP`); addXP(Math.floor(60 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'hologram') { notify(`🔮 Holographic Display: 3D visualization | +${Math.floor(50 * xpBonus)} XP`); addXP(Math.floor(50 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'robot') { notify(`🤖 AI Assistant Robot: Helping with research | +${Math.floor(40 * xpBonus)} XP`); addXP(Math.floor(40 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'demo') { notify(`⚡ Live Demo: Interactive tech experience | +${Math.floor(80 * xpBonus)} XP`); addXP(Math.floor(80 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'coffee') { notify(`☕ Coffee Bar: Fuel for innovation | +${Math.floor(20 * xpBonus)} XP`); addXP(Math.floor(20 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'pingpong') { notify(`🏓 Ping Pong: Break time! | +${Math.floor(15 * xpBonus)} XP`); addXP(Math.floor(15 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'sleeppod') { notify(`😴 Sleeping Pod: Power nap | +${Math.floor(25 * xpBonus)} XP`); addXP(Math.floor(25 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'snacks') { notify(`🍕 Snack Wall: Free food! | +${Math.floor(10 * xpBonus)} XP`); addXP(Math.floor(10 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'whiteboard') { notify(`📝 Whiteboard: Innovation ideas | +${Math.floor(30 * xpBonus)} XP`); addXP(Math.floor(30 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'prototype') { notify(`🔧 Prototype: Working demo | +${Math.floor(40 * xpBonus)} XP`); addXP(Math.floor(40 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'collabpod') { notify(`🤝 Collaboration Pod: Team workspace | +${Math.floor(45 * xpBonus)} XP`); addXP(Math.floor(45 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'innovation') { notify(`💡 Innovation Wall: Shared ideas | +${Math.floor(35 * xpBonus)} XP`); addXP(Math.floor(35 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === '3dprinter') { notify(`🖨️ 3D Printer: Rapid prototyping | +${Math.floor(50 * xpBonus)} XP`); addXP(Math.floor(50 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'biotech') { notify(`🧬 Bio-Tech Corner: Living experiments | +${Math.floor(70 * xpBonus)} XP`); addXP(Math.floor(70 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'quantum') { notify(`⚛️ Quantum Computer: Advanced computing | +${Math.floor(100 * xpBonus)} XP`); addXP(Math.floor(100 * xpBonus)); state.itemsFound++; }
+  else if (ud.type === 'maker') { notify(`🔨 Maker Space: Build anything | +${Math.floor(55 * xpBonus)} XP`); addXP(Math.floor(55 * xpBonus)); state.itemsFound++; }
   updateHUD();
 }
 
 function showInfo(lab, desc) {
   document.getElementById('panelTitle').textContent = lab;
-  document.getElementById('panelContent').innerHTML = `<div class="infoBox"><strong>UNDERGROUND TECH:</strong><br><br>${desc}</div><div class="successBox"><strong>WHY HIDDEN:</strong><br>Too controversial, expensive, or ahead of its time. Massive potential to revolutionize everything.</div><button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>`;
+  document.getElementById('panelContent').innerHTML = `<div class="infoBox"><strong>⚡ FUTURISTIC TECH LAB:</strong><br><br>${desc}</div><div class="successBox"><strong>🚀 INTERACTIVE EXPERIENCES:</strong><br>VR stations, holographic displays, AI assistants, live demos. Experience the future of technology!</div><button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>`;
   document.getElementById('infoPanel').style.display = 'block';
   controls.unlock();
 }
 
-function showPitch() {
-  document.getElementById('panelTitle').textContent = 'PITCH STAGE';
-  document.getElementById('panelContent').innerHTML = `<div class="infoBox"><strong>STARTUP PITCH AREA</strong><br><br>Present revolutionary ideas to investors. Get funding, build prototypes, change the world. Where billion-dollar companies are born.</div><div class="successBox"><strong>FUNDING ROUNDS:</strong><br>• Seed: $500K<br>• Series A: $5M<br>• Series B: $20M<br>• Series C: $50M<br>• IPO: $500M+</div><button class="infoBtn" onclick="pitchIdea()">PITCH IDEA</button><button class="infoBtn" onclick="closeInfoPanel()">CLOSE</button>`;
-  document.getElementById('infoPanel').style.display = 'block';
-  controls.unlock();
-}
-
-window.pitchIdea = () => { 
-  let xpBonus = state.char === 'Startup Founder' ? 2 : (state.char === 'Cyborg Mechanic' ? 1.25 : 1);
-  addXP(Math.floor(100 * xpBonus)); 
-  state.itemsFound++; 
-  notify(`Pitch successful! +${Math.floor(100 * xpBonus)} XP`); 
-  closeInfoPanel(); 
-  updateHUD(); 
-};
 window.closeInfoPanel = () => { document.getElementById('infoPanel').style.display = 'none'; };
 
 function checkNearby() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   const intersects = raycaster.intersectObjects(interactables);
-  if (intersects.length > 0 && intersects[0].distance < 6) {
+  if (intersects.length > 0 && intersects[0].distance < 8) {
     state.nearInteractable = intersects[0].object;
     document.getElementById('interactPrompt').style.display = 'block';
   } else {
@@ -661,7 +666,7 @@ function animate() {
     direction.z = Number(moveForward) - Number(moveBackward);
     direction.x = Number(moveRight) - Number(moveLeft);
     direction.normalize();
-    const speed = sprint ? 50 : 30;
+    const speed = sprint ? 60 : 35;
     if (moveForward || moveBackward) velocity.z -= direction.z * speed * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * speed * delta;
     controls.moveRight(-velocity.x * delta);
@@ -673,19 +678,19 @@ function animate() {
 }
 
 function updateLocation() {
-  document.getElementById('currentLocation').textContent = state.insideLab ? `${labConfigs[state.currentLab].icon} ${state.currentLab}` : '📍 Neo-City';
+  document.getElementById('currentLocation').textContent = state.insideLab ? `${labConfigs[state.currentLab].icon} ${state.currentLab}` : '📍 Neo-City 2077';
 }
 
 function addXP(amount) {
   state.xp += amount;
-  while (state.xp >= state.xpMax) { state.xp -= state.xpMax; state.lvl++; state.xpMax = Math.floor(state.xpMax * 1.5); notify(`LEVEL UP! Level ${state.lvl}!`); }
+  while (state.xp >= state.xpMax) { state.xp -= state.xpMax; state.lvl++; state.xpMax = Math.floor(state.xpMax * 1.5); notify(`⚡ LEVEL UP! Level ${state.lvl}!`); }
   updateHUD();
 }
 
 function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/11`;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
   document.getElementById('itemsFound').textContent = state.itemsFound;
 }
 
