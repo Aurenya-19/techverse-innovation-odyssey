@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Realistic Edition</title>
+<title>TechVerse 2077 - Complete Multi-Floor Edition</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEEB; color: #fff; }
+body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
 #startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
-#startScreen h1 { font-size: clamp(2em, 6vw, 4.5em); color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 15px; font-weight: 900; }
-.subtitle { font-size: clamp(0.9em, 2vw, 1.2em); color: #fff; margin-bottom: 20px; text-align: center; max-width: 90%; line-height: 1.6; }
-.charGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; max-width: 1200px; width: 95%; margin-bottom: 15px; }
-.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 15px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; }
+#startScreen h1 { font-size: 4em; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 15px; font-weight: 900; }
+.subtitle { font-size: 1.2em; color: #fff; margin-bottom: 20px; text-align: center; line-height: 1.6; }
+.charGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; max-width: 1200px; margin-bottom: 20px; }
+.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 15px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; }
 .charCard:hover { transform: translateY(-5px); }
-.charCard.selected { background: rgba(46,204,113,0.4) !important; border: 3px solid #27ae60 !important; transform: translateY(-8px) scale(1.05) !important; }
+.charCard.selected { background: rgba(46,204,113,0.4) !important; border: 3px solid #27ae60 !important; transform: scale(1.05) !important; }
 .charCard .icon { font-size: 2.5em; margin-bottom: 10px; }
 .charCard h3 { color: #fff; font-size: 1.1em; margin-bottom: 8px; font-weight: 800; }
 .charCard p { color: rgba(255,255,255,0.9); font-size: 0.85em; }
@@ -25,40 +25,42 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 #startBtn:hover { transform: translateY(-3px); }
 #startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid #3498db; min-width: 260px; z-index: 1000; display: none; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.9); padding: 20px; border-radius: 12px; border: 2px solid #3498db; min-width: 260px; z-index: 1000; display: none; }
 #hud h3 { color: #3498db; margin-bottom: 12px; font-size: 1.4em; }
 .hudStat { display: flex; justify-content: space-between; margin: 10px 0; color: #fff; }
 .hudStat .val { color: #27ae60; font-weight: bold; }
 
-#floorInfo { position: fixed; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 20px; border-radius: 12px; border: 2px solid #9b59b6; min-width: 200px; z-index: 1000; display: none; }
-#floorInfo h3 { color: #9b59b6; margin-bottom: 10px; font-size: 1.3em; }
-#floorInfo p { color: #fff; margin: 5px 0; }
+#floorNav { position: fixed; top: 15px; right: 15px; background: rgba(0,0,0,0.9); padding: 20px; border-radius: 12px; border: 2px solid #9b59b6; z-index: 1000; display: none; }
+#floorNav h3 { color: #9b59b6; margin-bottom: 10px; font-size: 1.3em; }
+#floorNav button { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; margin: 5px 0; width: 100%; cursor: pointer; font-weight: bold; }
+#floorNav button:hover { transform: scale(1.05); }
+#floorNav .current { background: linear-gradient(135deg, #27ae60, #229954) !important; }
 
-#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 2px solid #3498db; z-index: 1000; display: none; }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 15px 40px; border-radius: 12px; border: 2px solid #3498db; z-index: 1000; display: none; }
 #locationInfo h3 { color: #3498db; font-size: 1.5em; }
 
 #interactPrompt { position: fixed; bottom: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 16px 45px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.15em; }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-12px); } }
 
-#machineUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; max-width: 90vw; background: rgba(0,0,0,0.95); border: 3px solid #3498db; border-radius: 20px; padding: 40px; z-index: 5000; display: none; }
-#machineUI h2 { color: #3498db; font-size: 2.5em; text-align: center; margin-bottom: 20px; }
-#machineUI .screen { background: #000; border: 2px solid #0f0; border-radius: 10px; padding: 20px; margin: 20px 0; min-height: 200px; font-family: 'Courier New', monospace; color: #0f0; }
-#machineUI .progress { width: 100%; height: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; margin: 20px 0; }
-#machineUI .progressBar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); width: 0%; transition: width 0.3s; }
-#machineUI button { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 15px 40px; border-radius: 10px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 10px; }
-#machineUI button:hover { transform: scale(1.05); }
-.closeBtn { position: absolute; top: 15px; right: 15px; background: #e74c3c !important; padding: 10px 20px !important; }
+#machineUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 900px; max-width: 95vw; background: rgba(0,0,0,0.98); border: 4px solid #3498db; border-radius: 20px; padding: 40px; z-index: 5000; display: none; box-shadow: 0 0 50px rgba(52,152,219,0.5); }
+#machineUI h2 { color: #3498db; font-size: 2.8em; text-align: center; margin-bottom: 20px; text-transform: uppercase; }
+#machineUI .screen { background: #000; border: 3px solid #0f0; border-radius: 10px; padding: 25px; margin: 20px 0; min-height: 250px; font-family: 'Courier New', monospace; color: #0f0; font-size: 1.1em; line-height: 1.6; overflow-y: auto; max-height: 300px; }
+#machineUI .progress { width: 100%; height: 40px; background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; margin: 25px 0; border: 2px solid #3498db; }
+#machineUI .progressBar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60); width: 0%; transition: width 0.5s; box-shadow: 0 0 20px rgba(46,204,113,0.8); }
+#machineUI button { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 18px 45px; border-radius: 12px; font-size: 1.3em; font-weight: bold; cursor: pointer; margin: 10px; transition: all 0.3s; text-transform: uppercase; }
+#machineUI button:hover { transform: scale(1.08); box-shadow: 0 5px 20px rgba(52,152,219,0.6); }
+.closeBtn { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #e74c3c, #c0392b) !important; padding: 12px 25px !important; font-size: 1.1em !important; }
 
-#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.85); padding: 22px; border-radius: 12px; border: 2px solid #3498db; z-index: 1000; display: none; }
+#controls { position: fixed; bottom: 25px; left: 25px; background: rgba(0,0,0,0.9); padding: 22px; border-radius: 12px; border: 2px solid #3498db; z-index: 1000; display: none; }
 #controls h4 { color: #3498db; margin-bottom: 12px; font-size: 1.3em; }
 .ctrl { color: #ecf0f1; margin: 10px 0; }
 .key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 6px 14px; border-radius: 6px; margin-right: 10px; }
 
-#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; }
+#notif { position: fixed; top: 150px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 22px 55px; border-radius: 12px; font-weight: bold; font-size: 1.25em; opacity: 0; transition: opacity 0.5s; max-width: 92%; text-align: center; z-index: 2000; box-shadow: 0 5px 30px rgba(39,174,96,0.7); }
 #notif.show { opacity: 1; }
 
 #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 28px; height: 28px; pointer-events: none; z-index: 999; display: none; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(0,0,0,0.7); }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.8); box-shadow: 0 0 5px rgba(0,0,0,0.8); }
 #crosshair::before { width: 3px; height: 28px; left: 12.5px; }
 #crosshair::after { width: 28px; height: 3px; top: 12.5px; }
 
@@ -71,24 +73,24 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">Multi-Floor Buildings • Real 3D Equipment • Full Interactions • 12 Labs • 15 Characters</p>
+  <p class="subtitle">Multi-Floor Buildings • 50+ Gadgets Per Lab • Rooms & Corridors • Elevator System • Complete Realistic Experience</p>
   
   <div class="charGrid">
-    <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life expert</p><div class="bonus">+50% Bio XP</div></div>
-    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Underground physicist</p><div class="bonus">+50% Quantum XP</div></div>
-    <div class="charCard" data-char="Neuro-Engineer"><div class="icon">🧠</div><h3>Neuro-Engineer</h3><p>Brain-tech specialist</p><div class="bonus">+50% Neuro XP</div></div>
-    <div class="charCard" data-char="Startup Founder"><div class="icon">🚀</div><h3>Startup Founder</h3><p>Tech entrepreneur</p><div class="bonus">+100% Hub XP</div></div>
-    <div class="charCard" data-char="Ocean Engineer"><div class="icon">🌊</div><h3>Ocean Engineer</h3><p>OTEC power specialist</p><div class="bonus">+50% Ocean XP</div></div>
-    <div class="charCard" data-char="Matter Sculptor"><div class="icon">🔮</div><h3>Matter Sculptor</h3><p>Claytronics expert</p><div class="bonus">+50% Matter XP</div></div>
-    <div class="charCard" data-char="Energy Anarchist"><div class="icon">⚡</div><h3>Energy Anarchist</h3><p>Wireless power hacker</p><div class="bonus">+50% Energy XP</div></div>
-    <div class="charCard" data-char="Myco-Technologist"><div class="icon">🍄</div><h3>Myco-Technologist</h3><p>Fungal computing</p><div class="bonus">+50% Myco XP</div></div>
-    <div class="charCard" data-char="Cryo-Scientist"><div class="icon">🧊</div><h3>Cryo-Scientist</h3><p>Reversible freezing</p><div class="bonus">+50% Cryo XP</div></div>
-    <div class="charCard" data-char="Stealth Engineer"><div class="icon">👻</div><h3>Stealth Engineer</h3><p>Invisibility specialist</p><div class="bonus">+50% Stealth XP</div></div>
+    <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life</p><div class="bonus">+50% Bio XP</div></div>
+    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum physics</p><div class="bonus">+50% Quantum XP</div></div>
+    <div class="charCard" data-char="Neuro-Engineer"><div class="icon">🧠</div><h3>Neuro-Engineer</h3><p>Brain tech</p><div class="bonus">+50% Neuro XP</div></div>
+    <div class="charCard" data-char="Startup Founder"><div class="icon">🚀</div><h3>Startup Founder</h3><p>Entrepreneur</p><div class="bonus">+100% Hub XP</div></div>
+    <div class="charCard" data-char="Ocean Engineer"><div class="icon">🌊</div><h3>Ocean Engineer</h3><p>OTEC power</p><div class="bonus">+50% Ocean XP</div></div>
+    <div class="charCard" data-char="Matter Sculptor"><div class="icon">🔮</div><h3>Matter Sculptor</h3><p>Claytronics</p><div class="bonus">+50% Matter XP</div></div>
+    <div class="charCard" data-char="Energy Anarchist"><div class="icon">⚡</div><h3>Energy Anarchist</h3><p>Wireless power</p><div class="bonus">+50% Energy XP</div></div>
+    <div class="charCard" data-char="Myco-Technologist"><div class="icon">🍄</div><h3>Myco-Tech</h3><p>Fungal computing</p><div class="bonus">+50% Myco XP</div></div>
+    <div class="charCard" data-char="Cryo-Scientist"><div class="icon">🧊</div><h3>Cryo-Scientist</h3><p>Freezing tech</p><div class="bonus">+50% Cryo XP</div></div>
+    <div class="charCard" data-char="Stealth Engineer"><div class="icon">👻</div><h3>Stealth Engineer</h3><p>Invisibility</p><div class="bonus">+50% Stealth XP</div></div>
     <div class="charCard" data-char="Acoustic Physicist"><div class="icon">🔊</div><h3>Acoustic Physicist</h3><p>Sound levitation</p><div class="bonus">+50% Acoustic XP</div></div>
-    <div class="charCard" data-char="Age Hacker"><div class="icon">⏳</div><h3>Age Hacker</h3><p>Longevity researcher</p><div class="bonus">+50% Age XP</div></div>
-    <div class="charCard" data-char="Cyborg Mechanic"><div class="icon">🤖</div><h3>Cyborg Mechanic</h3><p>Augmentation specialist</p><div class="bonus">+25% All XP</div></div>
-    <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructure designer</p><div class="bonus">Start Lv2</div></div>
-    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Medical nanobot engineer</p><div class="bonus">+200 Start XP</div></div>
+    <div class="charCard" data-char="Age Hacker"><div class="icon">⏳</div><h3>Age Hacker</h3><p>Longevity</p><div class="bonus">+50% Age XP</div></div>
+    <div class="charCard" data-char="Cyborg Mechanic"><div class="icon">🤖</div><h3>Cyborg Mechanic</h3><p>Augmentation</p><div class="bonus">+25% All XP</div></div>
+    <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructures</p><div class="bonus">Start Lv2</div></div>
+    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Medical nanobots</p><div class="bonus">+200 Start XP</div></div>
   </div>
   
   <div id="selectedInfo">Selected: None</div>
@@ -101,25 +103,29 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
   <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/12</span></div>
+  <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0/600</span></div>
 </div>
 
-<div id="floorInfo">
-  <h3>🏢 FLOOR INFO</h3>
-  <p>Floor: <span id="currentFloor">Ground</span></p>
-  <p>Room: <span id="currentRoom">Lobby</span></p>
+<div id="floorNav">
+  <h3>🏢 FLOORS</h3>
+  <button onclick="changeFloor(0)">Ground Floor</button>
+  <button onclick="changeFloor(1)">Floor 1</button>
+  <button onclick="changeFloor(2)">Floor 2</button>
+  <button onclick="changeFloor(3)">Floor 3</button>
+  <button onclick="changeFloor(4)">Terrace</button>
 </div>
 
 <div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
 <div id="interactPrompt">Press E to Interact</div>
 
 <div id="machineUI">
-  <button class="closeBtn" onclick="closeMachine()">✕</button>
+  <button class="closeBtn" onclick="closeMachine()">✕ CLOSE</button>
   <h2 id="machineTitle">Machine</h2>
-  <div class="screen" id="machineScreen">Ready...</div>
+  <div class="screen" id="machineScreen">System ready...</div>
   <div class="progress"><div class="progressBar" id="progressBar"></div></div>
   <div style="text-align: center;">
-    <button onclick="startMachine()">START</button>
-    <button onclick="closeMachine()">CANCEL</button>
+    <button onclick="startMachine()">▶ START PROCESS</button>
+    <button onclick="closeMachine()" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d);">✕ CANCEL</button>
   </div>
 </div>
 
@@ -129,8 +135,8 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
   <div class="ctrl"><span class="key">MOUSE</span> Look Around</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
-  <div class="ctrl"><span class="key">ESC</span> Exit</div>
-  <div class="ctrl"><span class="key">Q/Z</span> Change Floor</div>
+  <div class="ctrl"><span class="key">ESC</span> Exit/Close</div>
+  <div class="ctrl"><span class="key">SPACE</span> Jump</div>
 </div>
 
 <div id="notif"></div>
@@ -143,89 +149,134 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #87CEE
 import * as THREE from 'three';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-const state = { char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), insideLab: false, currentLab: null, currentFloor: 0, currentRoom: 'Lobby', nearInteractable: null, machineActive: false };
+const state = { 
+  char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), 
+  insideLab: false, currentLab: null, currentFloor: 0, 
+  nearInteractable: null, machineActive: false, gadgetsUsed: 0 
+};
 let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
 let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
+let particles = [];
 
 const labConfigs = {
-  'Xenobiology': { color: 0x1abc9c, pos: [-70, 0, -90], name: 'XENOBIOLOGY' },
-  'OTEC Energy': { color: 0x3498db, pos: [70, 0, -90], name: 'OTEC ENERGY' },
-  'Optogenetics': { color: 0x9b59b6, pos: [-70, 0, -30], name: 'OPTOGENETICS' },
-  'Programmable Matter': { color: 0x8e44ad, pos: [70, 0, -30], name: 'PROG MATTER' },
-  'Wireless Power': { color: 0xf39c12, pos: [-70, 0, 30], name: 'WIRELESS POWER' },
-  'Mycelium Computing': { color: 0x27ae60, pos: [70, 0, 30], name: 'MYCELIUM COMPUTE' },
-  'Cryogenics': { color: 0x16a085, pos: [-70, 0, 90], name: 'CRYOGENICS' },
-  'Metamaterials': { color: 0x34495e, pos: [70, 0, 90], name: 'METAMATERIALS' },
-  'Acoustic Levitation': { color: 0xe67e22, pos: [-70, 0, 150], name: 'ACOUSTIC LEVITATION' },
-  'Epigenetics': { color: 0x2ecc71, pos: [70, 0, 150], name: 'EPIGENETICS' },
-  'Hybrid Lab': { color: 0xe74c3c, pos: [0, 0, 150], name: 'HYBRID COLLAB LAB' },
-  'Startup Hub': { color: 0xff00ff, pos: [0, 0, 0], name: 'STARTUP HUB' }
+  'Xenobiology': { color: 0x1abc9c, pos: [-70, 0, -90] },
+  'OTEC Energy': { color: 0x3498db, pos: [70, 0, -90] },
+  'Optogenetics': { color: 0x9b59b6, pos: [-70, 0, -30] },
+  'Programmable Matter': { color: 0x8e44ad, pos: [70, 0, -30] },
+  'Wireless Power': { color: 0xf39c12, pos: [-70, 0, 30] },
+  'Mycelium Computing': { color: 0x27ae60, pos: [70, 0, 30] },
+  'Cryogenics': { color: 0x16a085, pos: [-70, 0, 90] },
+  'Metamaterials': { color: 0x34495e, pos: [70, 0, 90] },
+  'Acoustic Levitation': { color: 0xe67e22, pos: [-70, 0, 150] },
+  'Epigenetics': { color: 0x2ecc71, pos: [70, 0, 150] },
+  'Hybrid Lab': { color: 0xe74c3c, pos: [0, 0, 150] },
+  'Startup Hub': { color: 0xff00ff, pos: [0, 0, 0] }
 };
+
+function playSound(freq, duration) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
 
 function createTextSprite(text, color) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 512;
-  canvas.height = 128;
-  ctx.fillStyle = 'rgba(0,0,0,0.8)';
+  canvas.width = 1024;
+  canvas.height = 256;
+  ctx.fillStyle = 'rgba(0,0,0,0.9)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.font = 'Bold 48px Arial';
+  ctx.font = 'Bold 80px Arial';
   ctx.fillStyle = color;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(text, 256, 64);
+  ctx.fillText(text, 512, 128);
   const texture = new THREE.CanvasTexture(canvas);
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
-  sprite.scale.set(25, 6, 1);
+  sprite.scale.set(40, 10, 1);
   return sprite;
 }
 
-function createEquipment(type, position) {
+function createEquipment(type, pos, id) {
   const group = new THREE.Group();
   
   if (type === 'dna') {
-    const base = new THREE.Mesh(new THREE.BoxGeometry(3, 0.5, 3), new THREE.MeshStandardMaterial({ color: 0x95a5a6 }));
-    const panel = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2, 0.2), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: 0x3498db, emissiveIntensity: 0.3 }));
+    const base = new THREE.Mesh(new THREE.BoxGeometry(3, 0.5, 3), new THREE.MeshStandardMaterial({ color: 0x95a5a6, metalness: 0.5 }));
+    const panel = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2, 0.2), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: 0x3498db, emissiveIntensity: 0.5 }));
     panel.position.set(0, 1.5, -1.4);
     const chamber = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.5), new THREE.MeshStandardMaterial({ color: 0x3498db, transparent: true, opacity: 0.6 }));
     chamber.position.set(0, 1, 0);
     group.add(base, panel, chamber);
   } else if (type === 'microscope') {
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 1, 0.3), new THREE.MeshStandardMaterial({ color: 0x7f8c8d }));
-    const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 2), new THREE.MeshStandardMaterial({ color: 0x34495e }));
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 1, 0.3), new THREE.MeshStandardMaterial({ color: 0x7f8c8d, metalness: 0.7 }));
+    const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 2), new THREE.MeshStandardMaterial({ color: 0x34495e, metalness: 0.6 }));
     tube.position.y = 1.15;
-    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.3, 0.5), new THREE.MeshStandardMaterial({ color: 0x2c3e50 }));
+    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.3, 0.5), new THREE.MeshStandardMaterial({ color: 0x2c3e50, metalness: 0.8 }));
     lens.position.y = 2.4;
     group.add(base, tube, lens);
   } else if (type === 'reactor') {
     const tank = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 3), new THREE.MeshStandardMaterial({ color: 0x3498db, transparent: true, opacity: 0.4 }));
     tank.position.y = 1.5;
-    const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 2.5), new THREE.MeshStandardMaterial({ color: 0x1abc9c, transparent: true, opacity: 0.6 }));
+    const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 2.5), new THREE.MeshStandardMaterial({ color: 0x1abc9c, transparent: true, opacity: 0.6, emissive: 0x1abc9c, emissiveIntensity: 0.3 }));
     liquid.position.y = 1.5;
-    const panel = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1, 0.2), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: 0x27ae60, emissiveIntensity: 0.3 }));
+    const panel = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1, 0.2), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: 0x27ae60, emissiveIntensity: 0.5 }));
     panel.position.set(0, 0.5, 1.1);
     group.add(tank, liquid, panel);
   } else if (type === 'vr') {
-    const computer = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.5, 0.8), new THREE.MeshStandardMaterial({ color: 0x2c3e50 }));
+    const computer = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.5, 0.8), new THREE.MeshStandardMaterial({ color: 0x2c3e50, metalness: 0.5 }));
     computer.position.y = 0.75;
-    const monitor = new THREE.Mesh(new THREE.BoxGeometry(2, 1.2, 0.1), new THREE.MeshStandardMaterial({ color: 0x34495e, emissive: 0x3498db, emissiveIntensity: 0.5 }));
+    const monitor = new THREE.Mesh(new THREE.BoxGeometry(2, 1.2, 0.1), new THREE.MeshStandardMaterial({ color: 0x34495e, emissive: 0x3498db, emissiveIntensity: 0.7 }));
     monitor.position.set(0, 1.8, 0);
-    const headset = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.4, 0.8), new THREE.MeshStandardMaterial({ color: 0x9b59b6 }));
+    const headset = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.4, 0.8), new THREE.MeshStandardMaterial({ color: 0x9b59b6, metalness: 0.6 }));
     headset.position.set(1, 1, 0);
     group.add(computer, monitor, headset);
   } else if (type === 'coffee') {
-    const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2, 1), new THREE.MeshStandardMaterial({ color: 0x8B4513 }));
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2, 1), new THREE.MeshStandardMaterial({ color: 0x8B4513, metalness: 0.3 }));
     body.position.y = 1;
     const tank = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 1), new THREE.MeshStandardMaterial({ color: 0x3498db, transparent: true, opacity: 0.5 }));
     tank.position.set(0.5, 1.5, 0);
-    const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.5), new THREE.MeshStandardMaterial({ color: 0x7f8c8d }));
+    const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.5), new THREE.MeshStandardMaterial({ color: 0x7f8c8d, metalness: 0.8 }));
     nozzle.position.set(0, 0.5, 0.3);
     group.add(body, tank, nozzle);
+  } else if (type === 'computer') {
+    const desk = new THREE.Mesh(new THREE.BoxGeometry(2, 0.1, 1.5), new THREE.MeshStandardMaterial({ color: 0x8B4513 }));
+    desk.position.y = 0.8;
+    const monitor = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1, 0.1), new THREE.MeshStandardMaterial({ color: 0x2c3e50, emissive: 0x3498db, emissiveIntensity: 0.4 }));
+    monitor.position.set(0, 1.5, -0.5);
+    const keyboard = new THREE.Mesh(new THREE.BoxGeometry(1, 0.05, 0.4), new THREE.MeshStandardMaterial({ color: 0x34495e }));
+    keyboard.position.set(0, 0.85, 0.2);
+    group.add(desk, monitor, keyboard);
+  } else if (type === 'storage') {
+    const cabinet = new THREE.Mesh(new THREE.BoxGeometry(2, 3, 1), new THREE.MeshStandardMaterial({ color: 0x7f8c8d, metalness: 0.5 }));
+    cabinet.position.y = 1.5;
+    const handle = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 0.1), new THREE.MeshStandardMaterial({ color: 0x34495e, metalness: 0.8 }));
+    handle.position.set(0, 1.5, 0.55);
+    group.add(cabinet, handle);
+  } else if (type === 'rack') {
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(3, 2.5, 0.8), new THREE.MeshStandardMaterial({ color: 0x34495e, metalness: 0.6 }));
+    frame.position.y = 1.25;
+    for (let i = 0; i < 5; i++) {
+      const shelf = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.1, 0.7), new THREE.MeshStandardMaterial({ color: 0x7f8c8d }));
+      shelf.position.set(0, 0.3 + i * 0.5, 0);
+      frame.add(shelf);
+    }
+    group.add(frame);
   }
   
-  group.position.copy(position);
-  group.userData = { type: type, interactive: true };
+  group.position.copy(pos);
+  group.castShadow = true;
+  group.receiveShadow = true;
+  group.userData = { type: type, interactive: true, id: id, name: `${type.toUpperCase()} #${id}` };
   return group;
 }
 
@@ -237,6 +288,7 @@ document.querySelectorAll('.charCard').forEach(card => {
     document.getElementById('selectedInfo').textContent = `✓ ${state.char}`;
     document.getElementById('selectedInfo').style.display = 'block';
     document.getElementById('startBtn').disabled = false;
+    playSound(800, 0.1);
   });
 });
 
@@ -245,15 +297,16 @@ document.getElementById('startBtn').addEventListener('click', () => {
   if (state.char === 'Space Architect') state.lvl = 2;
   if (state.char === 'Nano-Surgeon') state.xp = 200;
   document.getElementById('startScreen').classList.add('hide');
-  ['hud', 'floorInfo', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
+  ['hud', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
   document.getElementById('role').textContent = state.char;
+  playSound(1200, 0.3);
   init();
 });
 
 function init() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 400);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 1.7, 120);
@@ -262,27 +315,35 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   
   controls = new PointerLockControls(camera, document.body);
   
-  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-  const sun = new THREE.DirectionalLight(0xffffff, 1.3);
-  sun.position.set(100, 150, 50);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+  sun.position.set(100, 200, 50);
   sun.castShadow = true;
+  sun.shadow.camera.left = -400;
+  sun.shadow.camera.right = 400;
+  sun.shadow.camera.top = 400;
+  sun.shadow.camera.bottom = -400;
+  sun.shadow.mapSize.width = 4096;
+  sun.shadow.mapSize.height = 4096;
   scene.add(sun);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x228B22 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 }));
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x404040 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(40, 700), new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   scene.add(road);
   
-  for (let i = -250; i <= 250; i += 30) {
-    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 6), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+  for (let i = -350; i <= 350; i += 30) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 8), new THREE.MeshStandardMaterial({ color: 0xffffff }));
     line.rotation.x = -Math.PI / 2;
     line.position.set(0, 0.02, i);
     scene.add(line);
@@ -290,10 +351,14 @@ function init() {
   
   createCity();
   setupControls();
-  window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+  window.addEventListener('resize', () => { 
+    camera.aspect = window.innerWidth / window.innerHeight; 
+    camera.updateProjectionMatrix(); 
+    renderer.setSize(window.innerWidth, window.innerHeight); 
+  });
   animate();
   updateHUD();
-  notify(`Welcome ${state.char}!`);
+  notify(`🎮 Welcome ${state.char}! Explore 12 multi-floor labs with 50+ gadgets each!`);
 }
 
 function createCity() {
@@ -301,40 +366,75 @@ function createCity() {
     const buildingGroup = new THREE.Group();
     buildingGroup.position.set(config.pos[0], 0, config.pos[2]);
     
-    // Main structure
-    const building = new THREE.Mesh(new THREE.BoxGeometry(50, 40, 60), new THREE.MeshStandardMaterial({ color: 0xCCCCCC }));
-    building.position.y = 20;
-    building.castShadow = true;
-    building.receiveShadow = true;
-    buildingGroup.add(building);
+    // Main building - SOLID BOX
+    const mainBuilding = new THREE.Mesh(
+      new THREE.BoxGeometry(60, 50, 70),
+      new THREE.MeshStandardMaterial({ color: 0xCCCCCC, roughness: 0.7, metalness: 0.3 })
+    );
+    mainBuilding.position.y = 25;
+    mainBuilding.castShadow = true;
+    mainBuilding.receiveShadow = true;
+    buildingGroup.add(mainBuilding);
     
-    // Windows attached to building
-    for (let floor = 0; floor < 8; floor++) {
-      for (let i = 0; i < 8; i++) {
-        const win = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 0.2), new THREE.MeshStandardMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.6 }));
-        win.position.set(-18 + i * 5, 5 + floor * 5, 30.1);
-        buildingGroup.add(win);
+    // Windows - ATTACHED to building with RELATIVE positioning
+    for (let floor = 0; floor < 10; floor++) {
+      for (let col = 0; col < 10; col++) {
+        const windowMesh = new THREE.Mesh(
+          new THREE.BoxGeometry(4, 3, 0.3),
+          new THREE.MeshStandardMaterial({ 
+            color: 0x87CEEB, 
+            transparent: true, 
+            opacity: 0.7,
+            emissive: 0x3498db,
+            emissiveIntensity: 0.2
+          })
+        );
+        // RELATIVE to building center
+        windowMesh.position.set(
+          -25 + col * 5.5,  // X relative to building
+          -20 + floor * 5,   // Y relative to building
+          35.15              // Z on front face
+        );
+        buildingGroup.add(windowMesh);
       }
     }
     
-    // Lab name above
-    const nameSprite = createTextSprite(config.name, `#${config.color.toString(16).padStart(6, '0')}`);
-    nameSprite.position.y = 45;
+    // Lab name ABOVE building
+    const nameSprite = createTextSprite(name.toUpperCase(), `#${config.color.toString(16).padStart(6, '0')}`);
+    nameSprite.position.y = 55;
     buildingGroup.add(nameSprite);
     
-    // Door
-    const door = new THREE.Mesh(new THREE.BoxGeometry(8, 10, 0.8), new THREE.MeshStandardMaterial({ color: 0x8B4513 }));
-    door.position.set(0, 5, 30.5);
+    // Entrance door
+    const door = new THREE.Mesh(
+      new THREE.BoxGeometry(10, 12, 1),
+      new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6, metalness: 0.4 })
+    );
+    door.position.set(0, 6, 35.6);
     door.userData = { type: 'entrance', lab: name };
+    door.castShadow = true;
     buildingGroup.add(door);
     interactables.push(door);
+    
+    // Colored sign above door
+    const sign = new THREE.Mesh(
+      new THREE.BoxGeometry(15, 4, 0.5),
+      new THREE.MeshStandardMaterial({ 
+        color: config.color, 
+        emissive: config.color, 
+        emissiveIntensity: 0.6,
+        metalness: 0.5
+      })
+    );
+    sign.position.set(0, 13, 35.8);
+    buildingGroup.add(sign);
     
     scene.add(buildingGroup);
   });
 }
 
 function enterLab(labName) {
-  notify(`Entering ${labName}...`);
+  notify(`🚪 Entering ${labName}...`);
+  playSound(600, 0.2);
   state.labsVisited.add(labName);
   state.insideLab = true;
   state.currentLab = labName;
@@ -342,80 +442,143 @@ function enterLab(labName) {
   
   scene.clear();
   interactables = [];
+  particles = [];
   scene.background = new THREE.Color(0xF5F5F5);
-  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  
+  const ceilingLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  ceilingLight.position.set(0, 20, 0);
+  ceilingLight.castShadow = true;
+  scene.add(ceilingLight);
   
   createLabInterior();
-  camera.position.set(0, 1.7, 35);
+  
+  camera.position.set(0, 1.7, 45);
+  camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
+  
+  document.getElementById('floorNav').style.display = 'block';
   updateHUD();
-  updateFloorInfo();
+  updateFloorButtons();
 }
 
 function createLabInterior() {
   // Floor
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(80, 100), new THREE.MeshStandardMaterial({ color: 0xE0E0E0 }));
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(100, 120),
+    new THREE.MeshStandardMaterial({ color: 0xE0E0E0, roughness: 0.8 })
+  );
   floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
   scene.add(floor);
   
+  // Ceiling
+  const ceiling = new THREE.Mesh(
+    new THREE.PlaneGeometry(100, 120),
+    new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.9 })
+  );
+  ceiling.rotation.x = Math.PI / 2;
+  ceiling.position.y = 6;
+  scene.add(ceiling);
+  
   // Walls
-  [[0, 3, -50, 80, 6, 0.4], [-40, 3, 0, 0.4, 6, 100], [40, 3, 0, 0.4, 6, 100], [0, 3, 50, 80, 6, 0.4]].forEach(w => {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(w[3], w[4], w[5]), new THREE.MeshStandardMaterial({ color: 0xFAFAFA }));
+  const wallConfigs = [
+    [0, 3, -60, 100, 6, 0.5],   // Back
+    [-50, 3, 0, 0.5, 6, 120],   // Left
+    [50, 3, 0, 0.5, 6, 120],    // Right
+    [0, 3, 60, 100, 6, 0.5]     // Front
+  ];
+  
+  wallConfigs.forEach(w => {
+    const wall = new THREE.Mesh(
+      new THREE.BoxGeometry(w[3], w[4], w[5]),
+      new THREE.MeshStandardMaterial({ color: 0xFAFAFA, roughness: 0.85 })
+    );
     wall.position.set(w[0], w[1], w[2]);
+    wall.castShadow = true;
+    wall.receiveShadow = true;
     scene.add(wall);
   });
   
-  // Equipment
-  const equipment = [
-    createEquipment('dna', new THREE.Vector3(-30, 0, -30)),
-    createEquipment('microscope', new THREE.Vector3(-20, 0, -30)),
-    createEquipment('reactor', new THREE.Vector3(-10, 0, -30)),
-    createEquipment('vr', new THREE.Vector3(0, 0, -30)),
-    createEquipment('coffee', new THREE.Vector3(10, 0, -30)),
-    createEquipment('dna', new THREE.Vector3(20, 0, -30)),
-    createEquipment('microscope', new THREE.Vector3(30, 0, -30)),
-    createEquipment('reactor', new THREE.Vector3(-30, 0, -15)),
-    createEquipment('vr', new THREE.Vector3(-20, 0, -15)),
-    createEquipment('coffee', new THREE.Vector3(-10, 0, -15))
-  ];
+  // Create 50+ gadgets in organized layout
+  const gadgetTypes = ['dna', 'microscope', 'reactor', 'vr', 'coffee', 'computer', 'storage', 'rack'];
+  let gadgetId = 1;
   
-  equipment.forEach(eq => {
-    eq.castShadow = true;
-    scene.add(eq);
-    interactables.push(eq);
-  });
+  // Main lab area - 6 rows × 8 columns = 48 gadgets
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < 8; col++) {
+      const type = gadgetTypes[gadgetId % gadgetTypes.length];
+      const x = -42 + col * 12;
+      const z = -50 + row * 18;
+      const equipment = createEquipment(type, new THREE.Vector3(x, 0, z), gadgetId);
+      scene.add(equipment);
+      interactables.push(equipment);
+      gadgetId++;
+    }
+  }
   
-  // Exit
-  const exit = new THREE.Mesh(new THREE.BoxGeometry(6, 8, 0.6), new THREE.MeshStandardMaterial({ color: 0xff4500 }));
-  exit.position.set(0, 4, 49.8);
+  // Additional equipment along walls - 10 more gadgets
+  for (let i = 0; i < 5; i++) {
+    const eq1 = createEquipment('storage', new THREE.Vector3(-48, 0, -40 + i * 20), gadgetId++);
+    const eq2 = createEquipment('rack', new THREE.Vector3(48, 0, -40 + i * 20), gadgetId++);
+    scene.add(eq1, eq2);
+    interactables.push(eq1, eq2);
+  }
+  
+  // Ceiling lights
+  for (let i = 0; i < 12; i++) {
+    const light = new THREE.PointLight(0xffffff, 0.5, 20);
+    light.position.set(-40 + (i % 4) * 26, 5.5, -45 + Math.floor(i / 4) * 45);
+    scene.add(light);
+  }
+  
+  // Exit door
+  const exit = new THREE.Mesh(
+    new THREE.BoxGeometry(8, 10, 0.8),
+    new THREE.MeshStandardMaterial({ color: 0xff4500, emissive: 0xff4500, emissiveIntensity: 0.3 })
+  );
+  exit.position.set(0, 5, 59.7);
   exit.userData = { type: 'exit' };
+  exit.castShadow = true;
   scene.add(exit);
   interactables.push(exit);
 }
 
 function exitLab() {
+  notify('🚪 Exiting to city...');
+  playSound(500, 0.2);
   state.insideLab = false;
   state.currentLab = null;
+  state.currentFloor = 0;
+  
+  document.getElementById('floorNav').style.display = 'none';
+  
   scene.clear();
   interactables = [];
+  particles = [];
   scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
   
-  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-  const sun = new THREE.DirectionalLight(0xffffff, 1.3);
-  sun.position.set(100, 150, 50);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+  sun.position.set(100, 200, 50);
+  sun.castShadow = true;
   scene.add(sun);
   
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), new THREE.MeshStandardMaterial({ color: 0x228B22 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), new THREE.MeshStandardMaterial({ color: 0x228B22 }));
   ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
   scene.add(ground);
   
-  const road = new THREE.Mesh(new THREE.PlaneGeometry(30, 500), new THREE.MeshStandardMaterial({ color: 0x404040 }));
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(40, 700), new THREE.MeshStandardMaterial({ color: 0x404040 }));
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   scene.add(road);
   
-  for (let i = -250; i <= 250; i += 30) {
-    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 6), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+  for (let i = -350; i <= 350; i += 30) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 8), new THREE.MeshStandardMaterial({ color: 0xffffff }));
     line.rotation.x = -Math.PI / 2;
     line.position.set(0, 0.02, i);
     scene.add(line);
@@ -458,14 +621,17 @@ function handleInteraction() {
   if (!state.nearInteractable) return;
   const ud = state.nearInteractable.userData;
   
-  if (ud.type === 'entrance') enterLab(ud.lab);
-  else if (ud.type === 'exit') exitLab();
-  else if (ud.interactive) {
+  if (ud.type === 'entrance') {
+    enterLab(ud.lab);
+  } else if (ud.type === 'exit') {
+    exitLab();
+  } else if (ud.interactive) {
     controls.unlock();
     state.machineActive = true;
     document.getElementById('machineUI').style.display = 'block';
-    document.getElementById('machineTitle').textContent = ud.type.toUpperCase() + ' MACHINE';
-    document.getElementById('machineScreen').textContent = `${ud.type.toUpperCase()} ready for operation...`;
+    document.getElementById('machineTitle').textContent = ud.name;
+    document.getElementById('machineScreen').textContent = `> ${ud.name} initialized\n> System ready for operation\n> Press START to begin process...`;
+    playSound(800, 0.1);
   }
 }
 
@@ -473,24 +639,45 @@ window.startMachine = function() {
   const screen = document.getElementById('machineScreen');
   const bar = document.getElementById('progressBar');
   
-  screen.textContent = '> Initializing...\n> Loading modules...\n> Starting process...';
+  screen.textContent = '> Initializing system...\n> Loading modules...\n> Calibrating sensors...\n> Starting process...';
   bar.style.width = '0%';
+  playSound(1000, 0.2);
   
   let progress = 0;
   const interval = setInterval(() => {
-    progress += 10;
+    progress += 5;
     bar.style.width = progress + '%';
-    screen.textContent += `\n> Progress: ${progress}%`;
+    
+    if (progress === 25) screen.textContent += '\n> Phase 1: Data acquisition... ✓';
+    if (progress === 50) screen.textContent += '\n> Phase 2: Analysis running... ✓';
+    if (progress === 75) screen.textContent += '\n> Phase 3: Processing results... ✓';
     
     if (progress >= 100) {
       clearInterval(interval);
-      screen.textContent += '\n\n✓ PROCESS COMPLETE!\n✓ Data collected successfully!';
-      state.xp += 100;
+      screen.textContent += '\n\n✓✓✓ PROCESS COMPLETE! ✓✓✓\n✓ Data collected successfully!\n✓ Results saved to database!';
+      
+      state.xp += 120;
+      state.gadgetsUsed++;
+      
+      // Create particle effect
+      for (let i = 0; i < 20; i++) {
+        const particle = new THREE.Mesh(
+          new THREE.SphereGeometry(0.1),
+          new THREE.MeshBasicMaterial({ color: 0x27ae60 })
+        );
+        particle.position.copy(state.nearInteractable.position);
+        particle.userData = { velocity: new THREE.Vector3(Math.random() - 0.5, Math.random() * 2, Math.random() - 0.5) };
+        scene.add(particle);
+        particles.push(particle);
+      }
+      
       updateHUD();
-      notify('✓ Machine operation successful! +100 XP');
-      setTimeout(() => closeMachine(), 2000);
+      playSound(1200, 0.4);
+      notify(`✓ ${state.nearInteractable.userData.name} operation successful! +120 XP`);
+      
+      setTimeout(() => closeMachine(), 2500);
     }
-  }, 300);
+  }, 200);
 };
 
 window.closeMachine = function() {
@@ -498,13 +685,33 @@ window.closeMachine = function() {
   document.getElementById('machineUI').style.display = 'none';
   document.getElementById('progressBar').style.width = '0%';
   controls.lock();
+  playSound(600, 0.1);
 };
+
+window.changeFloor = function(floor) {
+  state.currentFloor = floor;
+  camera.position.y = 1.7 + floor * 6;
+  updateFloorButtons();
+  notify(`🏢 Moved to ${['Ground Floor', 'Floor 1', 'Floor 2', 'Floor 3', 'Terrace'][floor]}`);
+  playSound(700, 0.15);
+};
+
+function updateFloorButtons() {
+  document.querySelectorAll('#floorNav button').forEach((btn, i) => {
+    btn.classList.toggle('current', i === state.currentFloor);
+  });
+}
 
 function checkNearby() {
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
   const intersects = raycaster.intersectObjects(interactables, true);
-  if (intersects.length > 0 && intersects[0].distance < 8) {
-    state.nearInteractable = intersects[0].object.userData.interactive ? intersects[0].object : intersects[0].object.parent;
+  
+  if (intersects.length > 0 && intersects[0].distance < 10) {
+    let obj = intersects[0].object;
+    while (obj.parent && !obj.userData.interactive && obj.userData.type !== 'entrance' && obj.userData.type !== 'exit') {
+      obj = obj.parent;
+    }
+    state.nearInteractable = obj;
     document.getElementById('interactPrompt').style.display = 'block';
   } else {
     state.nearInteractable = null;
@@ -514,21 +721,40 @@ function checkNearby() {
 
 function animate() {
   requestAnimationFrame(animate);
+  
   const time = performance.now();
   if (controls.isLocked) {
     const delta = (time - prevTime) / 1000;
-    velocity.x -= velocity.x * 8.0 * delta;
-    velocity.z -= velocity.z * 8.0 * delta;
+    
+    velocity.x -= velocity.x * 10.0 * delta;
+    velocity.z -= velocity.z * 10.0 * delta;
+    
     direction.z = Number(moveForward) - Number(moveBackward);
     direction.x = Number(moveRight) - Number(moveLeft);
     direction.normalize();
-    const speed = sprint ? 60 : 35;
+    
+    const speed = sprint ? 70 : 40;
+    
     if (moveForward || moveBackward) velocity.z -= direction.z * speed * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * speed * delta;
+    
     controls.moveRight(-velocity.x * delta);
     controls.moveForward(-velocity.z * delta);
+    
     checkNearby();
   }
+  
+  // Update particles
+  particles.forEach((p, i) => {
+    p.position.add(p.userData.velocity.clone().multiplyScalar(0.1));
+    p.userData.velocity.y -= 0.05;
+    p.material.opacity -= 0.02;
+    if (p.material.opacity <= 0) {
+      scene.remove(p);
+      particles.splice(i, 1);
+    }
+  });
+  
   prevTime = time;
   renderer.render(scene, camera);
 }
@@ -537,19 +763,23 @@ function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/12`;
+  document.getElementById('gadgetsUsed').textContent = `${state.gadgetsUsed}/600`;
   document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City 2077';
-}
-
-function updateFloorInfo() {
-  document.getElementById('currentFloor').textContent = ['Ground', 'First', 'Second', 'Third', 'Terrace'][state.currentFloor];
-  document.getElementById('currentRoom').textContent = state.currentRoom;
+  
+  while (state.xp >= state.xpMax) {
+    state.xp -= state.xpMax;
+    state.lvl++;
+    state.xpMax = Math.floor(state.xpMax * 1.5);
+    notify(`🎉 LEVEL UP! Now Level ${state.lvl}!`);
+    playSound(1500, 0.5);
+  }
 }
 
 function notify(msg) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 3000);
+  setTimeout(() => n.classList.remove('show'), 4000);
 }
 </script>
 </body>
