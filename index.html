@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Ultimate Complete Edition</title>
+<title>TechVerse 2077 - Step 1: Foundation</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; background: #000; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
-/* Loading Screen */
 #loadingScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0e17, #1a1a2e, #16213e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; }
 #loadingScreen h1 { font-size: 3em; color: #00d4ff; text-shadow: 0 0 20px rgba(0,212,255,0.8); margin-bottom: 30px; font-weight: 900; animation: pulse 2s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -17,96 +16,66 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: h
 .loadingProgress { height: 100%; background: linear-gradient(90deg, #00d4ff, #00ff88); width: 0%; transition: width 0.3s ease; box-shadow: 0 0 20px rgba(0,212,255,0.8); }
 #loadingText { color: #00ff88; font-size: 1.2em; text-align: center; }
 
-/* Start Screen */
 #startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
-#startScreen h1 { font-size: 3.5em; color: #fff; text-shadow: 0 5px 20px rgba(0,0,0,0.4); margin-bottom: 15px; font-weight: 900; letter-spacing: 2px; }
-.subtitle { font-size: 1.1em; color: #fff; margin-bottom: 20px; text-align: center; line-height: 1.5; max-width: 900px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+#startScreen h1 { font-size: 3.5em; color: #fff; text-shadow: 0 5px 20px rgba(0,0,0,0.4); margin-bottom: 15px; font-weight: 900; }
+.subtitle { font-size: 1.1em; color: #fff; margin-bottom: 20px; text-align: center; line-height: 1.5; max-width: 900px; }
 .charGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 1100px; margin-bottom: 20px; }
-.charCard { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s ease; backdrop-filter: blur(10px); }
-.charCard:hover { transform: translateY(-5px); background: rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-.charCard.selected { background: rgba(46,204,113,0.5) !important; border: 3px solid #27ae60 !important; transform: scale(1.08) !important; box-shadow: 0 15px 40px rgba(39,174,96,0.5); }
+.charCard { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s ease; }
+.charCard:hover { transform: translateY(-5px); background: rgba(255,255,255,0.3); }
+.charCard.selected { background: rgba(46,204,113,0.5) !important; border: 3px solid #27ae60 !important; transform: scale(1.08) !important; }
 .charCard .icon { font-size: 2.5em; margin-bottom: 8px; }
 .charCard h3 { color: #fff; font-size: 1em; margin-bottom: 5px; font-weight: 800; }
-.charCard p { color: rgba(255,255,255,0.95); font-size: 0.8em; margin-bottom: 5px; }
+.charCard p { color: rgba(255,255,255,0.95); font-size: 0.8em; }
 .charCard .bonus { color: #f1c40f; font-size: 0.75em; font-weight: bold; }
-#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 10px 30px; border-radius: 10px; font-weight: bold; margin-bottom: 15px; display: none; font-size: 1.1em; box-shadow: 0 5px 20px rgba(39,174,96,0.4); }
-#startBtn { padding: 18px 70px; font-size: 1.5em; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 15px; color: #fff; font-weight: 900; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
-#startBtn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(102,126,234,0.6); }
-#startBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 10px 30px; border-radius: 10px; font-weight: bold; margin-bottom: 15px; display: none; font-size: 1.1em; }
+#startBtn { padding: 18px 70px; font-size: 1.5em; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 15px; color: #fff; font-weight: 900; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
+#startBtn:hover { transform: translateY(-3px); }
+#startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* HUD */
-#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 18px; border-radius: 12px; border: 3px solid #3498db; min-width: 220px; z-index: 1000; display: none; backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-#hud h3 { color: #3498db; margin-bottom: 10px; font-size: 1.3em; text-shadow: 0 2px 5px rgba(52,152,219,0.5); }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 18px; border-radius: 12px; border: 3px solid #3498db; min-width: 220px; z-index: 1000; display: none; }
+#hud h3 { color: #3498db; margin-bottom: 10px; font-size: 1.3em; }
 .hudStat { display: flex; justify-content: space-between; margin: 8px 0; color: #fff; font-size: 0.95em; }
-.hudStat .val { color: #27ae60; font-weight: bold; text-shadow: 0 2px 5px rgba(39,174,96,0.5); }
+.hudStat .val { color: #27ae60; font-weight: bold; }
 
-/* Mini Map */
-#miniMap { position: fixed; bottom: 15px; right: 15px; width: 300px; height: 300px; background: rgba(0,0,0,0.85); border: 3px solid #3498db; border-radius: 12px; z-index: 1000; display: none; padding: 12px; backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-#miniMap h4 { color: #3498db; margin-bottom: 10px; font-size: 1.1em; text-align: center; text-shadow: 0 2px 5px rgba(52,152,219,0.5); }
-#miniMapCanvas { width: 100%; height: calc(100% - 35px); background: #1a1a1a; border-radius: 8px; border: 2px solid #2c3e50; }
+#miniMap { position: fixed; bottom: 15px; right: 15px; width: 300px; height: 300px; background: rgba(0,0,0,0.85); border: 3px solid #3498db; border-radius: 12px; z-index: 1000; display: none; padding: 12px; }
+#miniMap h4 { color: #3498db; margin-bottom: 10px; font-size: 1.1em; text-align: center; }
+#miniMapCanvas { width: 100%; height: calc(100% - 35px); background: #1a1a1a; border-radius: 8px; }
 
-/* Floor Indicator */
-#floorIndicator { position: fixed; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 15px 25px; border-radius: 12px; border: 3px solid #e74c3c; z-index: 1000; display: none; backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-#floorIndicator h3 { color: #e74c3c; font-size: 1.3em; text-shadow: 0 2px 5px rgba(231,76,60,0.5); }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 3px solid #3498db; z-index: 1000; display: none; }
+#locationInfo h3 { color: #3498db; font-size: 1.4em; }
 
-/* Location Info */
-#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 3px solid #3498db; z-index: 1000; display: none; backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-#locationInfo h3 { color: #3498db; font-size: 1.4em; text-shadow: 0 2px 5px rgba(52,152,219,0.5); }
-
-/* Interact Prompt */
-#interactPrompt { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 15px 40px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.1em; box-shadow: 0 5px 20px rgba(39,174,96,0.5); }
+#interactPrompt { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 15px 40px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 1.1em; }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
-/* Gadget UI */
-#gadgetUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 92vw; max-width: 1000px; height: 88vh; background: rgba(0,0,0,0.95); border: 4px solid #3498db; border-radius: 20px; padding: 30px; z-index: 5000; display: none; overflow-y: auto; box-shadow: 0 0 60px rgba(52,152,219,0.7); backdrop-filter: blur(15px); }
-#gadgetUI h2 { color: #3498db; font-size: 2.5em; text-align: center; margin-bottom: 15px; text-transform: uppercase; text-shadow: 0 3px 10px rgba(52,152,219,0.5); }
-#gadgetUI .subtitle { color: #ecf0f1; font-size: 1.1em; text-align: center; margin-bottom: 20px; }
-.closeBtn { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; z-index: 10; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(231,76,60,0.4); }
-.closeBtn:hover { transform: scale(1.08); box-shadow: 0 8px 25px rgba(231,76,60,0.6); }
+#gadgetUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 92vw; max-width: 1000px; height: 88vh; background: rgba(0,0,0,0.95); border: 4px solid #3498db; border-radius: 20px; padding: 30px; z-index: 5000; display: none; overflow-y: auto; }
+#gadgetUI h2 { color: #3498db; font-size: 2.5em; text-align: center; margin-bottom: 15px; text-transform: uppercase; }
+.closeBtn { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s ease; }
+.closeBtn:hover { transform: scale(1.08); }
 
-/* Screen */
-.screen { background: #000; border: 3px solid #0f0; border-radius: 12px; padding: 20px; margin: 15px 0; min-height: 180px; font-family: 'Courier New', monospace; color: #0f0; font-size: 1em; line-height: 1.5; overflow-y: auto; max-height: 300px; white-space: pre-wrap; box-shadow: inset 0 0 20px rgba(0,255,0,0.2); }
-
-/* Progress Bar */
-.progress { width: 100%; height: 35px; background: rgba(255,255,255,0.1); border-radius: 18px; overflow: hidden; margin: 20px 0; border: 2px solid #3498db; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
-.progressBar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60); width: 0%; transition: width 0.5s ease; box-shadow: 0 0 25px rgba(46,204,113,0.8); position: relative; }
-.progressBar::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shimmer 2s infinite; }
-@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-/* Options Grid */
+.screen { background: #000; border: 3px solid #0f0; border-radius: 12px; padding: 20px; margin: 15px 0; min-height: 180px; font-family: 'Courier New', monospace; color: #0f0; font-size: 1em; line-height: 1.5; overflow-y: auto; max-height: 300px; white-space: pre-wrap; }
+.progress { width: 100%; height: 35px; background: rgba(255,255,255,0.1); border-radius: 18px; overflow: hidden; margin: 20px 0; border: 2px solid #3498db; }
+.progressBar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60); width: 0%; transition: width 0.5s ease; }
 .optionGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
-.option { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 20px; border-radius: 12px; cursor: pointer; font-size: 1.05em; font-weight: bold; transition: all 0.3s ease; text-align: center; box-shadow: 0 5px 15px rgba(52,152,219,0.3); }
-.option:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(52,152,219,0.6); }
-.option.selected { background: linear-gradient(135deg, #27ae60, #229954); border: 3px solid #2ecc71; transform: scale(1.05); }
+.option { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 20px; border-radius: 12px; cursor: pointer; font-size: 1.05em; font-weight: bold; transition: all 0.3s ease; text-align: center; }
+.option:hover { transform: translateY(-5px); }
+.actionBtn { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 16px 40px; border-radius: 12px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 10px; transition: all 0.3s ease; text-transform: uppercase; }
+.actionBtn:hover { transform: scale(1.08); }
+.actionBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
 
-/* Action Button */
-.actionBtn { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 16px 40px; border-radius: 12px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 10px; transition: all 0.3s ease; text-transform: uppercase; box-shadow: 0 5px 15px rgba(52,152,219,0.4); }
-.actionBtn:hover { transform: scale(1.08); box-shadow: 0 8px 25px rgba(52,152,219,0.6); }
-.actionBtn.success { background: linear-gradient(135deg, #27ae60, #229954); box-shadow: 0 5px 15px rgba(39,174,96,0.4); }
-.actionBtn.success:hover { box-shadow: 0 8px 25px rgba(39,174,96,0.6); }
-
-/* Controls */
-#controls { position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 18px; border-radius: 12px; border: 3px solid #3498db; z-index: 1000; display: none; backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
-#controls h4 { color: #3498db; margin-bottom: 10px; font-size: 1.2em; text-shadow: 0 2px 5px rgba(52,152,219,0.5); }
+#controls { position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 18px; border-radius: 12px; border: 3px solid #3498db; z-index: 1000; display: none; }
+#controls h4 { color: #3498db; margin-bottom: 10px; font-size: 1.2em; }
 .ctrl { color: #ecf0f1; margin: 8px 0; font-size: 0.9em; }
-.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 5px 12px; border-radius: 6px; margin-right: 8px; box-shadow: 0 2px 5px rgba(52,152,219,0.3); }
+.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 5px 12px; border-radius: 6px; margin-right: 8px; }
 
-/* Notification */
-#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 18px 45px; border-radius: 12px; font-weight: bold; font-size: 1.15em; opacity: 0; transition: opacity 0.5s ease; max-width: 90%; text-align: center; z-index: 2000; box-shadow: 0 5px 30px rgba(39,174,96,0.7); }
+#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 18px 45px; border-radius: 12px; font-weight: bold; font-size: 1.15em; opacity: 0; transition: opacity 0.5s ease; max-width: 90%; text-align: center; z-index: 2000; }
 #notif.show { opacity: 1; }
 
-/* Crosshair */
 #crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; pointer-events: none; z-index: 999; display: none; }
-#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.9); box-shadow: 0 0 8px rgba(0,0,0,0.8); }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.9); }
 #crosshair::before { width: 2px; height: 24px; left: 11px; }
 #crosshair::after { width: 24px; height: 2px; top: 11px; }
 
-/* Utilities */
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 5px; }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 5px; }
-::-webkit-scrollbar-thumb:hover { background: linear-gradient(135deg, #2980b9, #3498db); }
 </style>
 </head>
 <body>
@@ -116,28 +85,28 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: h
 <div id="loadingScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
   <div class="loadingBar"><div class="loadingProgress" id="loadingProgress"></div></div>
-  <div id="loadingText">Initializing...</div>
+  <div id="loadingText">Loading THREE.JS...</div>
 </div>
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">29 Advanced Labs • Multi-Floor Buildings • 200+ Gadgets • Complete DNA Sequencer • VR Simulations • Flying Cars • Consciousness Upload • Day/Night Cycle • Weather System</p>
+  <p class="subtitle">STEP 1: Foundation - 5 Detailed Buildings • Smooth Controls • Working Map • Complete Lab Interior</p>
   
   <div class="charGrid">
-    <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Master of synthetic life</p><div class="bonus">+50% Bio Lab XP</div></div>
-    <div class="charCard" data-char="Robo Engineer"><div class="icon">🤖</div><h3>Robo Engineer</h3><p>Robot construction expert</p><div class="bonus">+100% Robo Lab XP</div></div>
-    <div class="charCard" data-char="Flying Car Pilot"><div class="icon">🚗</div><h3>Flying Car Pilot</h3><p>Aerial vehicle specialist</p><div class="bonus">+100% Car Showroom XP</div></div>
-    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum computing genius</p><div class="bonus">+50% Quantum XP</div></div>
-    <div class="charCard" data-char="Mind Hacker"><div class="icon">🧠</div><h3>Mind Hacker</h3><p>Consciousness expert</p><div class="bonus">+50% Upload Center XP</div></div>
-    <div class="charCard" data-char="Gravity Master"><div class="icon">🌌</div><h3>Gravity Master</h3><p>Anti-gravity specialist</p><div class="bonus">+50% Gravity Lab XP</div></div>
-    <div class="charCard" data-char="Time Traveler"><div class="icon">⏰</div><h3>Time Traveler</h3><p>Temporal manipulation</p><div class="bonus">+50% Time Lab XP</div></div>
-    <div class="charCard" data-char="Portal Jumper"><div class="icon">🌀</div><h3>Portal Jumper</h3><p>Dimension hopper</p><div class="bonus">+50% Portal Lab XP</div></div>
-    <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructure designer</p><div class="bonus">Start at Level 2</div></div>
-    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Medical nanobot expert</p><div class="bonus">+200 Starting XP</div></div>
+    <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life master</p><div class="bonus">+50% Bio XP</div></div>
+    <div class="charCard" data-char="Robo Engineer"><div class="icon">🤖</div><h3>Robo Engineer</h3><p>Robot expert</p><div class="bonus">+100% Robo XP</div></div>
+    <div class="charCard" data-char="Flying Car Pilot"><div class="icon">🚗</div><h3>Car Pilot</h3><p>Vehicle specialist</p><div class="bonus">+100% Car XP</div></div>
+    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum genius</p><div class="bonus">+50% Quantum XP</div></div>
+    <div class="charCard" data-char="Mind Hacker"><div class="icon">🧠</div><h3>Mind Hacker</h3><p>Consciousness expert</p><div class="bonus">+50% Mind XP</div></div>
+    <div class="charCard" data-char="Gravity Master"><div class="icon">🌌</div><h3>Gravity Master</h3><p>Anti-gravity</p><div class="bonus">+50% Gravity XP</div></div>
+    <div class="charCard" data-char="Time Traveler"><div class="icon">⏰</div><h3>Time Traveler</h3><p>Temporal control</p><div class="bonus">+50% Time XP</div></div>
+    <div class="charCard" data-char="Portal Jumper"><div class="icon">🌀</div><h3>Portal Jumper</h3><p>Dimension hopper</p><div class="bonus">+50% Portal XP</div></div>
+    <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructures</p><div class="bonus">Start Lv2</div></div>
+    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Nanobot expert</p><div class="bonus">+200 XP</div></div>
   </div>
   
   <div id="selectedInfo">Selected: None</div>
-  <button id="startBtn" disabled>START ADVENTURE</button>
+  <button id="startBtn" disabled>START GAME</button>
 </div>
 
 <div id="hud">
@@ -145,9 +114,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: h
   <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/29</span></div>
-  <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0/200</span></div>
-  <div class="hudStat"><span>Time:</span><span class="val" id="timeDisplay">12:00</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/5</span></div>
+  <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0</span></div>
 </div>
 
 <div id="miniMap">
@@ -155,23 +123,18 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: h
   <canvas id="miniMapCanvas"></canvas>
 </div>
 
-<div id="floorIndicator">
-  <h3 id="currentFloor">Ground Floor</h3>
-</div>
-
 <div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
-<div id="interactPrompt">Press E to Interact</div>
+<div id="interactPrompt">Press E</div>
 
 <div id="gadgetUI">
-  <button class="closeBtn" onclick="closeGadget()">✕ CLOSE</button>
+  <button class="closeBtn" onclick="closeGadget()">✕</button>
   <h2 id="gadgetTitle">Gadget</h2>
-  <p class="subtitle" id="gadgetSubtitle">Instructions</p>
   <div id="gadgetContent"></div>
 </div>
 
 <div id="controls">
   <h4>🎮 CONTROLS</h4>
-  <div class="ctrl"><span class="key">W A S D</span> Move</div>
+  <div class="ctrl"><span class="key">WASD</span> Move</div>
   <div class="ctrl"><span class="key">MOUSE</span> Look</div>
   <div class="ctrl"><span class="key">E</span> Interact</div>
   <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
@@ -181,47 +144,545 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: h
 
 <div id="notif"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/PointerLockControls.js"></script>
 <script>
-// This is a placeholder - the actual implementation would be 6-7 hours of detailed work
-// Due to message length limits, I'm showing you the structure
+console.log('%c🌟 TECHVERSE 2077 - STEP 1: FOUNDATION', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
 
-console.log('%c🌟 TECHVERSE 2077 - ULTIMATE EDITION', 'color: #00d4ff; font-size: 24px; font-weight: bold;');
-console.log('%cThis would be a complete 6-7 hour implementation with:', 'color: #27ae60; font-size: 14px;');
-console.log('✓ Inline THREE.JS for instant loading');
-console.log('✓ 29 detailed buildings with architecture');
-console.log('✓ Multi-floor lab interiors (Ground/F1/F2/F3/Terrace)');
-console.log('✓ Working elevator and stairs');
-console.log('✓ Complete DNA Sequencer with full process');
-console.log('✓ VR Station with 5 detailed simulations');
-console.log('✓ Advanced Coffee Machine and 3D Printer');
-console.log('✓ City features (sky bridges, teleportation)');
-console.log('✓ Day/night cycle and weather');
-console.log('✓ Particle effects and sound design');
+// Progressive loading
+let loadProgress = 0;
+const loadSteps = [
+  'Loading THREE.JS...',
+  'Initializing renderer...',
+  'Creating city...',
+  'Building structures...',
+  'Adding details...',
+  'Ready!'
+];
 
-alert('⚠️ IMPORTANT MESSAGE ⚠️\n\nBhai, main samajh gaya ki tumhe COMPLETE BAREEKI chahiye.\n\nLekin ek single HTML file mein 6-7 hours ka kaam put karna impossible hai because:\n\n1. Message length limit hai\n2. Code bohot bada ho jayega (50,000+ lines)\n3. Browser crash ho jayega\n\nBetter approach:\n\n1. Main tumhe GITHUB REPOSITORY bana ke de sakta hun with proper file structure\n2. Ya phir STEP-BY-STEP implement karte hain (ek feature at a time)\n3. Ya phir main PRIORITY features pehle implement karun\n\nKya karna hai? Batao!');
+function updateLoading(step) {
+  loadProgress = (step / loadSteps.length) * 100;
+  document.getElementById('loadingProgress').style.width = loadProgress + '%';
+  document.getElementById('loadingText').textContent = loadSteps[step];
+}
 
-// Temporary simple version to show it works
-document.getElementById('loadingText').textContent = 'Ready to build complete version!';
-document.getElementById('loadingProgress').style.width = '100%';
+updateLoading(0);
 
+setTimeout(() => updateLoading(1), 300);
+setTimeout(() => updateLoading(2), 600);
+setTimeout(() => updateLoading(3), 900);
+setTimeout(() => updateLoading(4), 1200);
 setTimeout(() => {
-  document.getElementById('loadingScreen').style.display = 'none';
-  document.getElementById('startScreen').style.display = 'flex';
-}, 2000);
+  updateLoading(5);
+  setTimeout(() => {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('startScreen').style.display = 'flex';
+  }, 500);
+}, 1500);
+
+const state = {
+  char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
+  insideLab: false, currentLab: null, nearInteractable: null,
+  gadgetActive: false, gadgetsUsed: 0, mapVisible: false
+};
+
+let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
+let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
+let velocity = new THREE.Vector3(), prevTime = performance.now();
+
+const labConfigs = {
+  'Robo Lab': { color: 0xff6b6b, pos: [-100, 0, -100], icon: '🤖' },
+  'Flying Car Showroom': { color: 0x4ecdc4, pos: [0, 0, -100], icon: '🚗' },
+  'Consciousness Upload': { color: 0xf38181, pos: [100, 0, -100], icon: '🧠' },
+  'Quantum Computing': { color: 0x9b59b6, pos: [-50, 0, 100], icon: '⚛️' },
+  'DNA Lab': { color: 0x1abc9c, pos: [50, 0, 100], icon: '🧬' }
+};
+
+function playSound(freq, dur) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + dur);
+  } catch(e) {}
+}
+
+function createTextSprite(text, color) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 512;
+  canvas.height = 128;
+  ctx.fillStyle = 'rgba(0,0,0,0.9)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.font = 'Bold 40px Arial';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 256, 64);
+  const texture = new THREE.Texture(canvas);
+  texture.needsUpdate = true;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, depthTest: false }));
+  sprite.scale.set(20, 5, 1);
+  sprite.renderOrder = 999;
+  return sprite;
+}
+
+function createGadget(pos, id) {
+  const group = new THREE.Group();
+  const colors = [0x3498db, 0x1abc9c, 0x9b59b6, 0xe74c3c, 0xf39c12];
+  const color = colors[id % colors.length];
+  
+  const base = new THREE.Mesh(
+    new THREE.BoxGeometry(2, 1.6, 2),
+    new THREE.MeshLambertMaterial({ color: color })
+  );
+  base.position.y = 0.8;
+  
+  const screen = new THREE.Mesh(
+    new THREE.BoxGeometry(1.6, 1.2, 0.1),
+    new THREE.MeshLambertMaterial({ color: 0x2c3e50, emissive: color, emissiveIntensity: 0.3 })
+  );
+  screen.position.set(0, 1.3, 1.05);
+  
+  group.add(base, screen);
+  group.position.copy(pos);
+  group.userData = { interactive: true, id: id, name: `Gadget ${id}` };
+  
+  return group;
+}
+
+function drawMiniMap() {
+  const canvas = document.getElementById('miniMapCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = 276;
+  const h = canvas.height = 258;
+  
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(0, 0, w, h);
+  
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * w/4, 0);
+    ctx.lineTo(i * w/4, h);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, i * h/4);
+    ctx.lineTo(w, i * h/4);
+    ctx.stroke();
+  }
+  
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    const x = (config.pos[0] + 150) / 300 * w;
+    const y = (config.pos[2] + 150) / 300 * h;
+    
+    ctx.fillStyle = `#${config.color.toString(16).padStart(6, '0')}`;
+    ctx.fillRect(x - 4, y - 4, 8, 8);
+    
+    ctx.fillStyle = '#fff';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(config.icon, x, y + 4);
+  });
+  
+  if (!state.insideLab && camera) {
+    const px = (camera.position.x + 150) / 300 * w;
+    const py = (camera.position.z + 150) / 300 * h;
+    ctx.fillStyle = '#27ae60';
+    ctx.beginPath();
+    ctx.arc(px, py, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
+
+function notify(msg) {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 3500);
+}
+
+function updateHUD() {
+  document.getElementById('lvl').textContent = state.lvl;
+  document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/5`;
+  document.getElementById('gadgetsUsed').textContent = state.gadgetsUsed;
+  document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City';
+  
+  while (state.xp >= state.xpMax) {
+    state.xp -= state.xpMax;
+    state.lvl++;
+    state.xpMax = Math.floor(state.xpMax * 1.5);
+    notify(`🎉 LEVEL UP! Level ${state.lvl}!`);
+    playSound(1800, 0.7);
+  }
+}
 
 document.querySelectorAll('.charCard').forEach(card => {
   card.addEventListener('click', function() {
     document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
     this.classList.add('selected');
-    document.getElementById('selectedInfo').textContent = `✓ Selected: ${this.dataset.char}`;
+    state.char = this.dataset.char;
+    document.getElementById('selectedInfo').textContent = `✓ ${state.char}`;
     document.getElementById('selectedInfo').style.display = 'block';
     document.getElementById('startBtn').disabled = false;
+    playSound(900, 0.15);
   });
 });
 
 document.getElementById('startBtn').addEventListener('click', () => {
-  alert('🎮 GAME WOULD START HERE!\n\nBhai, batao kya approach chahiye:\n\n1. GitHub repo with proper structure?\n2. Step-by-step implementation?\n3. Priority features first?\n\nMain wait kar raha hun!');
+  if (!state.char) return;
+  if (state.char === 'Space Architect') state.lvl = 2;
+  if (state.char === 'Nano-Surgeon') state.xp = 200;
+  document.getElementById('startScreen').classList.add('hide');
+  ['hud', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
+  document.getElementById('role').textContent = state.char;
+  playSound(1400, 0.4);
+  init();
 });
+
+function init() {
+  console.log('🚀 Initializing...');
+  
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
+  
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1.7, 250);
+  
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  
+  controls = new THREE.PointerLockControls(camera, document.body);
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 1.0);
+  sun.position.set(200, 300, 150);
+  sun.castShadow = true;
+  scene.add(sun);
+  
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.MeshLambertMaterial({ color: 0x228B22 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
+  
+  createCity();
+  setupControls();
+  
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+  
+  animate();
+  updateHUD();
+  drawMiniMap();
+  notify(`🎮 Welcome ${state.char}! Press M for map!`);
+  console.log('✓ Ready!');
+}
+
+function createCity() {
+  console.log('🏙️ Creating city...');
+  
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    const building = new THREE.Mesh(
+      new THREE.BoxGeometry(50, 40, 60),
+      new THREE.MeshLambertMaterial({ color: 0xCCCCCC })
+    );
+    building.position.set(config.pos[0], 20, config.pos[2]);
+    building.castShadow = true;
+    building.receiveShadow = true;
+    scene.add(building);
+    
+    // Windows
+    for (let floor = 0; floor < 7; floor++) {
+      for (let col = 0; col < 7; col++) {
+        const win = new THREE.Mesh(
+          new THREE.BoxGeometry(3.5, 2.8, 0.2),
+          new THREE.MeshLambertMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.7, emissive: 0x3498db, emissiveIntensity: 0.2 })
+        );
+        win.position.set(-18 + col * 5.5, -14 + floor * 5, 30.1);
+        building.add(win);
+      }
+    }
+    
+    // Label
+    const label = createTextSprite(`${config.icon} ${name.toUpperCase()}`, `#${config.color.toString(16).padStart(6, '0')}`);
+    label.position.set(0, 25, 0);
+    building.add(label);
+    
+    // Door
+    const door = new THREE.Mesh(
+      new THREE.BoxGeometry(8, 10, 0.8),
+      new THREE.MeshLambertMaterial({ color: 0x8B4513 })
+    );
+    door.position.set(0, -15, 30.4);
+    door.userData = { type: 'entrance', lab: name };
+    door.castShadow = true;
+    building.add(door);
+    interactables.push(door);
+  });
+  
+  console.log(`✓ City created: 5 buildings`);
+}
+
+function enterLab(labName) {
+  console.log(`🚪 Entering ${labName}...`);
+  notify(`🚪 ${labName}...`);
+  playSound(700, 0.25);
+  
+  state.labsVisited.add(labName);
+  state.insideLab = true;
+  state.currentLab = labName;
+  
+  scene.clear();
+  interactables = [];
+  scene.background = new THREE.Color(0xF5F5F5);
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+  
+  createLabInterior();
+  
+  camera.position.set(0, 1.7, 50);
+  camera.rotation.set(0, 0, 0);
+  velocity.set(0, 0, 0);
+  updateHUD();
+}
+
+function createLabInterior() {
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(120, 140),
+    new THREE.MeshLambertMaterial({ color: 0xE0E0E0 })
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  [[0, 3, -70, 120, 6, 0.5], [-60, 3, 0, 0.5, 6, 140], [60, 3, 0, 0.5, 6, 140], [0, 3, 70, 120, 6, 0.5]].forEach(w => {
+    const wall = new THREE.Mesh(
+      new THREE.BoxGeometry(w[3], w[4], w[5]),
+      new THREE.MeshLambertMaterial({ color: 0xFAFAFA })
+    );
+    wall.position.set(w[0], w[1], w[2]);
+    scene.add(wall);
+  });
+  
+  let gadgetId = 1;
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      const x = -48 + col * 24;
+      const z = -50 + row * 25;
+      const gadget = createGadget(new THREE.Vector3(x, 0, z), gadgetId);
+      scene.add(gadget);
+      interactables.push(gadget);
+      gadgetId++;
+    }
+  }
+  
+  const exit = new THREE.Mesh(
+    new THREE.BoxGeometry(8, 10, 0.8),
+    new THREE.MeshLambertMaterial({ color: 0xff4500 })
+  );
+  exit.position.set(0, 5, 69.7);
+  exit.userData = { type: 'exit' };
+  scene.add(exit);
+  interactables.push(exit);
+}
+
+function exitLab() {
+  notify('🚪 Exiting...');
+  playSound(600, 0.25);
+  state.insideLab = false;
+  state.currentLab = null;
+  
+  scene.clear();
+  interactables = [];
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 1.0);
+  sun.position.set(200, 300, 150);
+  scene.add(sun);
+  
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.MeshLambertMaterial({ color: 0x228B22 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+  
+  createCity();
+  camera.position.set(0, 1.7, 250);
+  velocity.set(0, 0, 0);
+  updateHUD();
+  drawMiniMap();
+}
+
+function setupControls() {
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'KeyW') moveForward = true;
+    if (e.code === 'KeyS') moveBackward = true;
+    if (e.code === 'KeyA') moveLeft = true;
+    if (e.code === 'KeyD') moveRight = true;
+    if (e.code === 'ShiftLeft') sprint = true;
+    if (e.code === 'KeyE') handleInteraction();
+    if (e.code === 'KeyM') toggleMap();
+    if (e.code === 'Escape') {
+      if (state.gadgetActive) closeGadget();
+      else if (state.insideLab) exitLab();
+      else controls.unlock();
+    }
+  });
+  
+  document.addEventListener('keyup', (e) => {
+    if (e.code === 'KeyW') moveForward = false;
+    if (e.code === 'KeyS') moveBackward = false;
+    if (e.code === 'KeyA') moveLeft = false;
+    if (e.code === 'KeyD') moveRight = false;
+    if (e.code === 'ShiftLeft') sprint = false;
+  });
+  
+  document.getElementById('canvas').addEventListener('click', () => {
+    if (!state.gadgetActive) controls.lock();
+  });
+}
+
+function toggleMap() {
+  state.mapVisible = !state.mapVisible;
+  document.getElementById('miniMap').style.display = state.mapVisible ? 'block' : 'none';
+  if (state.mapVisible) drawMiniMap();
+  playSound(1000, 0.12);
+}
+
+function handleInteraction() {
+  if (!state.nearInteractable) return;
+  const ud = state.nearInteractable.userData;
+  
+  if (ud.type === 'entrance') {
+    enterLab(ud.lab);
+  } else if (ud.type === 'exit') {
+    exitLab();
+  } else if (ud.interactive) {
+    controls.unlock();
+    state.gadgetActive = true;
+    document.getElementById('gadgetUI').style.display = 'block';
+    document.getElementById('gadgetTitle').textContent = ud.name;
+    playSound(900, 0.15);
+    showGenericGadget();
+  }
+}
+
+function showGenericGadget() {
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen" id="genericScreen">SYSTEM READY
+Press START</div>
+    <div class="progress"><div class="progressBar" id="genericProgress"></div></div>
+    <div style="text-align: center;">
+      <button class="actionBtn success" onclick="startGeneric()">▶ START</button>
+    </div>
+  `;
+}
+
+window.startGeneric = function() {
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 8;
+    document.getElementById('genericProgress').style.width = progress + '%';
+    playSound(850 + progress * 7, 0.08);
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      document.getElementById('genericScreen').textContent = `COMPLETE!
+Data collected
+Results verified`;
+      state.xp += 120;
+      state.gadgetsUsed++;
+      updateHUD();
+      notify('✓ Done! +120 XP');
+      playSound(1450, 0.5);
+      setTimeout(closeGadget, 2000);
+    }
+  }, 250);
+};
+
+window.closeGadget = function() {
+  state.gadgetActive = false;
+  document.getElementById('gadgetUI').style.display = 'none';
+  controls.lock();
+  playSound(700, 0.12);
+};
+
+function checkNearby() {
+  const dir = new THREE.Vector3();
+  camera.getWorldDirection(dir);
+  raycaster.set(camera.position, dir);
+  
+  const intersects = raycaster.intersectObjects(interactables, true);
+  
+  if (intersects.length > 0 && intersects[0].distance < 12) {
+    let obj = intersects[0].object;
+    while (obj.parent && !obj.userData.interactive && obj.userData.type !== 'entrance' && obj.userData.type !== 'exit') {
+      obj = obj.parent;
+    }
+    state.nearInteractable = obj;
+    document.getElementById('interactPrompt').style.display = 'block';
+  } else {
+    state.nearInteractable = null;
+    document.getElementById('interactPrompt').style.display = 'none';
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  
+  const time = performance.now();
+  const delta = (time - prevTime) / 1000;
+  
+  if (controls.isLocked) {
+    velocity.x -= velocity.x * 10.0 * delta;
+    velocity.z -= velocity.z * 10.0 * delta;
+    
+    const speed = sprint ? 80 : 45;
+    
+    if (moveForward) velocity.z = -speed;
+    if (moveBackward) velocity.z = speed;
+    if (moveLeft) velocity.x = -speed;
+    if (moveRight) velocity.x = speed;
+    
+    controls.moveRight(velocity.x * delta);
+    controls.moveForward(velocity.z * delta);
+    
+    checkNearby();
+    
+    if (state.mapVisible && !state.insideLab) drawMiniMap();
+  }
+  
+  prevTime = time;
+  renderer.render(scene, camera);
+}
+
+console.log('✓ STEP 1 Complete!');
 </script>
 </body>
 </html>
