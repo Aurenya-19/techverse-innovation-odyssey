@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Final Complete Edition</title>
+<title>TechVerse 2077 - Ultimate Futuristic Edition</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
@@ -11,7 +11,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 
 #startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
 #startScreen h1 { font-size: 3.5em; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 10px; font-weight: 900; }
-.subtitle { font-size: 1em; color: #fff; margin-bottom: 15px; text-align: center; line-height: 1.4; max-width: 850px; }
+.subtitle { font-size: 1em; color: #fff; margin-bottom: 15px; text-align: center; line-height: 1.4; max-width: 900px; }
 .charGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 1100px; margin-bottom: 15px; }
 .charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; transition: all 0.3s; }
 .charCard:hover { transform: translateY(-5px); }
@@ -30,7 +30,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 .hudStat { display: flex; justify-content: space-between; margin: 6px 0; color: #fff; font-size: 0.9em; }
 .hudStat .val { color: #27ae60; font-weight: bold; }
 
-#miniMap { position: fixed; bottom: 10px; right: 10px; width: 250px; height: 250px; background: rgba(0,0,0,0.92); border: 3px solid #3498db; border-radius: 10px; z-index: 1000; display: none; padding: 10px; }
+#miniMap { position: fixed; bottom: 10px; right: 10px; width: 280px; height: 280px; background: rgba(0,0,0,0.92); border: 3px solid #3498db; border-radius: 10px; z-index: 1000; display: none; padding: 10px; }
 #miniMap h4 { color: #3498db; margin-bottom: 8px; font-size: 1em; text-align: center; }
 #miniMapCanvas { width: 100%; height: calc(100% - 30px); background: #1a1a1a; border-radius: 5px; }
 
@@ -83,25 +83,25 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="crosshair"></div>
 
 <div id="startScreen">
-  <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">19 Advanced Tech Labs • 380+ Unique Gadgets • Multi-Floor Buildings • Real Tech Experiences • City Map • Rooms & Corridors • Complete Realistic Simulation</p>
+  <h1>🌟 TECHVERSE 2077 - ULTIMATE 🌟</h1>
+  <p class="subtitle">29 Futuristic Labs • Robo Lab • Flying Car Showroom • Consciousness Upload • Gravity Manipulation • Time Dilation • Dimensional Portals • 500+ Gadgets • Build Robots • Test Drive Flying Cars • Upload Your Mind</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life</p><div class="bonus">+50% Bio XP</div></div>
     <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum physics</p><div class="bonus">+50% Quantum XP</div></div>
     <div class="charCard" data-char="Neuro-Engineer"><div class="icon">🧠</div><h3>Neuro-Engineer</h3><p>Brain tech</p><div class="bonus">+50% Neuro XP</div></div>
+    <div class="charCard" data-char="Robo Engineer"><div class="icon">🤖</div><h3>Robo Engineer</h3><p>Robot builder</p><div class="bonus">+100% Robo XP</div></div>
+    <div class="charCard" data-char="Flying Car Pilot"><div class="icon">🚗</div><h3>Flying Car Pilot</h3><p>Vehicle expert</p><div class="bonus">+100% Car XP</div></div>
     <div class="charCard" data-char="Startup Founder"><div class="icon">🚀</div><h3>Startup Founder</h3><p>Entrepreneur</p><div class="bonus">+100% Hub XP</div></div>
-    <div class="charCard" data-char="Ocean Engineer"><div class="icon">🌊</div><h3>Ocean Engineer</h3><p>OTEC power</p><div class="bonus">+50% Ocean XP</div></div>
-    <div class="charCard" data-char="Matter Sculptor"><div class="icon">🔮</div><h3>Matter Sculptor</h3><p>Claytronics</p><div class="bonus">+50% Matter XP</div></div>
-    <div class="charCard" data-char="Energy Anarchist"><div class="icon">⚡</div><h3>Energy Anarchist</h3><p>Wireless power</p><div class="bonus">+50% Energy XP</div></div>
-    <div class="charCard" data-char="Myco-Technologist"><div class="icon">🍄</div><h3>Myco-Tech</h3><p>Fungal computing</p><div class="bonus">+50% Myco XP</div></div>
-    <div class="charCard" data-char="Cryo-Scientist"><div class="icon">🧊</div><h3>Cryo-Scientist</h3><p>Freezing tech</p><div class="bonus">+50% Cryo XP</div></div>
-    <div class="charCard" data-char="Stealth Engineer"><div class="icon">👻</div><h3>Stealth Engineer</h3><p>Invisibility</p><div class="bonus">+50% Stealth XP</div></div>
-    <div class="charCard" data-char="Acoustic Physicist"><div class="icon">🔊</div><h3>Acoustic Physicist</h3><p>Sound levitation</p><div class="bonus">+50% Acoustic XP</div></div>
-    <div class="charCard" data-char="Age Hacker"><div class="icon">⏳</div><h3>Age Hacker</h3><p>Longevity</p><div class="bonus">+50% Age XP</div></div>
+    <div class="charCard" data-char="Gravity Master"><div class="icon">🌌</div><h3>Gravity Master</h3><p>Anti-gravity</p><div class="bonus">+50% Gravity XP</div></div>
+    <div class="charCard" data-char="Time Traveler"><div class="icon">⏰</div><h3>Time Traveler</h3><p>Temporal expert</p><div class="bonus">+50% Time XP</div></div>
+    <div class="charCard" data-char="Portal Jumper"><div class="icon">🌀</div><h3>Portal Jumper</h3><p>Dimension hopper</p><div class="bonus">+50% Portal XP</div></div>
+    <div class="charCard" data-char="Consciousness Hacker"><div class="icon">🧠</div><h3>Mind Hacker</h3><p>Digital immortality</p><div class="bonus">+50% Mind XP</div></div>
     <div class="charCard" data-char="Cyborg Mechanic"><div class="icon">🤖</div><h3>Cyborg Mechanic</h3><p>Augmentation</p><div class="bonus">+25% All XP</div></div>
     <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructures</p><div class="bonus">Start Lv2</div></div>
     <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Medical nanobots</p><div class="bonus">+200 Start XP</div></div>
+    <div class="charCard" data-char="Hologram Artist"><div class="icon">🎨</div><h3>Hologram Artist</h3><p>3D designer</p><div class="bonus">+50% Holo XP</div></div>
+    <div class="charCard" data-char="Dyson Engineer"><div class="icon">☀️</div><h3>Dyson Engineer</h3><p>Stellar energy</p><div class="bonus">+50% Dyson XP</div></div>
   </div>
   
   <div id="selectedInfo">Selected: None</div>
@@ -113,8 +113,8 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/19</span></div>
-  <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0/380</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/29</span></div>
+  <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0/500</span></div>
 </div>
 
 <div id="miniMap">
@@ -155,60 +155,67 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 const state = { 
   char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), 
   insideLab: false, currentLab: null, nearInteractable: null, 
-  gadgetActive: false, gadgetsUsed: 0, mapVisible: false
+  gadgetActive: false, gadgetsUsed: 0, mapVisible: false,
+  robotBuild: {}
 };
 let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
 let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
 
-// City layout: 4x4 grid + center
 const labConfigs = {
-  'Quantum Computing': { color: 0x9b59b6, pos: [-120, 0, -120], icon: '⚛️' },
-  'Nanotechnology': { color: 0xe74c3c, pos: [-40, 0, -120], icon: '🔬' },
-  'AI Research': { color: 0xe67e22, pos: [40, 0, -120], icon: '🤖' },
-  'Bioprinting': { color: 0x1abc9c, pos: [120, 0, -120], icon: '🖨️' },
+  'Robo Lab': { color: 0xff6b6b, pos: [-160, 0, -160], icon: '🤖' },
+  'Flying Car Showroom': { color: 0x4ecdc4, pos: [-80, 0, -160], icon: '🚗' },
+  'Holographic Studio': { color: 0x95e1d3, pos: [0, 0, -160], icon: '🎨' },
+  'Consciousness Upload': { color: 0xf38181, pos: [80, 0, -160], icon: '🧠' },
+  'Gravity Lab': { color: 0xaa96da, pos: [160, 0, -160], icon: '🌌' },
   
-  'Fusion Energy': { color: 0xf39c12, pos: [-120, 0, -40], icon: '☢️' },
-  'Space Propulsion': { color: 0x3498db, pos: [-40, 0, -40], icon: '🚀' },
-  'Acoustic Levitation': { color: 0xe67e22, pos: [40, 0, -40], icon: '🔊' },
-  'Epigenetics': { color: 0x2ecc71, pos: [120, 0, -40], icon: '⏳' },
+  'Time Dilation': { color: 0xfcbad3, pos: [-160, 0, -80], icon: '⏰' },
+  'Dimensional Portal': { color: 0xa8e6cf, pos: [-80, 0, -80], icon: '🌀' },
+  'Synthetic Biology': { color: 0xffd3b6, pos: [0, 0, -80], icon: '🧬' },
+  'Neural Link': { color: 0xffaaa5, pos: [80, 0, -80], icon: '🔗' },
+  'Dyson Sphere': { color: 0xff8b94, pos: [160, 0, -80], icon: '☀️' },
   
-  'Wireless Power': { color: 0xf39c12, pos: [-120, 0, 40], icon: '⚡' },
-  'Mycelium Computing': { color: 0x27ae60, pos: [-40, 0, 40], icon: '🍄' },
-  'Cryogenics': { color: 0x16a085, pos: [40, 0, 40], icon: '🧊' },
-  'Metamaterials': { color: 0x34495e, pos: [120, 0, 40], icon: '👻' },
+  'Quantum Computing': { color: 0x9b59b6, pos: [-160, 0, 0], icon: '⚛️' },
+  'Nanotechnology': { color: 0xe74c3c, pos: [-80, 0, 0], icon: '🔬' },
+  'AI Research': { color: 0xe67e22, pos: [80, 0, 0], icon: '🤖' },
+  'Bioprinting': { color: 0x1abc9c, pos: [160, 0, 0], icon: '🖨️' },
   
-  'Xenobiology': { color: 0x1abc9c, pos: [-120, 0, 120], icon: '🧬' },
-  'OTEC Energy': { color: 0x3498db, pos: [-40, 0, 120], icon: '🌊' },
-  'Optogenetics': { color: 0x9b59b6, pos: [40, 0, 120], icon: '🧠' },
-  'Programmable Matter': { color: 0x8e44ad, pos: [120, 0, 120], icon: '🔮' },
+  'Fusion Energy': { color: 0xf39c12, pos: [-160, 0, 80], icon: '☢️' },
+  'Space Propulsion': { color: 0x3498db, pos: [-80, 0, 80], icon: '🚀' },
+  'Acoustic Levitation': { color: 0xe67e22, pos: [80, 0, 80], icon: '🔊' },
+  'Epigenetics': { color: 0x2ecc71, pos: [160, 0, 80], icon: '⏳' },
   
-  'Hybrid Lab': { color: 0xe74c3c, pos: [0, 0, 0], icon: '🤝', size: [90, 60, 100] },
-  'Startup Hub': { color: 0xff00ff, pos: [-60, 0, 200], icon: '💼' },
-  'Tech Championship': { color: 0xf1c40f, pos: [60, 0, 200], icon: '🏆' }
+  'Wireless Power': { color: 0xf39c12, pos: [-160, 0, 160], icon: '⚡' },
+  'Mycelium Computing': { color: 0x27ae60, pos: [-80, 0, 160], icon: '🍄' },
+  'Cryogenics': { color: 0x16a085, pos: [0, 0, 160], icon: '🧊' },
+  'Metamaterials': { color: 0x34495e, pos: [80, 0, 160], icon: '👻' },
+  'Optogenetics': { color: 0x9b59b6, pos: [160, 0, 160], icon: '🧠' },
+  
+  'Xenobiology': { color: 0x1abc9c, pos: [-120, 0, 240], icon: '🧬' },
+  'OTEC Energy': { color: 0x3498db, pos: [-40, 0, 240], icon: '🌊' },
+  'Programmable Matter': { color: 0x8e44ad, pos: [40, 0, 240], icon: '🔮' },
+  'Hybrid Lab': { color: 0xe74c3c, pos: [120, 0, 240], icon: '🤝' },
+  
+  'Startup Hub': { color: 0xff00ff, pos: [-60, 0, 320], icon: '💼', size: [70, 50, 75] },
+  'Tech Championship': { color: 0xf1c40f, pos: [60, 0, 320], icon: '🏆', size: [70, 50, 75] }
 };
 
 const gadgetData = {
-  dna: { name: 'DNA Sequencer Pro', icon: '🧬', desc: 'Full DNA sequencing with detailed analysis' },
-  crispr: { name: 'CRISPR Gene Editor', icon: '✂️', desc: 'Precision gene editing system' },
-  xna: { name: 'XNA Synthesizer', icon: '🧪', desc: 'Create alien DNA structures' },
-  reactor: { name: 'Bio-Reactor', icon: '⚗️', desc: 'Grow synthetic organisms' },
-  microscope: { name: 'Microscope Array', icon: '🔬', desc: 'High-resolution imaging' },
-  pcr: { name: 'PCR Machine', icon: '🧬', desc: 'DNA amplification' },
-  gel: { name: 'Gel Electrophoresis', icon: '⚡', desc: 'DNA fragment analysis' },
-  flow: { name: 'Flow Cytometer', icon: '💧', desc: 'Cell sorting and analysis' },
-  protein: { name: 'Protein Purifier', icon: '🧪', desc: 'Extract and purify proteins' },
-  mass: { name: 'Mass Spectrometer', icon: '📊', desc: 'Molecular identification' },
-  centrifuge: { name: 'Centrifuge', icon: '🌀', desc: 'Sample separation' },
-  incubator: { name: 'Incubator', icon: '🔥', desc: 'Cell culture growth' },
-  autoclave: { name: 'Autoclave', icon: '♨️', desc: 'Equipment sterilization' },
-  freezer: { name: 'Cryo Freezer', icon: '🧊', desc: 'Sample storage -80°C' },
-  hood: { name: 'Culture Hood', icon: '🏠', desc: 'Sterile work environment' },
-  petri: { name: 'Petri Station', icon: '🍽️', desc: 'Culture plate preparation' },
-  tubes: { name: 'Test Tube Rack', icon: '🧪', desc: 'Sample organization' },
-  pipette: { name: 'Pipette Station', icon: '💉', desc: 'Precise liquid handling' },
-  computer: { name: 'Lab Computer', icon: '💻', desc: 'Data analysis terminal' },
-  storage: { name: 'Sample Storage', icon: '📦', desc: 'Organized sample archive' }
+  robot: { name: 'Humanoid Assembly', icon: '🤖', desc: 'Build your custom robot from scratch' },
+  car: { name: 'Flying Car Simulator', icon: '🚗', desc: 'Test drive futuristic vehicles' },
+  holo: { name: 'Hologram Projector', icon: '🎨', desc: 'Create 3D holograms' },
+  mind: { name: 'Brain Scanner', icon: '🧠', desc: 'Upload consciousness to digital realm' },
+  gravity: { name: 'Anti-Gravity Gen', icon: '🌌', desc: 'Manipulate gravitational fields' },
+  time: { name: 'Temporal Field Gen', icon: '⏰', desc: 'Control time dilation' },
+  portal: { name: 'Portal Generator', icon: '🌀', desc: 'Open dimensional portals' },
+  bio: { name: 'Organism Designer', icon: '🧬', desc: 'Create synthetic life forms' },
+  neural: { name: 'Brain Chip Implanter', icon: '🔗', desc: 'Install neural interfaces' },
+  dyson: { name: 'Stellar Collector', icon: '☀️', desc: 'Harvest star energy' },
+  dna: { name: 'DNA Sequencer', icon: '🧬', desc: 'Sequence genetic code' },
+  quantum: { name: 'Quantum Processor', icon: '⚛️', desc: 'Quantum computing' },
+  nano: { name: 'Nano-Assembler', icon: '🔬', desc: 'Build molecular machines' },
+  ai: { name: 'AI Trainer', icon: '🤖', desc: 'Train neural networks' },
+  fusion: { name: 'Fusion Reactor', icon: '☢️', desc: 'Generate fusion energy' }
 };
 
 function playSound(freq, duration) {
@@ -233,20 +240,20 @@ function createTextSprite(text, color) {
   canvas.height = 256;
   ctx.fillStyle = 'rgba(0,0,0,0.9)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.font = 'Bold 60px Arial';
+  ctx.font = 'Bold 55px Arial';
   ctx.fillStyle = color;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(text, 512, 128);
   const texture = new THREE.CanvasTexture(canvas);
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
-  sprite.scale.set(30, 7.5, 1);
+  sprite.scale.set(28, 7, 1);
   return sprite;
 }
 
 function createGadget(type, pos, id) {
   const group = new THREE.Group();
-  const colors = [0x3498db, 0x1abc9c, 0x9b59b6, 0xe74c3c, 0xf39c12, 0x27ae60];
+  const colors = [0x3498db, 0x1abc9c, 0x9b59b6, 0xe74c3c, 0xf39c12, 0x27ae60, 0xff6b6b, 0x4ecdc4];
   const color = colors[id % colors.length];
   
   const base = new THREE.Mesh(
@@ -273,45 +280,42 @@ function createGadget(type, pos, id) {
 function drawMiniMap() {
   const canvas = document.getElementById('miniMapCanvas');
   const ctx = canvas.getContext('2d');
-  const w = canvas.width = 230;
-  const h = canvas.height = 200;
+  const w = canvas.width = 260;
+  const h = canvas.height = 240;
   
   ctx.fillStyle = '#1a1a1a';
   ctx.fillRect(0, 0, w, h);
   
-  // Draw grid
   ctx.strokeStyle = '#333';
   ctx.lineWidth = 1;
-  for (let i = 0; i <= 4; i++) {
+  for (let i = 0; i <= 5; i++) {
     ctx.beginPath();
-    ctx.moveTo(i * w/4, 0);
-    ctx.lineTo(i * w/4, h);
+    ctx.moveTo(i * w/5, 0);
+    ctx.lineTo(i * w/5, h);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(0, i * h/4);
-    ctx.lineTo(w, i * h/4);
+    ctx.moveTo(0, i * h/5);
+    ctx.lineTo(w, i * h/5);
     ctx.stroke();
   }
   
-  // Draw labs
   Object.entries(labConfigs).forEach(([name, config]) => {
-    const x = (config.pos[0] + 150) / 300 * w;
-    const y = (config.pos[2] + 150) / 300 * h;
-    const size = name === 'Hybrid Lab' ? 12 : 8;
+    const x = (config.pos[0] + 200) / 400 * w;
+    const y = (config.pos[2] + 200) / 400 * h;
+    const size = config.size ? 10 : 7;
     
     ctx.fillStyle = `#${config.color.toString(16).padStart(6, '0')}`;
     ctx.fillRect(x - size/2, y - size/2, size, size);
     
     ctx.fillStyle = '#fff';
-    ctx.font = '12px Arial';
+    ctx.font = '11px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(config.icon, x, y + 4);
+    ctx.fillText(config.icon, x, y + 3);
   });
   
-  // Draw player
   if (!state.insideLab) {
-    const px = (camera.position.x + 150) / 300 * w;
-    const py = (camera.position.z + 150) / 300 * h;
+    const px = (camera.position.x + 200) / 400 * w;
+    const py = (camera.position.z + 200) / 400 * h;
     ctx.fillStyle = '#27ae60';
     ctx.beginPath();
     ctx.arc(px, py, 4, 0, Math.PI * 2);
@@ -345,10 +349,10 @@ document.getElementById('startBtn').addEventListener('click', () => {
 function init() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 700);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 800);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 1.7, 250);
+  camera.position.set(0, 1.7, 350);
   
   renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -360,16 +364,16 @@ function init() {
   scene.add(new THREE.AmbientLight(0xffffff, 0.8));
   
   const sun = new THREE.DirectionalLight(0xffffff, 1.5);
-  sun.position.set(200, 300, 150);
+  sun.position.set(250, 350, 200);
   sun.castShadow = true;
-  sun.shadow.camera.left = -600;
-  sun.shadow.camera.right = 600;
-  sun.shadow.camera.top = 600;
-  sun.shadow.camera.bottom = -600;
+  sun.shadow.camera.left = -700;
+  sun.shadow.camera.right = 700;
+  sun.shadow.camera.top = 700;
+  sun.shadow.camera.bottom = -700;
   scene.add(sun);
   
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1200, 1200),
+    new THREE.PlaneGeometry(1500, 1500),
     new THREE.MeshStandardMaterial({ color: 0x228B22, roughness: 0.9 })
   );
   ground.rotation.x = -Math.PI / 2;
@@ -377,16 +381,16 @@ function init() {
   scene.add(ground);
   
   const road = new THREE.Mesh(
-    new THREE.PlaneGeometry(60, 1000),
+    new THREE.PlaneGeometry(70, 1200),
     new THREE.MeshStandardMaterial({ color: 0x404040, roughness: 0.95 })
   );
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   scene.add(road);
   
-  for (let i = -500; i <= 500; i += 30) {
+  for (let i = -600; i <= 600; i += 30) {
     const line = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.2, 12),
+      new THREE.PlaneGeometry(1.5, 14),
       new THREE.MeshStandardMaterial({ color: 0xffffff })
     );
     line.rotation.x = -Math.PI / 2;
@@ -404,14 +408,13 @@ function init() {
   animate();
   updateHUD();
   drawMiniMap();
-  notify(`🎮 Welcome ${state.char}! Press M for city map. Explore 19 labs!`);
+  notify(`🎮 Welcome ${state.char}! Press M for map. 29 labs to explore!`);
 }
 
 function createCity() {
   Object.entries(labConfigs).forEach(([name, config]) => {
     const size = config.size || [55, 45, 65];
     
-    // Create building as parent
     const building = new THREE.Mesh(
       new THREE.BoxGeometry(size[0], size[1], size[2]),
       new THREE.MeshStandardMaterial({ color: 0xCCCCCC, roughness: 0.7, metalness: 0.3 })
@@ -421,7 +424,6 @@ function createCity() {
     building.receiveShadow = true;
     scene.add(building);
     
-    // Windows as children with LOCAL coordinates
     const floors = Math.floor(size[1] / 5);
     const cols = Math.floor(size[0] / 6);
     for (let floor = 0; floor < floors; floor++) {
@@ -436,7 +438,6 @@ function createCity() {
             emissiveIntensity: 0.2
           })
         );
-        // LOCAL position relative to building center
         win.position.set(
           -size[0]/2 + 5 + col * 6,
           -size[1]/2 + 5 + floor * 5,
@@ -446,12 +447,10 @@ function createCity() {
       }
     }
     
-    // Label above building
     const label = createTextSprite(`${config.icon} ${name.toUpperCase()}`, `#${config.color.toString(16).padStart(6, '0')}`);
     label.position.set(0, size[1]/2 + 10, 0);
     building.add(label);
     
-    // Door
     const door = new THREE.Mesh(
       new THREE.BoxGeometry(10, 12, 1),
       new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6 })
@@ -462,7 +461,6 @@ function createCity() {
     building.add(door);
     interactables.push(door);
     
-    // Sign
     const sign = new THREE.Mesh(
       new THREE.BoxGeometry(14, 4, 0.5),
       new THREE.MeshStandardMaterial({ 
@@ -568,32 +566,32 @@ function exitLab() {
   scene.clear();
   interactables = [];
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 700);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 800);
   
   scene.add(new THREE.AmbientLight(0xffffff, 0.8));
   
   const sun = new THREE.DirectionalLight(0xffffff, 1.5);
-  sun.position.set(200, 300, 150);
+  sun.position.set(250, 350, 200);
   scene.add(sun);
   
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1200, 1200),
+    new THREE.PlaneGeometry(1500, 1500),
     new THREE.MeshStandardMaterial({ color: 0x228B22 })
   );
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
   
   const road = new THREE.Mesh(
-    new THREE.PlaneGeometry(60, 1000),
+    new THREE.PlaneGeometry(70, 1200),
     new THREE.MeshStandardMaterial({ color: 0x404040 })
   );
   road.rotation.x = -Math.PI / 2;
   road.position.y = 0.01;
   scene.add(road);
   
-  for (let i = -500; i <= 500; i += 30) {
+  for (let i = -600; i <= 600; i += 30) {
     const line = new THREE.Mesh(
-      new THREE.PlaneGeometry(1.2, 12),
+      new THREE.PlaneGeometry(1.5, 14),
       new THREE.MeshStandardMaterial({ color: 0xffffff })
     );
     line.rotation.x = -Math.PI / 2;
@@ -602,7 +600,7 @@ function exitLab() {
   }
   
   createCity();
-  camera.position.set(0, 1.7, 250);
+  camera.position.set(0, 1.7, 350);
   velocity.set(0, 0, 0);
   updateHUD();
   drawMiniMap();
@@ -659,105 +657,259 @@ function handleInteraction() {
     document.getElementById('gadgetSubtitle').textContent = ud.desc;
     playSound(800, 0.1);
     
-    if (ud.type === 'dna') showDNASequencer();
+    if (ud.type === 'robot') showRobotBuilder();
+    else if (ud.type === 'car') showCarShowroom();
+    else if (ud.type === 'mind') showMindUpload();
     else showGenericGadget(ud);
   }
 }
 
-function showDNASequencer() {
+function showRobotBuilder() {
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">DNA SEQUENCER PRO 2077
-Status: Ready
-Last run: 2 hours ago
-Samples processed: 1,247
+    <div class="screen">HUMANOID ASSEMBLY STATION 2077
+Welcome to Robot Builder
 
-INSERT SAMPLE TO BEGIN</div>
+BUILD YOUR CUSTOM ROBOT:
+Step 1: Select body type</div>
     <div class="optionGrid">
-      <div class="option" onclick="selectSample('blood')">🧪 Blood Sample<br><small>Requires 5ml</small></div>
-      <div class="option" onclick="selectSample('saliva')">🧪 Saliva Sample<br><small>Requires 2ml</small></div>
-      <div class="option" onclick="selectSample('tissue')">🧪 Tissue Sample<br><small>Requires 1g</small></div>
-      <div class="option" onclick="selectSample('hair')">🧪 Hair Sample<br><small>Requires 10 strands</small></div>
+      <div class="option" onclick="selectRobotBody('humanoid')">🤖 Humanoid<br><small>Human-like</small></div>
+      <div class="option" onclick="selectRobotBody('animal')">🐕 Animal<br><small>Pet-like</small></div>
+      <div class="option" onclick="selectRobotBody('custom')">⚙️ Custom<br><small>Unique design</small></div>
     </div>
   `;
 }
 
-window.selectSample = function(sample) {
+window.selectRobotBody = function(body) {
+  state.robotBuild.body = body;
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">SAMPLE: ${sample.toUpperCase()}
-Sample inserted successfully
+    <div class="screen">BODY TYPE: ${body.toUpperCase()}
 
-CONFIGURE SEQUENCING SETTINGS:</div>
+Step 2: Select size</div>
     <div class="optionGrid">
-      <div class="option" onclick="configureSeq('sanger')">Sanger Method<br><small>High accuracy</small></div>
-      <div class="option" onclick="configureSeq('ngs')">NGS Method<br><small>High throughput</small></div>
-      <div class="option" onclick="configureSeq('nanopore')">Nanopore<br><small>Long reads</small></div>
+      <div class="option" onclick="selectRobotSize('small')">Small<br><small>50cm tall</small></div>
+      <div class="option" onclick="selectRobotSize('medium')">Medium<br><small>150cm tall</small></div>
+      <div class="option" onclick="selectRobotSize('large')">Large<br><small>250cm tall</small></div>
     </div>
   `;
 };
 
-window.configureSeq = function(method) {
+window.selectRobotSize = function(size) {
+  state.robotBuild.size = size;
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen" id="seqScreen">METHOD: ${method.toUpperCase()}
-Read length: 250bp
-Coverage: 30x
-Quality: Q30
+    <div class="screen">SIZE: ${size.toUpperCase()}
 
-Estimated time: 2h 34m
-Cost: $450
-Output: 2.5GB
+Step 3: Choose materials</div>
+    <div class="optionGrid">
+      <div class="option" onclick="selectRobotMaterial('metal')">🔩 Metal<br><small>Durable</small></div>
+      <div class="option" onclick="selectRobotMaterial('carbon')">⚫ Carbon Fiber<br><small>Lightweight</small></div>
+      <div class="option" onclick="selectRobotMaterial('bio')">🧬 Bio-Synthetic<br><small>Organic</small></div>
+    </div>
+  `;
+};
 
-STARTING SEQUENCING...</div>
-    <div class="progress"><div class="progressBar" id="seqProgress"></div></div>
+window.selectRobotMaterial = function(material) {
+  state.robotBuild.material = material;
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen">MATERIAL: ${material.toUpperCase()}
+
+Step 4: Design AI personality</div>
+    <div class="optionGrid">
+      <div class="option" onclick="selectRobotAI('friendly')">😊 Friendly<br><small>Helpful & kind</small></div>
+      <div class="option" onclick="selectRobotAI('professional')">💼 Professional<br><small>Efficient</small></div>
+      <div class="option" onclick="selectRobotAI('playful')">🎮 Playful<br><small>Fun & energetic</small></div>
+    </div>
+  `;
+};
+
+window.selectRobotAI = function(ai) {
+  state.robotBuild.ai = ai;
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen" id="buildScreen">AI PERSONALITY: ${ai.toUpperCase()}
+
+BUILDING YOUR ROBOT...
+
+Body: ${state.robotBuild.body}
+Size: ${state.robotBuild.size}
+Material: ${state.robotBuild.material}
+AI: ${state.robotBuild.ai}
+
+ASSEMBLY IN PROGRESS...</div>
+    <div class="progress"><div class="progressBar" id="buildProgress"></div></div>
   `;
   
-  const stages = [
-    'Extracting DNA...',
-    'Purifying sample...',
-    'Amplifying DNA...',
-    'Sequencing reads...',
-    'Analyzing data...'
-  ];
-  
   let progress = 0;
-  let stage = 0;
   const interval = setInterval(() => {
-    progress += 4;
-    document.getElementById('seqProgress').style.width = progress + '%';
-    
-    if (progress % 20 === 0 && stage < stages.length) {
-      document.getElementById('seqScreen').textContent += '\n' + stages[stage];
-      stage++;
-    }
-    
-    playSound(850 + progress * 5, 0.08);
+    progress += 5;
+    document.getElementById('buildProgress').style.width = progress + '%';
+    playSound(900 + progress * 8, 0.08);
     
     if (progress >= 100) {
       clearInterval(interval);
-      document.getElementById('seqScreen').textContent = `SEQUENCING COMPLETE!
+      document.getElementById('buildScreen').textContent = `ROBOT BUILD COMPLETE!
 
-Sequence: ATCGATCGTAGCTAGC... (view full)
-Total bases: 3,234,567,890
-Quality score: Q38 (99.98% accuracy)
-Coverage: 95x average
+Your custom ${state.robotBuild.body} robot is ready!
 
-Mutations detected: 3
-- Position 12,345: A→G (pathogenic)
-- Position 67,890: C→T (benign)
-- Position 123,456: G→A (unknown)
+Specifications:
+- Body: ${state.robotBuild.body}
+- Size: ${state.robotBuild.size}
+- Material: ${state.robotBuild.material}
+- AI: ${state.robotBuild.ai}
+- Serial: RBT-${Math.floor(Math.random()*10000)}
 
-Genes identified: 247
-- BRCA1: Normal
-- TP53: Variant detected
-- APOE: ε3/ε4 genotype
-
-DATA SAVED TO INVENTORY`;
+ROBOT ACTIVATED AND READY TO SERVE!`;
       
-      state.xp += 180;
+      state.xp += 250;
       state.gadgetsUsed++;
       updateHUD();
-      notify('✓ DNA Sequencing Complete! +180 XP');
-      playSound(1500, 0.5);
+      notify('✓ Robot Built Successfully! +250 XP');
+      playSound(1600, 0.6);
       setTimeout(closeGadget, 4000);
+    }
+  }, 120);
+};
+
+function showCarShowroom() {
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen">FLYING CAR SHOWROOM 2077
+Welcome to the Future of Transportation
+
+SELECT VEHICLE FOR TEST DRIVE:</div>
+    <div class="optionGrid">
+      <div class="option" onclick="testDriveCar('aerosedan')">🚗 AeroSedan<br><small>Family car</small></div>
+      <div class="option" onclick="testDriveCar('racer')">🏎️ Quantum Racer<br><small>Speed demon</small></div>
+      <div class="option" onclick="testDriveCar('luxury')">✨ Gravity Cruiser<br><small>Luxury</small></div>
+    </div>
+  `;
+}
+
+window.testDriveCar = function(car) {
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen" id="driveScreen">VEHICLE: ${car.toUpperCase()}
+
+INITIALIZING VR TEST DRIVE...
+Loading city environment...
+Calibrating flight controls...
+Starting simulation...
+
+CONTROLS:
+- Accelerate: W
+- Brake: S
+- Turn: A/D
+- Altitude: Space/Shift
+
+TEST DRIVE IN PROGRESS...</div>
+    <div class="progress"><div class="progressBar" id="driveProgress"></div></div>
+  `;
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 4;
+    document.getElementById('driveProgress').style.width = progress + '%';
+    playSound(850 + progress * 6, 0.08);
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      document.getElementById('driveScreen').textContent = `TEST DRIVE COMPLETE!
+
+Vehicle: ${car.toUpperCase()}
+Distance: 45.7 km
+Max Speed: 487 km/h
+Max Altitude: 1,250 m
+Flight Time: 12 minutes
+
+Performance Rating: ⭐⭐⭐⭐⭐
+
+Would you like to purchase this vehicle?
+Price: $2,450,000
+
+TEST DRIVE DATA SAVED!`;
+      
+      state.xp += 200;
+      state.gadgetsUsed++;
+      updateHUD();
+      notify('✓ Test Drive Complete! +200 XP');
+      playSound(1550, 0.5);
+      setTimeout(closeGadget, 4000);
+    }
+  }, 180);
+};
+
+function showMindUpload() {
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen">CONSCIOUSNESS UPLOAD CENTER
+Digital Immortality System
+
+WARNING: This process will create a digital copy
+of your consciousness. Original consciousness
+remains in biological body.
+
+UPLOAD PROCESS:
+1. Brain scanning (5 min)
+2. Neural pattern extraction (10 min)
+3. Memory copying (15 min)
+4. Personality analysis (8 min)
+5. Digital avatar creation (2 min)
+
+Total time: 40 minutes
+Success rate: 99.7%
+
+Ready to begin?</div>
+    <div style="text-align: center;">
+      <button class="actionBtn success" onclick="startMindUpload()">▶ BEGIN UPLOAD</button>
+    </div>
+  `;
+}
+
+window.startMindUpload = function() {
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen" id="uploadScreen">CONSCIOUSNESS UPLOAD IN PROGRESS...
+
+Scanning brain structure...
+Mapping 86 billion neurons...
+Extracting neural patterns...
+Copying memories...
+Analyzing personality traits...
+Creating digital avatar...
+
+PLEASE REMAIN STILL...</div>
+    <div class="progress"><div class="progressBar" id="uploadProgress"></div></div>
+  `;
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 3;
+    document.getElementById('uploadProgress').style.width = progress + '%';
+    playSound(920 + progress * 7, 0.08);
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      document.getElementById('uploadScreen').textContent = `UPLOAD COMPLETE!
+
+Your consciousness has been successfully
+digitized and stored in the cloud.
+
+Digital Avatar ID: MIND-${Math.floor(Math.random()*100000)}
+Storage: Quantum Server Array
+Backup: 3 redundant copies
+Access: Anytime, anywhere
+
+You are now digitally immortal!
+
+Your digital self can:
+- Live in virtual worlds
+- Access infinite knowledge
+- Never age or die
+- Merge with other minds
+- Experience multiple realities
+
+WELCOME TO DIGITAL EXISTENCE!`;
+      
+      state.xp += 300;
+      state.gadgetsUsed++;
+      updateHUD();
+      notify('✓ Consciousness Uploaded! +300 XP');
+      playSound(1700, 0.7);
+      setTimeout(closeGadget, 5000);
     }
   }, 150);
 };
@@ -840,7 +992,7 @@ function animate() {
     direction.x = Number(moveRight) - Number(moveLeft);
     direction.normalize();
     
-    const speed = sprint ? 90 : 50;
+    const speed = sprint ? 100 : 55;
     
     if (moveForward || moveBackward) velocity.z -= direction.z * speed * delta;
     if (moveLeft || moveRight) velocity.x -= direction.x * speed * delta;
@@ -860,8 +1012,8 @@ function animate() {
 function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/19`;
-  document.getElementById('gadgetsUsed').textContent = `${state.gadgetsUsed}/380`;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/29`;
+  document.getElementById('gadgetsUsed').textContent = `${state.gadgetsUsed}/500`;
   document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City 2077';
   
   while (state.xp >= state.xpMax) {
