@@ -3,349 +3,729 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Fixed</title>
+<title>TechVerse 2077 - Step 2: Proper 3D</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-body { font-family: Arial, sans-serif; overflow: hidden; background: #000; color: #fff; }
+body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
+#canvas { display: block; width: 100vw; height: 100vh; }
 
-#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-#startScreen h1 { font-size: 3em; color: #fff; margin-bottom: 20px; }
-#startBtn { padding: 20px 60px; font-size: 1.5em; background: #27ae60; border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; }
-#startBtn:hover { background: #229954; }
+#loadingScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f0e17, #1a1a2e); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; }
+#loadingScreen h1 { font-size: 3em; color: #00d4ff; text-shadow: 0 0 20px rgba(0,212,255,0.8); margin-bottom: 30px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+.loadingBar { width: 400px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+.loadingProgress { height: 100%; background: linear-gradient(90deg, #00d4ff, #00ff88); width: 0%; transition: width 0.3s; box-shadow: 0 0 20px rgba(0,212,255,0.8); }
+#loadingText { color: #00ff88; font-size: 1.2em; }
 
-#gameScreen { display: none; width: 100vw; height: 100vh; background: #87CEEB; position: relative; }
+#startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; padding: 20px; }
+#startScreen h1 { font-size: 3.5em; color: #fff; text-shadow: 0 5px 20px rgba(0,0,0,0.4); margin-bottom: 15px; }
+.subtitle { font-size: 1.1em; color: #fff; margin-bottom: 20px; text-align: center; max-width: 900px; }
+.charGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 1100px; margin-bottom: 20px; }
+.charCard { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; padding: 15px; cursor: pointer; text-align: center; transition: all 0.3s; }
+.charCard:hover { transform: translateY(-5px); background: rgba(255,255,255,0.3); }
+.charCard.selected { background: rgba(46,204,113,0.5) !important; border: 3px solid #27ae60 !important; transform: scale(1.08) !important; }
+.charCard .icon { font-size: 2.5em; margin-bottom: 8px; }
+.charCard h3 { color: #fff; font-size: 1em; margin-bottom: 5px; font-weight: 800; }
+.charCard p { color: rgba(255,255,255,0.95); font-size: 0.8em; }
+.charCard .bonus { color: #f1c40f; font-size: 0.75em; font-weight: bold; }
+#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 10px 30px; border-radius: 10px; font-weight: bold; margin-bottom: 15px; display: none; font-size: 1.1em; }
+#startBtn { padding: 18px 70px; font-size: 1.5em; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 15px; color: #fff; font-weight: 900; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
+#startBtn:hover { transform: translateY(-3px); }
+#startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#hud { position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 8px; border: 2px solid #3498db; z-index: 1000; }
-#hud h3 { color: #3498db; margin-bottom: 8px; }
-.stat { color: #fff; margin: 5px 0; }
+#hud { position: fixed; top: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 18px; border-radius: 12px; border: 3px solid #3498db; min-width: 220px; z-index: 1000; display: none; }
+#hud h3 { color: #3498db; margin-bottom: 10px; font-size: 1.3em; }
+.hudStat { display: flex; justify-content: space-between; margin: 8px 0; color: #fff; font-size: 0.95em; }
+.hudStat .val { color: #27ae60; font-weight: bold; }
 
-#map { position: fixed; bottom: 10px; right: 10px; width: 250px; height: 250px; background: rgba(0,0,0,0.8); border: 2px solid #3498db; border-radius: 8px; z-index: 1000; display: none; }
-#mapCanvas { width: 100%; height: 100%; }
+#miniMap { position: fixed; bottom: 15px; right: 15px; width: 300px; height: 300px; background: rgba(0,0,0,0.85); border: 3px solid #3498db; border-radius: 12px; z-index: 1000; display: none; padding: 12px; }
+#miniMap h4 { color: #3498db; margin-bottom: 10px; font-size: 1.1em; text-align: center; }
+#miniMapCanvas { width: 100%; height: calc(100% - 35px); background: #1a1a1a; border-radius: 8px; }
 
-#location { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); padding: 10px 30px; border-radius: 8px; border: 2px solid #3498db; z-index: 1000; }
+#locationInfo { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); padding: 15px 40px; border-radius: 12px; border: 3px solid #3498db; z-index: 1000; display: none; }
+#locationInfo h3 { color: #3498db; font-size: 1.4em; }
 
-#prompt { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #27ae60; padding: 10px 30px; border-radius: 8px; color: #fff; font-weight: bold; z-index: 1000; display: none; }
+#interactPrompt { position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 15px 40px; border-radius: 12px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s infinite; font-size: 1.1em; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
-#notif { position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: #27ae60; padding: 15px 40px; border-radius: 8px; color: #fff; font-weight: bold; opacity: 0; transition: opacity 0.5s; z-index: 2000; }
+#gadgetUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 92vw; max-width: 1000px; height: 88vh; background: rgba(0,0,0,0.95); border: 4px solid #3498db; border-radius: 20px; padding: 30px; z-index: 5000; display: none; overflow-y: auto; }
+#gadgetUI h2 { color: #3498db; font-size: 2.5em; text-align: center; margin-bottom: 15px; text-transform: uppercase; }
+.closeBtn { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+.closeBtn:hover { transform: scale(1.08); }
+
+.screen { background: #000; border: 3px solid #0f0; border-radius: 12px; padding: 20px; margin: 15px 0; min-height: 180px; font-family: 'Courier New', monospace; color: #0f0; font-size: 1em; line-height: 1.5; overflow-y: auto; max-height: 300px; white-space: pre-wrap; }
+.progress { width: 100%; height: 35px; background: rgba(255,255,255,0.1); border-radius: 18px; overflow: hidden; margin: 20px 0; border: 2px solid #3498db; }
+.progressBar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); width: 0%; transition: width 0.5s; }
+.optionGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+.option { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 20px; border-radius: 12px; cursor: pointer; font-size: 1.05em; font-weight: bold; transition: all 0.3s; text-align: center; }
+.option:hover { transform: translateY(-5px); }
+.actionBtn { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 16px 40px; border-radius: 12px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 10px; transition: all 0.3s; text-transform: uppercase; }
+.actionBtn:hover { transform: scale(1.08); }
+.actionBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
+
+#controls { position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.85); padding: 18px; border-radius: 12px; border: 3px solid #3498db; z-index: 1000; display: none; }
+#controls h4 { color: #3498db; margin-bottom: 10px; font-size: 1.2em; }
+.ctrl { color: #ecf0f1; margin: 8px 0; font-size: 0.9em; }
+.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 5px 12px; border-radius: 6px; margin-right: 8px; }
+
+#notif { position: fixed; top: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 18px 45px; border-radius: 12px; font-weight: bold; font-size: 1.15em; opacity: 0; transition: opacity 0.5s; max-width: 90%; text-align: center; z-index: 2000; }
 #notif.show { opacity: 1; }
 
-#controls { position: fixed; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 8px; border: 2px solid #3498db; z-index: 1000; }
-.ctrl { color: #fff; margin: 5px 0; font-size: 0.9em; }
-.key { background: #3498db; padding: 3px 8px; border-radius: 4px; margin-right: 5px; }
+#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; pointer-events: none; z-index: 999; display: none; }
+#crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.9); }
+#crosshair::before { width: 2px; height: 24px; left: 11px; }
+#crosshair::after { width: 24px; height: 2px; top: 11px; }
+
+.hide { display: none !important; }
 </style>
 </head>
 <body>
+<canvas id="canvas"></canvas>
+<div id="crosshair"></div>
+
+<div id="loadingScreen">
+  <h1>🌟 TECHVERSE 2077 🌟</h1>
+  <div class="loadingBar"><div class="loadingProgress" id="loadingProgress"></div></div>
+  <div id="loadingText">Loading THREE.JS...</div>
+</div>
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p style="color: #fff; margin-bottom: 20px; font-size: 1.2em;">Simple Working Version - No External Dependencies</p>
-  <button id="startBtn">START GAME</button>
+  <p class="subtitle">STEP 2: Proper 3D City • 5 Detailed Buildings • Smooth Controls • Working Map</p>
+  
+  <div class="charGrid">
+    <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life</p><div class="bonus">+50% Bio XP</div></div>
+    <div class="charCard" data-char="Robo Engineer"><div class="icon">🤖</div><h3>Robo Engineer</h3><p>Robot expert</p><div class="bonus">+100% Robo XP</div></div>
+    <div class="charCard" data-char="Flying Car Pilot"><div class="icon">🚗</div><h3>Car Pilot</h3><p>Vehicle specialist</p><div class="bonus">+100% Car XP</div></div>
+    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum genius</p><div class="bonus">+50% Quantum XP</div></div>
+    <div class="charCard" data-char="Mind Hacker"><div class="icon">🧠</div><h3>Mind Hacker</h3><p>Consciousness</p><div class="bonus">+50% Mind XP</div></div>
+    <div class="charCard" data-char="Gravity Master"><div class="icon">🌌</div><h3>Gravity Master</h3><p>Anti-gravity</p><div class="bonus">+50% Gravity XP</div></div>
+    <div class="charCard" data-char="Time Traveler"><div class="icon">⏰</div><h3>Time Traveler</h3><p>Temporal control</p><div class="bonus">+50% Time XP</div></div>
+    <div class="charCard" data-char="Portal Jumper"><div class="icon">🌀</div><h3>Portal Jumper</h3><p>Dimensions</p><div class="bonus">+50% Portal XP</div></div>
+    <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructures</p><div class="bonus">Start Lv2</div></div>
+    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Nanobots</p><div class="bonus">+200 XP</div></div>
+  </div>
+  
+  <div id="selectedInfo">Selected: None</div>
+  <button id="startBtn" disabled>START GAME</button>
 </div>
 
-<div id="gameScreen">
-  <div id="hud">
-    <h3>⚡ STATUS</h3>
-    <div class="stat">Level: <span id="lvl">1</span></div>
-    <div class="stat">XP: <span id="xp">0/1000</span></div>
-    <div class="stat">Labs: <span id="labs">0/5</span></div>
-  </div>
-  
-  <div id="map">
-    <canvas id="mapCanvas"></canvas>
-  </div>
-  
-  <div id="location">📍 <span id="loc">Neo-City 2077</span></div>
-  <div id="prompt">Press E to Enter</div>
-  <div id="notif"></div>
-  
-  <div id="controls">
-    <div class="ctrl"><span class="key">WASD</span> Move</div>
-    <div class="ctrl"><span class="key">MOUSE</span> Drag to Look</div>
-    <div class="ctrl"><span class="key">E</span> Interact</div>
-    <div class="ctrl"><span class="key">M</span> Map</div>
-  </div>
+<div id="hud">
+  <h3>⚡ STATUS</h3>
+  <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
+  <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
+  <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/5</span></div>
+  <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0</span></div>
 </div>
 
+<div id="miniMap">
+  <h4>🗺️ CITY MAP (M)</h4>
+  <canvas id="miniMapCanvas"></canvas>
+</div>
+
+<div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
+<div id="interactPrompt">Press E</div>
+
+<div id="gadgetUI">
+  <button class="closeBtn" onclick="closeGadget()">✕</button>
+  <h2 id="gadgetTitle">Gadget</h2>
+  <div id="gadgetContent"></div>
+</div>
+
+<div id="controls">
+  <h4>🎮 CONTROLS</h4>
+  <div class="ctrl"><span class="key">WASD</span> Move</div>
+  <div class="ctrl"><span class="key">MOUSE</span> Look</div>
+  <div class="ctrl"><span class="key">E</span> Interact</div>
+  <div class="ctrl"><span class="key">SHIFT</span> Sprint</div>
+  <div class="ctrl"><span class="key">M</span> Map</div>
+  <div class="ctrl"><span class="key">ESC</span> Exit</div>
+</div>
+
+<div id="notif"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/PointerLockControls.js"></script>
 <script>
-console.log('🌟 TechVerse 2077 - Simple Version');
+console.log('%c🌟 TECHVERSE 2077 - STEP 2: PROPER 3D', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
+
+// Check if THREE.JS loaded
+if (typeof THREE === 'undefined') {
+  alert('❌ THREE.JS failed to load!\n\nPlease check your internet connection and refresh the page.');
+  document.getElementById('loadingText').textContent = 'ERROR: THREE.JS failed to load!';
+  document.getElementById('loadingText').style.color = '#e74c3c';
+} else {
+  console.log('%c✓ THREE.JS loaded successfully! Version: ' + THREE.REVISION, 'color: #27ae60; font-size: 14px;');
+  
+  // Progressive loading
+  let loadProgress = 0;
+  const loadSteps = [
+    'Loading THREE.JS...',
+    'Initializing renderer...',
+    'Creating city...',
+    'Building structures...',
+    'Adding details...',
+    'Ready!'
+  ];
+  
+  function updateLoading(step) {
+    loadProgress = (step / loadSteps.length) * 100;
+    document.getElementById('loadingProgress').style.width = loadProgress + '%';
+    document.getElementById('loadingText').textContent = loadSteps[step];
+  }
+  
+  updateLoading(0);
+  setTimeout(() => updateLoading(1), 300);
+  setTimeout(() => updateLoading(2), 600);
+  setTimeout(() => updateLoading(3), 900);
+  setTimeout(() => updateLoading(4), 1200);
+  setTimeout(() => {
+    updateLoading(5);
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('startScreen').style.display = 'flex';
+    }, 500);
+  }, 1500);
+}
 
 const state = {
-  lvl: 1,
-  xp: 0,
-  xpMax: 1000,
-  labs: 0,
-  playerX: 0,
-  playerZ: 250,
-  playerAngle: 0,
-  insideLab: false,
-  mapVisible: false
+  char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(),
+  insideLab: false, currentLab: null, nearInteractable: null,
+  gadgetActive: false, gadgetsUsed: 0, mapVisible: false
 };
 
-const buildings = [
-  { name: 'Robo Lab', x: -100, z: -100, color: '#ff6b6b', icon: '🤖' },
-  { name: 'Car Showroom', x: 0, z: -100, color: '#4ecdc4', icon: '🚗' },
-  { name: 'Mind Upload', x: 100, z: -100, color: '#f38181', icon: '🧠' },
-  { name: 'Quantum Lab', x: -50, z: 100, color: '#9b59b6', icon: '⚛️' },
-  { name: 'DNA Lab', x: 50, z: 100, color: '#1abc9c', icon: '🧬' }
-];
+let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
+let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
+let velocity = new THREE.Vector3(), prevTime = performance.now();
 
-let keys = {};
-let mouseDown = false;
-let lastMouseX = 0;
+const labConfigs = {
+  'Robo Lab': { color: 0xff6b6b, pos: [-100, 0, -100], icon: '🤖' },
+  'Flying Car Showroom': { color: 0x4ecdc4, pos: [0, 0, -100], icon: '🚗' },
+  'Consciousness Upload': { color: 0xf38181, pos: [100, 0, -100], icon: '🧠' },
+  'Quantum Computing': { color: 0x9b59b6, pos: [-50, 0, 100], icon: '⚛️' },
+  'DNA Lab': { color: 0x1abc9c, pos: [50, 0, 100], icon: '🧬' }
+};
 
-document.getElementById('startBtn').addEventListener('click', () => {
-  document.getElementById('startScreen').style.display = 'none';
-  document.getElementById('gameScreen').style.display = 'block';
-  notify('🎮 Welcome! Use WASD to move, drag mouse to look around!');
-  drawCity();
-  drawMap();
-  gameLoop();
-});
-
-document.addEventListener('keydown', e => {
-  keys[e.key.toLowerCase()] = true;
-  if (e.key.toLowerCase() === 'e') interact();
-  if (e.key.toLowerCase() === 'm') toggleMap();
-});
-
-document.addEventListener('keyup', e => {
-  keys[e.key.toLowerCase()] = false;
-});
-
-document.addEventListener('mousedown', e => {
-  mouseDown = true;
-  lastMouseX = e.clientX;
-});
-
-document.addEventListener('mouseup', () => {
-  mouseDown = false;
-});
-
-document.addEventListener('mousemove', e => {
-  if (mouseDown) {
-    const deltaX = e.clientX - lastMouseX;
-    state.playerAngle += deltaX * 0.003;
-    lastMouseX = e.clientX;
-  }
-});
-
-function drawCity() {
-  const screen = document.getElementById('gameScreen');
-  screen.innerHTML = `
-    <div id="hud">
-      <h3>⚡ STATUS</h3>
-      <div class="stat">Level: <span id="lvl">${state.lvl}</span></div>
-      <div class="stat">XP: <span id="xp">${state.xp}/${state.xpMax}</span></div>
-      <div class="stat">Labs: <span id="labs">${state.labs}/5</span></div>
-    </div>
-    
-    <div id="map" style="display: ${state.mapVisible ? 'block' : 'none'}">
-      <canvas id="mapCanvas"></canvas>
-    </div>
-    
-    <div id="location">📍 <span id="loc">${state.insideLab ? 'Inside Lab' : 'Neo-City 2077'}</span></div>
-    <div id="prompt" style="display: none;">Press E to Enter</div>
-    <div id="notif"></div>
-    
-    <div id="controls">
-      <div class="ctrl"><span class="key">WASD</span> Move</div>
-      <div class="ctrl"><span class="key">MOUSE</span> Drag to Look</div>
-      <div class="ctrl"><span class="key">E</span> Interact</div>
-      <div class="ctrl"><span class="key">M</span> Map</div>
-    </div>
-    
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-      <h2 style="color: #2c3e50; font-size: 2em; margin-bottom: 20px;">🏙️ NEO-CITY 2077</h2>
-      <p style="color: #34495e; font-size: 1.2em; margin-bottom: 30px;">5 Advanced Research Labs</p>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 800px;">
-        ${buildings.map(b => `
-          <div style="background: ${b.color}; padding: 30px; border-radius: 12px; cursor: pointer; transition: transform 0.3s;" onclick="enterLab('${b.name}')">
-            <div style="font-size: 3em; margin-bottom: 10px;">${b.icon}</div>
-            <div style="font-size: 1.2em; font-weight: bold; color: #fff;">${b.name}</div>
-          </div>
-        `).join('')}
-      </div>
-      <p style="color: #7f8c8d; margin-top: 30px; font-size: 0.9em;">Click on any lab to enter</p>
-    </div>
-  `;
-  
-  if (state.mapVisible) drawMap();
+function playSound(freq, dur) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + dur);
+  } catch(e) {}
 }
 
-function drawMap() {
-  const canvas = document.getElementById('mapCanvas');
-  if (!canvas) return;
-  
+function createTextSprite(text, color) {
+  const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 250;
-  canvas.height = 250;
+  canvas.width = 512;
+  canvas.height = 128;
+  ctx.fillStyle = 'rgba(0,0,0,0.9)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.font = 'Bold 40px Arial';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 256, 64);
+  const texture = new THREE.Texture(canvas);
+  texture.needsUpdate = true;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, depthTest: false }));
+  sprite.scale.set(20, 5, 1);
+  sprite.renderOrder = 999;
+  return sprite;
+}
+
+function createGadget(pos, id) {
+  const group = new THREE.Group();
+  const colors = [0x3498db, 0x1abc9c, 0x9b59b6, 0xe74c3c, 0xf39c12];
+  const color = colors[id % colors.length];
+  
+  const base = new THREE.Mesh(
+    new THREE.BoxGeometry(2, 1.6, 2),
+    new THREE.MeshLambertMaterial({ color: color })
+  );
+  base.position.y = 0.8;
+  
+  const screen = new THREE.Mesh(
+    new THREE.BoxGeometry(1.6, 1.2, 0.1),
+    new THREE.MeshLambertMaterial({ color: 0x2c3e50, emissive: color, emissiveIntensity: 0.3 })
+  );
+  screen.position.set(0, 1.3, 1.05);
+  
+  group.add(base, screen);
+  group.position.copy(pos);
+  group.userData = { interactive: true, id: id, name: `Gadget ${id}` };
+  
+  return group;
+}
+
+function drawMiniMap() {
+  const canvas = document.getElementById('miniMapCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = 276;
+  const h = canvas.height = 258;
   
   ctx.fillStyle = '#1a1a1a';
-  ctx.fillRect(0, 0, 250, 250);
+  ctx.fillRect(0, 0, w, h);
   
-  // Grid
   ctx.strokeStyle = '#333';
   ctx.lineWidth = 1;
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 0; i <= 4; i++) {
     ctx.beginPath();
-    ctx.moveTo(i * 50, 0);
-    ctx.lineTo(i * 50, 250);
+    ctx.moveTo(i * w/4, 0);
+    ctx.lineTo(i * w/4, h);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(0, i * 50);
-    ctx.lineTo(250, i * 50);
+    ctx.moveTo(0, i * h/4);
+    ctx.lineTo(w, i * h/4);
     ctx.stroke();
   }
   
-  // Buildings
-  buildings.forEach(b => {
-    const x = (b.x + 150) / 300 * 250;
-    const y = (b.z + 150) / 300 * 250;
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    const x = (config.pos[0] + 150) / 300 * w;
+    const y = (config.pos[2] + 150) / 300 * h;
     
-    ctx.fillStyle = b.color;
-    ctx.fillRect(x - 5, y - 5, 10, 10);
+    ctx.fillStyle = `#${config.color.toString(16).padStart(6, '0')}`;
+    ctx.fillRect(x - 4, y - 4, 8, 8);
     
     ctx.fillStyle = '#fff';
-    ctx.font = '14px Arial';
+    ctx.font = '12px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(b.icon, x, y + 5);
+    ctx.fillText(config.icon, x, y + 4);
   });
   
-  // Player
-  const px = (state.playerX + 150) / 300 * 250;
-  const py = (state.playerZ + 150) / 300 * 250;
-  ctx.fillStyle = '#27ae60';
-  ctx.beginPath();
-  ctx.arc(px, py, 5, 0, Math.PI * 2);
-  ctx.fill();
-}
-
-function toggleMap() {
-  state.mapVisible = !state.mapVisible;
-  drawCity();
-}
-
-function interact() {
-  // Check if near any building
-  buildings.forEach(b => {
-    const dist = Math.sqrt((state.playerX - b.x) ** 2 + (state.playerZ - b.z) ** 2);
-    if (dist < 50) {
-      enterLab(b.name);
-    }
-  });
-}
-
-function enterLab(name) {
-  state.insideLab = true;
-  state.labs++;
-  
-  const screen = document.getElementById('gameScreen');
-  screen.innerHTML = `
-    <div id="hud">
-      <h3>⚡ STATUS</h3>
-      <div class="stat">Level: <span id="lvl">${state.lvl}</span></div>
-      <div class="stat">XP: <span id="xp">${state.xp}/${state.xpMax}</span></div>
-      <div class="stat">Labs: <span id="labs">${state.labs}/5</span></div>
-    </div>
-    
-    <div id="location">🔬 <span id="loc">${name}</span></div>
-    <div id="notif"></div>
-    
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; max-width: 800px;">
-      <h2 style="color: #2c3e50; font-size: 2.5em; margin-bottom: 20px;">${name}</h2>
-      <p style="color: #34495e; font-size: 1.2em; margin-bottom: 30px;">Advanced Research Facility</p>
-      
-      <div style="background: #ecf0f1; padding: 40px; border-radius: 12px; margin-bottom: 20px;">
-        <h3 style="color: #2c3e50; margin-bottom: 20px;">Available Gadgets</h3>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-          ${[1,2,3,4,5,6].map(i => `
-            <div style="background: #3498db; padding: 20px; border-radius: 8px; cursor: pointer; color: #fff;" onclick="useGadget(${i})">
-              <div style="font-size: 2em; margin-bottom: 10px;">🔬</div>
-              <div>Gadget ${i}</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-      
-      <button onclick="exitLab()" style="padding: 15px 40px; font-size: 1.2em; background: #e74c3c; border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer;">
-        EXIT LAB
-      </button>
-    </div>
-  `;
-  
-  notify(`🚪 Entered ${name}!`);
-}
-
-function useGadget(id) {
-  state.xp += 120;
-  
-  if (state.xp >= state.xpMax) {
-    state.xp -= state.xpMax;
-    state.lvl++;
-    state.xpMax = Math.floor(state.xpMax * 1.5);
-    notify(`🎉 LEVEL UP! Now Level ${state.lvl}!`);
-  } else {
-    notify(`✓ Gadget ${id} used! +120 XP`);
+  if (!state.insideLab && camera) {
+    const px = (camera.position.x + 150) / 300 * w;
+    const py = (camera.position.z + 150) / 300 * h;
+    ctx.fillStyle = '#27ae60';
+    ctx.beginPath();
+    ctx.arc(px, py, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
   }
-  
-  document.getElementById('lvl').textContent = state.lvl;
-  document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-}
-
-function exitLab() {
-  state.insideLab = false;
-  notify('🚪 Exited lab!');
-  drawCity();
 }
 
 function notify(msg) {
   const n = document.getElementById('notif');
-  if (!n) return;
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 3000);
+  setTimeout(() => n.classList.remove('show'), 3500);
 }
 
-function gameLoop() {
-  // Movement
-  const speed = 2;
-  if (keys['w']) {
-    state.playerX += Math.sin(state.playerAngle) * speed;
-    state.playerZ += Math.cos(state.playerAngle) * speed;
+function updateHUD() {
+  document.getElementById('lvl').textContent = state.lvl;
+  document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/5`;
+  document.getElementById('gadgetsUsed').textContent = state.gadgetsUsed;
+  document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City';
+  
+  while (state.xp >= state.xpMax) {
+    state.xp -= state.xpMax;
+    state.lvl++;
+    state.xpMax = Math.floor(state.xpMax * 1.5);
+    notify(`🎉 LEVEL UP! Level ${state.lvl}!`);
+    playSound(1800, 0.7);
   }
-  if (keys['s']) {
-    state.playerX -= Math.sin(state.playerAngle) * speed;
-    state.playerZ -= Math.cos(state.playerAngle) * speed;
-  }
-  if (keys['a']) {
-    state.playerX += Math.cos(state.playerAngle) * speed;
-    state.playerZ -= Math.sin(state.playerAngle) * speed;
-  }
-  if (keys['d']) {
-    state.playerX -= Math.cos(state.playerAngle) * speed;
-    state.playerZ += Math.sin(state.playerAngle) * speed;
+}
+
+document.querySelectorAll('.charCard').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.charCard').forEach(c => c.classList.remove('selected'));
+    this.classList.add('selected');
+    state.char = this.dataset.char;
+    document.getElementById('selectedInfo').textContent = `✓ ${state.char}`;
+    document.getElementById('selectedInfo').style.display = 'block';
+    document.getElementById('startBtn').disabled = false;
+    playSound(900, 0.15);
+  });
+});
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  if (!state.char) return;
+  if (state.char === 'Space Architect') state.lvl = 2;
+  if (state.char === 'Nano-Surgeon') state.xp = 200;
+  document.getElementById('startScreen').classList.add('hide');
+  ['hud', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
+  document.getElementById('role').textContent = state.char;
+  playSound(1400, 0.4);
+  init();
+});
+
+function init() {
+  console.log('🚀 Initializing 3D world...');
+  
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
+  
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1.7, 250);
+  
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  
+  controls = new THREE.PointerLockControls(camera, document.body);
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 1.0);
+  sun.position.set(200, 300, 150);
+  sun.castShadow = true;
+  scene.add(sun);
+  
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.MeshLambertMaterial({ color: 0x228B22 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
+  
+  createCity();
+  setupControls();
+  
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+  
+  animate();
+  updateHUD();
+  drawMiniMap();
+  notify(`🎮 Welcome ${state.char}! Press M for map!`);
+  console.log('✓ 3D world loaded!');
+}
+
+function createCity() {
+  console.log('🏙️ Creating detailed city...');
+  
+  Object.entries(labConfigs).forEach(([name, config]) => {
+    // Main building
+    const building = new THREE.Mesh(
+      new THREE.BoxGeometry(50, 40, 60),
+      new THREE.MeshLambertMaterial({ color: 0xCCCCCC })
+    );
+    building.position.set(config.pos[0], 20, config.pos[2]);
+    building.castShadow = true;
+    building.receiveShadow = true;
+    scene.add(building);
+    
+    // Windows (7x7 grid)
+    for (let floor = 0; floor < 7; floor++) {
+      for (let col = 0; col < 7; col++) {
+        const win = new THREE.Mesh(
+          new THREE.BoxGeometry(3.5, 2.8, 0.2),
+          new THREE.MeshLambertMaterial({ 
+            color: 0x87CEEB, 
+            transparent: true, 
+            opacity: 0.7, 
+            emissive: 0x3498db, 
+            emissiveIntensity: 0.2 
+          })
+        );
+        win.position.set(-18 + col * 5.5, -14 + floor * 5, 30.1);
+        building.add(win);
+      }
+    }
+    
+    // Balconies (floors 2, 4, 6)
+    [2, 4, 6].forEach(floor => {
+      const balcony = new THREE.Mesh(
+        new THREE.BoxGeometry(48, 0.3, 2),
+        new THREE.MeshLambertMaterial({ color: 0x95a5a6 })
+      );
+      balcony.position.set(0, -14 + floor * 5, 31);
+      building.add(balcony);
+    });
+    
+    // Rooftop AC units
+    for (let i = 0; i < 3; i++) {
+      const ac = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 1.5, 2),
+        new THREE.MeshLambertMaterial({ color: 0x7f8c8d })
+      );
+      ac.position.set(-15 + i * 15, 21, -25);
+      building.add(ac);
+    }
+    
+    // Antenna
+    const antenna = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.5, 0.5, 8),
+      new THREE.MeshLambertMaterial({ color: 0xe74c3c })
+    );
+    antenna.position.set(0, 24, 0);
+    building.add(antenna);
+    
+    // Label
+    const label = createTextSprite(`${config.icon} ${name.toUpperCase()}`, `#${config.color.toString(16).padStart(6, '0')}`);
+    label.position.set(0, 25, 0);
+    building.add(label);
+    
+    // Door
+    const door = new THREE.Mesh(
+      new THREE.BoxGeometry(8, 10, 0.8),
+      new THREE.MeshLambertMaterial({ color: 0x8B4513 })
+    );
+    door.position.set(0, -15, 30.4);
+    door.userData = { type: 'entrance', lab: name };
+    door.castShadow = true;
+    building.add(door);
+    interactables.push(door);
+  });
+  
+  console.log(`✓ City created: 5 detailed buildings`);
+}
+
+function enterLab(labName) {
+  console.log(`🚪 Entering ${labName}...`);
+  notify(`🚪 ${labName}...`);
+  playSound(700, 0.25);
+  
+  state.labsVisited.add(labName);
+  state.insideLab = true;
+  state.currentLab = labName;
+  
+  scene.clear();
+  interactables = [];
+  scene.background = new THREE.Color(0xF5F5F5);
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+  
+  createLabInterior();
+  
+  camera.position.set(0, 1.7, 50);
+  camera.rotation.set(0, 0, 0);
+  velocity.set(0, 0, 0);
+  updateHUD();
+}
+
+function createLabInterior() {
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(120, 140),
+    new THREE.MeshLambertMaterial({ color: 0xE0E0E0 })
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  
+  [[0, 3, -70, 120, 6, 0.5], [-60, 3, 0, 0.5, 6, 140], [60, 3, 0, 0.5, 6, 140], [0, 3, 70, 120, 6, 0.5]].forEach(w => {
+    const wall = new THREE.Mesh(
+      new THREE.BoxGeometry(w[3], w[4], w[5]),
+      new THREE.MeshLambertMaterial({ color: 0xFAFAFA })
+    );
+    wall.position.set(w[0], w[1], w[2]);
+    scene.add(wall);
+  });
+  
+  let gadgetId = 1;
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < 5; col++) {
+      const x = -48 + col * 24;
+      const z = -50 + row * 25;
+      const gadget = createGadget(new THREE.Vector3(x, 0, z), gadgetId);
+      scene.add(gadget);
+      interactables.push(gadget);
+      gadgetId++;
+    }
   }
   
-  // Check proximity to buildings
-  let nearBuilding = false;
-  buildings.forEach(b => {
-    const dist = Math.sqrt((state.playerX - b.x) ** 2 + (state.playerZ - b.z) ** 2);
-    if (dist < 50) {
-      nearBuilding = true;
+  const exit = new THREE.Mesh(
+    new THREE.BoxGeometry(8, 10, 0.8),
+    new THREE.MeshLambertMaterial({ color: 0xff4500 })
+  );
+  exit.position.set(0, 5, 69.7);
+  exit.userData = { type: 'exit' };
+  scene.add(exit);
+  interactables.push(exit);
+}
+
+function exitLab() {
+  notify('🚪 Exiting...');
+  playSound(600, 0.25);
+  state.insideLab = false;
+  state.currentLab = null;
+  
+  scene.clear();
+  interactables = [];
+  scene.background = new THREE.Color(0x87CEEB);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
+  
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 1.0);
+  sun.position.set(200, 300, 150);
+  scene.add(sun);
+  
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.MeshLambertMaterial({ color: 0x228B22 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+  
+  createCity();
+  camera.position.set(0, 1.7, 250);
+  velocity.set(0, 0, 0);
+  updateHUD();
+  drawMiniMap();
+}
+
+function setupControls() {
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'KeyW') moveForward = true;
+    if (e.code === 'KeyS') moveBackward = true;
+    if (e.code === 'KeyA') moveLeft = true;
+    if (e.code === 'KeyD') moveRight = true;
+    if (e.code === 'ShiftLeft') sprint = true;
+    if (e.code === 'KeyE') handleInteraction();
+    if (e.code === 'KeyM') toggleMap();
+    if (e.code === 'Escape') {
+      if (state.gadgetActive) closeGadget();
+      else if (state.insideLab) exitLab();
+      else controls.unlock();
     }
   });
   
-  const prompt = document.getElementById('prompt');
-  if (prompt) {
-    prompt.style.display = nearBuilding && !state.insideLab ? 'block' : 'none';
-  }
+  document.addEventListener('keyup', (e) => {
+    if (e.code === 'KeyW') moveForward = false;
+    if (e.code === 'KeyS') moveBackward = false;
+    if (e.code === 'KeyA') moveLeft = false;
+    if (e.code === 'KeyD') moveRight = false;
+    if (e.code === 'ShiftLeft') sprint = false;
+  });
   
-  if (state.mapVisible) drawMap();
-  
-  requestAnimationFrame(gameLoop);
+  document.getElementById('canvas').addEventListener('click', () => {
+    if (!state.gadgetActive) controls.lock();
+  });
 }
 
-console.log('✓ Game Ready!');
+function toggleMap() {
+  state.mapVisible = !state.mapVisible;
+  document.getElementById('miniMap').style.display = state.mapVisible ? 'block' : 'none';
+  if (state.mapVisible) drawMiniMap();
+  playSound(1000, 0.12);
+}
+
+function handleInteraction() {
+  if (!state.nearInteractable) return;
+  const ud = state.nearInteractable.userData;
+  
+  if (ud.type === 'entrance') {
+    enterLab(ud.lab);
+  } else if (ud.type === 'exit') {
+    exitLab();
+  } else if (ud.interactive) {
+    controls.unlock();
+    state.gadgetActive = true;
+    document.getElementById('gadgetUI').style.display = 'block';
+    document.getElementById('gadgetTitle').textContent = ud.name;
+    playSound(900, 0.15);
+    showGenericGadget();
+  }
+}
+
+function showGenericGadget() {
+  document.getElementById('gadgetContent').innerHTML = `
+    <div class="screen" id="genericScreen">SYSTEM READY
+Press START</div>
+    <div class="progress"><div class="progressBar" id="genericProgress"></div></div>
+    <div style="text-align: center;">
+      <button class="actionBtn success" onclick="startGeneric()">▶ START</button>
+    </div>
+  `;
+}
+
+window.startGeneric = function() {
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 8;
+    document.getElementById('genericProgress').style.width = progress + '%';
+    playSound(850 + progress * 7, 0.08);
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      document.getElementById('genericScreen').textContent = `COMPLETE!
+Data collected
+Results verified`;
+      state.xp += 120;
+      state.gadgetsUsed++;
+      updateHUD();
+      notify('✓ Done! +120 XP');
+      playSound(1450, 0.5);
+      setTimeout(closeGadget, 2000);
+    }
+  }, 250);
+};
+
+window.closeGadget = function() {
+  state.gadgetActive = false;
+  document.getElementById('gadgetUI').style.display = 'none';
+  controls.lock();
+  playSound(700, 0.12);
+};
+
+function checkNearby() {
+  const dir = new THREE.Vector3();
+  camera.getWorldDirection(dir);
+  raycaster.set(camera.position, dir);
+  
+  const intersects = raycaster.intersectObjects(interactables, true);
+  
+  if (intersects.length > 0 && intersects[0].distance < 12) {
+    let obj = intersects[0].object;
+    while (obj.parent && !obj.userData.interactive && obj.userData.type !== 'entrance' && obj.userData.type !== 'exit') {
+      obj = obj.parent;
+    }
+    state.nearInteractable = obj;
+    document.getElementById('interactPrompt').style.display = 'block';
+  } else {
+    state.nearInteractable = null;
+    document.getElementById('interactPrompt').style.display = 'none';
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  
+  const time = performance.now();
+  const delta = (time - prevTime) / 1000;
+  
+  if (controls.isLocked) {
+    velocity.x -= velocity.x * 10.0 * delta;
+    velocity.z -= velocity.z * 10.0 * delta;
+    
+    const speed = sprint ? 80 : 45;
+    
+    if (moveForward) velocity.z = -speed;
+    if (moveBackward) velocity.z = speed;
+    if (moveLeft) velocity.x = -speed;
+    if (moveRight) velocity.x = speed;
+    
+    controls.moveRight(velocity.x * delta);
+    controls.moveForward(velocity.z * delta);
+    
+    checkNearby();
+    
+    if (state.mapVisible && !state.insideLab) drawMiniMap();
+  }
+  
+  prevTime = time;
+  renderer.render(scene, camera);
+}
+
+console.log('✓ STEP 2 Ready!');
 </script>
 </body>
 </html>
