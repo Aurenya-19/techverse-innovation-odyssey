@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Step 2: Proper 3D</title>
+<title>TechVerse 2077 - Step 3: 29 Buildings</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
@@ -37,7 +37,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 .hudStat { display: flex; justify-content: space-between; margin: 8px 0; color: #fff; font-size: 0.95em; }
 .hudStat .val { color: #27ae60; font-weight: bold; }
 
-#miniMap { position: fixed; bottom: 15px; right: 15px; width: 300px; height: 300px; background: rgba(0,0,0,0.85); border: 3px solid #3498db; border-radius: 12px; z-index: 1000; display: none; padding: 12px; }
+#miniMap { position: fixed; bottom: 15px; right: 15px; width: 350px; height: 350px; background: rgba(0,0,0,0.85); border: 3px solid #3498db; border-radius: 12px; z-index: 1000; display: none; padding: 12px; }
 #miniMap h4 { color: #3498db; margin-bottom: 10px; font-size: 1.1em; text-align: center; }
 #miniMapCanvas { width: 100%; height: calc(100% - 35px); background: #1a1a1a; border-radius: 8px; }
 
@@ -85,12 +85,12 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <div id="loadingScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
   <div class="loadingBar"><div class="loadingProgress" id="loadingProgress"></div></div>
-  <div id="loadingText">Loading THREE.JS...</div>
+  <div id="loadingText">Loading...</div>
 </div>
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">STEP 2: Proper 3D City • 5 Detailed Buildings • Smooth Controls • Working Map</p>
+  <p class="subtitle">STEP 3: 29 Advanced Labs • Detailed Buildings • Full City • Working Map</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life</p><div class="bonus">+50% Bio XP</div></div>
@@ -114,7 +114,7 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
   <div class="hudStat"><span>Role:</span><span class="val" id="role">-</span></div>
   <div class="hudStat"><span>Level:</span><span class="val" id="lvl">1</span></div>
   <div class="hudStat"><span>XP:</span><span class="val" id="xp">0/1000</span></div>
-  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/5</span></div>
+  <div class="hudStat"><span>Labs:</span><span class="val" id="labsVisited">0/29</span></div>
   <div class="hudStat"><span>Gadgets:</span><span class="val" id="gadgetsUsed">0</span></div>
 </div>
 
@@ -147,26 +147,17 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/PointerLockControls.js"></script>
 <script>
-console.log('%c🌟 TECHVERSE 2077 - STEP 2: PROPER 3D', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
+console.log('%c🌟 TECHVERSE 2077 - STEP 3: 29 BUILDINGS', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
 
-// Check if THREE.JS loaded
 if (typeof THREE === 'undefined') {
-  alert('❌ THREE.JS failed to load!\n\nPlease check your internet connection and refresh the page.');
-  document.getElementById('loadingText').textContent = 'ERROR: THREE.JS failed to load!';
+  alert('❌ THREE.JS failed to load! Please refresh.');
+  document.getElementById('loadingText').textContent = 'ERROR: THREE.JS failed!';
   document.getElementById('loadingText').style.color = '#e74c3c';
 } else {
-  console.log('%c✓ THREE.JS loaded successfully! Version: ' + THREE.REVISION, 'color: #27ae60; font-size: 14px;');
+  console.log('%c✓ THREE.JS loaded! Version: ' + THREE.REVISION, 'color: #27ae60; font-size: 14px;');
   
-  // Progressive loading
   let loadProgress = 0;
-  const loadSteps = [
-    'Loading THREE.JS...',
-    'Initializing renderer...',
-    'Creating city...',
-    'Building structures...',
-    'Adding details...',
-    'Ready!'
-  ];
+  const loadSteps = ['Loading THREE.JS...', 'Initializing...', 'Creating 29 buildings...', 'Adding details...', 'Ready!'];
   
   function updateLoading(step) {
     loadProgress = (step / loadSteps.length) * 100;
@@ -177,15 +168,14 @@ if (typeof THREE === 'undefined') {
   updateLoading(0);
   setTimeout(() => updateLoading(1), 300);
   setTimeout(() => updateLoading(2), 600);
-  setTimeout(() => updateLoading(3), 900);
-  setTimeout(() => updateLoading(4), 1200);
+  setTimeout(() => updateLoading(3), 1200);
   setTimeout(() => {
-    updateLoading(5);
+    updateLoading(4);
     setTimeout(() => {
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('startScreen').style.display = 'flex';
     }, 500);
-  }, 1500);
+  }, 1800);
 }
 
 const state = {
@@ -199,11 +189,40 @@ let moveForward = false, moveBackward = false, moveLeft = false, moveRight = fal
 let velocity = new THREE.Vector3(), prevTime = performance.now();
 
 const labConfigs = {
-  'Robo Lab': { color: 0xff6b6b, pos: [-100, 0, -100], icon: '🤖' },
-  'Flying Car Showroom': { color: 0x4ecdc4, pos: [0, 0, -100], icon: '🚗' },
-  'Consciousness Upload': { color: 0xf38181, pos: [100, 0, -100], icon: '🧠' },
-  'Quantum Computing': { color: 0x9b59b6, pos: [-50, 0, 100], icon: '⚛️' },
-  'DNA Lab': { color: 0x1abc9c, pos: [50, 0, 100], icon: '🧬' }
+  'Robo Lab': { color: 0xff6b6b, pos: [-140, 0, -140], icon: '🤖' },
+  'Flying Car Showroom': { color: 0x4ecdc4, pos: [-70, 0, -140], icon: '🚗' },
+  'Holographic Studio': { color: 0x95e1d3, pos: [0, 0, -140], icon: '🎨' },
+  'Consciousness Upload': { color: 0xf38181, pos: [70, 0, -140], icon: '🧠' },
+  'Gravity Lab': { color: 0xaa96da, pos: [140, 0, -140], icon: '🌌' },
+  
+  'Time Dilation': { color: 0xfcbad3, pos: [-140, 0, -70], icon: '⏰' },
+  'Dimensional Portal': { color: 0xa8e6cf, pos: [-70, 0, -70], icon: '🌀' },
+  'Synthetic Biology': { color: 0xffd3b6, pos: [0, 0, -70], icon: '🧬' },
+  'Neural Link': { color: 0xffaaa5, pos: [70, 0, -70], icon: '🔗' },
+  'Dyson Sphere': { color: 0xff8b94, pos: [140, 0, -70], icon: '☀️' },
+  
+  'Quantum Computing': { color: 0x9b59b6, pos: [-140, 0, 0], icon: '⚛️' },
+  'Nanotechnology': { color: 0xe74c3c, pos: [-70, 0, 0], icon: '🔬' },
+  'AI Research': { color: 0xe67e22, pos: [0, 0, 0], icon: '🤖' },
+  'Bioprinting': { color: 0x1abc9c, pos: [70, 0, 0], icon: '🖨️' },
+  'Fusion Energy': { color: 0xf39c12, pos: [140, 0, 0], icon: '☢️' },
+  
+  'Space Propulsion': { color: 0x3498db, pos: [-140, 0, 70], icon: '🚀' },
+  'Acoustic Levitation': { color: 0xe67e22, pos: [-70, 0, 70], icon: '🔊' },
+  'Epigenetics': { color: 0x2ecc71, pos: [0, 0, 70], icon: '⏳' },
+  'Wireless Power': { color: 0xf39c12, pos: [70, 0, 70], icon: '⚡' },
+  'Mycelium Computing': { color: 0x27ae60, pos: [140, 0, 70], icon: '🍄' },
+  
+  'Cryogenics': { color: 0x16a085, pos: [-140, 0, 140], icon: '🧊' },
+  'Metamaterials': { color: 0x34495e, pos: [-70, 0, 140], icon: '👻' },
+  'Optogenetics': { color: 0x9b59b6, pos: [0, 0, 140], icon: '🧠' },
+  'Xenobiology': { color: 0x1abc9c, pos: [70, 0, 140], icon: '🧬' },
+  'OTEC Energy': { color: 0x3498db, pos: [140, 0, 140], icon: '🌊' },
+  
+  'Programmable Matter': { color: 0x8e44ad, pos: [-90, 0, 210], icon: '🔮' },
+  'Hybrid Lab': { color: 0xe74c3c, pos: [0, 0, 210], icon: '🤝' },
+  'Startup Hub': { color: 0xff00ff, pos: [90, 0, 210], icon: '💼' },
+  'Tech Championship': { color: 0xf1c40f, pos: [0, 0, 280], icon: '🏆' }
 };
 
 function playSound(freq, dur) {
@@ -228,7 +247,7 @@ function createTextSprite(text, color) {
   canvas.height = 128;
   ctx.fillStyle = 'rgba(0,0,0,0.9)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.font = 'Bold 40px Arial';
+  ctx.font = 'Bold 36px Arial';
   ctx.fillStyle = color;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -236,7 +255,7 @@ function createTextSprite(text, color) {
   const texture = new THREE.Texture(canvas);
   texture.needsUpdate = true;
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, depthTest: false }));
-  sprite.scale.set(20, 5, 1);
+  sprite.scale.set(18, 4.5, 1);
   sprite.renderOrder = 999;
   return sprite;
 }
@@ -269,41 +288,41 @@ function drawMiniMap() {
   const canvas = document.getElementById('miniMapCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = canvas.width = 276;
-  const h = canvas.height = 258;
+  const w = canvas.width = 326;
+  const h = canvas.height = 308;
   
   ctx.fillStyle = '#1a1a1a';
   ctx.fillRect(0, 0, w, h);
   
   ctx.strokeStyle = '#333';
   ctx.lineWidth = 1;
-  for (let i = 0; i <= 4; i++) {
+  for (let i = 0; i <= 6; i++) {
     ctx.beginPath();
-    ctx.moveTo(i * w/4, 0);
-    ctx.lineTo(i * w/4, h);
+    ctx.moveTo(i * w/6, 0);
+    ctx.lineTo(i * w/6, h);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(0, i * h/4);
-    ctx.lineTo(w, i * h/4);
+    ctx.moveTo(0, i * h/6);
+    ctx.lineTo(w, i * h/6);
     ctx.stroke();
   }
   
   Object.entries(labConfigs).forEach(([name, config]) => {
-    const x = (config.pos[0] + 150) / 300 * w;
-    const y = (config.pos[2] + 150) / 300 * h;
+    const x = (config.pos[0] + 200) / 400 * w;
+    const y = (config.pos[2] + 200) / 400 * h;
     
     ctx.fillStyle = `#${config.color.toString(16).padStart(6, '0')}`;
-    ctx.fillRect(x - 4, y - 4, 8, 8);
+    ctx.fillRect(x - 3, y - 3, 6, 6);
     
     ctx.fillStyle = '#fff';
-    ctx.font = '12px Arial';
+    ctx.font = '10px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(config.icon, x, y + 4);
+    ctx.fillText(config.icon, x, y + 3);
   });
   
   if (!state.insideLab && camera) {
-    const px = (camera.position.x + 150) / 300 * w;
-    const py = (camera.position.z + 150) / 300 * h;
+    const px = (camera.position.x + 200) / 400 * w;
+    const py = (camera.position.z + 200) / 400 * h;
     ctx.fillStyle = '#27ae60';
     ctx.beginPath();
     ctx.arc(px, py, 4, 0, Math.PI * 2);
@@ -324,7 +343,7 @@ function notify(msg) {
 function updateHUD() {
   document.getElementById('lvl').textContent = state.lvl;
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
-  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/5`;
+  document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/29`;
   document.getElementById('gadgetsUsed').textContent = state.gadgetsUsed;
   document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City';
   
@@ -361,14 +380,14 @@ document.getElementById('startBtn').addEventListener('click', () => {
 });
 
 function init() {
-  console.log('🚀 Initializing 3D world...');
+  console.log('🚀 Initializing 3D world with 29 buildings...');
   
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 600);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 1.7, 250);
+  camera.position.set(0, 1.7, 350);
   
   renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -385,7 +404,7 @@ function init() {
   scene.add(sun);
   
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.PlaneGeometry(1200, 1200),
     new THREE.MeshLambertMaterial({ color: 0x228B22 })
   );
   ground.rotation.x = -Math.PI / 2;
@@ -404,59 +423,52 @@ function init() {
   animate();
   updateHUD();
   drawMiniMap();
-  notify(`🎮 Welcome ${state.char}! Press M for map!`);
-  console.log('✓ 3D world loaded!');
+  notify(`🎮 Welcome ${state.char}! 29 labs to explore! Press M for map!`);
+  console.log('✓ 3D world with 29 buildings loaded!');
 }
 
 function createCity() {
-  console.log('🏙️ Creating detailed city...');
+  console.log('🏙️ Creating 29 detailed buildings...');
   
   Object.entries(labConfigs).forEach(([name, config]) => {
-    // Main building
     const building = new THREE.Mesh(
-      new THREE.BoxGeometry(50, 40, 60),
+      new THREE.BoxGeometry(48, 38, 56),
       new THREE.MeshLambertMaterial({ color: 0xCCCCCC })
     );
-    building.position.set(config.pos[0], 20, config.pos[2]);
+    building.position.set(config.pos[0], 19, config.pos[2]);
     building.castShadow = true;
     building.receiveShadow = true;
     scene.add(building);
     
-    // Windows (7x7 grid)
+    // Windows
     for (let floor = 0; floor < 7; floor++) {
       for (let col = 0; col < 7; col++) {
         const win = new THREE.Mesh(
-          new THREE.BoxGeometry(3.5, 2.8, 0.2),
-          new THREE.MeshLambertMaterial({ 
-            color: 0x87CEEB, 
-            transparent: true, 
-            opacity: 0.7, 
-            emissive: 0x3498db, 
-            emissiveIntensity: 0.2 
-          })
+          new THREE.BoxGeometry(3.2, 2.6, 0.2),
+          new THREE.MeshLambertMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.7, emissive: 0x3498db, emissiveIntensity: 0.2 })
         );
-        win.position.set(-18 + col * 5.5, -14 + floor * 5, 30.1);
+        win.position.set(-17 + col * 5.2, -13 + floor * 4.8, 28.1);
         building.add(win);
       }
     }
     
-    // Balconies (floors 2, 4, 6)
+    // Balconies
     [2, 4, 6].forEach(floor => {
       const balcony = new THREE.Mesh(
-        new THREE.BoxGeometry(48, 0.3, 2),
+        new THREE.BoxGeometry(46, 0.3, 2),
         new THREE.MeshLambertMaterial({ color: 0x95a5a6 })
       );
-      balcony.position.set(0, -14 + floor * 5, 31);
+      balcony.position.set(0, -13 + floor * 4.8, 29);
       building.add(balcony);
     });
     
-    // Rooftop AC units
+    // AC units
     for (let i = 0; i < 3; i++) {
       const ac = new THREE.Mesh(
         new THREE.BoxGeometry(2, 1.5, 2),
         new THREE.MeshLambertMaterial({ color: 0x7f8c8d })
       );
-      ac.position.set(-15 + i * 15, 21, -25);
+      ac.position.set(-14 + i * 14, 20, -23);
       building.add(ac);
     }
     
@@ -465,27 +477,27 @@ function createCity() {
       new THREE.CylinderGeometry(0.5, 0.5, 8),
       new THREE.MeshLambertMaterial({ color: 0xe74c3c })
     );
-    antenna.position.set(0, 24, 0);
+    antenna.position.set(0, 23, 0);
     building.add(antenna);
     
     // Label
     const label = createTextSprite(`${config.icon} ${name.toUpperCase()}`, `#${config.color.toString(16).padStart(6, '0')}`);
-    label.position.set(0, 25, 0);
+    label.position.set(0, 24, 0);
     building.add(label);
     
     // Door
     const door = new THREE.Mesh(
-      new THREE.BoxGeometry(8, 10, 0.8),
+      new THREE.BoxGeometry(7, 9, 0.7),
       new THREE.MeshLambertMaterial({ color: 0x8B4513 })
     );
-    door.position.set(0, -15, 30.4);
+    door.position.set(0, -14.5, 28.4);
     door.userData = { type: 'entrance', lab: name };
     door.castShadow = true;
     building.add(door);
     interactables.push(door);
   });
   
-  console.log(`✓ City created: 5 detailed buildings`);
+  console.log(`✓ 29 buildings created with ${interactables.length} doors!`);
 }
 
 function enterLab(labName) {
@@ -560,7 +572,7 @@ function exitLab() {
   scene.clear();
   interactables = [];
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 600);
   
   scene.add(new THREE.AmbientLight(0xffffff, 0.7));
   
@@ -569,14 +581,14 @@ function exitLab() {
   scene.add(sun);
   
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1000, 1000),
+    new THREE.PlaneGeometry(1200, 1200),
     new THREE.MeshLambertMaterial({ color: 0x228B22 })
   );
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
   
   createCity();
-  camera.position.set(0, 1.7, 250);
+  camera.position.set(0, 1.7, 350);
   velocity.set(0, 0, 0);
   updateHUD();
   drawMiniMap();
@@ -725,7 +737,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-console.log('✓ STEP 2 Ready!');
+console.log('✓ STEP 3 Complete - 29 Buildings!');
 </script>
 </body>
 </html>
