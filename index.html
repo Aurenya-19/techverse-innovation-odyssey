@@ -3,103 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechVerse 2077 - Final Working 3D</title>
+<title>TechVerse 2077 - Working 3D</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
 body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; color: #fff; }
 #canvas { display: block; width: 100vw; height: 100vh; }
 
 #startScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto; padding: 20px; }
-#startScreen h1 { font-size: 3em; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 10px; font-weight: 900; }
-.subtitle { font-size: 0.95em; color: #fff; margin-bottom: 15px; text-align: center; line-height: 1.3; max-width: 850px; }
-.charGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 1000px; margin-bottom: 15px; }
-.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; transition: all 0.3s; }
-.charCard:hover { transform: translateY(-5px); }
-.charCard.selected { background: rgba(46,204,113,0.4) !important; border: 3px solid #27ae60 !important; transform: scale(1.05) !important; }
-.charCard .icon { font-size: 1.8em; margin-bottom: 5px; }
-.charCard h3 { color: #fff; font-size: 0.9em; margin-bottom: 4px; font-weight: 800; }
-.charCard p { color: rgba(255,255,255,0.9); font-size: 0.7em; }
-.charCard .bonus { color: #f1c40f; font-size: 0.65em; margin-top: 3px; font-weight: bold; }
-#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 8px 25px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; display: none; }
-#startBtn { padding: 16px 60px; font-size: 1.3em; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 12px; color: #fff; font-weight: 900; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
+#startScreen h1 { font-size: 2.8em; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 10px; font-weight: 900; }
+.subtitle { font-size: 0.9em; color: #fff; margin-bottom: 12px; text-align: center; line-height: 1.3; max-width: 800px; }
+.charGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 950px; margin-bottom: 12px; }
+.charCard { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 8px; padding: 8px; cursor: pointer; text-align: center; transition: all 0.3s; }
+.charCard:hover { transform: translateY(-3px); }
+.charCard.selected { background: rgba(46,204,113,0.4) !important; border: 3px solid #27ae60 !important; }
+.charCard .icon { font-size: 1.6em; margin-bottom: 4px; }
+.charCard h3 { color: #fff; font-size: 0.85em; margin-bottom: 3px; font-weight: 800; }
+.charCard p { color: rgba(255,255,255,0.9); font-size: 0.65em; }
+.charCard .bonus { color: #f1c40f; font-size: 0.6em; margin-top: 2px; font-weight: bold; }
+#selectedInfo { background: rgba(46,204,113,0.95); color: #fff; padding: 6px 20px; border-radius: 6px; font-weight: bold; margin-bottom: 10px; display: none; font-size: 0.9em; }
+#startBtn { padding: 14px 55px; font-size: 1.2em; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 10px; color: #fff; font-weight: 900; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
 #startBtn:hover { transform: translateY(-3px); }
 #startBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#hud { position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.9); padding: 15px; border-radius: 10px; border: 2px solid #3498db; min-width: 200px; z-index: 1000; display: none; }
-#hud h3 { color: #3498db; margin-bottom: 8px; font-size: 1.1em; }
-.hudStat { display: flex; justify-content: space-between; margin: 6px 0; color: #fff; font-size: 0.85em; }
+#hud { position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.9); padding: 12px; border-radius: 8px; border: 2px solid #3498db; min-width: 180px; z-index: 1000; display: none; }
+#hud h3 { color: #3498db; margin-bottom: 6px; font-size: 1em; }
+.hudStat { display: flex; justify-content: space-between; margin: 5px 0; color: #fff; font-size: 0.8em; }
 .hudStat .val { color: #27ae60; font-weight: bold; }
 
-#miniMap { position: fixed; bottom: 10px; right: 10px; width: 300px; height: 300px; background: rgba(0,0,0,0.9); border: 3px solid #3498db; border-radius: 10px; z-index: 1000; display: none; padding: 10px; }
-#miniMap h4 { color: #3498db; margin-bottom: 8px; font-size: 1em; text-align: center; }
-#miniMapCanvas { width: 100%; height: calc(100% - 30px); background: #1a1a1a; border-radius: 5px; }
+#miniMap { position: fixed; bottom: 10px; right: 10px; width: 250px; height: 250px; background: rgba(0,0,0,0.9); border: 3px solid #3498db; border-radius: 8px; z-index: 1000; display: none; padding: 8px; }
+#miniMap h4 { color: #3498db; margin-bottom: 6px; font-size: 0.9em; text-align: center; }
+#miniMapCanvas { width: 100%; height: calc(100% - 25px); background: #1a1a1a; border-radius: 4px; }
 
-#locationInfo { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 12px 30px; border-radius: 10px; border: 2px solid #3498db; z-index: 1000; display: none; }
-#locationInfo h3 { color: #3498db; font-size: 1.2em; }
+#locationInfo { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 10px 25px; border-radius: 8px; border: 2px solid #3498db; z-index: 1000; display: none; }
+#locationInfo h3 { color: #3498db; font-size: 1.1em; }
 
-#interactPrompt { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 12px 30px; border-radius: 10px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 0.95em; }
-@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
+#interactPrompt { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); padding: 10px 25px; border-radius: 8px; font-weight: bold; color: #fff; z-index: 1000; display: none; animation: bounce 1s ease-in-out infinite; font-size: 0.9em; }
+@keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-8px); } }
 
-#gadgetUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90vw; max-width: 900px; height: 85vh; background: rgba(0,0,0,0.98); border: 4px solid #3498db; border-radius: 15px; padding: 25px; z-index: 5000; display: none; overflow-y: auto; box-shadow: 0 0 50px rgba(52,152,219,0.6); }
-#gadgetUI h2 { color: #3498db; font-size: 2em; text-align: center; margin-bottom: 10px; text-transform: uppercase; }
-#gadgetUI .subtitle { color: #ecf0f1; font-size: 0.95em; text-align: center; margin-bottom: 15px; }
-.closeBtn { position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer; z-index: 10; }
+#gadgetUI { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88vw; max-width: 850px; height: 82vh; background: rgba(0,0,0,0.98); border: 4px solid #3498db; border-radius: 12px; padding: 20px; z-index: 5000; display: none; overflow-y: auto; box-shadow: 0 0 50px rgba(52,152,219,0.6); }
+#gadgetUI h2 { color: #3498db; font-size: 1.8em; text-align: center; margin-bottom: 8px; text-transform: uppercase; }
+#gadgetUI .subtitle { color: #ecf0f1; font-size: 0.9em; text-align: center; margin-bottom: 12px; }
+.closeBtn { position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer; z-index: 10; }
 .closeBtn:hover { transform: scale(1.05); }
 
-.screen { background: #000; border: 3px solid #0f0; border-radius: 10px; padding: 15px; margin: 12px 0; min-height: 150px; font-family: 'Courier New', monospace; color: #0f0; font-size: 0.9em; line-height: 1.3; overflow-y: auto; max-height: 250px; white-space: pre-wrap; }
-.progress { width: 100%; height: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; margin: 15px 0; border: 2px solid #3498db; }
+.screen { background: #000; border: 3px solid #0f0; border-radius: 8px; padding: 12px; margin: 10px 0; min-height: 130px; font-family: 'Courier New', monospace; color: #0f0; font-size: 0.85em; line-height: 1.3; overflow-y: auto; max-height: 220px; white-space: pre-wrap; }
+.progress { width: 100%; height: 28px; background: rgba(255,255,255,0.1); border-radius: 14px; overflow: hidden; margin: 12px 0; border: 2px solid #3498db; }
 .progressBar { height: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60); width: 0%; transition: width 0.5s; box-shadow: 0 0 20px rgba(46,204,113,0.8); }
 
-.optionGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 15px 0; }
-.option { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 0.95em; font-weight: bold; transition: all 0.3s; text-align: center; }
-.option:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(52,152,219,0.6); }
+.optionGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 12px 0; }
+.option { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 0.9em; font-weight: bold; transition: all 0.3s; text-align: center; }
+.option:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(52,152,219,0.6); }
 
-.actionBtn { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 12px 30px; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; margin: 8px; transition: all 0.3s; text-transform: uppercase; }
+.actionBtn { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-size: 0.95em; font-weight: bold; cursor: pointer; margin: 6px; transition: all 0.3s; text-transform: uppercase; }
 .actionBtn:hover { transform: scale(1.05); }
 .actionBtn.success { background: linear-gradient(135deg, #27ae60, #229954); }
 
-#controls { position: fixed; bottom: 15px; left: 15px; background: rgba(0,0,0,0.9); padding: 15px; border-radius: 10px; border: 2px solid #3498db; z-index: 1000; display: none; }
-#controls h4 { color: #3498db; margin-bottom: 8px; font-size: 1em; }
-.ctrl { color: #ecf0f1; margin: 5px 0; font-size: 0.8em; }
-.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 4px 10px; border-radius: 5px; margin-right: 6px; }
+#controls { position: fixed; bottom: 12px; left: 12px; background: rgba(0,0,0,0.9); padding: 12px; border-radius: 8px; border: 2px solid #3498db; z-index: 1000; display: none; }
+#controls h4 { color: #3498db; margin-bottom: 6px; font-size: 0.95em; }
+.ctrl { color: #ecf0f1; margin: 4px 0; font-size: 0.75em; }
+.key { color: #fff; font-weight: bold; background: linear-gradient(135deg, #3498db, #2980b9); padding: 3px 8px; border-radius: 4px; margin-right: 5px; }
 
-#notif { position: fixed; top: 100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 15px 35px; border-radius: 10px; font-weight: bold; font-size: 1em; opacity: 0; transition: opacity 0.5s; max-width: 85%; text-align: center; z-index: 2000; box-shadow: 0 5px 30px rgba(39,174,96,0.7); }
+#notif { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #27ae60, #229954); color: #fff; padding: 12px 30px; border-radius: 8px; font-weight: bold; font-size: 0.95em; opacity: 0; transition: opacity 0.5s; max-width: 82%; text-align: center; z-index: 2000; box-shadow: 0 5px 30px rgba(39,174,96,0.7); }
 #notif.show { opacity: 1; }
 
-#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; pointer-events: none; z-index: 999; display: none; }
+#crosshair { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 18px; height: 18px; pointer-events: none; z-index: 999; display: none; }
 #crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(255,255,255,0.8); box-shadow: 0 0 5px rgba(0,0,0,0.8); }
-#crosshair::before { width: 2px; height: 20px; left: 9px; }
-#crosshair::after { width: 20px; height: 2px; top: 9px; }
+#crosshair::before { width: 2px; height: 18px; left: 8px; }
+#crosshair::after { width: 18px; height: 2px; top: 8px; }
 
 .hide { display: none !important; }
-::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 3px; }
+
+#loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 1.5em; z-index: 9999; display: none; }
 </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 <div id="crosshair"></div>
+<div id="loading">Loading 3D World...</div>
 
 <div id="startScreen">
   <h1>🌟 TECHVERSE 2077 🌟</h1>
-  <p class="subtitle">29 Futuristic Labs • Build Robots • Test Flying Cars • Upload Consciousness • 3D City • Working Map</p>
+  <p class="subtitle">29 Labs • Build Robots • Test Flying Cars • Upload Mind • 3D City • Press M for Map</p>
   
   <div class="charGrid">
     <div class="charCard" data-char="Bio-Hacker"><div class="icon">🧬</div><h3>Bio-Hacker</h3><p>Synthetic life</p><div class="bonus">+50% Bio XP</div></div>
-    <div class="charCard" data-char="Robo Engineer"><div class="icon">🤖</div><h3>Robo Engineer</h3><p>Robot builder</p><div class="bonus">+100% Robo XP</div></div>
-    <div class="charCard" data-char="Flying Car Pilot"><div class="icon">🚗</div><h3>Car Pilot</h3><p>Vehicle expert</p><div class="bonus">+100% Car XP</div></div>
-    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum physics</p><div class="bonus">+50% Quantum XP</div></div>
+    <div class="charCard" data-char="Robo Engineer"><div class="icon">🤖</div><h3>Robo Engineer</h3><p>Build robots</p><div class="bonus">+100% Robo XP</div></div>
+    <div class="charCard" data-char="Car Pilot"><div class="icon">🚗</div><h3>Car Pilot</h3><p>Flying cars</p><div class="bonus">+100% Car XP</div></div>
+    <div class="charCard" data-char="Quantum Rebel"><div class="icon">⚛️</div><h3>Quantum Rebel</h3><p>Quantum tech</p><div class="bonus">+50% Quantum XP</div></div>
     <div class="charCard" data-char="Mind Hacker"><div class="icon">🧠</div><h3>Mind Hacker</h3><p>Consciousness</p><div class="bonus">+50% Mind XP</div></div>
     <div class="charCard" data-char="Gravity Master"><div class="icon">🌌</div><h3>Gravity Master</h3><p>Anti-gravity</p><div class="bonus">+50% Gravity XP</div></div>
-    <div class="charCard" data-char="Time Traveler"><div class="icon">⏰</div><h3>Time Traveler</h3><p>Temporal expert</p><div class="bonus">+50% Time XP</div></div>
-    <div class="charCard" data-char="Portal Jumper"><div class="icon">🌀</div><h3>Portal Jumper</h3><p>Dimension hopper</p><div class="bonus">+50% Portal XP</div></div>
+    <div class="charCard" data-char="Time Traveler"><div class="icon">⏰</div><h3>Time Traveler</h3><p>Time control</p><div class="bonus">+50% Time XP</div></div>
+    <div class="charCard" data-char="Portal Jumper"><div class="icon">🌀</div><h3>Portal Jumper</h3><p>Dimensions</p><div class="bonus">+50% Portal XP</div></div>
     <div class="charCard" data-char="Space Architect"><div class="icon">🌌</div><h3>Space Architect</h3><p>Megastructures</p><div class="bonus">Start Lv2</div></div>
-    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Medical nanobots</p><div class="bonus">+200 Start XP</div></div>
+    <div class="charCard" data-char="Nano-Surgeon"><div class="icon">💊</div><h3>Nano-Surgeon</h3><p>Nanobots</p><div class="bonus">+200 Start XP</div></div>
   </div>
   
   <div id="selectedInfo">Selected: None</div>
-  <button id="startBtn" disabled>START ADVENTURE</button>
+  <button id="startBtn" disabled>START GAME</button>
 </div>
 
 <div id="hud">
@@ -112,15 +115,15 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 </div>
 
 <div id="miniMap">
-  <h4>🗺️ CITY MAP (M)</h4>
+  <h4>🗺️ MAP (M)</h4>
   <canvas id="miniMapCanvas"></canvas>
 </div>
 
 <div id="locationInfo"><h3 id="currentLocation">📍 Neo-City 2077</h3></div>
-<div id="interactPrompt">Press E to Interact</div>
+<div id="interactPrompt">Press E</div>
 
 <div id="gadgetUI">
-  <button class="closeBtn" onclick="closeGadget()">✕ CLOSE</button>
+  <button class="closeBtn" onclick="closeGadget()">✕</button>
   <h2 id="gadgetTitle">Gadget</h2>
   <p class="subtitle" id="gadgetSubtitle">Instructions</p>
   <div id="gadgetContent"></div>
@@ -138,8 +141,12 @@ body { font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; 
 
 <div id="notif"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/PointerLockControls.js"></script>
 <script>
+console.log('TechVerse 2077 Loading...');
+console.log('THREE version:', THREE.REVISION);
+
 const state = { 
   char: null, lvl: 1, xp: 0, xpMax: 1000, labsVisited: new Set(), 
   insideLab: false, currentLab: null, nearInteractable: null, 
@@ -147,39 +154,38 @@ const state = {
 };
 let scene, camera, renderer, controls, raycaster = new THREE.Raycaster(), interactables = [];
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false, sprint = false;
-let velocity = new THREE.Vector3(), direction = new THREE.Vector3(), prevTime = performance.now();
-let clock = new THREE.Clock();
+let velocity = new THREE.Vector3(), prevTime = performance.now();
 
 const labConfigs = {
-  'Robo Lab': { color: 0xff6b6b, pos: [-150, 0, -150], icon: '🤖' },
-  'Flying Car Showroom': { color: 0x4ecdc4, pos: [-75, 0, -150], icon: '🚗' },
-  'Holographic Studio': { color: 0x95e1d3, pos: [0, 0, -150], icon: '🎨' },
-  'Consciousness Upload': { color: 0xf38181, pos: [75, 0, -150], icon: '🧠' },
-  'Gravity Lab': { color: 0xaa96da, pos: [150, 0, -150], icon: '🌌' },
-  'Time Dilation': { color: 0xfcbad3, pos: [-150, 0, -75], icon: '⏰' },
-  'Dimensional Portal': { color: 0xa8e6cf, pos: [-75, 0, -75], icon: '🌀' },
-  'Synthetic Biology': { color: 0xffd3b6, pos: [0, 0, -75], icon: '🧬' },
-  'Neural Link': { color: 0xffaaa5, pos: [75, 0, -75], icon: '🔗' },
-  'Dyson Sphere': { color: 0xff8b94, pos: [150, 0, -75], icon: '☀️' },
-  'Quantum Computing': { color: 0x9b59b6, pos: [-150, 0, 0], icon: '⚛️' },
-  'Nanotechnology': { color: 0xe74c3c, pos: [-75, 0, 0], icon: '🔬' },
-  'AI Research': { color: 0xe67e22, pos: [75, 0, 0], icon: '🤖' },
-  'Bioprinting': { color: 0x1abc9c, pos: [150, 0, 0], icon: '🖨️' },
-  'Fusion Energy': { color: 0xf39c12, pos: [-150, 0, 75], icon: '☢️' },
-  'Space Propulsion': { color: 0x3498db, pos: [-75, 0, 75], icon: '🚀' },
-  'Acoustic Levitation': { color: 0xe67e22, pos: [75, 0, 75], icon: '🔊' },
-  'Epigenetics': { color: 0x2ecc71, pos: [150, 0, 75], icon: '⏳' },
-  'Wireless Power': { color: 0xf39c12, pos: [-150, 0, 150], icon: '⚡' },
-  'Mycelium Computing': { color: 0x27ae60, pos: [-75, 0, 150], icon: '🍄' },
-  'Cryogenics': { color: 0x16a085, pos: [0, 0, 150], icon: '🧊' },
-  'Metamaterials': { color: 0x34495e, pos: [75, 0, 150], icon: '👻' },
-  'Optogenetics': { color: 0x9b59b6, pos: [150, 0, 150], icon: '🧠' },
-  'Xenobiology': { color: 0x1abc9c, pos: [-100, 0, 225], icon: '🧬' },
-  'OTEC Energy': { color: 0x3498db, pos: [-33, 0, 225], icon: '🌊' },
-  'Programmable Matter': { color: 0x8e44ad, pos: [33, 0, 225], icon: '🔮' },
-  'Hybrid Lab': { color: 0xe74c3c, pos: [100, 0, 225], icon: '🤝' },
-  'Startup Hub': { color: 0xff00ff, pos: [-50, 0, 300], icon: '💼' },
-  'Tech Championship': { color: 0xf1c40f, pos: [50, 0, 300], icon: '🏆' }
+  'Robo Lab': { color: 0xff6b6b, pos: [-140, 0, -140], icon: '🤖' },
+  'Flying Car Showroom': { color: 0x4ecdc4, pos: [-70, 0, -140], icon: '🚗' },
+  'Holographic Studio': { color: 0x95e1d3, pos: [0, 0, -140], icon: '🎨' },
+  'Consciousness Upload': { color: 0xf38181, pos: [70, 0, -140], icon: '🧠' },
+  'Gravity Lab': { color: 0xaa96da, pos: [140, 0, -140], icon: '🌌' },
+  'Time Dilation': { color: 0xfcbad3, pos: [-140, 0, -70], icon: '⏰' },
+  'Dimensional Portal': { color: 0xa8e6cf, pos: [-70, 0, -70], icon: '🌀' },
+  'Synthetic Biology': { color: 0xffd3b6, pos: [0, 0, -70], icon: '🧬' },
+  'Neural Link': { color: 0xffaaa5, pos: [70, 0, -70], icon: '🔗' },
+  'Dyson Sphere': { color: 0xff8b94, pos: [140, 0, -70], icon: '☀️' },
+  'Quantum Computing': { color: 0x9b59b6, pos: [-140, 0, 0], icon: '⚛️' },
+  'Nanotechnology': { color: 0xe74c3c, pos: [-70, 0, 0], icon: '🔬' },
+  'AI Research': { color: 0xe67e22, pos: [70, 0, 0], icon: '🤖' },
+  'Bioprinting': { color: 0x1abc9c, pos: [140, 0, 0], icon: '🖨️' },
+  'Fusion Energy': { color: 0xf39c12, pos: [-140, 0, 70], icon: '☢️' },
+  'Space Propulsion': { color: 0x3498db, pos: [-70, 0, 70], icon: '🚀' },
+  'Acoustic Levitation': { color: 0xe67e22, pos: [70, 0, 70], icon: '🔊' },
+  'Epigenetics': { color: 0x2ecc71, pos: [140, 0, 70], icon: '⏳' },
+  'Wireless Power': { color: 0xf39c12, pos: [-140, 0, 140], icon: '⚡' },
+  'Mycelium Computing': { color: 0x27ae60, pos: [-70, 0, 140], icon: '🍄' },
+  'Cryogenics': { color: 0x16a085, pos: [0, 0, 140], icon: '🧊' },
+  'Metamaterials': { color: 0x34495e, pos: [70, 0, 140], icon: '👻' },
+  'Optogenetics': { color: 0x9b59b6, pos: [140, 0, 140], icon: '🧠' },
+  'Xenobiology': { color: 0x1abc9c, pos: [-90, 0, 210], icon: '🧬' },
+  'OTEC Energy': { color: 0x3498db, pos: [-30, 0, 210], icon: '🌊' },
+  'Programmable Matter': { color: 0x8e44ad, pos: [30, 0, 210], icon: '🔮' },
+  'Hybrid Lab': { color: 0xe74c3c, pos: [90, 0, 210], icon: '🤝' },
+  'Startup Hub': { color: 0xff00ff, pos: [-45, 0, 280], icon: '💼' },
+  'Tech Championship': { color: 0xf1c40f, pos: [45, 0, 280], icon: '🏆' }
 };
 
 function playSound(freq, dur) {
@@ -190,11 +196,11 @@ function playSound(freq, dur) {
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.frequency.value = freq;
-    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + dur);
-  } catch(e) {}
+  } catch(e) { console.log('Audio error:', e); }
 }
 
 function createTextSprite(text, color) {
@@ -202,49 +208,50 @@ function createTextSprite(text, color) {
   const ctx = canvas.getContext('2d');
   canvas.width = 512;
   canvas.height = 128;
-  ctx.fillStyle = 'rgba(0,0,0,0.8)';
+  ctx.fillStyle = 'rgba(0,0,0,0.85)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.font = 'Bold 40px Arial';
+  ctx.font = 'Bold 36px Arial';
   ctx.fillStyle = color;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(text, 256, 64);
   const texture = new THREE.Texture(canvas);
   texture.needsUpdate = true;
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
-  sprite.scale.set(20, 5, 1);
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, depthTest: false }));
+  sprite.scale.set(18, 4.5, 1);
   return sprite;
 }
 
-function createGadget(type, pos, id) {
+function createGadget(pos, id) {
   const group = new THREE.Group();
   const colors = [0x3498db, 0x1abc9c, 0x9b59b6, 0xe74c3c, 0xf39c12, 0x27ae60];
   const color = colors[id % colors.length];
   
   const base = new THREE.Mesh(
-    new THREE.BoxGeometry(2, 1.5, 2),
+    new THREE.BoxGeometry(1.8, 1.4, 1.8),
     new THREE.MeshLambertMaterial({ color: color })
   );
-  base.position.y = 0.75;
+  base.position.y = 0.7;
   
   const screen = new THREE.Mesh(
-    new THREE.BoxGeometry(1.5, 1, 0.1),
-    new THREE.MeshLambertMaterial({ color: 0x2c3e50, emissive: color, emissiveIntensity: 0.3 })
+    new THREE.BoxGeometry(1.4, 0.9, 0.1),
+    new THREE.MeshLambertMaterial({ color: 0x2c3e50 })
   );
-  screen.position.set(0, 1.2, 1.05);
+  screen.position.set(0, 1.1, 0.95);
   
   group.add(base, screen);
   group.position.copy(pos);
-  group.userData = { type: type, id: id, interactive: true, name: `Gadget ${id}` };
+  group.userData = { interactive: true, id: id, name: `Gadget ${id}` };
   
   return group;
 }
 
 function drawMiniMap() {
   const canvas = document.getElementById('miniMapCanvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = canvas.width = 280;
-  const h = canvas.height = 260;
+  const w = canvas.width = 234;
+  const h = canvas.height = 218;
   
   ctx.fillStyle = '#1a1a1a';
   ctx.fillRect(0, 0, w, h);
@@ -263,21 +270,21 @@ function drawMiniMap() {
   }
   
   Object.entries(labConfigs).forEach(([name, config]) => {
-    const x = (config.pos[0] + 200) / 400 * w;
-    const y = (config.pos[2] + 200) / 400 * h;
+    const x = (config.pos[0] + 180) / 360 * w;
+    const y = (config.pos[2] + 180) / 360 * h;
     
     ctx.fillStyle = `#${config.color.toString(16).padStart(6, '0')}`;
-    ctx.fillRect(x - 4, y - 4, 8, 8);
+    ctx.fillRect(x - 3, y - 3, 6, 6);
     
     ctx.fillStyle = '#fff';
-    ctx.font = '10px Arial';
+    ctx.font = '9px Arial';
     ctx.textAlign = 'center';
     ctx.fillText(config.icon, x, y + 3);
   });
   
-  if (!state.insideLab) {
-    const px = (camera.position.x + 200) / 400 * w;
-    const py = (camera.position.z + 200) / 400 * h;
+  if (!state.insideLab && camera) {
+    const px = (camera.position.x + 180) / 360 * w;
+    const py = (camera.position.z + 180) / 360 * h;
     ctx.fillStyle = '#27ae60';
     ctx.beginPath();
     ctx.arc(px, py, 3, 0, Math.PI * 2);
@@ -302,39 +309,44 @@ document.getElementById('startBtn').addEventListener('click', () => {
   if (state.char === 'Space Architect') state.lvl = 2;
   if (state.char === 'Nano-Surgeon') state.xp = 200;
   document.getElementById('startScreen').classList.add('hide');
+  document.getElementById('loading').style.display = 'block';
   ['hud', 'locationInfo', 'controls', 'crosshair'].forEach(id => document.getElementById(id).style.display = 'block');
   document.getElementById('role').textContent = state.char;
   playSound(1200, 0.3);
-  init();
+  setTimeout(init, 100);
 });
 
 function init() {
+  console.log('Initializing 3D world...');
+  
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 600);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
   
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 1.7, 350);
+  camera.position.set(0, 1.7, 320);
   
   renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: false });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(1);
   
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  controls = new THREE.PointerLockControls(camera, document.body);
   
-  const sun = new THREE.DirectionalLight(0xffffff, 0.8);
-  sun.position.set(200, 300, 150);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  
+  const sun = new THREE.DirectionalLight(0xffffff, 0.9);
+  sun.position.set(180, 280, 130);
   scene.add(sun);
   
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1200, 1200),
+    new THREE.PlaneGeometry(1100, 1100),
     new THREE.MeshLambertMaterial({ color: 0x228B22 })
   );
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
   
   const road = new THREE.Mesh(
-    new THREE.PlaneGeometry(60, 1000),
+    new THREE.PlaneGeometry(55, 900),
     new THREE.MeshLambertMaterial({ color: 0x404040 })
   );
   road.rotation.x = -Math.PI / 2;
@@ -343,61 +355,67 @@ function init() {
   
   createCity();
   setupControls();
+  
   window.addEventListener('resize', () => { 
     camera.aspect = window.innerWidth / window.innerHeight; 
     camera.updateProjectionMatrix(); 
     renderer.setSize(window.innerWidth, window.innerHeight); 
   });
+  
+  document.getElementById('loading').style.display = 'none';
   animate();
   updateHUD();
   drawMiniMap();
-  notify(`🎮 Welcome ${state.char}! Press M for map. 29 labs!`);
+  notify(`🎮 Welcome ${state.char}! Press M for map!`);
+  console.log('3D world loaded!');
 }
 
 function createCity() {
+  console.log('Creating city with 29 labs...');
   Object.entries(labConfigs).forEach(([name, config]) => {
     const building = new THREE.Mesh(
-      new THREE.BoxGeometry(50, 40, 60),
+      new THREE.BoxGeometry(48, 38, 56),
       new THREE.MeshLambertMaterial({ color: 0xCCCCCC })
     );
-    building.position.set(config.pos[0], 20, config.pos[2]);
+    building.position.set(config.pos[0], 19, config.pos[2]);
     scene.add(building);
     
-    for (let floor = 0; floor < 8; floor++) {
-      for (let col = 0; col < 8; col++) {
+    for (let floor = 0; floor < 7; floor++) {
+      for (let col = 0; col < 7; col++) {
         const win = new THREE.Mesh(
-          new THREE.BoxGeometry(4, 3, 0.2),
-          new THREE.MeshLambertMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.6 })
+          new THREE.BoxGeometry(3.5, 2.5, 0.2),
+          new THREE.MeshLambertMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.65 })
         );
-        win.position.set(-20 + col * 5.5, -15 + floor * 5, 30.1);
+        win.position.set(-18 + col * 5.5, -14 + floor * 5, 28.1);
         building.add(win);
       }
     }
     
     const label = createTextSprite(`${config.icon} ${name.toUpperCase()}`, `#${config.color.toString(16).padStart(6, '0')}`);
-    label.position.set(0, 25, 0);
+    label.position.set(0, 23, 0);
     building.add(label);
     
     const door = new THREE.Mesh(
-      new THREE.BoxGeometry(8, 10, 0.8),
+      new THREE.BoxGeometry(7, 9, 0.7),
       new THREE.MeshLambertMaterial({ color: 0x8B4513 })
     );
-    door.position.set(0, -15, 30.5);
+    door.position.set(0, -14.5, 28.4);
     door.userData = { type: 'entrance', lab: name };
     building.add(door);
     interactables.push(door);
     
     const sign = new THREE.Mesh(
-      new THREE.BoxGeometry(12, 3, 0.4),
-      new THREE.MeshLambertMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.5 })
+      new THREE.BoxGeometry(11, 2.5, 0.3),
+      new THREE.MeshLambertMaterial({ color: config.color })
     );
-    sign.position.set(0, -8, 30.7);
+    sign.position.set(0, -8, 28.6);
     building.add(sign);
   });
+  console.log('City created with', interactables.length, 'doors');
 }
 
 function enterLab(labName) {
-  notify(`🚪 Entering ${labName}...`);
+  notify(`🚪 ${labName}...`);
   playSound(600, 0.2);
   state.labsVisited.add(labName);
   state.insideLab = true;
@@ -406,12 +424,11 @@ function enterLab(labName) {
   scene.clear();
   interactables = [];
   scene.background = new THREE.Color(0xF5F5F5);
-  
-  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  scene.add(new THREE.AmbientLight(0xffffff, 0.85));
   
   createLabInterior();
   
-  camera.position.set(0, 1.7, 50);
+  camera.position.set(0, 1.7, 48);
   camera.rotation.set(0, 0, 0);
   velocity.set(0, 0, 0);
   updateHUD();
@@ -419,13 +436,13 @@ function enterLab(labName) {
 
 function createLabInterior() {
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(120, 140),
+    new THREE.PlaneGeometry(110, 130),
     new THREE.MeshLambertMaterial({ color: 0xE0E0E0 })
   );
   floor.rotation.x = -Math.PI / 2;
   scene.add(floor);
   
-  [[0, 3, -70, 120, 6, 0.5], [-60, 3, 0, 0.5, 6, 140], [60, 3, 0, 0.5, 6, 140], [0, 3, 70, 120, 6, 0.5]].forEach(w => {
+  [[0, 3, -65, 110, 6, 0.5], [-55, 3, 0, 0.5, 6, 130], [55, 3, 0, 0.5, 6, 130], [0, 3, 65, 110, 6, 0.5]].forEach(w => {
     const wall = new THREE.Mesh(
       new THREE.BoxGeometry(w[3], w[4], w[5]),
       new THREE.MeshLambertMaterial({ color: 0xFAFAFA })
@@ -435,11 +452,11 @@ function createLabInterior() {
   });
   
   let gadgetId = 1;
-  for (let row = 0; row < 7; row++) {
-    for (let col = 0; col < 10; col++) {
-      const x = -54 + col * 12;
-      const z = -60 + row * 20;
-      const gadget = createGadget('generic', new THREE.Vector3(x, 0, z), gadgetId);
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < 9; col++) {
+      const x = -50 + col * 11;
+      const z = -55 + row * 18;
+      const gadget = createGadget(new THREE.Vector3(x, 0, z), gadgetId);
       scene.add(gadget);
       interactables.push(gadget);
       gadgetId++;
@@ -447,10 +464,10 @@ function createLabInterior() {
   }
   
   const exit = new THREE.Mesh(
-    new THREE.BoxGeometry(8, 10, 0.8),
+    new THREE.BoxGeometry(7, 9, 0.7),
     new THREE.MeshLambertMaterial({ color: 0xff4500 })
   );
-  exit.position.set(0, 5, 69.7);
+  exit.position.set(0, 4.5, 64.7);
   exit.userData = { type: 'exit' };
   scene.add(exit);
   interactables.push(exit);
@@ -465,23 +482,23 @@ function exitLab() {
   scene.clear();
   interactables = [];
   scene.background = new THREE.Color(0x87CEEB);
-  scene.fog = new THREE.Fog(0x87CEEB, 50, 600);
+  scene.fog = new THREE.Fog(0x87CEEB, 50, 500);
   
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
   
-  const sun = new THREE.DirectionalLight(0xffffff, 0.8);
-  sun.position.set(200, 300, 150);
+  const sun = new THREE.DirectionalLight(0xffffff, 0.9);
+  sun.position.set(180, 280, 130);
   scene.add(sun);
   
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(1200, 1200),
+    new THREE.PlaneGeometry(1100, 1100),
     new THREE.MeshLambertMaterial({ color: 0x228B22 })
   );
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
   
   const road = new THREE.Mesh(
-    new THREE.PlaneGeometry(60, 1000),
+    new THREE.PlaneGeometry(55, 900),
     new THREE.MeshLambertMaterial({ color: 0x404040 })
   );
   road.rotation.x = -Math.PI / 2;
@@ -489,7 +506,7 @@ function exitLab() {
   scene.add(road);
   
   createCity();
-  camera.position.set(0, 1.7, 350);
+  camera.position.set(0, 1.7, 320);
   velocity.set(0, 0, 0);
   updateHUD();
   drawMiniMap();
@@ -507,6 +524,7 @@ function setupControls() {
     if (e.code === 'Escape') {
       if (state.gadgetActive) closeGadget();
       else if (state.insideLab) exitLab();
+      else controls.unlock();
     }
   });
   
@@ -518,19 +536,16 @@ function setupControls() {
     if (e.code === 'ShiftLeft') sprint = false;
   });
   
-  let mouseX = 0, mouseY = 0;
-  document.addEventListener('mousemove', (e) => {
-    if (document.pointerLockElement === document.body) {
-      mouseX += e.movementX * 0.002;
-      mouseY += e.movementY * 0.002;
-      mouseY = Math.max(-Math.PI/2, Math.min(Math.PI/2, mouseY));
-      camera.rotation.y = -mouseX;
-      camera.rotation.x = -mouseY;
-    }
+  controls.addEventListener('lock', () => {
+    console.log('Pointer locked');
+  });
+  
+  controls.addEventListener('unlock', () => {
+    console.log('Pointer unlocked');
   });
   
   document.getElementById('canvas').addEventListener('click', () => {
-    if (!state.gadgetActive) document.body.requestPointerLock();
+    if (!state.gadgetActive) controls.lock();
   });
 }
 
@@ -550,11 +565,11 @@ function handleInteraction() {
   } else if (ud.type === 'exit') {
     exitLab();
   } else if (ud.interactive) {
-    document.exitPointerLock();
+    controls.unlock();
     state.gadgetActive = true;
     document.getElementById('gadgetUI').style.display = 'block';
     document.getElementById('gadgetTitle').textContent = ud.name;
-    document.getElementById('gadgetSubtitle').textContent = 'Interactive gadget experience';
+    document.getElementById('gadgetSubtitle').textContent = 'Interactive experience';
     playSound(800, 0.1);
     
     if (state.currentLab === 'Robo Lab') showRobotBuilder();
@@ -566,9 +581,8 @@ function handleInteraction() {
 
 function showRobotBuilder() {
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">HUMANOID ASSEMBLY STATION
-Build your custom robot
-Step 1: Select body type</div>
+    <div class="screen">ROBOT BUILDER
+Step 1: Body type</div>
     <div class="optionGrid">
       <div class="option" onclick="selectRobotBody('humanoid')">🤖 Humanoid</div>
       <div class="option" onclick="selectRobotBody('animal')">🐕 Animal</div>
@@ -580,12 +594,12 @@ Step 1: Select body type</div>
 window.selectRobotBody = function(body) {
   state.robotBuild.body = body;
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">Body: ${body.toUpperCase()}
-Step 2: Select size</div>
+    <div class="screen">Body: ${body}
+Step 2: Size</div>
     <div class="optionGrid">
-      <div class="option" onclick="selectRobotSize('small')">Small (50cm)</div>
-      <div class="option" onclick="selectRobotSize('medium')">Medium (150cm)</div>
-      <div class="option" onclick="selectRobotSize('large')">Large (250cm)</div>
+      <div class="option" onclick="selectRobotSize('small')">Small</div>
+      <div class="option" onclick="selectRobotSize('medium')">Medium</div>
+      <div class="option" onclick="selectRobotSize('large')">Large</div>
     </div>
   `;
 };
@@ -593,8 +607,8 @@ Step 2: Select size</div>
 window.selectRobotSize = function(size) {
   state.robotBuild.size = size;
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">Size: ${size.toUpperCase()}
-Step 3: Choose AI personality</div>
+    <div class="screen">Size: ${size}
+Step 3: AI</div>
     <div class="optionGrid">
       <div class="option" onclick="buildRobot('friendly')">😊 Friendly</div>
       <div class="option" onclick="buildRobot('professional')">💼 Professional</div>
@@ -606,10 +620,8 @@ Step 3: Choose AI personality</div>
 window.buildRobot = function(ai) {
   state.robotBuild.ai = ai;
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen" id="buildScreen">Building robot...
-Body: ${state.robotBuild.body}
-Size: ${state.robotBuild.size}
-AI: ${ai}</div>
+    <div class="screen" id="buildScreen">Building...
+${state.robotBuild.body} / ${state.robotBuild.size} / ${ai}</div>
     <div class="progress"><div class="progressBar" id="buildProgress"></div></div>
   `;
   
@@ -617,46 +629,45 @@ AI: ${ai}</div>
   const interval = setInterval(() => {
     progress += 5;
     document.getElementById('buildProgress').style.width = progress + '%';
-    playSound(900 + progress * 8, 0.08);
+    playSound(900 + progress * 8, 0.07);
     
     if (progress >= 100) {
       clearInterval(interval);
-      document.getElementById('buildScreen').textContent = `ROBOT COMPLETE!
+      document.getElementById('buildScreen').textContent = `COMPLETE!
 
-Specs:
-- Body: ${state.robotBuild.body}
-- Size: ${state.robotBuild.size}
-- AI: ${ai}
-- Serial: RBT-${Math.floor(Math.random()*10000)}
+Body: ${state.robotBuild.body}
+Size: ${state.robotBuild.size}
+AI: ${ai}
+ID: RBT-${Math.floor(Math.random()*10000)}
 
-ROBOT ACTIVATED!`;
+ACTIVATED!`;
       
       state.xp += 250;
       state.gadgetsUsed++;
       updateHUD();
       notify('✓ Robot Built! +250 XP');
-      playSound(1600, 0.6);
-      setTimeout(closeGadget, 3000);
+      playSound(1600, 0.5);
+      setTimeout(closeGadget, 2800);
     }
-  }, 120);
+  }, 110);
 };
 
 function showCarShowroom() {
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">FLYING CAR SHOWROOM
-Select vehicle for test drive</div>
+    <div class="screen">CAR SHOWROOM
+Select vehicle</div>
     <div class="optionGrid">
       <div class="option" onclick="testDriveCar('aerosedan')">🚗 AeroSedan</div>
-      <div class="option" onclick="testDriveCar('racer')">🏎️ Quantum Racer</div>
-      <div class="option" onclick="testDriveCar('luxury')">✨ Gravity Cruiser</div>
+      <div class="option" onclick="testDriveCar('racer')">🏎️ Racer</div>
+      <div class="option" onclick="testDriveCar('luxury')">✨ Luxury</div>
     </div>
   `;
 }
 
 window.testDriveCar = function(car) {
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen" id="driveScreen">Vehicle: ${car.toUpperCase()}
-VR test drive starting...</div>
+    <div class="screen" id="driveScreen">Vehicle: ${car}
+Test drive...</div>
     <div class="progress"><div class="progressBar" id="driveProgress"></div></div>
   `;
   
@@ -664,47 +675,44 @@ VR test drive starting...</div>
   const interval = setInterval(() => {
     progress += 4;
     document.getElementById('driveProgress').style.width = progress + '%';
-    playSound(850 + progress * 6, 0.08);
+    playSound(850 + progress * 6, 0.07);
     
     if (progress >= 100) {
       clearInterval(interval);
-      document.getElementById('driveScreen').textContent = `TEST DRIVE COMPLETE!
+      document.getElementById('driveScreen').textContent = `COMPLETE!
 
-Vehicle: ${car.toUpperCase()}
+Vehicle: ${car}
 Distance: 45.7 km
-Max Speed: 487 km/h
-Rating: ⭐⭐⭐⭐⭐
-
-DATA SAVED!`;
+Speed: 487 km/h
+Rating: ⭐⭐⭐⭐⭐`;
       
       state.xp += 200;
       state.gadgetsUsed++;
       updateHUD();
-      notify('✓ Test Drive Complete! +200 XP');
+      notify('✓ Test Drive! +200 XP');
       playSound(1550, 0.5);
-      setTimeout(closeGadget, 3000);
+      setTimeout(closeGadget, 2800);
     }
-  }, 180);
+  }, 170);
 };
 
 function showMindUpload() {
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen">CONSCIOUSNESS UPLOAD CENTER
-Digital Immortality System
+    <div class="screen">MIND UPLOAD
+Digital immortality
 
-Ready to upload your mind?</div>
+Ready?</div>
     <div style="text-align: center;">
-      <button class="actionBtn success" onclick="startMindUpload()">▶ BEGIN UPLOAD</button>
+      <button class="actionBtn success" onclick="startMindUpload()">▶ BEGIN</button>
     </div>
   `;
 }
 
 window.startMindUpload = function() {
   document.getElementById('gadgetContent').innerHTML = `
-    <div class="screen" id="uploadScreen">Uploading consciousness...
+    <div class="screen" id="uploadScreen">Uploading...
 Scanning brain...
-Extracting patterns...
-Creating digital avatar...</div>
+Extracting patterns...</div>
     <div class="progress"><div class="progressBar" id="uploadProgress"></div></div>
   `;
   
@@ -712,32 +720,32 @@ Creating digital avatar...</div>
   const interval = setInterval(() => {
     progress += 3;
     document.getElementById('uploadProgress').style.width = progress + '%';
-    playSound(920 + progress * 7, 0.08);
+    playSound(920 + progress * 7, 0.07);
     
     if (progress >= 100) {
       clearInterval(interval);
-      document.getElementById('uploadScreen').textContent = `UPLOAD COMPLETE!
+      document.getElementById('uploadScreen').textContent = `COMPLETE!
 
-Digital Avatar ID: MIND-${Math.floor(Math.random()*100000)}
+ID: MIND-${Math.floor(Math.random()*100000)}
 Storage: Quantum Server
-Status: Digitally Immortal
+Status: Immortal
 
-WELCOME TO DIGITAL EXISTENCE!`;
+WELCOME TO DIGITAL LIFE!`;
       
       state.xp += 300;
       state.gadgetsUsed++;
       updateHUD();
-      notify('✓ Consciousness Uploaded! +300 XP');
-      playSound(1700, 0.7);
-      setTimeout(closeGadget, 4000);
+      notify('✓ Mind Uploaded! +300 XP');
+      playSound(1700, 0.6);
+      setTimeout(closeGadget, 3500);
     }
-  }, 150);
+  }, 140);
 };
 
 function showGenericGadget() {
   document.getElementById('gadgetContent').innerHTML = `
     <div class="screen" id="genericScreen">System ready
-Press START to begin</div>
+Press START</div>
     <div class="progress"><div class="progressBar" id="genericProgress"></div></div>
     <div style="text-align: center;">
       <button class="actionBtn success" onclick="startGeneric()">▶ START</button>
@@ -750,27 +758,27 @@ window.startGeneric = function() {
   const interval = setInterval(() => {
     progress += 8;
     document.getElementById('genericProgress').style.width = progress + '%';
-    playSound(820 + progress * 6, 0.08);
+    playSound(820 + progress * 6, 0.07);
     
     if (progress >= 100) {
       clearInterval(interval);
-      document.getElementById('genericScreen').textContent = `PROCESS COMPLETE!
+      document.getElementById('genericScreen').textContent = `COMPLETE!
 Data collected
 Results verified`;
       state.xp += 120;
       state.gadgetsUsed++;
       updateHUD();
-      notify('✓ Complete! +120 XP');
+      notify('✓ Done! +120 XP');
       playSound(1350, 0.4);
-      setTimeout(closeGadget, 2000);
+      setTimeout(closeGadget, 1900);
     }
-  }, 250);
+  }, 240);
 };
 
 window.closeGadget = function() {
   state.gadgetActive = false;
   document.getElementById('gadgetUI').style.display = 'none';
-  document.body.requestPointerLock();
+  controls.lock();
   playSound(600, 0.1);
 };
 
@@ -781,7 +789,7 @@ function checkNearby() {
   
   const intersects = raycaster.intersectObjects(interactables, true);
   
-  if (intersects.length > 0 && intersects[0].distance < 12) {
+  if (intersects.length > 0 && intersects[0].distance < 11) {
     let obj = intersects[0].object;
     while (obj.parent && !obj.userData.interactive && obj.userData.type !== 'entrance' && obj.userData.type !== 'exit') {
       obj = obj.parent;
@@ -797,38 +805,29 @@ function checkNearby() {
 function animate() {
   requestAnimationFrame(animate);
   
-  const delta = clock.getDelta();
+  const time = performance.now();
+  const delta = (time - prevTime) / 1000;
   
-  if (document.pointerLockElement === document.body) {
+  if (controls.isLocked) {
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
     
-    direction.z = Number(moveForward) - Number(moveBackward);
-    direction.x = Number(moveRight) - Number(moveLeft);
-    direction.normalize();
+    const speed = sprint ? 75 : 42;
     
-    const speed = sprint ? 80 : 45;
+    if (moveForward) velocity.z = -speed;
+    if (moveBackward) velocity.z = speed;
+    if (moveLeft) velocity.x = -speed;
+    if (moveRight) velocity.x = speed;
     
-    if (moveForward || moveBackward) {
-      const forward = new THREE.Vector3();
-      camera.getWorldDirection(forward);
-      forward.y = 0;
-      forward.normalize();
-      camera.position.addScaledVector(forward, direction.z * speed * delta);
-    }
-    if (moveLeft || moveRight) {
-      const right = new THREE.Vector3();
-      camera.getWorldDirection(right);
-      right.cross(new THREE.Vector3(0, 1, 0));
-      right.normalize();
-      camera.position.addScaledVector(right, direction.x * speed * delta);
-    }
+    controls.moveRight(velocity.x * delta);
+    controls.moveForward(velocity.z * delta);
     
     checkNearby();
     
     if (state.mapVisible && !state.insideLab) drawMiniMap();
   }
   
+  prevTime = time;
   renderer.render(scene, camera);
 }
 
@@ -837,13 +836,13 @@ function updateHUD() {
   document.getElementById('xp').textContent = `${state.xp}/${state.xpMax}`;
   document.getElementById('labsVisited').textContent = `${state.labsVisited.size}/29`;
   document.getElementById('gadgetsUsed').textContent = state.gadgetsUsed;
-  document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City 2077';
+  document.getElementById('currentLocation').textContent = state.insideLab ? `🔬 ${state.currentLab}` : '📍 Neo-City';
   
   while (state.xp >= state.xpMax) {
     state.xp -= state.xpMax;
     state.lvl++;
     state.xpMax = Math.floor(state.xpMax * 1.5);
-    notify(`🎉 LEVEL UP! Level ${state.lvl}!`);
+    notify(`🎉 LEVEL ${state.lvl}!`);
     playSound(1700, 0.6);
   }
 }
@@ -852,8 +851,10 @@ function notify(msg) {
   const n = document.getElementById('notif');
   n.textContent = msg;
   n.classList.add('show');
-  setTimeout(() => n.classList.remove('show'), 3500);
+  setTimeout(() => n.classList.remove('show'), 3200);
 }
+
+console.log('Script loaded successfully');
 </script>
 </body>
 </html>
